@@ -70,7 +70,7 @@ export default async function ScorePage() {
                     <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels}/>
                     <div className="mt-20" />
 
-                    <div className="flex flex-wrap sm:flex-row justify-center gap-y-5 md:gap-x-10">
+                    <div className="flex flex-wrap sm:flex-row justify-center gap-y-5 md:gap-x-20">
                         <ScoreBtn label={"오답 하러 가기"} url={`${PG.LEVEL}/${1}`} />
                         <ScoreBtn label={"응시하기 전으로 돌아가기"} url={`${PG.LEVEL}`} />
                     </div>

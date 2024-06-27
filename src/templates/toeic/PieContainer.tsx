@@ -11,7 +11,7 @@ const PieContainer = ({
 
 }) => {
     return (<>
-        <div className="flex flex-wrap w-full justify-center xl:justify-between gap-y-10 xl:gap-x-7 gap-x-20">
+        <div className="flex flex-wrap w-full justify-center gap-y-10 gap-x-10">
 
             <div className="flex flex-col">
 

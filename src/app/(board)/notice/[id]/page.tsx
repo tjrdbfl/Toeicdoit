@@ -7,11 +7,11 @@ import { CommonHeader } from "@/config/headers";
 import { I_ApiBoardDetailRequest, BoardDetail, I_ApiBoardDetailResponse } from "@/types/BoardData";
 
 export const metadata = {
-    title: "Toeicdoit - Board Page",
+    title: "Toeicdoit - Notice Page",
     description: "",
 };
 
-export default async function BoardDetailPage({ params }: {
+export default async function NoticeDetailPage({ params }: {
     params: {
         id: number;
     }
