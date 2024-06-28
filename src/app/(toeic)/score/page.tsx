@@ -13,6 +13,7 @@ import RadarChart from "@/components/chart/RadarChart";
 import PieContainer from "@/templates/toeic/PieContainer";
 import RadarContainer from "@/templates/toeic/RadarContainer";
 import BarContainer from "@/templates/toeic/BarContainer";
+import DoughnutChart from "@/components/chart/DoughnutChart";
 
 export default async function ScorePage() {
 
@@ -60,14 +61,24 @@ export default async function ScorePage() {
                         </div>
                     </div>
 
-                    <RadarContainer UserRadarData={UserRadarData} LevelRadarData={LevelRadarData} labels={labels}/>
+                    <RadarContainer UserRadarData={UserRadarData} LevelRadarData={LevelRadarData} labels={labels} />
 
                     <div className="mt-24" />
-                    <BarContainer UserBarData={UserBarData} PartBarData={p1}/>
+                    <div className="text-black font-semibold text-2xl">풀이 시간 분석</div>
+                    <div className="mt-2" />
+                    <div className="text-slate-500 text-xl mb-3">회원님과 { }점 사용자 파트별 정답률 차이입니다.</div>
+                    <div className="bg-white p-4 shadow-lg rounded-xl border-slate-200 border-2 w-[100%] h-auto flex items-center justify-center">
+                        <DoughnutChart />
+                    </div>
+
+
+
+                    <div className="mt-24" />
+                    <BarContainer UserBarData={UserBarData} PartBarData={p1} />
 
                     <div className="mt-28" />
 
-                    <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels}/>
+                    <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels} />
                     <div className="mt-20" />
 
                     <div className="flex flex-wrap sm:flex-row justify-center gap-y-5 md:gap-x-20">

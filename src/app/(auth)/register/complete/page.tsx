@@ -8,7 +8,7 @@ export default function CompletePage(){
    <div className="mt-[10%]"/>
    <div className="flex flex-row  animate-slidein500 opacity-0">
    <div className="mt-1">
-   <LogoIcon/>
+   <LogoIcon size={35}/>
    </div>
 
    <div

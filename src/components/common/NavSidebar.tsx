@@ -23,7 +23,7 @@ const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
       <div className={`w-full h-full flex justify-between gap-8 ${isSticky? '':''}`}>
 
         <div className="flex flex-row mt-2">
-          <LogoIcon />
+          <LogoIcon size={35} />
           <Logo />
         </div>
         <motion.button

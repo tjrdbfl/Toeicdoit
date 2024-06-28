@@ -1,3 +1,4 @@
+"use client";
 import { PG } from "@/constants/enums/PG"
 import Link from "next/link"
 

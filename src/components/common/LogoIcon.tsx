@@ -1,13 +1,13 @@
 import Image from "next/image";
 
-const LogoIcon = () => (
+const LogoIcon = ({size}:{size:number}) => (
     <>
     <div className="mx-2">
         <Image
             src="/svgs/header/bubble.svg"
             alt="headset"
-            width={35}
-            height={35}
+            width={size}
+            height={size}
         />
         </div>
     </>

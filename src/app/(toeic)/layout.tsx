@@ -2,7 +2,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
-export default function LayoutWrapper({
+export default function ToeicLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
