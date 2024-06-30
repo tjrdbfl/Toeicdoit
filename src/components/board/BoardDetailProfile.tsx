@@ -1,11 +1,11 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const BoardDetailProfile = ({
-writer,create,update
+writer,createdAt,updatedAt
 }:{
     writer:string;
-    create:Date;
-    update:Date;
+    createdAt:Date;
+    updatedAt:Date;
 }) => {
     return (<>
         <div className="flex flex-row py-3">
@@ -14,18 +14,18 @@ writer,create,update
                 <h4 className="text-black text-[18px] mb-2">작성자 : {writer}</h4>
                 <div className="flex flex-row gap-x-10">
                     <h4 className="text-black text-[18px]">
-                        작성일자 : {create ? (
+                        작성일자 : {createdAt ? (
                             <>
-                                {new Date().getFullYear() - create.getFullYear()}년 전
+                                {new Date().getFullYear() - createdAt.getFullYear()}년 전
                             </>
                         ) : (
                             "No creation date available"
                         )}
                     </h4>
                     <h4 className="text-black text-[18px]">
-                        업데이트 시간 : {update ? (
+                        업데이트 시간 : {updatedAt ? (
                             <>
-                                {new Date().getFullYear() - update.getFullYear()}년 전
+                                {new Date().getFullYear() - updatedAt.getFullYear()}년 전
                             </>
                         ) : (
                             "No creation date available"

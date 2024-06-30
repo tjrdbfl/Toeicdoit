@@ -25,7 +25,8 @@ export const RegisterSchema = z.object({
     job:z.string().optional()
 })
 
-export const PostWriteSchema=z.object({
+export const PostSaveSchema=z.object({
+    id:z.number().optional(),
     category:z.string().min(1),
     title:z.string({
         message:"최소 8자리 이상 입력해주세요."

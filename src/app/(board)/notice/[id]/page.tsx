@@ -4,7 +4,7 @@ import BoardDetailProfile from "@/components/board/BoardDetailProfile";
 import BoardDetailTitle from "@/components/board/BoardDetailTitle";
 import NoticeLink from "@/components/board/NoticeLink";
 import { CommonHeader } from "@/config/headers";
-import { I_ApiBoardDetailRequest, BoardDetail, I_ApiBoardDetailResponse } from "@/types/BoardData";
+import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
 
 export const metadata = {
     title: "Toeicdoit - Notice Page",
@@ -17,21 +17,22 @@ export default async function NoticeDetailPage({ params }: {
     }
 }) {
 
-    const payload: I_ApiBoardDetailRequest = { id: params.id }
-    let Board: BoardDetail = {
+    const payload: I_ApiBoardDetailRequest = { id: params.id,type:'notice' }
+    let Board: BoardData = {
         id: 0,
+        type: 'notice',
         title: "",
         writer: "",
         content: "",
-        create: new Date(),
-        update: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
     };
 
     let totalIndex: number = 0;
     
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/getDetail`, {
-            method: 'POST',
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/board/detail`, {
+            method: 'GET',
             headers:CommonHeader,
             body: JSON.stringify(payload),
             next: { revalidate: 60 * 60 }
@@ -47,7 +48,7 @@ export default async function NoticeDetailPage({ params }: {
             Board = data.Board;
             totalIndex = data.totalIndex;
         } else {
-            console.error('Failed to get response data', data.message);
+            console.error('Failed to get response data');
         }
     } catch (err) {
         console.log('Failed to get notice: ', err)
@@ -60,15 +61,14 @@ export default async function NoticeDetailPage({ params }: {
                 <div className="mt-10" />
                 <BoardDetailTitle
                     type={"notice"}
-                    categoryId={Board?.category?.id || 1}
                     title={Board?.title}
-                    category={Board?.category?.category || ''} />
+                    category={Board?.category || ''} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
                     writer={Board.writer}
-                    create={Board.create}
-                    update={Board.update} />
+                    createdAt={Board.createdAt}
+                    updatedAt={Board.updatedAt} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailContent content={Board.content} />

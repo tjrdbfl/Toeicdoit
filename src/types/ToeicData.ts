@@ -1,3 +1,5 @@
+import { MessageData } from "./MessageData";
+
 export type ToeicData={
     id:number;
     part:number;
@@ -64,5 +66,5 @@ export interface I_ApiLevelPracticeRequest{
 export interface I_ApiLevelPracticeResponse{
     questions:ToeicDataPublic[];
     success:boolean;
-    message?:string;
+    message?:MessageData;
 }

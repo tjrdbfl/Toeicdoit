@@ -11,38 +11,38 @@ export default async function ExamTable({ query, currentPage }: {
     currentPage: number
 }) {
 
-    const offset=(currentPage-1)* ITEMS_PER_PAGE;
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-    let tests:ToeicData[]=[];
+    let tests: ToeicData[] = [];
 
     const payload: I_ApiExamSearchRequest = {
         query: query,
-        currentPage:currentPage,
-        offset:offset
+        currentPage: currentPage,
+        offset: offset
     };
 
     console.log(JSON.stringify(payload));
-    
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam/search`,{
-            method:'POST',
-            headers:CommonHeader,
-            body:JSON.stringify(payload),
+
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam/search`, {
+            method: 'POST',
+            headers: CommonHeader,
+            body: JSON.stringify(payload),
         })
-    
-        const data:I_ApiExamSearchResponse=await response.json();
-    
-        if(!data.success){
-            console.error('Failed to fetch exam data: ',data.message);
+
+        const data: I_ApiExamSearchResponse = await response.json();
+
+        if (!data.success) {
+            console.error('Failed to fetch exam data: ', data.message);
         }
-        tests=data.toeicdata||[];
-    }catch(err){
-        console.log('Failed to fetch /api/exam/search: ',err);
+        tests = data.toeicdata || [];
+    } catch (err) {
+        console.log('Failed to fetch /api/exam/search: ', err);
     }
-    
 
 
-   
+
+
     return (<>
         <div className="mt-10 flow-root">
             <div className="inline-block min-w-full align-middle shadow-md">
@@ -92,9 +92,9 @@ export default async function ExamTable({ query, currentPage }: {
                                         {content.title}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                        {content.take ? 
-                                        <TakeBtn id={content.id}/>
-                                        : <CompleteBtn id={content.id}/>}
+                                        {content.take ?
+                                            <TakeBtn id={content.id} />
+                                            : <CompleteBtn id={content.id} />}
                                     </td>
                                 </ExamBody>
                             ))}

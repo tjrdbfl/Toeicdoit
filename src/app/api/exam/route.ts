@@ -1,4 +1,5 @@
 import { SERVER } from "@/constants/enums/API";
+import { MessageData } from "@/types/MessageData";
 import { NextRequest, NextResponse } from "next/server";
 
 export interface I_ApiExamRequest{
@@ -7,7 +8,7 @@ export interface I_ApiExamRequest{
 export interface I_ApiExamResponse{
     success:boolean;
     totalPages?:number;
-    message?:string;
+    message?:MessageData;
 }
 
 export async function POST(request:NextRequest){

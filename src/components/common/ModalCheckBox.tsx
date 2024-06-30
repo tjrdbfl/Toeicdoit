@@ -38,7 +38,7 @@ const ModalCheckBox=({id}:{id:number})=>{
                         },
                     }}
                     size='large'
-                />
+        />
     </>);
 }
 export default ModalCheckBox;

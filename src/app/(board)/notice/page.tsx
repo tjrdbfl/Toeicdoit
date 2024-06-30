@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { CommonHeader } from "@/config/headers";
 import BoardLoading from "@/components/board/BoardLoading";
 import BoardTable from "@/components/board/BoardTable";
-import { BoardDataPublic, I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
+import { BoardData, I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
 
 export const metadata = {
     title: "Toeicdoit - Notice Page",
@@ -21,7 +21,7 @@ export default async function NoticePage({searchParams}:{
     const query = searchParams?.query || '';
     const currentPage=Number(searchParams?.page)||1;
     let totalPages:number=0;
-    let notices:BoardDataPublic[]=[];
+    let notices:BoardData[]=[];
     const offset=(currentPage-1)* ITEMS_PER_PAGE;   //index in Board db
     
     const payload: I_ApiBoardRequest = {
@@ -62,7 +62,7 @@ export default async function NoticePage({searchParams}:{
                 <Search placeholder={"검색어를 입력해주세요."} />
             </div>
             <Suspense key={query + currentPage} fallback={<><BoardLoading/></>}>
-                <BoardTable notices={notices} type={1} />
+                <BoardTable notices={notices} type={"notice"} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
                <CustomPagination totalPages={totalPages}/> 

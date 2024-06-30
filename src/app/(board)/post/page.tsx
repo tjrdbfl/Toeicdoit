@@ -2,7 +2,7 @@ import Search from "@/components/common/Search";
 import BoardLoading from "@/components/board/BoardLoading";
 import BoardTable from "@/components/board/BoardTable";
 import CustomPagination from "@/components/common/CustomPagination";
-import { I_ApiBoardRequest, I_ApiBoardResponse, BoardDataPublic } from "@/types/BoardData";
+import { BoardData, I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
 import { ITEMS_PER_PAGE } from "@/types/ToeicData";
 import { Suspense } from "react";
 import WriteBtn from "@/components/button/WriteBtn";
@@ -21,10 +21,11 @@ export default async function PostPage({searchParams}:{
     const query=searchParams?.query||'';
     const currentPage=Number(searchParams?.page)||0;
     let totalPages:number=0;
-    let posts:BoardDataPublic[]=[];
+    let posts:BoardData[]=[];
     const offset=(currentPage-1)*ITEMS_PER_PAGE;
 
     const payload:I_ApiBoardRequest={
+        type:'post',
         query:query,
         currentPage:currentPage,
         offset:offset
@@ -64,7 +65,7 @@ export default async function PostPage({searchParams}:{
                 <WriteBtn/>
             </div>
             <Suspense key={query + currentPage} fallback={<><BoardLoading/></>}>
-                <BoardTable notices={posts} type={2} />
+                <BoardTable notices={posts} type={'post'} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
                <CustomPagination totalPages={totalPages}/> 

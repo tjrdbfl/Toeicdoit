@@ -1,4 +1,5 @@
 import { SERVER } from "@/constants/enums/API";
+import { MessageData } from "@/types/MessageData";
 import { AnswerData } from "@/types/ToeicData";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,7 +9,7 @@ export interface I_ApiLevelSubmitRequest{
 }
 export interface I_ApiLevelSubmitResponse{
     success:boolean;
-    message?:string;
+    message?:MessageData;
 }
 
 export async function POST(request:NextRequest){

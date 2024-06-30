@@ -155,7 +155,7 @@ input:focus {
 
 
 .total_padding{
-  @apply sm:px-[5%] md:px-[5%] lg:px-[8%]
+  @apply px-[3%] sm:px-[5%] md:px-[5%] lg:px-[8%]
 }
 
 .input_volume{

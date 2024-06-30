@@ -1,10 +1,16 @@
 'use server';
 
 import { getCategoryColor } from "@/lib/utils/style";
-import { BoardDataPublic } from "@/types/BoardData";
 import BoardBody from "./BoardBody";
+import { BoardData } from "@/types/BoardData";
 
-const BoardTable = async ({ notices,type }: { notices: BoardDataPublic[],type:number }) => {
+
+const BoardTable = async ({
+    notices, type
+}: {
+    notices: BoardData[]
+    , type: string,
+}) => {
 
     return (<>
         <div className="mt-10 flow-root">
@@ -31,7 +37,7 @@ const BoardTable = async ({ notices,type }: { notices: BoardDataPublic[],type:nu
                     <table className="hidden min-w-full text-gray-900 md:table">
                         <thead className="rounded-2xl bg-white text-left text-lg font-normal border-b-slate-200 border-b-2 min-w-full">
                             <tr className="flex w-full flex-row justify-between">
-                                <th scope="col" className="2xl:w-[5%] lg:w-[10%] py-4 font-medium sm:pl-6 text-center ">
+                                <th scope="col" className="w-[15%] 2xl:w-[5%] lg:w-[10%] py-4 font-medium sm:pl-6 text-center ">
                                     번호
                                 </th>
                                 <th scope="col" className="w-[40%] py-4 font-medium text-center">
@@ -45,29 +51,29 @@ const BoardTable = async ({ notices,type }: { notices: BoardDataPublic[],type:nu
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white rounded-2xl w-full flex justify-between">
-                        <BoardBody
-                                    key={1}
-                                    id={1}
-                                    type={type}
-                                >
-                                    <td className="whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
-                                        {1}
-                                    </td>
-                                    <td className="whitespace-nowrap w-[40%] text-center">
-                                        <div className="flex flex-row gap-x-5 items-center justify-start">
-                                            <p className={getCategoryColor(1)}>업데이트</p>
-                                            <p>문의 드려요~</p>
-                                        </div>
-                                    </td>
-                                    <td className="whitespace-nowrap w-[10%] text-center">
-                                        글쓴이
-                                    </td>
-                                    <td className="whitespace-nowrap w-[20%] text-center">
-                                        {/* {notice.update} */}
-                                    </td>
+                        <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between">
+                            <BoardBody
+                                key={1}
+                                id={1}
+                                type={type}
+                            >
+                                <td className="whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
+                                    {1}
+                                </td>
+                                <td className="whitespace-nowrap w-[40%] text-center">
+                                    <div className="flex flex-row gap-x-5 items-center justify-start">
+                                        <p className={getCategoryColor('공부법')}>공부법</p>
+                                        <p>문의 드려요~</p>
+                                    </div>
+                                </td>
+                                <td className="whitespace-nowrap w-[10%] text-center">
+                                    글쓴이
+                                </td>
+                                <td className="whitespace-nowrap w-[20%] text-center">
+                                    {/* {notice.update} */}
+                                </td>
 
-                                </BoardBody>
+                            </BoardBody>
                             {notices?.map((notice) => (
                                 <BoardBody
                                     key={notice.id}
@@ -79,7 +85,7 @@ const BoardTable = async ({ notices,type }: { notices: BoardDataPublic[],type:nu
                                     </td>
                                     <td className="whitespace-nowrap w-[40%] text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
-                                            <p className={getCategoryColor(notice?.category?.id || 1)}>{notice?.category?.category}</p>
+                                            <p className={getCategoryColor(notice.category || '')}>{notice?.category}</p>
                                             <p className="text-ellipsis">{notice.title}</p>
                                         </div>
                                     </td>

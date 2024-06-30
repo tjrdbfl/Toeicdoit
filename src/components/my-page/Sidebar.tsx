@@ -47,7 +47,6 @@ const Sidebar = () => {
                 >문의내역</p>
             </Link>
         </div>
-        DDDD
     </>);
 }
 export default Sidebar;

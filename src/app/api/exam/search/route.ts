@@ -1,3 +1,4 @@
+import { MessageData } from "@/types/MessageData";
 import { ITEMS_PER_PAGE, ToeicData } from "@/types/ToeicData";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,7 +10,7 @@ export interface I_ApiExamSearchRequest {
 export interface I_ApiExamSearchResponse {
   success: boolean;
   toeicdata?: ToeicData[];
-  message?: string;
+  message?: MessageData;
 }
 
 
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
   if (!currentPage || !offset) {
     const res: I_ApiExamSearchResponse = {
       success: false,
-      message: '알 수 없는 페이지 입니다.'
+      //message: '알 수 없는 페이지 입니다.'
     }
     return NextResponse.json(res, { status: 400 });
   }

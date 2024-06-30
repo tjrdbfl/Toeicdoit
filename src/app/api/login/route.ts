@@ -1,3 +1,4 @@
+import { MessageData } from "@/types/MessageData";
 import { UserData } from "@/types/UserData";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,7 +9,7 @@ export interface I_ApiUserLoginRequest {
 export interface I_ApiUserLoginResponse {
     success: boolean;
     userData?: UserData;
-    message?: string;
+    message?: MessageData;
 }
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
     if(!email || !password){
       const res:I_ApiUserLoginResponse={
         success:false,
-        message:'이메일과 비밀번호는 필수 항목입니다. 다시 로그인 해주세요.'
+        //message:'이메일과 비밀번호는 필수 항목입니다. 다시 로그인 해주세요.'
       }
       return NextResponse.json(res,{status:400});
     }

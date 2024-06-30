@@ -1,6 +1,6 @@
 import PostLink from "@/components/board/PostLink";
 import LinkIcon from "@/components/common/LinkIcon";
-import PostForm from "@/templates/board/PostForm";
+import PostSaveForm from "@/templates/board/PostSaveForm";
 
 export default async function PostWritePage() {
    
@@ -19,7 +19,7 @@ export default async function PostWritePage() {
                             </h1>    
                         </div>
                         <div className="mt-10"/>
-                        <PostForm/>
+                        <PostSaveForm/>
                     </div>
                 </div>
             </div>

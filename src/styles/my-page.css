@@ -2,17 +2,17 @@
     @apply border-2 shadow-xl bg-white border-slate-100 rounded-2xl
 }
 .sidebar_container{
-    @apply w-[190px] h-auto py-5 flex flex-col justify-center;
+    @apply w-full xl:w-[190px] py-5 flex flex-row xl:flex-col justify-center;
 }
 .sidebar_texts{
-    @apply text-black text-[20px]
+    @apply text-black lg:text-[20px] md:text-[17px] text-[12px]
 }
 .sidebar_texts:hover{
     color: var(--blue2);
     text-decoration: underline;
 }
 .sidebar_icons{
-    @apply text-black text-3xl mr-5
+    @apply text-black lg:text-3xl md:text-2xl text-xl mr-5
 }
 .sidebar_fill{
     @apply flex flex-row py-3 px-5

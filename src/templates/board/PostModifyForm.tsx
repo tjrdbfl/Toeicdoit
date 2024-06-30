@@ -1,14 +1,15 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
-import { createPost } from "@/service/post/action";
+import { modifyPost } from "@/service/post/action";
+import { BoardData } from "@/types/BoardData";
 import { ChangeEvent, useState } from "react";
 import { useFormState } from "react-dom";
 
 const initialState = {
     message: "",
 };
-export default function PostForm() {
-    const [state, formAction] = useFormState(createPost, initialState);
+export default function PostModifyForm({post}:{post:BoardData}) {
+    const [state, formAction] = useFormState(modifyPost, initialState);
     const [charCount, setCharCount] = useState(0);
     const handleContentChange=(event:ChangeEvent<HTMLTextAreaElement>)=>{
         setCharCount(event.target.value.length);
@@ -30,12 +31,12 @@ export default function PostForm() {
                     required
                     className="form_input block w-full"
                 >
-                    <option value="공부법">공부법</option>
-                    <option value="문의">문의</option>
-                    <option value="시험 후기">시험 후기</option>
+                    {post.category==='공부법' ? <option selected value="공부법">공부법</option> : <option value="공부법">공부법</option>}
+                    {post.category==='문의' ? <option selected value="공부법">문의</option> : <option value="문의">문의</option>}
+                    {post.category==='시험 후기' ? <option selected value="시험 후기">시험 후기</option> : <option value="시험 후기">시험 후기</option>}
                 </select>
             </div>
-
+            <input hidden value={post.id}/>
             <div className="mt-10">
                 <label htmlFor="title"
                     className="form_label"
@@ -44,7 +45,7 @@ export default function PostForm() {
                 <input type="text" name="title" id="title"
                     required
                     className="form_input"
-                    placeholder="필수 항목입니다."
+                    placeholder={post.title}
                 />
             </div>
 
@@ -58,7 +59,7 @@ export default function PostForm() {
                     id="content"
                     required
                     className="form_input"
-                    placeholder="필수 항목입니다."
+                    placeholder={post.content}
                     style={{ height: 400 }}
                     maxLength={1000}
                     onChange={handleContentChange}
@@ -67,7 +68,7 @@ export default function PostForm() {
             </div>
 
             <div className="mt-10"/>
-            <SubmitButton label={"등록하기"} />
+            <SubmitButton label={"수정하기"} />
             <p aria-live="polite" className="sr-only" role="status">
                 {state?.message}
             </p>

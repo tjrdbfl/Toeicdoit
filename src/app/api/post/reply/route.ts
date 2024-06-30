@@ -1,3 +1,4 @@
+import { MessageData } from "@/types/MessageData";
 import { NextRequest, NextResponse } from "next/server";
 
 export interface I_ApiPostReplyRequest{
@@ -6,7 +7,7 @@ export interface I_ApiPostReplyRequest{
 }
 export interface I_ApiPostReplyResponse{
     success:boolean;
-    message?:string;
+    message?:MessageData;
 }
 export async function POST(request:NextRequest){
     console.log(`3 - POST 경로 : /api/post/write 진입 성공`);

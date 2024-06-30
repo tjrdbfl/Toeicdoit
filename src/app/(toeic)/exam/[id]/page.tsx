@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import ExamContainer from '@/templates/toeic/ExamContainer';
 
 export default function ExamIdPage({ 
     params 
@@ -7,16 +7,7 @@ export default function ExamIdPage({
 }) {
     return (
         <>
-            {params.id}
+         <ExamContainer id={params.id}/>
         </>
     );
 }
-export const generateStaticParams = async () => {
-    const ids = ['1', '2', '3','4','5','6','7','8','9','10']; 
-
-    return ids.map(id => ({
-        params: {
-            id
-        }
-    }));
-};

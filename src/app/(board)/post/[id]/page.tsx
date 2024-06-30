@@ -7,7 +7,8 @@ import BoardWriteReply from "@/components/board/BoardWriteReply";
 import NoticeLink from "@/components/board/NoticeLink";
 import PostLink from "@/components/board/PostLink";
 import { CommonHeader } from "@/config/headers";
-import { I_ApiBoardDetailRequest, BoardDetail, I_ApiBoardDetailResponse } from "@/types/BoardData";
+import { SERVER } from "@/constants/enums/API";
+import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
 import ChatIcon from '@mui/icons-material/Chat';
 
 
@@ -21,20 +22,21 @@ export default async function PostDetailPage({ params }: {
     }
 }) {
 
-    const payload: I_ApiBoardDetailRequest = { id: params.id }
-    let Board: BoardDetail = {
+    const payload: I_ApiBoardDetailRequest = { id: params.id,type:'post' };
+    let Board: BoardData = {
         id: 0,
         title: "",
         writer: "",
         content: "",
-        create: new Date(),
-        update: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        type: "post"
     };
 
     let totalIndex: number = 0;
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/getDetail`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.USER}/board/detail`, {
             method: 'POST',
             headers:CommonHeader,
             body: JSON.stringify(payload),
@@ -51,7 +53,7 @@ export default async function PostDetailPage({ params }: {
             Board = data.Board;
             totalIndex = data.totalIndex;
         } else {
-            console.error('Failed to get response data', data.message);
+            console.error('Failed to get response data');
         }
     } catch (err) {
         console.log('Failed to get notice: ', err)
@@ -64,15 +66,14 @@ export default async function PostDetailPage({ params }: {
                 <div className="mt-10" />
                 <BoardDetailTitle
                     type={"post"}
-                    categoryId={Board?.category?.id || 1}
                     title={Board?.title}
-                    category={Board?.category?.category || ''} />
+                    category={Board.category||''} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
                     writer={Board.writer}
-                    create={Board.create}
-                    update={Board.update} />
+                    createdAt={Board.createdAt}
+                    updatedAt={Board.updatedAt} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailContent content={Board.content} />
@@ -89,10 +90,10 @@ export default async function PostDetailPage({ params }: {
 
                 {Board.reply?.map((reply)=>(
                     <>
-                    <BoardDetailReply writer={reply.writer || ''} content={Board.content} create={Board.create} id={reply.id} />
+                    <BoardDetailReply writer={reply.writer || ''} content={Board.content} create={Board.createdAt} id={reply.id} />
                     </>            
                 ))}
-                <BoardDetailReply writer={"작성자"} content={Board.content} create={Board.create} id={1} />
+                <BoardDetailReply writer={"작성자"} content={Board.content} create={Board.createdAt} id={1} />
             </div>
         </div>
     </>);
