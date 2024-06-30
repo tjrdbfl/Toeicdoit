@@ -48,7 +48,7 @@ const ExamTimer = () => {
 
     const formattedTime = new Date(timeLeft).toISOString().slice(11, 19)    // 시간 형식 지정(hh:mm:ss) 
     return (<>
-        <span className="text-blue-500 text-xl font-semibold">
+        <span className="text-blue-600 text-xl font-semibold">
             {formattedTime}
         </span>
     </>);

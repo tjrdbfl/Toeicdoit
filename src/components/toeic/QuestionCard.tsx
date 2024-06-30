@@ -105,7 +105,8 @@ const QuestionCard: FC<QuestionCardProps> = ({
                         {option.choice3}
                     </label>
                 </div>
-                <div className="flex items-start mb-4">
+
+                {option.choice4!=='' && <div className="flex items-start mb-4">
                     <input
                         id={`d-${id}`}
                         type="radio"
@@ -120,7 +121,7 @@ const QuestionCard: FC<QuestionCardProps> = ({
                         <p className="text-nowrap mr-2">(d)</p>
                         {option.choice4}
                     </label>
-                </div>
+                </div>}
             </div>
 
             {take && <>

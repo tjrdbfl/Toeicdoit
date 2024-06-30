@@ -1,5 +1,5 @@
 import LevelCard from "@/components/toeic/LevelCard";
-import { LevelCardContent } from "@/constants/level/card";
+import { LevelCardContent } from "@/constants/toeic/level";
 
 const CardContainer = () => {
     

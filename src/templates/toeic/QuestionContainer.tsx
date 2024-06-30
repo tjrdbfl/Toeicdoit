@@ -1,5 +1,5 @@
 "use client";
-import ToeicPlayer from '@/components/utils/ToeicPlayer';
+import ToeicPlayer from '@/components/toeic/ToeicPlayer';
 import SubmitButton from '@/components/button/SubmitBtn';
 import LevelHeader from '@/components/toeic/LevelHeader';
 import QuestionCard from '@/components/toeic/QuestionCard';
