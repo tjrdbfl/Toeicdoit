@@ -21,11 +21,11 @@ const ExamAnswer = () => {
             numbers[part.label] = Array.from({ length: part.question }, () => questionNumber++);
         });
         setQuestionNumbers(numbers);
+        console.log(JSON.stringify(numbers));
     }, []);
 
     const handleSelect = (questionId: number, value: string) => {
         setSelections((prevSelections) => ({ ...prevSelections, [questionId]: value }));
-        console.log(questionId + ': ' + selections[questionId]);
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,6 +42,7 @@ const ExamAnswer = () => {
             partRef.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
     const setPartRef = useCallback((label: string) => (el: HTMLDivElement | null) => {
         partRefs.current[label] = el;
       }, []);
@@ -67,7 +68,7 @@ const ExamAnswer = () => {
             </nav>
 
             <form onSubmit={handleSubmit} method="POST">
-                <ul className="mt-4 m-2 p-2 border-slate-200 border-2 h-[650px] rounded-lg shadow-md">
+                <ul className="mt-2 m-2 p-2 border-slate-200 border-2 h-[650px] rounded-lg shadow-md">
                     <ScrollArea className="transition-opacity duration-200 text-black w-full h-full">
                         {allParts.map((part: ExamPart) => (
                             <div 
