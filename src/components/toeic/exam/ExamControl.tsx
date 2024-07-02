@@ -2,9 +2,11 @@ import { useTimerStore } from "@/store/toeic/timer";
 import ExamTimer from "./ExamTimer";
 import ToeicPlayer from "../ToeicPlayer";
 import ExamPlayer from "./ExamPlayer";
+import { useNumberOfQuestionStore } from "@/store/exam/store";
 
 const ExamControl = () => {
     const { pauseTimer, resumeTimer } = useTimerStore();
+    const {count}=useNumberOfQuestionStore();
 
     return (<>
         <div className='flex flex-row bg-blue-50 shadow-lg rounded-2xl justify-center items-center w-full p-2'>
@@ -12,7 +14,7 @@ const ExamControl = () => {
                 <div className='flex flex-row gap-x-3'>
                     <div className='flex flex-row gap-x-2 mt-3'>
                         <p className='text-black text-start font-semibold text-lg'>응시 문항 :</p>
-                        <p className='text-blue-600 font-semibold text-xl'>{222}</p>
+                        <p className='text-blue-600 font-semibold text-xl'>{count}</p>
                         <p className='text-black font-semibold text-xl'>/ 200문항</p>
                     </div>
                     <div className='flex flex-row gap-x-2 mt-3'>

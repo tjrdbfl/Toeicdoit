@@ -16,3 +16,11 @@ export const useExamRetakeModalStore=create<ExamRetakeModalStore>()((set)=>({
     show:false,
     setShow:()=>set((state)=>({show:!state.show}))
 })); 
+type NumberOfQuestionStore={
+    count:number;
+    setCount:()=>void;
+}
+export const useNumberOfQuestionStore=create<NumberOfQuestionStore>()((set)=>({
+    count:0,
+    setCount:()=>set((state)=>({count:++state.count}))
+}))

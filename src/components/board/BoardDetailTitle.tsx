@@ -1,4 +1,4 @@
-import { getCategoryColor } from "@/lib/utils/style";
+import { getCategoryColor } from "@/service/utils/style";
 
 const BoardDetailTitle=({
     type,title,category

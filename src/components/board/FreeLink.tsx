@@ -2,7 +2,7 @@ import LinkIcon from '@/components/common/LinkIcon';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Link from 'next/link';
 
-const PostLink = ({label}:{label:string}) => {
+const FreeLink = ({label}:{label:string}) => {
     return (<>
         <div className="flex flex-row gap-x-2 items-center">
             <Link
@@ -26,4 +26,4 @@ const PostLink = ({label}:{label:string}) => {
         </div>
     </>);
 }
-export default PostLink;
+export default FreeLink;

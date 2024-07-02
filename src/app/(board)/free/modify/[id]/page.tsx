@@ -1,15 +1,15 @@
-import PostLink from "@/components/board/PostLink";
+import FreeLink from "@/components/board/FreeLink";
 import LinkIcon from "@/components/common/LinkIcon";
 import { CommonHeader } from "@/config/headers";
 import { SERVER } from "@/constants/enums/API";
-import PostModifyForm from "@/templates/board/PostModifyForm";
+import FreeModifyForm from "@/templates/board/FreeModifyForm";
 import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
 
 export const metadata = {
-    title: "Toeicdoit - Post Edit Page",
+    title: "Toeicdoit - Free Edit Page",
     description: "",
 };
-export default async function PostEditPage({params}:{
+export default async function FreeEditPage({params}:{
     params:{id:number}
 }){
 
@@ -54,7 +54,7 @@ export default async function PostEditPage({params}:{
     return(<>
         <div className="total_padding py-28">
             <div className="w-full flex flex-col z-10 px-[7%]">
-                <PostLink label={"수정하기"} />
+                <FreeLink label={"수정하기"} />
                 <div className="mt-10" />
                 <div className="flex items-center justify-center">
                     <div className="form w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%]">
@@ -65,7 +65,7 @@ export default async function PostEditPage({params}:{
                             </h1>    
                         </div>
                         <div className="mt-10"/>
-                        <PostModifyForm post={board}/>
+                        <FreeModifyForm post={board}/>
                     </div>
                 </div>
             </div>

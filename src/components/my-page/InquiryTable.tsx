@@ -1,9 +1,9 @@
 'use client';
-import { getCategoryColor, getTypeColor } from "@/lib/utils/style";
+import { getCategoryColor, getTypeColor } from "@/service/utils/style";
 import { BoardData} from "@/types/BoardData";
 import ModifyBtn from "../button/ModifyBtn";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { deletePost } from "@/service/post/action";
+import { deleteFree } from "@/service/post/action";
 import { deleteCookie, getCookie } from "cookies-next";
 
 const InquiryTable = ({
@@ -33,7 +33,7 @@ const InquiryTable = ({
 
     const clickDelete=async()=>{
         try{
-            const response=await deletePost(selectedId,'customer');
+            const response=await deleteFree(selectedId,'customer');
 
             if(!response.ok){
                 alert('삭제 실패');

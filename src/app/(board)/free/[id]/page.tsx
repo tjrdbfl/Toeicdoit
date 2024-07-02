@@ -4,8 +4,8 @@ import BoardDetailProfile from "@/components/board/BoardDetailProfile";
 import BoardDetailReply from "@/components/board/BoardDetailReply";
 import BoardDetailTitle from "@/components/board/BoardDetailTitle";
 import BoardWriteReply from "@/components/board/BoardWriteReply";
-import NoticeLink from "@/components/board/NoticeLink";
-import PostLink from "@/components/board/PostLink";
+import FreeLink from "@/components/board/FreeLink";
+
 import { CommonHeader } from "@/config/headers";
 import { SERVER } from "@/constants/enums/API";
 import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
@@ -13,10 +13,10 @@ import ChatIcon from '@mui/icons-material/Chat';
 
 
 export const metadata = {
-    title: "Toeicdoit - Post Page",
+    title: "Toeicdoit - Free Page",
     description: "",
 };
-export default async function PostDetailPage({ params }: {
+export default async function FreeDetailPage({ params }: {
     params: {
         id: number;
     }
@@ -62,7 +62,7 @@ export default async function PostDetailPage({ params }: {
     return (<>
         <div className="total_padding py-28">
             <div className="w-full flex flex-col z-10 px-[7%]">
-                <PostLink label={""} />
+                <FreeLink label={""} />
                 <div className="mt-10" />
                 <BoardDetailTitle
                     type={"post"}

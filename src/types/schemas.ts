@@ -25,7 +25,7 @@ export const RegisterSchema = z.object({
     job:z.string().optional()
 })
 
-export const PostSaveSchema=z.object({
+export const FreeSaveSchema=z.object({
     id:z.number().optional(),
     category:z.string().min(1),
     title:z.string({
@@ -36,7 +36,7 @@ export const PostSaveSchema=z.object({
     }).min(1).max(1000),
 })
 
-export const PostReplySchema=z.object({
+export const FreeReplySchema=z.object({
     writer:z.string().min(1),
     content:z.string({
         message:"최대 1000자까지 입력 가능합니다."

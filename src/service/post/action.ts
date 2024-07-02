@@ -1,17 +1,17 @@
 "use server";
-import { I_ApiPostReplyRequest } from "@/app/api/post/reply/route";
-import { I_ApiBoardDeleteRequest, I_ApiPostRequest } from "@/app/api/post/route";
+import { I_ApiFreeReplyRequest } from "@/app/api/free/reply/route";
+import { I_ApiBoardDeleteRequest, I_ApiFreeRequest } from "@/app/api/free/route";
 import { CommonHeader } from "@/config/headers";
-import { PostReplySchema, PostSaveSchema } from "@/types/schemas";
+import { FreeReplySchema, FreeSaveSchema } from "@/types/schemas";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCookie, setCookie } from 'cookies-next';
 
-export async function createPost(prevState: { message: string },
+export async function createFree(prevState: { message: string },
     formData: FormData
 ) {
 
-    const parse = PostSaveSchema.safeParse({
+    const parse = FreeSaveSchema.safeParse({
         category: formData.get('category'),
         title: formData.get('title'),
         content: formData.get('content')
@@ -23,7 +23,7 @@ export async function createPost(prevState: { message: string },
     }
 
 
-    const rawFormData: I_ApiPostRequest = parse.data;
+    const rawFormData: I_ApiFreeRequest = parse.data;
 
     console.log('Received form data: ', rawFormData);
 
@@ -42,11 +42,11 @@ export async function createPost(prevState: { message: string },
     redirect(`/post`); // Navigate to the new post page
 }
 
-export async function modifyPost(prevState: { message: string },
+export async function modifyFree(prevState: { message: string },
     formData: FormData
 ) {
 
-    const parse = PostSaveSchema.safeParse({
+    const parse = FreeSaveSchema.safeParse({
         id: formData.get('id'),
         category: formData.get('category'),
         title: formData.get('title'),
@@ -58,7 +58,7 @@ export async function modifyPost(prevState: { message: string },
         return { message: "Failed to create todo" };
     }
 
-    const rawFormData: I_ApiPostRequest = parse.data;
+    const rawFormData: I_ApiFreeRequest = parse.data;
 
     console.log('Received form data: ', rawFormData);
 
@@ -76,7 +76,7 @@ export async function modifyPost(prevState: { message: string },
     revalidateTag('/inquiry-details'); // Update cached posts
     redirect(`/inquiry-details`); // Navigate to the new post page
 }
-export async function deletePost(boardId:number,type:string) {
+export async function deleteFree(boardId:number,type:string) {
 
     
     console.log('boardId: ', boardId);
@@ -108,7 +108,7 @@ export async function createReply(prevState: { message: string },
     formData: FormData, currentPath: string
 ) {
 
-    const parse = PostReplySchema.safeParse({
+    const parse = FreeReplySchema.safeParse({
         writer: formData.get('writer'),
         content: formData.get('content')
     })
@@ -119,7 +119,7 @@ export async function createReply(prevState: { message: string },
     }
 
 
-    const rawFormData: I_ApiPostReplyRequest = parse.data;
+    const rawFormData: I_ApiFreeReplyRequest = parse.data;
 
     console.log('Received form data: ', rawFormData);
 

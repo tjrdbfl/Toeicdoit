@@ -3,13 +3,13 @@ import { I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
 import { MessageData } from "@/types/MessageData";
 import { NextRequest, NextResponse } from "next/server";
 
-export interface I_ApiPostRequest {
+export interface I_ApiFreeRequest {
     id?: number;
     title: string;
     content: string;
     category: string;
 }
-export interface I_ApiPostSaveResponse {
+export interface I_ApiFreeSaveResponse {
     success: boolean;
     message?: MessageData;
 }
@@ -20,12 +20,12 @@ export interface I_ApiBoardDeleteRequest{
 export async function POST(request: NextRequest) {
     console.log(`3 - POST 경로 : /api/post/save 진입 성공`);
 
-    const body = (await request.json()) as I_ApiPostRequest;
+    const body = (await request.json()) as I_ApiFreeRequest;
 
     const { category, title, content } = Object.fromEntries(
         Object.entries(body).map(([key, value]) =>
             [key, typeof value === 'string' ? value.trim() : value])
-    ) as I_ApiPostRequest;
+    ) as I_ApiFreeRequest;
 
     const token = request.cookies.get('accessToken')?.value;
 
@@ -55,12 +55,12 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     console.log(`3 - POST 경로 : /api/post/modify 진입 성공`);
 
-    const body = (await request.json()) as I_ApiPostRequest;
+    const body = (await request.json()) as I_ApiFreeRequest;
 
     const { id, category, title, content } = Object.fromEntries(
         Object.entries(body).map(([key, value]) =>
             [key, typeof value === 'string' ? value.trim() : value])
-    ) as I_ApiPostRequest;
+    ) as I_ApiFreeRequest;
 
     const token = request.cookies.get('accessToken')?.value;
 

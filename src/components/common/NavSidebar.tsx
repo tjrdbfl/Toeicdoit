@@ -9,6 +9,7 @@ import { useSidebarMenuAnimation } from "@/constants/styles/animation";
 import SelectAuth from "../auth/SelectAuth";
 import { GettingStartedBtn } from "../button/GettingStartedBtn";
 import { useApp } from "@/contexts/AppContext";
+import { PG } from "@/constants/enums/PG";
 
 
 const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
@@ -60,24 +61,24 @@ const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
       >
         <li className='navSidebar_ul_list'>
           <p className=' navSidebar_ul_p'>토익두잇 공부법</p>
-          <Link className=' navSidebar_ul_link' href={''}>공부법 추천</Link>
-          <Link className=' navSidebar_ul_link' href={''}>토익두잇 FAQ</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.RECOMMEND}`}>공부법 추천</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.STUDY_FAQ}`}>토익두잇 FAQ</Link>
 
         </li>
 
         <li className='navSidebar_ul_list'>
           <p className=' navSidebar_ul_p'>문제풀기</p>
-          <Link className=' navSidebar_ul_link' href={'/exam'}>실전 모의고사</Link>
-          <Link className=' navSidebar_ul_link' href={'/level'}>수준별 연습문제</Link>
-          <Link className=' navSidebar_ul_link' href={'/part'}>파트별 연습문제</Link>
-          <Link className=' navSidebar_ul_link' href={'/test'}>레벨 테스트</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.EXAM}`}>실전 모의고사</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.LEVEL}`}>수준별 연습문제</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.PART}`}>파트별 연습문제</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.LEVEL_TEST}`}>레벨 테스트</Link>
 
         </li>
 
         <li className='navSidebar_ul_list'>
           <p className=' navSidebar_ul_p'>커뮤니티</p>
-          <Link className=' navSidebar_ul_link' href={'/notice'}>공지사항</Link>
-          <Link className=' navSidebar_ul_link' href={'/post'}>자유게시판</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.NOTICE}`}>공지사항</Link>
+          <Link className=' navSidebar_ul_link' href={`${PG.FREE}`}>자유게시판</Link>
         </li>
 
         <li className='navSidebar_ul_list'>

@@ -1,23 +1,23 @@
 import { MessageData } from "@/types/MessageData";
 import { NextRequest, NextResponse } from "next/server";
 
-export interface I_ApiPostReplyRequest{
+export interface I_ApiFreeReplyRequest{
     writer:string;
     content:string;
 }
-export interface I_ApiPostReplyResponse{
+export interface I_ApiFreeReplyResponse{
     success:boolean;
     message?:MessageData;
 }
 export async function POST(request:NextRequest){
     console.log(`3 - POST 경로 : /api/post/write 진입 성공`);
 
-    const body=(await request.json()) as I_ApiPostReplyRequest;
+    const body=(await request.json()) as I_ApiFreeReplyRequest;
 
     const {writer,content}=Object.fromEntries(
         Object.entries(body).map(([key,value])=>
         [key,typeof value ==='string' ? value.trim():value])
-    ) as I_ApiPostReplyRequest;
+    ) as I_ApiFreeReplyRequest;
 
     const token=request.cookies.get('accessToken')?.value;
 

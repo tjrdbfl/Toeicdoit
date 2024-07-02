@@ -2,6 +2,7 @@ import BoardLoading from "@/components/board/BoardLoading";
 import CustomPagination from "@/components/common/CustomPagination";
 import InquiryTable from "@/components/my-page/InquiryTable";
 import { CommonHeader } from "@/config/headers";
+import { PG } from "@/constants/enums/PG";
 import { BoardData, I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
 import { ITEMS_PER_PAGE } from "@/types/ToeicData";
 import { Suspense } from "react";
@@ -22,7 +23,7 @@ const InquiryDetailsPage = async({ params }: {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/post?currentPage=${currentPage}&offset=${offset}`,{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/${PG.FREE}?currentPage=${currentPage}&offset=${offset}`,{
             method:'GET',
             headers:CommonHeader,
             cache:'no-store'

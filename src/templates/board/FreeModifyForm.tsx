@@ -1,6 +1,6 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
-import { modifyPost } from "@/service/post/action";
+import { modifyFree } from "@/service/post/action";
 import { BoardData } from "@/types/BoardData";
 import { ChangeEvent, useState } from "react";
 import { useFormState } from "react-dom";
@@ -8,8 +8,8 @@ import { useFormState } from "react-dom";
 const initialState = {
     message: "",
 };
-export default function PostModifyForm({post}:{post:BoardData}) {
-    const [state, formAction] = useFormState(modifyPost, initialState);
+export default function FreeModifyForm({post}:{post:BoardData}) {
+    const [state, formAction] = useFormState(modifyFree, initialState);
     const [charCount, setCharCount] = useState(0);
     const handleContentChange=(event:ChangeEvent<HTMLTextAreaElement>)=>{
         setCharCount(event.target.value.length);

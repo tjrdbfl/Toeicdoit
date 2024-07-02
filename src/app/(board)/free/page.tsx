@@ -9,10 +9,10 @@ import WriteBtn from "@/components/button/WriteBtn";
 import { CommonHeader } from "@/config/headers";
 
 export const metadata = {
-    title: "Toeicdoit - Post Page",
+    title: "Toeicdoit - Free Page",
     description: "",
 };
-export default async function PostPage({searchParams}:{
+export default async function FreePage({searchParams}:{
     searchParams:{
         query:string;
         page:string;

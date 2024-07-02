@@ -1,14 +1,14 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
-import { createPost } from "@/service/post/action";
+import { createFree } from "@/service/post/action";
 import { ChangeEvent, useState } from "react";
 import { useFormState } from "react-dom";
 
 const initialState = {
     message: "",
 };
-export default function PostSaveForm() {
-    const [state, formAction] = useFormState(createPost, initialState);
+export default function FreeSaveForm() {
+    const [state, formAction] = useFormState(createFree, initialState);
     const [charCount, setCharCount] = useState(0);
     const handleContentChange=(event:ChangeEvent<HTMLTextAreaElement>)=>{
         setCharCount(event.target.value.length);

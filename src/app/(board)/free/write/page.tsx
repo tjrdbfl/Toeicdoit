@@ -1,14 +1,15 @@
-import PostLink from "@/components/board/PostLink";
+import FreeLink from "@/components/board/FreeLink";
 import LinkIcon from "@/components/common/LinkIcon";
-import PostSaveForm from "@/templates/board/PostSaveForm";
+import FreeSaveForm from "@/templates/board/FreeSaveForm";
 
-export default async function PostWritePage() {
+
+export default async function FreeWritePage() {
    
 
     return (<>
         <div className="total_padding py-28">
             <div className="w-full flex flex-col z-10 px-[7%]">
-                <PostLink label={"글쓰기"} />
+                <FreeLink label={"글쓰기"} />
                 <div className="mt-10" />
                 <div className="flex items-center justify-center">
                     <div className="form w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%]">
@@ -19,7 +20,7 @@ export default async function PostWritePage() {
                             </h1>    
                         </div>
                         <div className="mt-10"/>
-                        <PostSaveForm/>
+                        <FreeSaveForm/>
                     </div>
                 </div>
             </div>

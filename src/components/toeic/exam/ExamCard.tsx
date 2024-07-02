@@ -20,7 +20,7 @@ const ExamCard: FC<ExamCardProps> = ({
     return (<>
         <div
             key={id}
-            className="flex flex-col my-7 p-5">
+            className="flex flex-col justify-center my-7 p-5">
             <div className="flex flex-row  gap-x-2 mb-5 md:mx-6 lg:mx-12 xl:mx-0">
                 <h1
                     key="level practice number"

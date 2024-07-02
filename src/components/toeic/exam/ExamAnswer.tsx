@@ -3,6 +3,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ScrollArea, ScrollBar } from "@/components/utils/ScrollArea";
 import { ExamPart, allParts } from "@/constants/toeic/exam";
+import { useNumberOfQuestionStore } from "@/store/exam/store";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const ExamAnswer = () => {
@@ -14,6 +15,9 @@ const ExamAnswer = () => {
 
     const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
+    const {setCount}=useNumberOfQuestionStore();
+    const storageKey=`toeicExamSelections_${'userId'}`;
+
     useEffect(() => {
         const numbers: { [key: string]: number[] } = {};
         let questionNumber = 1;
@@ -21,11 +25,16 @@ const ExamAnswer = () => {
             numbers[part.label] = Array.from({ length: part.question }, () => questionNumber++);
         });
         setQuestionNumbers(numbers);
-        console.log(JSON.stringify(numbers));
+        console.log("questionNumbers: "+JSON.stringify(numbers));
+
     }, []);
+
+    
 
     const handleSelect = (questionId: number, value: string) => {
         setSelections((prevSelections) => ({ ...prevSelections, [questionId]: value }));
+        
+        setCount();
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

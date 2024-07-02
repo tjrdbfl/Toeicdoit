@@ -5,6 +5,7 @@ import React from 'react';
 import { AppProvider } from '@/contexts/AppContext';
 
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import ReduxProvider from '@/redux/redux-provider';
 
 interface Props {
     token: RequestCookie | undefined;
@@ -16,9 +17,12 @@ export default function LayoutWrapper(props: Props) {
 
     return (
         <>
-            <AppProvider>
-                {children}
-            </AppProvider>
+        <AppProvider>
+                    {children}
+                </AppProvider>
+            {/* <ReduxProvider>
+                
+            </ReduxProvider> */}
         </>
 
     );

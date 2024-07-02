@@ -1,6 +1,6 @@
 'use server';
 
-import { getCategoryColor } from "@/lib/utils/style";
+import { getCategoryColor } from "@/service/utils/style";
 import BoardBody from "./BoardBody";
 import { BoardData } from "@/types/BoardData";
 

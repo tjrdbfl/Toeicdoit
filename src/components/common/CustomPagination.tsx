@@ -1,6 +1,6 @@
 'use client';
 
-import { generatePagination, getLeftDoublePage, getRightDoublePage } from "@/lib/utils/pagination";
+import { generatePagination, getLeftDoublePage, getRightDoublePage } from "@/service/utils/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 import { PaginationArrow } from "../utils/PaginationArrow";
 import PaginationNumber from "../utils/PaginationNumber";

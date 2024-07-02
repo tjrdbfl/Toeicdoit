@@ -2,12 +2,12 @@ import { CommonHeader } from "@/config/headers";
 import { BoardData } from "@/types/BoardData";
 import { NextResponse } from "next/server";
 
-export interface I_ApiPostSaveResponse{
+export interface I_ApiFreeSaveResponse{
     success:boolean;
     message?:string;
     board:BoardData;
 }
-const CalenderPage = async () => {
+const CalendarPage = async () => {
 
     let board:BoardData[] = [];
     try {
@@ -42,4 +42,4 @@ const CalenderPage = async () => {
         </div>
     </>);
 }
-export default CalenderPage;
+export default CalendarPage;
