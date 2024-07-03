@@ -7,6 +7,7 @@ import { navVariants } from '@/utils/motion';
 import { useEffect, useState } from 'react';
 import NavSidebar from '@/components/common/NavSidebar';
 
+
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   
@@ -14,7 +15,7 @@ const Navbar = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsSticky(scrollPosition > 0); 
-    };
+    }; // 100ms 간격으로 스크롤 이벤트 처리
   
     window.addEventListener('scroll', handleScroll);
   
@@ -28,11 +29,12 @@ const Navbar = () => {
       variants={navVariants}
       initial="hidden"
       whileInView="show"
-      className={`${isSticky===true?  'fixed' : 'relative'}`}
+      layout  //layout prop을 추가하여 Framer Motion이 요소의 레이아웃 변경을 처리하도록 
+      className={`${isSticky===true?  'fixed top-0 w-full ' : 'relative'}`}  
       style={{zIndex:100}}
     >
       {isSticky? <>
-      <div className={`fixed top-0 bg-white w-full border-b-2 border-r-2 border-l-2 border-slate-200 py-1 mb-5`}>
+      <div className={` bg-white border-b-2 border-r-2 border-l-2 border-slate-200 py-1 mb-5`}>
         <div className='flex items-center justify-center'>
         <NavSidebar isSticky={isSticky} />
         </div>

@@ -116,6 +116,7 @@ export default function ExamContainer({ id }: { id: number }) {
                                 {page.data.map((item) => {
                                     return (
                                         <div
+                                        key={item.id}
                                             ref={setPartRef(`${classifyQuestion(item.id)}`)}
                                         >
 
