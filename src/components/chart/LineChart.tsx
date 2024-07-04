@@ -21,7 +21,6 @@ ChartJS.register(
     Legend,
 );
 
-const labels = ["2017", "2018", "2019", "2020", "2021", "2022", "2023"];
 
 const options = {
     responsive: true,
@@ -53,39 +52,39 @@ const options = {
     },
 };
 
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: "실전 모의고사",
-            data: [32, 42, 51, 60, 51, 95, 97],
-            backgroundColor: "#fef9c3",
-            borderColor: "#fef9c3",
-        },
-        {
-            label: "수준별 연습문제",
-            data: [37, 42, 41, 37, 31, 44, 42],
-            backgroundColor: "#000",
-            borderColor: "#000",
-        },
-        {
-            label: "파트별 연습문제",
-            data: [60, 54, 54, 28, 27, 49, 52],
-            backgroundColor: "#bfdbfe",
-            borderColor: "#bfdbfe",
-        },
-        {
-            label: "레벨테스트",
-            data: [37, 74, 41, 30, 35],
-            backgroundColor: "#3b82f6",
-            borderColor: "#3b82f6",
-        },
-    ],
-};
 
-const LineChart = () => {
+
+const LineChart = ({label,data}:{label:string[],data:number[][]}) => {
     return (
-        <Line options={options} data={data} />
+        <Line options={options} data={ {
+            labels:label,
+            datasets: [
+                {
+                    label: "실전 모의고사",
+                    data: data[0],
+                    backgroundColor: "#fef9c3",
+                    borderColor: "#fef9c3",
+                },
+                {
+                    label: "수준별 연습문제",
+                    data: data[1],
+                    backgroundColor: "#000",
+                    borderColor: "#000",
+                },
+                {
+                    label: "파트별 연습문제",
+                    data: data[2],
+                    backgroundColor: "#bfdbfe",
+                    borderColor: "#bfdbfe",
+                },
+                {
+                    label: "레벨테스트",
+                    data: data[3],
+                    backgroundColor: "#3b82f6",
+                    borderColor: "#3b82f6",
+                },
+            ],
+        }} />
     );
 };
 

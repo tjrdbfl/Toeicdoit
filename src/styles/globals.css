@@ -3,7 +3,6 @@
 @tailwind utilities;
 @import "mixins.css";
 @import "auth.css";
-@import "my-page.css";
 @import "toeic.css";
 @import "form.css";
 @import "animations.css";
@@ -59,8 +58,7 @@ body {
   }
   .box::after{
     @apply  w-[94%] h-[94%] 
-    absolute top-[3%] left-[3%] flex justify-center items-center tracking-[2px] font-medium text-4xl font-serif
-    
+    absolute top-[3%] left-[3%] flex justify-center items-center tracking-[2px] font-medium text-4xl font-serif 
   }
 
   .fullSpin {
@@ -126,6 +124,7 @@ body {
   .animate-bounce{
     animation: bounce 1s infinite;
   }
+
 }
 
 

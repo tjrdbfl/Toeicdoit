@@ -1,4 +1,5 @@
 'use client';
+import { formattedTime } from "@/service/utils/date";
 import { useTimerStore } from "@/store/toeic/timer"
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -46,10 +47,10 @@ const ExamTimer = () => {
         }
       }, [timeLeft, isRunning]);
 
-    const formattedTime = new Date(timeLeft).toISOString().slice(11, 19)    // 시간 형식 지정(hh:mm:ss) 
+    
     return (<>
         <span className="text-blue-600 text-xl font-semibold">
-            {formattedTime}
+            {formattedTime(timeLeft)}
         </span>
     </>);
 }

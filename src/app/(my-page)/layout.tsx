@@ -1,7 +1,8 @@
 import Sidebar from "@/components/my-page/Sidebar";
-import { useRouter } from "next/router";
+
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import "@/styles/my-page.css";
 
 export const metadata = {
     title: "Toeicdoit - My Page",
