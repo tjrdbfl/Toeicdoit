@@ -2,6 +2,9 @@ import LinkIcon from "@/components/common/LinkIcon";
 import StudyCard from "@/components/study/StudyCard";
 import { FrequentlyAsk } from "@/constants/study/faq";
 
+const metadata={
+    title:"Toeicdoit - Study FAQ Page"  
+}
 export default function StudyFAQPage() {
 
 

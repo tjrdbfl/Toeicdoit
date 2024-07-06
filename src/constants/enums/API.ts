@@ -1,8 +1,8 @@
 export const enum SERVER{
     USER='/user/api',
     CHAT='/chat/api',
-    TX='tx/api',
-    TOEIC='toeic/api'
+    TX='/tx/api',
+    TOEIC='/toeic/api'
 }
 
 export const enum PUBLIC{

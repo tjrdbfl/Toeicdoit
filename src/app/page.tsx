@@ -1,11 +1,20 @@
 import { Hero, About, Explore, GetStarted, WhatsNew, World, Review, Feedback,FooterStarted } from "@/templates/dashboard";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import MoveToTopBtn from "@/components/button/MoveToTopBtn";
+import ChatBtn from "@/components/button/ChatBtn";
 
 export default function Home() {
 
   return (
     <div className="">
+      <div className="fixed bottom-5 right-5 z-40">
+      <MoveToTopBtn/>
+      </div>
+      <div className="fixed bottom-28 right-5 z-40">
+      <ChatBtn/>
+      </div>
+      
       <Navbar/> 
         <div className="total_padding">      
       <div className="2xl:mt-[4%] xl:mt-[7%] lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />
@@ -38,7 +47,7 @@ export default function Home() {
         <Review />
       </div>
       
-      <div className="mt-[7%]" />
+      <div className="mt-[7%] z-20" />
       <FooterStarted/>
       </div>  
       <Footer />

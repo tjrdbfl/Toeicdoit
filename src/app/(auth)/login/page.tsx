@@ -1,5 +1,5 @@
 'use client';
-import GoogleAuthBtn from "@/components/auth/GoogleAuthBtn";
+import GoogleAuthBtn from "@/components/button/GoogleAuthBtn";
 import RegisterBtn from "@/components/auth/RegisterBtn";
 import LoginForm from "@/templates/auth/LoginForm";
 

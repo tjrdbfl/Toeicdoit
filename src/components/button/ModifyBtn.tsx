@@ -1,5 +1,6 @@
 "use client";
 
+import { PG } from "@/constants/enums/PG";
 import { useRouter } from "next/navigation";
 
 export default function ModifyBtn({ id }: { id: number }) {
@@ -8,7 +9,7 @@ export default function ModifyBtn({ id }: { id: number }) {
 
     return (<>
         <button
-            onClick={() => {router.push(`/post/modify/${id}`);}}
+            onClick={() => {router.push(`${PG.FREE}/modify/${id}`);}}
             className="form_submit_btn"
         >
             수정

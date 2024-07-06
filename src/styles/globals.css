@@ -20,6 +20,8 @@
   --yellow2:#F9F07A;
   --red:#dc2626;
   --gray:#e2e8f0;
+  --gray2:#cbd5e1;
+  --white:#ffffff;
   --duration: 1.5s;
 	--container-size: 250px;
 	--box-size: 33px;
@@ -167,4 +169,17 @@ input:focus {
 }
 .go_btn:hover{
   @apply bg-slate-100;
+}
+
+.scroll-area::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+.scroll-area::-webkit-scrollbar-track {
+  background-color: var(--white); /* Adjust track color */
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  background-color: var(--gray2); /* Adjust thumb color */
+  border-radius: 4px;
 }

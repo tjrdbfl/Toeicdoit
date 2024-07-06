@@ -3,6 +3,7 @@ import { fadeIn } from "@/utils/motion";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import ForwardIcon from '@mui/icons-material/Forward';
+import { PG } from "@/constants/enums/PG";
 
 export const MoreInfoBtn=()=>(<>
  <motion.div
@@ -10,7 +11,7 @@ export const MoreInfoBtn=()=>(<>
    className='mt-[2%] flex justify-center'
  >
     
-       <Link href={'/board'}
+       <Link href={`${PG.FREE}`}
        className='bg-black text-2xl text-white w-[350px] h-[80px] pl-4 py-5 text-center shadow-3xl rounded-xl hover:bg-zinc-800 ring-8 ring-blue-100 md:mt-[3%]'>
     <div className="flex flex-row justify-center items-center">
     더 많은 정보 보기

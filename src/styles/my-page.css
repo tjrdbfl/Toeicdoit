@@ -36,16 +36,3 @@
 .datagrid_body_content{
     @apply px-6 py-4 font-medium text-black whitespace-nowrap
 }
-
-.scroll-area::-webkit-scrollbar {
-    width: 8px; /* Adjust the width as needed */
-}
-
-.scroll-area::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Adjust track color */
-}
-
-.scroll-area::-webkit-scrollbar-thumb {
-    background-color: #888; /* Adjust thumb color */
-    border-radius: 4px;
-}

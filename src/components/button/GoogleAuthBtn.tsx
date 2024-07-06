@@ -1,24 +1,27 @@
 "use client";
 import { SERVER } from "@/constants/enums/API";
-import {FcGoogle} from "react-icons/fc";
+import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 
 
 const GoogleAuthBtn = () => {
-
-    const handleClick=async()=>{
-        const response=fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.USER}/oauth2/authorization/google`,{
-            method:'GET',
-            headers:{
-                'Content-Type':'application/json'
-            }
-        });
+    const router = useRouter();
+    const handleClick = async () => {
+        router.push(`${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`);
+//         const response = fetch(`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=http://localhost:3000/redirectCode&scope=https://www.googleapis.com/auth/indexing&response_type=code
+//   `, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+        // });
 
         // if(!response.ok){
         //     console.log('oauth error');
         // }
 
     }
-    
+
     return (<>
         <button
             type="button"
