@@ -1,14 +1,10 @@
 'use client';
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+
 import { Suspense } from "react";
 import LoadingPage from "../loading";
+import { redirect } from "next/navigation";
 
-
-const metadata = {
-    title: "Toeicdoit - Chat Page"
-}
-export default function OpenPage() {
+export default function ChatPage() {
 
     // const cookieStore = cookies();
     // const token = cookieStore.get('token');
@@ -17,12 +13,14 @@ export default function OpenPage() {
     // }
 
     redirect('/');
-
-    return (<>
-    <Suspense fallback={<LoadingPage/>}>
-    <div className="bg-white text-red-500 text-4xl p-10 border-slate-200 border-8 z-10">
-            OPENPAGE
-        </div>
-    </Suspense>
-    </>);
+    
+    return (
+        <>
+            <Suspense fallback={<LoadingPage />}>
+                <div className="bg-white text-red-500 text-4xl p-10 border-slate-200 border-8 z-10">
+                    OPENPAGE
+                </div>
+            </Suspense>
+        </>
+    );
 }

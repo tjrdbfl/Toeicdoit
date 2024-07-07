@@ -180,6 +180,7 @@ input:focus {
 }
 
 .scroll-area::-webkit-scrollbar-thumb {
-  background-color: var(--gray2); /* Adjust thumb color */
+  background-color: var(--gray); /* Adjust thumb color */
   border-radius: 4px;
 }
+

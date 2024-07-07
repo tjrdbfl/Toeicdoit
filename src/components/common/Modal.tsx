@@ -1,17 +1,17 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 
 export default function Modal({ children }: {
     children: React.ReactNode
 }) {
-    const pathname = usePathname();
+    const chat = useSearchParams().get('chat');
 
     return (
         <>
-            {pathname === '/chat' &&
+            {chat === 'true' &&
                 <div
-                    className="fixed inset-0 z-20 flex justify-center items-center"
+                    className="fixed inset-0 z-20 flex justify-end items-end m-28"
                 >
                     {children}
                 </div>

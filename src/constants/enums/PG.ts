@@ -14,5 +14,6 @@ export const enum PG{
     LEVEL='/level',
     PART='/part',
     SCORE='/score',
-    LEVEL_TEST='/level-test'
+    LEVEL_TEST='/level-test',
+    CHAT='/chat'
 }

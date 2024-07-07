@@ -3,6 +3,8 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MoveToTopBtn from "@/components/button/MoveToTopBtn";
 import ChatBtn from "@/components/button/ChatBtn";
+import ChatContainer from "@/templates/chat/ChatContainer";
+
 
 export default function Home() {
 
@@ -14,7 +16,8 @@ export default function Home() {
       <div className="fixed bottom-28 right-5 z-40">
       <ChatBtn/>
       </div>
-      
+      <ChatContainer/>
+
       <Navbar/> 
         <div className="total_padding">      
       <div className="2xl:mt-[4%] xl:mt-[7%] lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />

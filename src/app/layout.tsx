@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import { cookies } from 'next/headers';
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import LayoutWrapper from "./LayoutWrapper";
-import CustomModal from "@/components/common/Modal";
+
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
