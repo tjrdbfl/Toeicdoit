@@ -10,7 +10,7 @@ const ChatCautionModal=({name,setOpen}:{
     className="fixed inset-0 z-20 flex mt-84 lg:mr-64"
     >
         <div className="bg-white w-auto h-auto shadow-lg py-3 px-5">
-            <p className="text-black font-semibold text-lg">'{name}' 님을 차단하시겠습니까?</p>
+            <p className="text-black font-semibold text-lg">&#39;{name}&#39; 님을 차단하시겠습니까?</p>
             <div className="flex flex-row gap-x-3 justify-end mt-3">
                 <button
                 onClick={()=>setOpen(false)}
