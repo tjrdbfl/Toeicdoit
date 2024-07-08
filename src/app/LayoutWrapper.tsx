@@ -8,6 +8,7 @@ import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import ReduxProvider from '@/redux/redux-provider';
 import { useSearchParams } from 'next/navigation';
 import ChatContainer from '@/templates/chat/ChatContainer';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 interface Props {
     token: RequestCookie | undefined;
@@ -16,12 +17,14 @@ interface Props {
 
 export default function LayoutWrapper(props: Props) {
     const { token, children } = props;
-   
+
     return (
         <>
-        <AppProvider>
+            <QueryClientProvider client={new QueryClient()}>
+                <AppProvider>
                     {children}
                 </AppProvider>
+            </QueryClientProvider>
             {/* <ReduxProvider>
                 
             </ReduxProvider> */}

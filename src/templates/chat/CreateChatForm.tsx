@@ -17,9 +17,12 @@ export default function CreateChatForm() {
     return (<>
         <form
             action={formAction}
+            className="mt-5"
         >
             <div>
-                
+                <label htmlFor="category"
+                    className="form_label"
+                >카테고리 선택하기</label>
                 <div className="mt-5" />
                 <select
                     name="category"

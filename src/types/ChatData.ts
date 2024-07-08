@@ -3,8 +3,8 @@ export type ChatRoomData={
     title:string;
     admins:string[];
     members:string[];
-    createdAt:Date;
-    updatedAt:Date;
+    createdAt?:Date;
+    updatedAt?:Date;
 }
 export type ChatData={
     id:string;
@@ -12,6 +12,6 @@ export type ChatData={
     senderId:string;
     senderName:string;
     message:string;
-    createdAt:Date;
-    updatedAt:Date;
+    createdAt?:Date;
+    updatedAt?:Date;
 }

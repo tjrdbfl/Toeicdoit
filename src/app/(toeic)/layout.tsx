@@ -10,9 +10,7 @@ export default function ToeicLayout({
 
     return (
         <>
-            <QueryClientProvider client={new QueryClient()}>
             {children}
-            </QueryClientProvider>
         </>
 
     );

@@ -8,7 +8,6 @@ const CreateBtn = () => {
 
     const [create, setCreate] = useState<boolean>(false);
 
-
     return (<>
         <button
             onClick={() => setCreate(true)}
