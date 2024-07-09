@@ -13,7 +13,7 @@ const ChatContainer = async () => {
     return (<>
         <Modal>
             <div 
-            className="bg-blue-100 w-[500px] h-[650px] shadow-lg border-slate-200 border-2"
+            className="bg-blue-100 w-[500px] h-[700px] shadow-lg border-slate-200 border-2"
             >
                 <div className="flex flex-row py-3 rounded-b-xl shadow-lg
                 bg-gradient-to-r from-blue-500 via-blue-500 to-purple-500                              
@@ -21,6 +21,7 @@ const ChatContainer = async () => {
                     <LogoIcon size={25} />
                     <p className="text-white text-xl font-medium">Toeicdoit 오픈 채팅</p>
                 </div>
+                <div className="mt-5"/>
                 <ChatScrollArea>
                     <UserChatRoom chat={chat}/>
                 </ChatScrollArea>
