@@ -1,11 +1,15 @@
+'use client';
 import Image from "next/image";
 import { ChatRoomPhoto } from "@/service/chat/util";
 import PersonIcon from '@mui/icons-material/Person';
 import { ChatRoomData } from "@/types/ChatData";
+import ExitMessage from "./ExitMessage";
 
-const ChatRoomHeader = ({room}:{room:ChatRoomData}) => {
+
+const ChatRoomHeader = ({ room }: { room: ChatRoomData }) => {
+    
     return (<>
-        <div className="object-fill w-[120px] h-[80px] rounded-lg border-slate-200 border-2 bg-white flex items-center justify-center">
+        <div className="relative object-fill w-[120px] h-[80px] rounded-lg border-slate-200 border-2 bg-white flex items-center justify-center">
             <Image
                 src={ChatRoomPhoto("스터디 모집")}
                 alt={"chat_room_photo"}
@@ -24,6 +28,7 @@ const ChatRoomHeader = ({room}:{room:ChatRoomData}) => {
             </div>
         </div>
 
+        <ExitMessage/>
     </>);
 }
 export default ChatRoomHeader;

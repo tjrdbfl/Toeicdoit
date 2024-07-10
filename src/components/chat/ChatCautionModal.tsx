@@ -1,28 +1,54 @@
-import { Dispatch, SetStateAction } from "react";
+'use client';
 
-const ChatCautionModal=({name,setOpen}:{
-    name:string
+import { ChatOptionType } from "@/constants/chat/constant";
+import { useChatBlockStore } from "@/store/chat/store";
+import { ChatData } from "@/types/ChatData";
+import { Dispatch, SetStateAction, useEffect } from "react";
+
+const ChatCautionModal=({type,chat,option,setOpen}:{
+    type:'block'|'drawer',
+    chat?:ChatData,
+    option:ChatOptionType,
     setOpen:Dispatch<SetStateAction<boolean>>
 })=>{
     
+    const message=option.message.split('||');
+
     return(<>
     <dialog
-    className="fixed inset-0 z-20 flex mt-84 lg:mr-64"
+    className="fixed inset-0 z-40 flex mt-84 lg:mr-64"
     >
-        <div className="bg-white w-auto h-auto shadow-lg py-3 px-5">
-            <p className="text-black font-semibold text-lg">&#39;{name}&#39; 님을 차단하시겠습니까?</p>
+        <div className="bg-white w-[400px] h-auto shadow-lg py-3 px-5">
+            {message.map((msg)=>(
+                <p 
+                key={msg.indexOf(msg)}
+                className="text-black font-medium text-md text-pretty">{msg}</p>
+            ))}
             <div className="flex flex-row gap-x-3 justify-end mt-3">
                 <button
                 onClick={()=>setOpen(false)}
-                className="text-blue-500 text-lg hover:bg-blue-50 rounded-full p-2"
+                className="text-blue-500 text-md hover:bg-blue-50 rounded-full p-2"
                 >
                     <p>취소</p>
                 </button>
                 <button
-                onClick={()=>setOpen(false)}
-                className="text-blue-500 text-lg hover:bg-blue-50 rounded-full p-2"
+                onClick={()=>{
+                    setOpen(false);
+                    if(type==='block'){
+                        useChatBlockStore.setState({
+                            fadeOut:true,
+                            username:chat?.senderName
+                        });
+                    }else if(type==='drawer' && option.id===1){
+                        //api 통신
+                        
+                    }
+
+                   
+                }}
+                className="text-blue-500 text-md hover:bg-blue-50 rounded-full p-2"
                 >
-                    <p>차단</p>
+                    <p>{option.title}</p>
                 </button>
             </div>
         </div>

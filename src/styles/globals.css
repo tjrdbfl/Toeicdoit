@@ -127,6 +127,15 @@ body {
     animation: bounce 1s infinite;
   }
 
+  .fade-in-scale {
+    animation: fadeInScale 1s ease-out forwards; 
+  }
+
+  .fade-out-scale {
+    animation: fadeOutScale 1s ease-out forwards; 
+
+  }
+
 }
 
 
