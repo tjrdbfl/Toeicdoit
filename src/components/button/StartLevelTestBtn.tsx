@@ -1,18 +1,12 @@
+import { PG } from "@/constants/enums/PG";
 import Link from "next/link";
-
 const StartLevelTestBtn=()=>{
-    return(<>
-    <div
-    className="animate-slidein700 opacity-0 
-    w-[350px] h-[90px]
-    flex items-center justify-center p-1 mb-2 me-2 overflow-hidden text-3xl font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 focus:ring-4 focus:outline-none focus:ring-lime-200"
-    >
-    <Link 
-    href={"/level-test"}
-    className="relative text-center items-center w-full h-full px-5 py-5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+    return(
+    <Link
+    href={`${PG.LEVEL_TEST}/test`}
+    className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-2xl p-5 text-center me-2 mb-2">
     레벨 테스트 하러가기
     </Link>
-    </div>
-    </>);
+    );
 }
 export default StartLevelTestBtn;

@@ -39,6 +39,7 @@ const ChatModal = ({
                             {drawer.map((item) => {
                                 return (
                                     <button
+                                        key={item.id}
                                         onClick={() => {
                                             setOpenModal(true)
                                             setSelectedId(item.id)

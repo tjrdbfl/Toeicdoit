@@ -1,5 +1,4 @@
 export const labels = ["P1", "P2", "P3", "P4", "P5", "P6", "P7"];
-
 const datalabels={
     display: true,
     color: 'black',
@@ -10,8 +9,7 @@ const datalabels={
     align: 'end',
     anchor: 'end'
 }
-const backgroundColor:string="rgba(108, 213, 255, 0.5)";
-
+const backgroundColor:string="rgba(58,129,255, 0.5)";
 export const p1={
     label: "100점대 사용자",
     data: [20, 27, 24, 11, 17, 15, 14],
@@ -21,7 +19,7 @@ export const p1={
 export const p2={
     label: "200점대 사용자",
     data: [40, 47, 33, 30, 24, 29, 20],
-    backgroundColor: backgroundColor, 
+    backgroundColor: backgroundColor,
     datalabels:datalabels
 }
 export const p3={
@@ -33,7 +31,7 @@ export const p3={
 export const p4={
     label: "400점대 사용자",
     data: [60, 59, 51, 43, 40, 44, 40],
-    backgroundColor:backgroundColor, 
+    backgroundColor:backgroundColor,
     datalabels:datalabels
 }
 export const p5={

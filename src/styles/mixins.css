@@ -189,9 +189,6 @@
   }
   
   @media (min-width: 1800px) {
-    .navSidebar_p {
-      font-size: 20px; 
-    }
     .navSidebar_div {
       gap: 190px;
     }
@@ -210,9 +207,6 @@
   }
 
   @media (min-width: 1600px) and (max-width: 1799px) {
-    .navSidebar_p {
-      font-size: 20px; 
-    }
     .navSidebar_div {
       gap: 90px;
     }
@@ -231,9 +225,6 @@
   }
 
   @media (min-width: 1520px) and (max-width:1599px) {
-    .navSidebar_p {
-      font-size: 20px; 
-    }
     .navSidebar_div {
       gap: 90px;
     }
@@ -252,9 +243,6 @@
   }
 
   @media (min-width: 1450px) and (max-width: 1519px) {
-    .navSidebar_p {
-      font-size: 20px; 
-    }
     .navSidebar_div {
       gap: 90px;
     }
@@ -273,9 +261,6 @@
   }
 
   @media (min-width: 1166px) and (max-width:1450px) {
-    .navSidebar_p {
-      font-size: 20px; 
-    }
     .navSidebar_div {
       gap: 50px;
     }
@@ -294,9 +279,6 @@
   }
 
   @media (min-width: 1024px) and (max-width: 1166px) {
-    .navSidebar_p {
-      font-size: 15px; 
-    }
     .navSidebar_div {
       gap: 40px;
     }
@@ -315,9 +297,6 @@
   }
 
   @media (min-width:859px) and (max-width: 1024px) {
-    .navSidebar_p {
-      font-size: 15px; 
-    }
     .navSidebar_div {
       gap: 40px;
     }
@@ -333,9 +312,6 @@
   }
 
   @media (max-width:859px){
-    .navSidebar_p {
-      font-size: 15px; 
-    }
     .navSidebar_div {
       gap: 40px;
     }
@@ -351,10 +327,12 @@
   }
 
     .navSidebar_ul_list{
-    @apply flex flex-row py-4 justify-start lg:gap-28 md:gap-16 z-10
+    @apply flex flex-row py-4 justify-start gap-6 lg:gap-20 md:gap-10 z-10
   }
 
-  
+  .navSidebar_p{
+    @apply text-balance lg:text-[14px] xl:text-[20px]
+  }
 
   .video-overlay {
     position: absolute;

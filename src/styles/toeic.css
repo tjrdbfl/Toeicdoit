@@ -1,5 +1,5 @@
 .level_header{
-    @apply bg-white text-black shadow-md font-semibold rounded-md border-slate-200 border-2
+    @apply bg-white shadow-md font-semibold rounded-md border-slate-200 border-2
 }
 
 audio{

@@ -4,7 +4,6 @@ import {motion } from "framer-motion";
 import Logo from "./Logo";
 import Link from "next/link";
 import LogoIcon from "./LogoIcon";
-import UserIcon from "./UserIcon";
 import { useSidebarMenuAnimation } from "@/constants/styles/animation";
 import SelectAuth from "../auth/SelectAuth";
 import { GettingStartedBtn } from "../button/GettingStartedBtn";
@@ -32,12 +31,11 @@ const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
           onClick={() => setIsOpen(!isOpen)}
           onMouseEnter={()=>setIsOpen(!isOpen)}
         >
-          <div className="w-full h-full flex justify-between mt-[10px] px-[5px] navSidebar_div"
-          >
-            <p className="lg:text-black font-[550]  navSidebar_p">토익두잇 공부법</p>
-            <p className="lg:text-black font-[550]  navSidebar_p">문제 풀기</p>
-            <p className="lg:text-black  font-[550]  navSidebar_p">커뮤니티</p>
-            <p className="lg:text-black  font-[550]  navSidebar_p">고객센터</p>
+          <div className="w-full h-full justify-between lg:mt-[13px] xl:mt-[10px] px-[5px] navSidebar_div ">
+            <p className="hidden sm:hidden md:hidden lg:flex lg:text-black font-[550] navSidebar_p">토익두잇 공부법</p>
+            <p className="hidden sm:hidden md:hidden lg:flex lg:text-black font-[550]  navSidebar_p">문제 풀기</p>
+            <p className="hidden sm:hidden md:hidden lg:flex lg:text-black  font-[550]  navSidebar_p">커뮤니티</p>
+            <p className="hidden sm:hidden md:hidden lg:flex lg:text-black  font-[550]  navSidebar_p">고객센터</p>
           </div>
 
         </motion.button>
