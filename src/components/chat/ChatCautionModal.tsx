@@ -1,7 +1,7 @@
 'use client';
 
 import { ChatOptionType } from "@/constants/chat/constant";
-import { useChatBlockStore } from "@/store/chat/store";
+import { useChatAlertStore } from "@/store/chat/store";
 import { ChatData } from "@/types/ChatData";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
@@ -35,13 +35,13 @@ const ChatCautionModal=({type,chat,option,setOpen}:{
                 onClick={()=>{
                     setOpen(false);
                     if(type==='block'){
-                        useChatBlockStore.setState({
+                        useChatAlertStore.setState({
                             fadeOut:true,
-                            username:chat?.senderName
+                            message:chat?.senderName+`님이 채팅방을 나가셨습니다`,
                         });
                     }else if(type==='drawer' && option.id===1){
                         //api 통신
-                        
+
                     }
 
                    

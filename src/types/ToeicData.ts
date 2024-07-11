@@ -1,4 +1,4 @@
-import { MessageData } from "./MessageData";
+import { MessageData } from "./MessengerData";
 
 export type ToeicData={
     id:number;

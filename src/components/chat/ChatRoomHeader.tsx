@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ChatRoomPhoto } from "@/service/chat/util";
 import PersonIcon from '@mui/icons-material/Person';
 import { ChatRoomData } from "@/types/ChatData";
-import ExitMessage from "./ExitMessage";
+import AlertMessage from "./AlertMessage";
 
 
 const ChatRoomHeader = ({ room }: { room: ChatRoomData }) => {
@@ -28,7 +28,7 @@ const ChatRoomHeader = ({ room }: { room: ChatRoomData }) => {
             </div>
         </div>
 
-        <ExitMessage/>
+        <AlertMessage/>
     </>);
 }
 export default ChatRoomHeader;

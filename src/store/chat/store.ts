@@ -1,10 +1,18 @@
 import { create } from "zustand";
 
-type ChatBlockStore = {
-    username: string;
+type ChatAlertStore = {
+    message:string;
     fadeOut: boolean;
 }
-export const useChatBlockStore=create<ChatBlockStore>((set)=>({
-    username:'',
+export const useChatAlertStore=create<ChatAlertStore>((set)=>({
     fadeOut:false,
+    message:'',
+}))
+type ChatNewMessageStore = {
+    message:string;
+    fadeOut: boolean;
+}
+export const useChatNewMessageStore=create<ChatNewMessageStore>((set)=>({
+    fadeOut:false,
+    message:'',
 }))

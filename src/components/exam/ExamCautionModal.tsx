@@ -1,7 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { ScrollArea, ScrollBar } from "../utils/ScrollArea";
 import ModalCheckBox from '../common/ModalCheckBox';
-import { useExamCautionModalStore } from '@/store/exam/store';
+import { useExamCautionModalStore } from '@/store/chat/exam/store';
 
 const ExamCautionModal = ({ id,
 }: {

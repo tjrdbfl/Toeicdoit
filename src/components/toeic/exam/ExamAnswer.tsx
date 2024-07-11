@@ -3,7 +3,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ScrollArea, ScrollBar } from "@/components/utils/ScrollArea";
 import { ExamPart, allParts } from "@/constants/toeic/exam";
-import { useNumberOfQuestionStore } from "@/store/exam/store";
+import { useNumberOfQuestionStore } from "@/store/chat/exam/store";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const ExamAnswer = () => {

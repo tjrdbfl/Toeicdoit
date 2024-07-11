@@ -1,5 +1,5 @@
 import { SERVER } from "@/constants/enums/API";
-import { MessageData } from "@/types/MessageData";
+import { MessageData } from "@/types/MessengerData";
 import { AnswerData } from "@/types/ToeicData";
 import { NextRequest, NextResponse } from "next/server";
 

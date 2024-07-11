@@ -45,18 +45,18 @@ export default async function ScorePage() {
     const UserLCPieData = [333, 162];
     const UserRCPieData = [333, 162];
 
-    const labels = [['듣기', '80/90'], ['어휘',], '구조', '문법', '독해'];
+    const labels = [['듣기', '80/90'], ['어휘','/90'], ['구조','/90'], ['문법','/90'], ['독해','/90']];
     const UserRadarData = [65, 59, 90, 81, 56];
     const LevelRadarData = [28, 48, 40, 19, 96];
 
     return (<>
         <div>
             <Navbar />
-            <div className="w-full flex flex-col place-items-center py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] px-5 sm:px-20 lg:px-0">
+            <div className="w-full flex flex-col place-items-center py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[8%] px-5 sm:px-20 lg:px-0">
                 <div className="bg-blue-50 shadow-2xl rounded-2xl border-slate-200 border-2 w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%] animate-slidein300">
                     <div className="flex flex-row justify-center">
-                        <LinkIcon size={35} />
-                        <div className="ml-2 form_title text-3xl text-center font-semibold text-black mb-[5%]">
+                        <LinkIcon size={28} />
+                        <div className="ml-2 form_title text-2xl text-center font-semibold text-black mb-[5%]">
                             { }님의 점수는 { }입니다.
                         </div>
                     </div>
@@ -64,9 +64,9 @@ export default async function ScorePage() {
                     <RadarContainer UserRadarData={UserRadarData} LevelRadarData={LevelRadarData} labels={labels} />
 
                     <div className="mt-24" />
-                    <div className="text-black font-semibold text-2xl">풀이 시간 분석</div>
+                    <div className="text-black font-semibold text-xl">풀이 시간 분석</div>
                     <div className="mt-2" />
-                    <div className="text-slate-500 text-xl mb-3">회원님과 { }점 사용자 파트별 정답률 차이입니다.</div>
+                    <div className="text-slate-500 text-lg mb-3">회원님과 { }점 사용자 파트별 정답률 차이입니다.</div>
                     <div className="bg-white p-4 shadow-lg rounded-xl border-slate-200 border-2 w-[100%] h-auto flex items-center justify-center">
                         <DoughnutChart />
                     </div>

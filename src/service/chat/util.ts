@@ -1,6 +1,4 @@
 import { chatCategory } from "@/constants/chat/constant";
-import { useChatBlockStore } from "@/store/chat/store";
-import { useEffect } from "react";
 
 export function ChatRoomPhoto(category:string){
     let photo:string='';

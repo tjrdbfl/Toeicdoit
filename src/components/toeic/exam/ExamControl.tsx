@@ -2,7 +2,7 @@ import { useTimerStore } from "@/store/toeic/timer";
 import ExamTimer from "./ExamTimer";
 import ToeicPlayer from "../ToeicPlayer";
 import ExamPlayer from "./ExamPlayer";
-import { useNumberOfQuestionStore } from "@/store/exam/store";
+import { useNumberOfQuestionStore } from "@/store/chat/exam/store";
 
 const ExamControl = () => {
     const { pauseTimer, resumeTimer } = useTimerStore();

@@ -1,4 +1,4 @@
-import { useExamCautionModalStore, useExamRetakeModalStore } from '@/store/exam/store';
+import { useExamCautionModalStore, useExamRetakeModalStore } from '@/store/chat/exam/store';
 
 const RetakeModal=({id}:{id:number})=>{
     const {setShow}=useExamRetakeModalStore();

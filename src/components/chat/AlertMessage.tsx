@@ -1,23 +1,27 @@
 'use client';
-import { useChatBlockStore } from "@/store/chat/store";
+import { useChatAlertStore } from "@/store/chat/store";
 import { useEffect } from "react";
 
-export default function ExitMessage() {
-    const { fadeOut,username } = useChatBlockStore();
+export default function AlertMessage() {
+    const { fadeOut,message } = useChatAlertStore();
     
+    //AlertMessage 초기화
     useEffect(()=>{
         const timer=setTimeout(()=>{
-            useChatBlockStore.setState({
+            useChatAlertStore.setState({
                 fadeOut:false,
-                username:''
+                message:''
             });
         },3000);
 
-        return ()=>clearTimeout(timer);
-    },[fadeOut,username]);
+        return ()=>{
+            clearTimeout(timer)
+        };
+    },[fadeOut,message]);
+
     return (fadeOut && <dialog className="z-10 flex justify-center bg-transparent mt-20">
         <div className={`${fadeOut ? 'fade-out-scale' : 'fade-in-scale'} fade-out-animation rounded-full mx-10 text-black py-2 px-5 flex items-center justify-center bg-blue-50 text-center text-pretty`}>
-            <p className="text-black">{username}님이 채팅방을 나가셨습니다.</p>
+            <p className="text-black">{message}</p>
         </div>
     </dialog>);
 }

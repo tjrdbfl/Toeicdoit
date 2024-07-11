@@ -1,5 +1,6 @@
 'use client';
 import { Chart as ChartJS, LineElement, PointElement, RadialLinearScale, Legend, Filler, elements, scales } from 'chart.js';
+import { callback } from 'chart.js/dist/helpers/helpers.core';
 import { Radar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -58,8 +59,7 @@ const options = {
                     size: 18,
                     weight: 600,
                 },
-
-            }
+            },
         },
 
     }

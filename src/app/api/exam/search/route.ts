@@ -1,4 +1,4 @@
-import { MessageData } from "@/types/MessageData";
+import { MessageData } from "@/types/MessengerData";
 import { ITEMS_PER_PAGE, ToeicData } from "@/types/ToeicData";
 import { NextRequest, NextResponse } from "next/server";
 

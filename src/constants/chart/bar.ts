@@ -9,7 +9,7 @@ const datalabels={
     align: 'end',
     anchor: 'end'
 }
-const backgroundColor:string="rgba(58,129,255, 0.5)";
+const backgroundColor:string="rgba(58,129,255, 0.6)";
 export const p1={
     label: "100점대 사용자",
     data: [20, 27, 24, 11, 17, 15, 14],

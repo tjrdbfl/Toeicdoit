@@ -13,6 +13,7 @@ import { useInView } from "react-intersection-observer";
 import ChatRoom from "./ChatRoom";
 import ChatModal from "@/components/chat/ChatModal";
 import ChatRoomHeader from "@/components/chat/ChatRoomHeader";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const PaginationLoading = dynamic(() => import('@/components/utils/PaginationLoading'), { ssr: false });
 
@@ -28,13 +29,17 @@ const ChatScrollArea = ({ children }: {
     })
 
     const { ref, inView } = useInView();
+    const searchParams=useSearchParams();
+    const pathname=usePathname();
+    const router=useRouter();
 
     useEffect(() => {
         if (inView) {
             fetchNextPage();
         }
-    }
-        , [fetchNextPage, inView])
+    }, [fetchNextPage, inView]);
+
+    //chat room을 위한 
     // const { data, error, status, fetchNextPage, isFetchingNextPage } =
     //     useInfiniteQuery({
     //         queryKey: ['questions', id],
@@ -52,13 +57,12 @@ const ChatScrollArea = ({ children }: {
         console.log('rawFormData: ' + rawFormData.category?.toString());
     }
 
-    const [roomOpen, setRoomOpen] = useState<boolean>(false);
     const [chatRoom, setChatRoom] = useState<ChatRoomData>({
         id: '',
         title: '',
-        admins: [],
-        members: [],
+        members:[]
     });
+
     const [roomId, setRoomId] = useState<string>('');
 
     let chat: ChatData = {
@@ -68,19 +72,22 @@ const ChatScrollArea = ({ children }: {
         senderName: "",
         message: "",
         createdAt: new Date(),
-        updatedAt: new Date()
     };
 
+    const createRoomIdURL=(roomId:string)=>{
+        const params=new URLSearchParams(searchParams);
+        params.set('roomId',roomId);
+        return `${pathname}?${params.toString()}`;
+    }
     //사용자 인증 필요
     const clickChatRoom = async (room: ChatRoomData) => {
         setRoomId(room.id);
-        setRoomOpen(true);
+        router.push(createRoomIdURL(room.id));
 
         setChatRoom({
             id: room.id.toString(),
             title: "토익 스터디 모집해요! 강남구 서초대로 74길에서 진행할 예정입니다~",
-            admins: [],
-            members: []
+            members:[]
         });
 
         // const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.CHAT}?roomId=${roomId}`,{
@@ -114,8 +121,7 @@ const ChatScrollArea = ({ children }: {
                                         onClick={() => clickChatRoom({
                                             id: item.id.toString(),
                                             title: "토익 스터디 모집해요! 강남구 서초대로 74길에서 진행할 예정입니다~",
-                                            admins: [],
-                                            members: [],
+                                            members:["a","b"]
                                         })}
                                         key={item.id}
                                         ref={ref}>
@@ -135,20 +141,20 @@ const ChatScrollArea = ({ children }: {
                 </div>
             </div>
 
-            {roomOpen &&
+            {searchParams.get('roomId') &&
                 <ChatModal
+                    roomId={chatRoom.id}
                     header={<ChatRoomHeader
                         room={chatRoom}
                     />}
-                    setOpen={setRoomOpen}>
+                    >
                     <ChatRoom chat={{
-                        id: "",
+                        id: "ddddddd",
                         roomId: "",
                         senderId: "",
                         senderName: "",
                         message: "",
                         createdAt: undefined,
-                        updatedAt: undefined
                     }} />
                 </ChatModal>
             }

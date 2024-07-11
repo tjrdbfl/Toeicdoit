@@ -1,5 +1,6 @@
 import PieChart from "@/components/chart/PieChart";
 import LinkIcon from "@/components/common/LinkIcon";
+
 const PieContainer = ({
     UserLCPieData,PieLCLabels,UserRCPieData,PieRCLabels
 }:{
@@ -12,24 +13,24 @@ const PieContainer = ({
         <div className="flex flex-wrap w-full justify-center gap-y-10 gap-x-10">
             <div className="flex flex-col">
                 <div className="flex flex-row gap-x-2">
-                    <LinkIcon size={35} />
-                    <div className="text-black font-semibold text-2xl">LC 풀이 점수</div>
+                    <LinkIcon size={28} />
+                    <div className="text-black font-semibold text-xl">LC 풀이 점수</div>
                 </div>
                 <div className="mt-4" />
                 <div className="border-slate-200 border-2 rounded-xl p-3 shadow-lg bg-white">
-                    <div className="w-[350px] lg:w-[250px] 2xl:w-[300px]">
+                    <div className="w-[260px]">
                         <PieChart UserScoreData={UserLCPieData} labels={PieLCLabels} />
                     </div>
                 </div>
             </div>
             <div className="flex flex-col">
                 <div className="flex flex-row gap-x-2">
-                    <LinkIcon size={35} />
-                    <div className="text-black font-semibold text-2xl">RC 풀이 점수</div>
+                    <LinkIcon size={28} />
+                    <div className="text-black font-semibold text-xl">RC 풀이 점수</div>
                 </div>
                 <div className="mt-4" />
                 <div className="border-slate-200 border-2 rounded-xl p-3 shadow-lg bg-white">
-                    <div className="w-[350px] lg:w-[250px] 2xl:w-[300px]">
+                    <div className="w-[260px]">
                         <PieChart UserScoreData={UserRCPieData} labels={PieRCLabels} />
                     </div>
                 </div>

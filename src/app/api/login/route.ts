@@ -1,4 +1,4 @@
-import { MessageData } from "@/types/MessageData";
+import { MessageData } from "@/types/MessengerData";
 import { UserData } from "@/types/UserData";
 import { NextRequest, NextResponse } from "next/server";
 

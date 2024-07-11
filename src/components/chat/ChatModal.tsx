@@ -5,18 +5,29 @@ import DehazeIcon from '@mui/icons-material/Dehaze';
 import PopOverOption from './PopOverOption';
 import { drawer } from '@/constants/chat/constant';
 import ChatCautionModal from './ChatCautionModal';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Router } from 'express';
 
 const ChatModal = ({
-    header, children, setOpen
+    roomId,
+    header, children
 }: {
+    roomId:string,
     header: React.ReactNode
     children: React.ReactNode
-    setOpen: Dispatch<SetStateAction<boolean>>
 }) => {
 
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number>(4);
+    const searchParams=useSearchParams();
+    const pathname=usePathname();
+    const router=useRouter();
 
+    const handleClose=()=>{
+        const params=new URLSearchParams(searchParams);
+        params.delete('roomId');
+        router.push(`${pathname}?${params.toString()}`);
+    }
     return (<>
         <dialog
             className="fixed inset-0 z-20 flex mt-52 mr-52"
@@ -28,7 +39,7 @@ const ChatModal = ({
                     {header}
                     <div className='flex flex-col justify-between'>
                         <button
-                            onClick={() => setOpen(false)}
+                            onClick={handleClose}
                             className=' flex justify-start hover:bg-blue-50 rounded-full p-2'
                         >
                             <CloseIcon className='' />

@@ -10,6 +10,7 @@ import RadarContainer from "@/templates/toeic/RadarContainer";
 import PieContainer from "@/templates/toeic/PieContainer";
 import { p8 } from "@/constants/chart/bar";
 import BarChart from "@/components/chart/BarChart";
+import { lv8 } from "@/constants/chart/radar";
 
 export default async function LevelTestPage() {
     const UserBarData = {
@@ -21,14 +22,14 @@ export default async function LevelTestPage() {
     const PieRCLabels = ['나의 총 점수 : 389점', '총 점수 : 495점'];
     const UserLCPieData = [333, 162];
     const UserRCPieData = [333, 162];
-    const labels = [['듣기', '80/90'], ['어휘',], '구조', '문법', '독해'];
-    const UserRadarData = [65, 59, 90, 81, 56];
-    const LevelRadarData = [28, 48, 40, 19, 96];
     
+    const labels = [['듣기', `${lv8[0]}/90`], ['어휘',`${lv8[1]}/90`], ['구조',`${lv8[2]}/90`], ['문법',`${lv8[3]}/90`], ['독해',`${lv8[4]}/90`]];
+    const UserRadarData = [65, 59, 90, 81, 56];
+
     return (<>
         <Navbar />
         <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
-            <div className="w-full flex justify-center items-center px-[5%] xl:px-[15%]">
+            <div className="w-full flex justify-center items-center px-[5%] xl:px-[20%]">
                 <div className="bg-blue-50 shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center">
                     <div className="flex flex-row gap-x-2 w-full justify-center">
                         <InsightsIcon className="text-blue-600  md:text-2xl lg:text-3xl" />
@@ -82,24 +83,24 @@ export default async function LevelTestPage() {
                     </div>
                 </div>
             </div>
-            <div className="px-[5%] xl:px-[15%]">
+            <div className="px-[5%] xl:px-[20%]">
                 <div className="flex flex-row gap-x-2 mt-20 ">
-                    <LinkIcon size={30} />
-                    <h2 className="text-black font-semibold text-2xl lg:text-3xl">빠른</h2>
-                    <h2 className="text-blue-500 font-semibold text-2xl lg:text-3xl">진단 테스트</h2>
-                    <h2 className="text-black font-semibold text-2xl lg:text-3xl">결과</h2>
+                    <LinkIcon size={28} />
+                    <h2 className="text-black font-semibold text-xl lg:text-2xl">빠른</h2>
+                    <h2 className="text-blue-500 font-semibold text-xl lg:text-2xl">진단 테스트</h2>
+                    <h2 className="text-black font-semibold text-xl lg:text-2xl">결과</h2>
                 </div>
-                <div className="border-slate-100 border-2 bg-white shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center mt-10">
+                <div className="border-slate-100 border-2 bg-white shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center mt-5">
                     <div className="flex flex-col">
-                    <RadarContainer UserRadarData={UserRadarData} LevelRadarData={LevelRadarData} labels={labels} />
+                    <RadarContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels} />
                         <div className="w-full mt-10">
                             <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels} />
                         </div>
                     </div>
                     <div className="mt-10" />
-                    <div className="w-full text-start text-black font-semibold text-2xl">파트별 실력</div>
+                    <div className="w-full text-start text-black font-semibold text-xl">파트별 실력</div>
                     <div className="mt-2" />
-                    <div className="w-full text-start text-slate-500 text-xl mb-3">회원님과 800점 사용자 파트별 정답률 차이입니다.</div>
+                    <div className="w-full text-start text-slate-500 text-lg mb-3">회원님과 800점 사용자 파트별 정답률 차이입니다.</div>
                     <div className="bg-white p-4 shadow-lg rounded-xl border-slate-200 border-2 w-[100%] h-auto flex items-center justify-center">
                         <BarChart UserScoreData={UserBarData} p={p8} />
                     </div>

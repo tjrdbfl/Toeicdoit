@@ -4,6 +4,10 @@ export const enum SERVER{
     TX='/tx/api',
     TOEIC='/toeic/api'
 }
+export const enum SERVER_API{
+    ROOM='/room',
+   
+}
 
 export const enum PUBLIC{
     DASHBOARD_SVGS='/svgs/dashboard',
