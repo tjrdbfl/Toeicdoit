@@ -30,6 +30,7 @@ const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
           whileTap={{ scale: 0.97 }}
           onClick={() => setIsOpen(!isOpen)}
           onMouseEnter={()=>setIsOpen(!isOpen)}
+          className=""
         >
           <div className="w-full h-full flex justify-between lg:mt-[13px] xl:mt-[10px] px-[5px] navSidebar_div ">
             <p className="hidden sm:hidden md:hidden lg:block  lg:text-black font-[550] navSidebar_p">토익두잇 공부법</p>

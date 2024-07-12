@@ -6,7 +6,6 @@ import PopOverOption from './PopOverOption';
 import { drawer } from '@/constants/chat/constant';
 import ChatCautionModal from './ChatCautionModal';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Router } from 'express';
 
 const ChatModal = ({
     roomId,
