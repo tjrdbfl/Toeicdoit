@@ -3,7 +3,7 @@ import { getCategoryColor, getTypeColor } from "@/service/utils/style";
 import { BoardData} from "@/types/BoardData";
 import ModifyBtn from "../button/ModifyBtn";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { deleteFree } from "@/service/post/action";
+import { deleteFree } from "@/service/board/action";
 import { deleteCookie, getCookie } from "cookies-next";
 
 const InquiryTable = ({

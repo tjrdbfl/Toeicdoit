@@ -9,6 +9,7 @@ export default function SubmitButton({ label }: { label: string }) {
         <button type="submit"
             className="form_submit_btn"
             aria-disabled={pending}
+            disabled={pending}
         >
             {label}
         </button>

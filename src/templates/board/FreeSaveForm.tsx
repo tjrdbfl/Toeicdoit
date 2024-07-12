@@ -1,26 +1,88 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
-import { createFree } from "@/service/post/action";
-import { ChangeEvent, useState } from "react";
-import { useFormState } from "react-dom";
+import { ERROR } from "@/constants/enums/ERROR";
+import { saveFree } from "@/service/board/action";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
-const initialState = {
-    message: "",
+export interface MessageState {
+    message: {
+        title?: string[] | undefined;
+        category?: string[] | undefined;
+        content?: string[] | undefined;
+    };
+    error_message: string;
+}
+
+const initialState: MessageState = {
+    message: {
+        category: "" || undefined,
+        title: "" || undefined,
+        content: "" || undefined,
+    },
+    error_message: ""
 };
+
 export default function FreeSaveForm() {
-    const [state, formAction] = useFormState(createFree, initialState);
+
     const [charCount, setCharCount] = useState(0);
-    const handleContentChange=(event:ChangeEvent<HTMLTextAreaElement>)=>{
-        setCharCount(event.target.value.length);
+
+    const [state, formAction] = useFormState(saveFree, initialState);
+    const { pending } = useFormStatus();
+    const [message, setMessage] = useState<MessageState>(initialState);
+
+    const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length < 8) {
+            setMessage((prevState) => ({
+                ...prevState,
+                message: {
+                    ...prevState.message,
+                    title: ["최소 8자리 이상 입력해주세요."]
+                },
+            }));
+        }else{
+            setMessage((prevState) => ({
+                ...prevState,
+                message: {
+                    ...prevState.message,
+                    title: [""]
+                },
+            }));
+        }
     }
-    
+    const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setCharCount(event.target.value.length);
+        if (event.target.value.length < 50) {
+            setMessage((prevState) => ({
+                ...prevState,
+                message: {
+                    ...prevState.message,
+                    content: ["최소 50자리 이상 입력해주세요."]
+                },
+            }));
+        }else{
+            setMessage((prevState) => ({
+                ...prevState,
+                message: {
+                    ...prevState.message,
+                    content: [""]
+                },
+            }));
+        }
+    }
+
+    useEffect(() => {
+        console.log('state'+JSON.stringify(state));
+        setMessage(state);
+    }, [state.error_message, state.message.category, state.message.title, state.message.content]);
+
     return (<>
         <form
             action={formAction}
             className="p-5"
         >
             <div>
-                <label htmlFor="category"
+                <label htmlFor="type"
                     className="form_label"
                 >카테고리</label>
                 <div className="mt-5" />
@@ -29,13 +91,16 @@ export default function FreeSaveForm() {
                     id="category"
                     required
                     className="form_input block w-full"
+                    disabled={pending}
                 >
                     <option value="공부법">공부법</option>
                     <option value="문의">문의</option>
                     <option value="시험 후기">시험 후기</option>
                 </select>
             </div>
-            
+            <p aria-live="polite" className="sr-only text-red-500 mt-1">{message.message.category}</p>
+
+
             <div className="mt-10">
                 <label htmlFor="title"
                     className="form_label"
@@ -45,8 +110,12 @@ export default function FreeSaveForm() {
                     required
                     className="form_input"
                     placeholder="필수 항목입니다."
+                    disabled={pending}
+                    onChange={handleTitleChange}
                 />
             </div>
+            {message.message.title && <p aria-live="polite" className="text-red-500 mt-1">{message.message.title}</p>}
+
 
             <div className="mt-10">
                 <label htmlFor="content"
@@ -62,15 +131,21 @@ export default function FreeSaveForm() {
                     style={{ height: 400 }}
                     maxLength={1000}
                     onChange={handleContentChange}
+                    disabled={pending}
                 />
+                <div className="flex flex-row justify-between mt-1">
+                {message.message.content && ( // error_message가 있으면 오류 메시지 표시
+                    <p aria-live="polite" className="text-red-500 mt-1">{message.message.content}</p>
+                )}
                 <p className="text-slate-500 text-end text-lg font-medium">{charCount}자/1000자</p>
+                
+                </div>
+                
             </div>
 
-            <div className="mt-10"/>
+            <div className="mt-10" />
             <SubmitButton label={"등록하기"} />
-            <p aria-live="polite" className="sr-only" role="status">
-                {state?.message}
-            </p>
+
         </form>
     </>);
 } 

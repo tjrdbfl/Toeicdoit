@@ -8,7 +8,7 @@ const WriteBtn = () => {
 
     const handleClick=(isLoggged:boolean)=>{
         if(isLoggged){
-            router.push('/post/write');
+            router.push('/free/write');
         }else{
             alert('로그인 시에만 작성 가능합니다.');
             router.push('/login');

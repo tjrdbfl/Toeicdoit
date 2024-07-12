@@ -1,6 +1,6 @@
 "use client";
 
-import { createReply } from "@/service/post/action";
+import { createReply } from "@/service/board/action";
 import { ChangeEvent, useState } from "react";
 import { useFormState } from "react-dom";
 import SubmitButton from "../button/SubmitBtn";

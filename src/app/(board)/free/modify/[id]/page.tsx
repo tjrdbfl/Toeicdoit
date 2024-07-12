@@ -65,7 +65,7 @@ export default async function FreeEditPage({params}:{
                             </h1>    
                         </div>
                         <div className="mt-10"/>
-                        <FreeModifyForm post={board}/>
+                        {/* <FreeModifyForm post={board}/> */}
                     </div>
                 </div>
             </div>
