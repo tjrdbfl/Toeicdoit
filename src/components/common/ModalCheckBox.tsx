@@ -1,5 +1,5 @@
 'use client';
-import { useExamCautionModalStore, useExamRetakeModalStore } from "@/store/chat/exam/store";
+import { useExamCautionModalStore, useExamRetakeModalStore } from "@/store/exam/store";
 import Checkbox from "@mui/material/Checkbox";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

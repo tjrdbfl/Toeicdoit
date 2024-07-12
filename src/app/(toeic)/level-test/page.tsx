@@ -11,6 +11,7 @@ import PieContainer from "@/templates/toeic/PieContainer";
 import { p8 } from "@/constants/chart/bar";
 import BarChart from "@/components/chart/BarChart";
 import { lv8 } from "@/constants/chart/radar";
+import DoughnutContainer from "@/templates/toeic/DoughnutContainer";
 
 export default async function LevelTestPage() {
     const UserBarData = {
@@ -22,14 +23,14 @@ export default async function LevelTestPage() {
     const PieRCLabels = ['나의 총 점수 : 389점', '총 점수 : 495점'];
     const UserLCPieData = [333, 162];
     const UserRCPieData = [333, 162];
-    
-    const labels = [['듣기', `${lv8[0]}/90`], ['어휘',`${lv8[1]}/90`], ['구조',`${lv8[2]}/90`], ['문법',`${lv8[3]}/90`], ['독해',`${lv8[4]}/90`]];
+
+    const labels = [['듣기', `${lv8[0]}/90`], ['어휘', `${lv8[1]}/90`], ['구조', `${lv8[2]}/90`], ['문법', `${lv8[3]}/90`], ['독해', `${lv8[4]}/90`]];
     const UserRadarData = [65, 59, 90, 81, 56];
 
     return (<>
         <Navbar />
         <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
-            <div className="w-full flex justify-center items-center px-[5%] xl:px-[20%]">
+            <div className="w-full flex justify-center items-center px-[5%] xl:px-[18%]">
                 <div className="bg-blue-50 shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center">
                     <div className="flex flex-row gap-x-2 w-full justify-center">
                         <InsightsIcon className="text-blue-600  md:text-2xl lg:text-3xl" />
@@ -43,13 +44,15 @@ export default async function LevelTestPage() {
                             <div className="level_header w-full p-5 lg:text-2xl 2xl:text-4xl text-slate-500 text-center relative">
                                 TEST
                                 <div className="flex w-full justify-end">
-                                    <div className="object-fit rounded-full w-[120px] md:w-[160px] h-[160px] transform rotate-12 absolute top-0 right-0"> <div />
+                                    <div className="object-fit rounded-full w-[120px] md:w-[160px] xl:w-[250px] h-[160px] transform rotate-12 absolute top-0 -right-16">
                                         <Image
                                             src={"/images/level-test/level-test-score.png"}
                                             alt={"level-test-score"}
-                                            width={180}
-                                            height={180}
+                                            width={250}
+                                            height={250}
                                         />
+                                        <div />
+
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +75,7 @@ export default async function LevelTestPage() {
                         <div className="z-0">
                             <StartLevelTestBtn />
                         </div>
-                        <div className="absolute order-2 z-10 ml-36 lg:ml-44 -mt-10 w-[130px] lg:w-[200px]">
+                        <div className="absolute order-2 z-10 ml-48 lg:ml-44 -mt-10 w-[130px] lg:w-[200px]">
                             <Image
                                 src={"/images/level-test/level-test-point.png"}
                                 alt={"level-test-poing"}
@@ -83,7 +86,7 @@ export default async function LevelTestPage() {
                     </div>
                 </div>
             </div>
-            <div className="px-[5%] xl:px-[20%]">
+            <div className="px-[5%] xl:px-[18%]">
                 <div className="flex flex-row gap-x-2 mt-20 ">
                     <LinkIcon size={28} />
                     <h2 className="text-black font-semibold text-xl lg:text-2xl">빠른</h2>
@@ -92,7 +95,10 @@ export default async function LevelTestPage() {
                 </div>
                 <div className="border-slate-100 border-2 bg-white shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center mt-5">
                     <div className="flex flex-col">
-                    <RadarContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels} />
+                        <div className="flex flex-wrap gap-x-10 gap-y-10">
+                        <RadarContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels} />
+                        <DoughnutContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels}/>
+                        </div>
                         <div className="w-full mt-10">
                             <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels} />
                         </div>

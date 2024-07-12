@@ -1,9 +1,8 @@
 'use client';
 
 import { Dialog } from "@mui/material";
-import RealTestCautionModal from "../exam/ExamCautionModal";
-import { useExamRetakeModalStore } from "@/store/chat/exam/store";
 import RetakeModal from "../exam/RetakeModal";
+import { useExamRetakeModalStore } from "@/store/exam/store";
 
 const CompleteBtn = ({ id }: {
     id: number,
