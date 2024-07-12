@@ -2,9 +2,9 @@ import BoardLoading from "@/components/board/BoardLoading";
 import CustomPagination from "@/components/common/CustomPagination";
 import InquiryTable from "@/components/my-page/InquiryTable";
 import { CommonHeader } from "@/config/headers";
-import { PG } from "@/constants/enums/PG";
-import { BoardData, I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
-import { ITEMS_PER_PAGE } from "@/types/ToeicData";
+import { SERVER_API } from "@/constants/enums/API";
+import { ERROR } from "@/constants/enums/ERROR";
+import { BoardData, I_ApiBoardResponse } from "@/types/BoardData";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -20,35 +20,30 @@ const InquiryDetailsPage = async({ params }: {
     const currentPage = Number(params.page) || 1;
     let totalPages: number = 0;
     let boards: BoardData[] = [];
-    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
+    
     try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/${PG.FREE}?currentPage=${currentPage}&offset=${offset}`,{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=공지&size=10`,{
             method:'GET',
             headers:CommonHeader,
-            cache:'no-store'
-        });
+            next:{revalidate:60*60}
+        })
 
-        if(!response.ok){
-            throw new Error('Failed to fetch inquiry-details');
-        }
         const data:I_ApiBoardResponse=await response.json();
 
-        if(data && data.success){
-            boards=data.Boards;
+        if(data){
+            boards=data.content;
             totalPages=data.totalPages;
         }else{
-            console.error('Failed to get response data',data.message);
+            console.error('Failed to get response data'+ERROR.SERVER_ERROR);
         }
-
     }catch(err){
-        console.error('Failed to get response data',err);
+        console.log('Failed to get notice: ',ERROR.SERVER_ERROR);
     }
-   
+
 
     return (<>
         <div className="flex flex-col gap-y-10">
-            <h2 className="text-black text-4xl">문의 내역</h2>
+            <h2 className="text-black text-4xl mt-10 lg:mt-10">문의 내역</h2>
             <Suspense key={currentPage} fallback={<><BoardLoading /></>}>
                 <InquiryTable boards={boards} />
             </Suspense>

@@ -26,6 +26,6 @@ export function getLeftDoublePage(currentPage: number) {
   const realPageGroup = pageGroup === 0 ? 1 : pageGroup;
   return realPageGroup === 1 ? 1 : realPageGroup * ITEMS_PER_PAGE - 1;
 }
-export function getRightDoublePage(currentPage: number) {
-  return (Math.floor((currentPage - 1) / ITEMS_PER_PAGE) + 1) * ITEMS_PER_PAGE + 1;
+export function getRightDoublePage(currentPage: number,totalPages:number) {
+  return getPageGroup(currentPage)===getPageGroup(totalPages)? totalPages:(Math.floor((currentPage - 1) / ITEMS_PER_PAGE) + 1) * ITEMS_PER_PAGE + 1;
 }

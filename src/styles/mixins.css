@@ -331,7 +331,7 @@
   }
 
   .navSidebar_p{
-    @apply text-balance lg:text-[14px] xl:text-[20px]
+    @apply text-balance md:text-[15px] lg:text-[14px] xl:text-[20px]
   }
 
   .video-overlay {

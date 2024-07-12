@@ -32,11 +32,11 @@ const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
           onMouseEnter={()=>setIsOpen(!isOpen)}
           className=""
         >
-          <div className="w-full h-full flex justify-between lg:mt-[13px] xl:mt-[10px] px-[5px] navSidebar_div ">
-            <p className="hidden sm:hidden md:hidden lg:block  lg:text-black font-[550] navSidebar_p">토익두잇 공부법</p>
-            <p className="hidden sm:hidden md:hidden lg:block lg:text-black font-[550]  navSidebar_p">문제 풀기</p>
-            <p className="hidden sm:hidden md:hidden lg:block lg:text-black  font-[550]  navSidebar_p">커뮤니티</p>
-            <p className="hidden sm:hidden md:hidden lg:block lg:text-black  font-[550]  navSidebar_p">고객센터</p>
+          <div className="w-full h-full flex justify-between md:mt-[13px] xl:mt-[10px] px-[5px] navSidebar_div ">
+            <p className="hidden sm:hidden md:block  md:text-black font-[550] navSidebar_p">토익두잇 공부법</p>
+            <p className="hidden sm:hidden md:block md:text-black font-[550]  navSidebar_p">문제 풀기</p>
+            <p className="hidden sm:hidden md:block md:text-black  font-[550]  navSidebar_p">커뮤니티</p>
+            <p className="hidden sm:hidden md:block md:text-black  font-[550]  navSidebar_p">고객센터</p>
           </div>
 
         </motion.button>

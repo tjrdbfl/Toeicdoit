@@ -72,9 +72,9 @@ export default function CustomPagination({ totalPages }: {
                             isDisabled={currentPage >= totalPages}
                         />
                         <PaginationArrow
-                            href={createPageURL(getRightDoublePage(currentPage))}
+                            href={createPageURL(getRightDoublePage(currentPage,totalPages))}
                             direction={"doubleright"}
-                            isDisabled={currentPage >= totalPages}
+                            isDisabled={currentPage===totalPages}
                         />
                     </>}
 

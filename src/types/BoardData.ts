@@ -4,8 +4,8 @@ export type BoardData={
     id:number;
     title:string;
     content:string;
-    type:'notice'|'post'|'customer';
-    writer:string;
+    userId:number;
+    type:'공지'|'자유'|'문의';
     category?:string;
     createdAt:Date;
     updatedAt:Date;
@@ -15,19 +15,18 @@ export type ReplyData={
     id:number;
     content:string;
     writer:string;
+    createdAt:Date;
+    updatedAt:Date;
 }
 
 export interface I_ApiBoardRequest{
-    type?:string;
-    query?:string;
+    type?:'공지'|'자유'|'문의';
+    search?:string;
     currentPage:number;
-    offset:number;
 }
 export interface I_ApiBoardResponse{
     totalPages:number;
-    Boards:BoardData[];
-    success:boolean;
-    message?:MessageData;
+    content:BoardData[];
 }
 export interface I_ApiBoardDetailRequest{
     id:number;

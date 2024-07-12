@@ -1,10 +1,9 @@
 'use client';
-import { getCategoryColor, getTypeColor } from "@/service/utils/style";
-import { BoardData} from "@/types/BoardData";
+import { BoardData } from "@/types/BoardData";
 import ModifyBtn from "../button/ModifyBtn";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { deleteFree } from "@/service/board/action";
-import { deleteCookie, getCookie } from "cookies-next";
+import { getRandomCategory } from "@/service/board/utils";
 
 const InquiryTable = ({
     boards
@@ -17,43 +16,38 @@ const InquiryTable = ({
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();
-        setCategory(event.target.value);
+        setCategory(event.target.value==='공지사항'?'공지':event.target.value==='자유게시판'?'자유':'문의');
     };
 
     const handleIdChange = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSelectedId(parseInt(event.target.value));
     };
+    let tempCategory:string='이벤트';
 
+    
+    const clickDelete = async () => {
+        try {
+            const response = await deleteFree(selectedId, 'customer');
 
-    //필터링 해서 보여주기
-    const filteredNotices = boards.filter((board) => {
-        return !category || board.category === category; // Filter by category or show all
-    });
-
-    const clickDelete=async()=>{
-        try{
-            const response=await deleteFree(selectedId,'customer');
-
-            if(!response.ok){
+            if (!response.ok) {
                 alert('삭제 실패');
             }
-    
-        }catch(err){
+
+        } catch (err) {
             alert("Network Error: 삭제 실패");
-            console.error("Error deleting post:", err); 
+            console.error("Error deleting post:", err);
         }
-        
     }
 
     return (<>
         <div>
             <div className="flex flex-row justify-end gap-x-2">
                 <div className="w-[80px]">
-                    <button 
+                    <button
                         className="form_submit_btn"
                         onClick={clickDelete}
-                        >
+                    >
                         삭제
                     </button>
                 </div>
@@ -123,38 +117,46 @@ const InquiryTable = ({
                             </thead>
 
                             <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between items-center">
-                                <tr
-                                    key={2}
-                                    className="w-full items-center flex flex-row justify-between border-b py-3 text-lg rounded-2xl hover:bg-slate-50"
-                                >
-                                    <td className="whitespace-nowrap text-center ml-2 mt-2">
-                                        <input
-                                            id="boardId"
-                                            type="radio"
-                                            value={2}
-                                            name={"boardId"}
-                                            onChange={handleIdChange}
-                                            className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                                    </td>
-                                    <td
-                                        className="whitespace-nowrap 2xl:w-[2%] lg:w-[10%] md:w-[12%] text-start">
-                                        {1222}
-                                    </td>
-                                    <td className="whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
-                                        <p className={getTypeColor('1대1 문의')}>1대1 문의</p>
-                                    </td>
-                                    <td className="whitespace-nowrap w-[40%] text-center">
-                                        <div className="flex flex-row gap-x-5 items-center justify-start">
-                                            <p className={getCategoryColor('공부법')}>공부법</p>
-                                            <p>문의 드려요~</p>
-                                        </div>
-                                    </td>
+                                {boards?.map((board) => (
+                                    <tr
+                                        key={board.id}
+                                        className="w-full items-center flex flex-row justify-between border-b py-3 text-lg rounded-2xl hover:bg-slate-50"
+                                    >
+                                        <td className="whitespace-nowrap text-center ml-2 mt-2">
+                                            <input
+                                                id="boardId"
+                                                type="radio"
+                                                value={board.id}
+                                                name={"boardId"}
+                                                onChange={handleIdChange}
+                                                className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
+                                        </td>
+                                        <td
+                                            className="whitespace-nowrap 2xl:w-[2%] lg:w-[10%] md:w-[12%] text-start">
+                                            {board.id}
+                                        </td>
+                                        <td className="mr-5 whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
+                                            <p className={`${ board.type=== '문의' ? "text-red-500 font-medium" :
+                                                board.type == '자유' ? "text-yellow-500 font-medium" :
+                                                "text-zinc-500 font-medium"}`}>{board.type}</p>
+                                        </td>
+                                        <td className="whitespace-nowrap w-[42%] text-center">
+                                            <div className="flex flex-row gap-x-5 items-center justify-start">
+                                                <p className={`${tempCategory === '이벤트' ? "text-blue-500 font-medium" :
+                                                    tempCategory === '알림' ? "text-purple-500 font-medium" :
+                                                    tempCategory === '업데이트' ? "text-green-500 font-medium" :
+                                                            "text-black-500"}`}>{tempCategory}</p>
+                                                <p>{board.title}</p>
+                                            </div>
+                                        </td>
 
-                                    <td className="whitespace-nowrap w-[20%] text-center">
-                                        {/* {notice.update} */}
-                                    </td>
+                                        <td className="whitespace-nowrap w-[20%] text-center">
+                                        {new Date(board.updatedAt).toISOString().slice(0, 10)}
+                                        </td>
 
-                                </tr>
+                                    </tr>
+
+                                ))}
 
                             </tbody>
 

@@ -2,11 +2,12 @@ import Search from "@/components/common/Search";
 import BoardLoading from "@/components/board/BoardLoading";
 import BoardTable from "@/components/board/BoardTable";
 import CustomPagination from "@/components/common/CustomPagination";
-import { BoardData, I_ApiBoardRequest, I_ApiBoardResponse } from "@/types/BoardData";
-import { ITEMS_PER_PAGE } from "@/types/ToeicData";
+import { BoardData, I_ApiBoardResponse } from "@/types/BoardData";
 import { Suspense } from "react";
 import WriteBtn from "@/components/button/WriteBtn";
 import { CommonHeader } from "@/config/headers";
+import { ERROR } from "@/constants/enums/ERROR";
+import { SERVER_API } from "@/constants/enums/API";
 
 export const metadata = {
     title: "Toeicdoit - Free Page",
@@ -14,46 +15,32 @@ export const metadata = {
 };
 export default async function FreePage({searchParams}:{
     searchParams:{
-        query:string;
+        search:string;
         page:string;
     }
 }){
-    const query=searchParams?.query||'';
-    const currentPage=Number(searchParams?.page)||0;
+    const search = searchParams?.search || '';
+    const currentPage=Number(searchParams?.page)||1;
     let totalPages:number=0;
     let posts:BoardData[]=[];
-    const offset=(currentPage-1)*ITEMS_PER_PAGE;
-
-    const payload:I_ApiBoardRequest={
-        type:'post',
-        query:query,
-        currentPage:currentPage,
-        offset:offset
-    }
 
     try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/getAll`,{
-            method:'POST',
+        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=자유&size=10`,{
+            method:'GET',
             headers:CommonHeader,
-            body:JSON.stringify(payload),
-            cache:'no-store'
+            next:{revalidate:60*60}
         })
-
-        if(!response.ok){
-            throw new Error('Failed to fetch post');
-        }
 
         const data:I_ApiBoardResponse=await response.json();
 
-        if(data && data.success){
-            posts=data.Boards;
+        if(data){
+            posts=data.content;
             totalPages=data.totalPages;
         }else{
-            console.error('Failed to get response data',data.message);
+            console.error('Failed to get response data'+ERROR.SERVER_ERROR);
         }
-
     }catch(err){
-        console.log('Failed to get post: ',err);
+        console.log('Failed to get notice: ',ERROR.SERVER_ERROR);
     }
 
     return(<>
@@ -64,8 +51,8 @@ export default async function FreePage({searchParams}:{
                 <Search placeholder={"검색어를 입력해주세요."} />
                 <WriteBtn/>
             </div>
-            <Suspense key={query + currentPage} fallback={<><BoardLoading/></>}>
-                <BoardTable notices={posts} type={'post'} />
+            <Suspense key={search + currentPage} fallback={<><BoardLoading/></>}>
+                <BoardTable boards={posts} type={'post'} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
                <CustomPagination totalPages={totalPages}/> 

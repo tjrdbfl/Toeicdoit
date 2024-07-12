@@ -17,11 +17,11 @@ export default async function FreeEditPage({params}:{
     let board: BoardData = {
         id: 0,
         title: "",
-        writer: "",
+        userId:0,
         content: "",
         createdAt: new Date(),
         updatedAt: new Date(),
-        type: "post"
+        type: "자유"
     };
 
     let totalIndex: number = 0;

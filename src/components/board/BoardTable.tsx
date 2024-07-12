@@ -1,14 +1,14 @@
 'use server';
 
-import { getCategoryColor } from "@/service/utils/style";
 import BoardBody from "./BoardBody";
 import { BoardData } from "@/types/BoardData";
+import { getRandomCategory } from "@/service/board/utils";
 
 
 const BoardTable = async ({
-    notices, type
+    boards, type
 }: {
-    notices: BoardData[]
+    boards: BoardData[]
     , type: string,
 }) => {
 
@@ -17,7 +17,7 @@ const BoardTable = async ({
             <div className="inline-block min-w-full align-middle shadow-md">
                 <div className="rounded-2xl border-slate-100 border-2 bg-white p-2 md:pt-0">
                     <div className="md:hidden">
-                        {notices?.map((item) => (
+                        {boards?.map((item) => (
                             <div
                                 key={item.id}
                                 className="mb-2 w-full rounded-md bg-white p-4"
@@ -52,48 +52,29 @@ const BoardTable = async ({
                             </tr>
                         </thead>
                         <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between">
-                            <BoardBody
-                                key={1}
-                                id={1}
-                                type={type}
-                            >
-                                <td className="whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
-                                    {1}
-                                </td>
-                                <td className="whitespace-nowrap w-[40%] text-center">
-                                    <div className="flex flex-row gap-x-5 items-center justify-start">
-                                        <p className={getCategoryColor('공부법')}>공부법</p>
-                                        <p>문의 드려요~</p>
-                                    </div>
-                                </td>
-                                <td className="whitespace-nowrap w-[10%] text-center">
-                                    글쓴이
-                                </td>
-                                <td className="whitespace-nowrap w-[20%] text-center">
-                                    {/* {notice.update} */}
-                                </td>
-
-                            </BoardBody>
-                            {notices?.map((notice) => (
+                            {boards?.map((notice) => (
                                 <BoardBody
                                     key={notice.id}
                                     id={notice.id}
                                     type={type}
                                 >
-                                    <td className="whitespace-nowrap w-[5%] text-center">
+                                    <td className="whitespace-nowrap 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
                                         {notice.id}
                                     </td>
                                     <td className="whitespace-nowrap w-[40%] text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
-                                            <p className={getCategoryColor(notice.category || '')}>{notice?.category}</p>
+                                            <p className={`${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
+                                                getRandomCategory() == '알림' ? "text-purple-500 font-medium" :
+                                                    getRandomCategory() === '업데이트' ? "text-green-500 font-medium" :
+                                                        "text-black-500"}`}>{getRandomCategory()}</p>
                                             <p className="text-ellipsis">{notice.title}</p>
                                         </div>
                                     </td>
                                     <td className="whitespace-nowrap w-[10%] text-center">
-                                        {notice.writer}
+                                        {notice.userId}
                                     </td>
                                     <td className="whitespace-nowrap w-[20%] text-center">
-                                        {/* {notice.update} */}
+                                        {new Date(notice.updatedAt).toISOString().slice(0, 10)}
                                     </td>
 
                                 </BoardBody>))}
