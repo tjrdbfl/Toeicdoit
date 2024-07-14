@@ -20,9 +20,9 @@ export default async function NoticeDetailPage({ params }: {
     const payload: I_ApiBoardDetailRequest = { id: params.id,type:'notice' }
     let Board: BoardData = {
         id: 0,
-        type: 'notice',
+        type: '공지',
         title: "",
-        writer: "",
+        userId:0,
         content: "",
         createdAt: new Date(),
         updatedAt: new Date()
@@ -66,7 +66,7 @@ export default async function NoticeDetailPage({ params }: {
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
-                    writer={Board.writer}
+                    writer={''}
                     createdAt={Board.createdAt}
                     updatedAt={Board.updatedAt} />
 

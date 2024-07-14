@@ -55,7 +55,7 @@ export default async function FreePage({searchParams}:{
                 <BoardTable boards={posts} type={'post'} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
-               <CustomPagination totalPages={totalPages}/> 
+               <CustomPagination type='double' totalPages={totalPages}/> 
             </div>      
         </div>
         </div>

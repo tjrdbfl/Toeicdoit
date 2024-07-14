@@ -6,30 +6,41 @@ import Link from 'next/link';
 import clsx from 'clsx';
 
 export function PaginationArrow({
-    href, direction, isDisabled
+    href, direction, isDisabled,type
 }: {
     href: string;
     direction: 'left' | 'right' | 'doubleleft' | 'doubleright';
     isDisabled?: boolean;
+    type:'double'|'single'
 }) {
     const className = clsx(
-        'flex h-10 w-10 items-center justify-center rounded-md border shadow-md',
-        {
+        `flex  items-center justify-center ${type==='single'? 'rounded-full bg-zinc-800 h-12 w-12':'rounded-md h-10 w-10'} border shadow-md`,
+        { 
             'pointer-events-none text-gray-300': isDisabled,
-            'hover:bg-gray-100': !isDisabled,
-            'mr-2 md:mr-4': direction === 'left',
-            'ml-2 md:ml-4': direction === 'right',
+            'hover:bg-gray-100': !isDisabled && type==='double',
+            'hover:bg-zinc-500': !isDisabled && type==='single',
+            'mr-2 md:mr-4': direction === 'left' && type==='double',
+            'ml-2 md:ml-4': direction === 'right' && type==='double',
+            'mr-1 md:mr-2': direction === 'left' && type==='single',
+            'ml-1 md:ml-2': direction === 'right' && type==='single',
+
         },
     );
 
     const icon =
         direction === 'left'
-            ? <KeyboardArrowLeftIcon className="w-8 text-slate-500" />
+            ? <KeyboardArrowLeftIcon className={` ${type==='single'? 'text-white text-[28px]': ' text-slate-500 w-8'}`} />
             : direction === 'doubleleft'
-                ? <KeyboardDoubleArrowLeftIcon className="w-8 text-slate-500" />
+                ? <KeyboardDoubleArrowLeftIcon 
+                className={` ${type==='single'? 'text-white text-[28px]': ' text-slate-500 w-8'}`}
+                />
                 : direction === 'right'
-                    ? <KeyboardArrowRightIcon className="w-8 text-slate-500" />
-                    : <KeyboardDoubleArrowRightIcon className="w-8 text-slate-500" />;
+                    ? <KeyboardArrowRightIcon 
+                    className={` ${type==='single'? 'text-white text-[28px]': ' text-slate-500 w-8'}`}
+                    />
+                    : <KeyboardDoubleArrowRightIcon 
+                    className={`${type==='single'? 'text-white text-[28px]': ' text-slate-500 w-8'}`}
+                    />;
 
     return isDisabled ? (
         <div className={className}>{icon}</div>

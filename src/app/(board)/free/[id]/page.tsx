@@ -26,11 +26,11 @@ export default async function FreeDetailPage({ params }: {
     let Board: BoardData = {
         id: 0,
         title: "",
-        writer: "",
         content: "",
+        userId: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
-        type: "post"
+        type: "자유"
     };
 
     let totalIndex: number = 0;
@@ -71,7 +71,7 @@ export default async function FreeDetailPage({ params }: {
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
-                    writer={Board.writer}
+                    writer={''}
                     createdAt={Board.createdAt}
                     updatedAt={Board.updatedAt} />
 

@@ -12,7 +12,7 @@
     text-decoration: underline;
 }
 .sidebar_icons{
-    @apply text-black lg:text-3xl md:text-2xl text-xl mr-5
+    @apply text-black lg:text-[25px] md:text-2xl text-xl mr-5
 }
 .sidebar_fill{
     @apply flex flex-row py-3 px-5

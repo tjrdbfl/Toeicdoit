@@ -28,7 +28,7 @@ export default async function NoticePage({searchParams}:{
         const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=공지&size=10`,{
             method:'GET',
             headers:CommonHeader,
-            next:{revalidate:60*60}
+            next:{revalidate:60*60}  //1시간
         })
 
         const data:I_ApiBoardResponse=await response.json();
@@ -54,7 +54,7 @@ export default async function NoticePage({searchParams}:{
                 <BoardTable boards={notices} type={"notice"} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
-               <CustomPagination totalPages={totalPages}/> 
+               <CustomPagination type='double' totalPages={totalPages}/> 
             </div>      
         </div>
         </div>

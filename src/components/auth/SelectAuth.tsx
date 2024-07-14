@@ -24,7 +24,7 @@ const SelectAuth = () => {
                 >
                     <div className="flex flex-row items-center justify-center mx-[1%]">
                         <UserIcon />
-                        <p className="text-xl text-black font-semibold w-[90px]">{userData?.firstName} 님</p>
+                        <p className="text-xl text-black font-semibold w-[90px]">{userData?.name} 님</p>
                         <div className="arrow" style={{ transformOrigin: "50% 55%" }}>
                             <svg width="15" height="15" viewBox="0 0 20 20">
                                 <path d="M0 7 L 20 7 L 10 16" />

@@ -16,8 +16,7 @@ const ExamAnswer = () => {
     const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const {setCount}=useNumberOfQuestionStore();
-    const storageKey=`toeicExamSelections_${'userId'}`;
-
+    
     useEffect(() => {
         const numbers: { [key: string]: number[] } = {};
         let questionNumber = 1;
@@ -29,11 +28,9 @@ const ExamAnswer = () => {
 
     }, []);
 
-    
 
     const handleSelect = (questionId: number, value: string) => {
         setSelections((prevSelections) => ({ ...prevSelections, [questionId]: value }));
-        
         setCount();
     }
 

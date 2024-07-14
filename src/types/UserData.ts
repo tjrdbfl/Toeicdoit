@@ -1,21 +1,26 @@
 
 export type UserData={
     id:number;
-    firstName:string;
-    lastName:string;
     email:string;
-    phone:string;
     password:string;
+    profile:string;
+    name:string;
+    phone:string;
+    toeicLevel:number;
+    registration:string;
+    oauthId:number;
     role:string;
+    calendarId:0;
+    createdAt:Date;
+    updatedAt:Date;
 }
 
 export type UserDataPublic={
     id:UserData['id'];
-    firstName:UserData['firstName'];
-    lastName:UserData['lastName'];
-    email:UserData['email'];
-    phone:UserData['phone'];
-    password:UserData['password'];
+    name:UserData['name'];
+    oauthId:UserData['oauthId'];
+    calendarId:UserData['calendarId'];
     role:UserData['role'];
+    toeicLevel:UserData['toeicLevel'];
 }
 

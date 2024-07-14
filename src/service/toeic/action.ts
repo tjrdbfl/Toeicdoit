@@ -2,7 +2,7 @@
 
 import { I_ApiLevelSubmitRequest, I_ApiLevelSubmitResponse } from "@/app/api/level/route";
 import { CommonHeader } from "@/config/headers";
-import { ITEMS_PER_PAGE, I_ApiLevelPracticeRequest, I_ApiLevelPracticeResponse, ToeicDataPublic } from "@/types/ToeicData";
+import { ITEMS_PER_PAGE, ToeicDataPublic } from "@/types/ToeicData";
 import { redirect } from "next/navigation";
 
 export async function fetchQuestions({ 
@@ -15,19 +15,11 @@ export async function fetchQuestions({
     console.log('level: ', level);
 
     let questions: ToeicDataPublic[] = [];
-    const offset = (pageParam - 1) * ITEMS_PER_PAGE;
-
-    const payload: I_ApiLevelPracticeRequest = {
-        currentPage: pageParam,
-        level: level,
-        offset: offset
-    };
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/toeic/level?page=${pageParam}`, {
-            method: 'POST',
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/toeic?level=${level}&page=${pageParam}`, {
+            method: 'GET',
             headers: CommonHeader,
-            body: JSON.stringify(payload),
             next: { revalidate: 60 }
         });
 
@@ -35,7 +27,7 @@ export async function fetchQuestions({
             throw new Error('Failed to fetch question');
         }
 
-        const data: I_ApiLevelPracticeResponse = await response.json();
+        const data = await response.json();
 
         if (data && data.success) {
             questions = data.questions;

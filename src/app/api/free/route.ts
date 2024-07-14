@@ -88,37 +88,6 @@ export async function PUT(request: NextRequest) {
     //     return NextResponse.json({ success: false, message: err }, { status: 500 })
     // })
 }
-export async function GET(request: NextRequest) {
-    console.log(`3 - POST 경로 : /api/post/my-page 진입 성공`);
-
-    const { searchParams } = new URL(request.url);
-    const currentPage = Number(searchParams.get('currentPage')) || 1;
-    const offset = Number(searchParams.get('offset')) || 0;
-
-    const token = request.cookies.get('accessToken')?.value;
-
-    //${process.env.NEXT_PUBLIC_API_URL}/${SERVER.USER}/board/findAll
-    return await fetch(`${process.env.NEXT_PUBLIC_BOARD_API_URL}/board/findAll?currentPage=${currentPage}&offset=${offset}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        cache: 'no-store'
-
-    }).then(async (res) => {
-        if (res.ok) {
-            const json: I_ApiBoardResponse = await res.json();
-            return NextResponse.json({ success: true, board: json.Boards }, { status: 200 });
-        } else {
-            const errorJson = await res.json();
-            return NextResponse.json({ success: false, message: errorJson.message }, { status: res.status });
-        }
-    }).catch(async (err) => {
-        console.log(err);
-        return NextResponse.json({ success: false, message: err }, { status: 500 })
-    })
-}
 export async function DELETE(request:NextRequest){
     console.log(`/api/post/my-page/delete 진입 성공`);
 

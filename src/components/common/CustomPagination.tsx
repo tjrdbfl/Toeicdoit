@@ -6,8 +6,8 @@ import { PaginationArrow } from "../utils/PaginationArrow";
 import PaginationNumber from "../utils/PaginationNumber";
 import { useEffect, useState } from "react";
 
-export default function CustomPagination({ totalPages }: {
-    totalPages: number | 0
+export default function CustomPagination({ type,totalPages }: {
+    totalPages: number | 0,type:'double'|'single'
 }) {
     const [isClient, setIsClient] = useState(false);
 
@@ -32,20 +32,22 @@ export default function CustomPagination({ totalPages }: {
         <div className="inline-flex">
             <div className="flex flex-row gap-x-2">
                 {isClient && <>
-                    <PaginationArrow
+                   {type==='double' && <PaginationArrow
                         href={createPageURL(getLeftDoublePage(currentPage))}
                         direction={"doubleleft"}
-                        isDisabled={currentPage <= 1}
-                    />
+                        isDisabled={currentPage <= 1} 
+                        type={type}                    
+                        />}
                     <PaginationArrow
                         href={createPageURL(currentPage - 1)}
                         direction={"left"}
-                        isDisabled={currentPage <= 1}
-                    />
+                        isDisabled={currentPage <= 1} 
+                        type={type}                    
+                        />
                 </>}
             </div>
 
-            <div className="flex -space-x-px">
+            {type==='double'&& <div className="flex -space-x-px">
                 {allPages.map((page, index) => {
                     let position: 'first' | 'last' | 'single' | 'middle' | undefined;
 
@@ -61,21 +63,23 @@ export default function CustomPagination({ totalPages }: {
                         isActive={currentPage === page}
                     />);
                 })}
-            </div>
+            </div>}
 
             <div className="flex flex-row gap-x-2">
                 {isClient &&
                     <>
                         <PaginationArrow
-                            href={createPageURL(currentPage + 1)}
-                            direction={"right"}
-                            isDisabled={currentPage >= totalPages}
-                        />
-                        <PaginationArrow
-                            href={createPageURL(getRightDoublePage(currentPage,totalPages))}
-                            direction={"doubleright"}
-                            isDisabled={currentPage===totalPages}
-                        />
+                        href={createPageURL(currentPage + 1)}
+                        direction={"right"}
+                        isDisabled={currentPage >= totalPages} 
+                        type={type}                       
+                         />
+                        {type==='double' && <PaginationArrow
+                        href={createPageURL(getRightDoublePage(currentPage, totalPages))}
+                        direction={"doubleright"}
+                        isDisabled={currentPage === totalPages} 
+                        type={type}                        
+                        />}
                     </>}
 
             </div>

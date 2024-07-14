@@ -58,13 +58,13 @@ export type OptionDataPublic={
 export const ITEMS_PER_PAGE = 10;
 export const CURRENT_TOTAL_PAGE=10;
 
-export interface I_ApiLevelPracticeRequest{
+export interface I_ApiLevelTestRequest{
     currentPage?:number;
     level:number;
-    offset?:number;
 }
-export interface I_ApiLevelPracticeResponse{
-    questions:ToeicDataPublic[];
+export interface I_ApiLevelTestResponse{
+    totalPages?:number;
+    questions:ToeicDataPublic;
     success:boolean;
     message?:MessageData;
 }

@@ -7,6 +7,7 @@ export const enum SERVER{
 export const enum SERVER_API{
     ROOM='room',
     BOARD='api/board',
+    TOEIC='api/toeic',
 }
 
 export const enum PUBLIC{

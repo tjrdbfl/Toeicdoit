@@ -1,5 +1,6 @@
 import BoardLoading from "@/components/board/BoardLoading";
 import CustomPagination from "@/components/common/CustomPagination";
+import LinkIcon from "@/components/common/LinkIcon";
 import InquiryTable from "@/components/my-page/InquiryTable";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
@@ -43,12 +44,15 @@ const InquiryDetailsPage = async({ params }: {
 
     return (<>
         <div className="flex flex-col gap-y-10">
-            <h2 className="text-black text-4xl mt-10 lg:mt-10">문의 내역</h2>
+            <div className="flex flex-row gap-x-2 items-center mt-10 lg:mt-0">
+            <LinkIcon size={30}/>
+            <h2 className="text-black text-3xl">문의 내역</h2>
+            </div>
             <Suspense key={currentPage} fallback={<><BoardLoading /></>}>
                 <InquiryTable boards={boards} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
-                <CustomPagination totalPages={totalPages} />
+                <CustomPagination type='double' totalPages={totalPages} />
             </div>
         </div>
     </>);
