@@ -71,7 +71,7 @@ const BoardTable = async ({
                                         </div>
                                     </td>
                                     <td className="whitespace-nowrap w-[10%] text-center">
-                                        {notice.userId}
+                                        {notice.writer}
                                     </td>
                                     <td className="whitespace-nowrap w-[20%] text-center">
                                         {new Date(notice.updatedAt).toISOString().slice(0, 10)}

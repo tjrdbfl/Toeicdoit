@@ -10,10 +10,11 @@ import { RootState } from '@/redux';
 import { getDecryptedUserData } from '@/store/auth/user-slice';
 import { useSelector } from 'react-redux';
 import { IUser } from '@/store/auth/user-model';
+import { PG } from '@/constants/enums/PG';
 
 
 const Navbar = ({userData}:{
-  userData: IUser | null
+  userData?: IUser | null
 }) => {
   const [isSticky, setIsSticky] = useState(false);
   
@@ -29,6 +30,14 @@ const Navbar = ({userData}:{
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
+  if(window.location.pathname===`${PG.LEVEL_TEST}/test` ||
+    window.location.pathname.match(/^\/exam\/\d+$/) ||
+    window.location.pathname.match(/^\/level\/\d+$/) ||
+    window.location.pathname.match(/^\/part\/\d+$/) 
+  ){
+    return null;
+  }
+
   return(<>
  
   <div className={`${isSticky? '': 'total_padding'}`}>

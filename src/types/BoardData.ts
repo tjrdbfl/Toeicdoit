@@ -5,6 +5,7 @@ export type BoardData={
     title:string;
     content:string;
     userId:number;
+    writer:string;
     type:'공지'|'자유'|'문의';
     category?:string;
     createdAt:Date;
@@ -35,5 +36,4 @@ export interface I_ApiBoardDetailRequest{
 export interface I_ApiBoardDetailResponse{
     totalIndex: number;
     Board:BoardData;
-    success:boolean;
 }

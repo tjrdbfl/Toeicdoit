@@ -2,13 +2,9 @@
 
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
-import { IUser } from "@/store/auth/user-model";
-import { setUserData } from "@/store/auth/user-slice";
-import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useDispatch } from "react-redux";
 
 export interface LoginMessageState {
     message: {
@@ -33,7 +29,6 @@ const LoginForm = ({ login }: {
     const { pending } = useFormStatus();
     const [state,formAction]=useFormState(login,initialState);
     const [message,setMessage]=useState<LoginMessageState>(initialState);
-    const dispatch=useDispatch();
 
     const router=useRouter();
     const handleEmailChange=(event:ChangeEvent<HTMLInputElement>)=>{
@@ -84,7 +79,6 @@ const LoginForm = ({ login }: {
         setMessage(state);
 
         if(state.result_message==='SUCCESS'){
-            //dispatch(setUserData());
             router.push('/');
             router.refresh();
         }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
@@ -95,7 +89,7 @@ const LoginForm = ({ login }: {
     return (<>
         <form
             action={formAction}
-            className="">
+        >
             <p className="form_label">이메일</p>
             <input
                 id='email'

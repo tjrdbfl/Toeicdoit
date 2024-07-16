@@ -1,12 +1,13 @@
 "use server";
-
-import { I_ApiUserLoginRequest } from "@/app/api/login/route";
 import { CommonHeader } from "@/config/headers";
+import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { IUser } from "@/store/auth/user-model";
 import { LoginMessageState } from "@/templates/auth/LoginForm";
+import { RegisterMessageState } from "@/templates/auth/RegisterForm";
 import { MessageData } from "@/types/MessengerData";
-import { LoginSchema } from "@/types/schemas";
+import { LoginSchema, RegisterSchema } from "@/types/schemas";
+import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest } from "@/types/UserData";
 import { cookies } from "next/headers";
 
 export async function login(prevState: LoginMessageState, formData: FormData) {
@@ -52,6 +53,51 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         } else {
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
         }
+    } catch (err) {
+        console.log(err);
+        return { ...prevState, result_message: ERROR.SERVER_ERROR };
+    }
+}
+
+export async function register(prevState: RegisterMessageState, formData: FormData) {
+    
+    const validatedFields = RegisterSchema.safeParse({
+        email: formData.get('email'),
+        password: formData.get('password'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+    });
+
+    if (!validatedFields.success) {
+        console.log('RegisterSchema: ' + JSON.stringify(validatedFields.error.flatten().fieldErrors));
+        return { ...prevState, message: validatedFields.error.flatten().fieldErrors };
+    }
+
+    const data: I_ApiUserRegisterRequest = {
+        email: validatedFields.data.email,
+        password: validatedFields.data.password,
+        phone:validatedFields.data.phone,
+        name:validatedFields.data.name
+    }
+    console.log('Received form data: ', data);
+
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.AUTH}/join`, {
+            method: 'POST',
+            headers: CommonHeader,
+            body: JSON.stringify(data),
+            cache:'no-store'
+        })
+
+        const result: MessageData = await response.json();
+        console.log(JSON.stringify(result));
+
+        if (result.message === 'SUCCESS') {
+            return { ...prevState, result_message: 'SUCCESS' };
+        } else {
+            return { ...prevState, result_message: ERROR.SERVER_ERROR };
+        }
+
     } catch (err) {
         console.log(err);
         return { ...prevState, result_message: ERROR.SERVER_ERROR };

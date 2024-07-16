@@ -7,15 +7,13 @@ import ChatBtn from "@/components/button/ChatBtn";
 import ChatContainer from "@/templates/chat/ChatContainer";
 import { store } from "@/redux";
 import { getDecryptedUserData } from "@/store/auth/user-slice";
+import { cookies } from "next/headers";
+import { IUser } from "@/store/auth/user-model";
 
 export default async function Home() {
-
-  console.log('rootState');
-  const rootState=store.getState();
-
-  const userData=getDecryptedUserData(rootState.user);
-  console.log('userData: ',userData);
-
+  
+  
+  
   return (
     <div className="">
       <div className="fixed bottom-5 right-5 z-40">
@@ -26,7 +24,6 @@ export default async function Home() {
       </div>
       <ChatContainer />
 
-      <Navbar userData={userData} />
       <div className="total_padding">
         <div className="2xl:mt-[4%] xl:mt-[7%] lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />
         <Hero />
@@ -61,7 +58,6 @@ export default async function Home() {
         <div className="mt-[7%] z-20" />
         <FooterStarted />
       </div>
-      <Footer />
 
     </div>
   );

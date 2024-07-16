@@ -24,19 +24,35 @@ export const LoginSchema = z.object({
     // })
 })
 
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&*\(\)\[\]\{\}\-_=\+:;'"<,./?])[a-zA-Z0-9!@#\$%\^&*\(\)\[\]\{\}\-_=\+:;'"<,./?]{8,}$/;
 export const RegisterSchema = z.object({
     email: z.string().email({
+        message: "유효한 이메일 형식이 아닙니다. " 
+    }).min(1,{
         message: "이메일은 필수 항목입니다."
     }),
-    password: z.string().min(8, { message: "비밀번호는 최소 8자입니다." })
-        .regex(passwordRegex, {
-            message:
-                "비밀번호는 최소 하나 이상의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.",
+    password: z.string().min(8, { message: "비밀번호는 최소 8자 이상이어야 합니다." })
+        .max(32, { message: "비밀번호는 최대 32자까지 가능합니다." })
+        .refine((password) => {
+            if (password.length < 8) {
+                return true;
+            }
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecialChar = /[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]/.test(password);
+            return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
+        }, {
+            message: '비밀번호는 최소 하나의 대문자, 소문자, 숫자, 특수 문자를 포함해야 합니다.'
         }),
-    name: z.string(),
-    phone: z.string(),
-    job: z.string().optional()
+    name: z
+    .string()
+    .min(2, { message: "이름은 최소 2자 이상이어야 합니다." })
+    .max(5, { message: "이름은 최대 5자까지 가능합니다." }),
+    phone: z
+    .string()
+    .min(1,{message:'필수 항목입니다.'})
+    .regex(/^010\d{8}$/, { message: "유효한 휴대폰 번호 형식이 아닙니다. (예: 01012345678)" })
+
 })
 
 export const FreeSaveSchema = z.object({

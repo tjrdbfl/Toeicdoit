@@ -17,11 +17,12 @@ export default async function FreeEditPage({params}:{
     let board: BoardData = {
         id: 0,
         title: "",
-        userId:0,
+        userId: 0,
         content: "",
         createdAt: new Date(),
         updatedAt: new Date(),
-        type: "자유"
+        type: "자유",
+        writer: ""
     };
 
     let totalIndex: number = 0;
@@ -38,9 +39,9 @@ export default async function FreeEditPage({params}:{
             throw new Error('Failed to fetch notice detail');
         }
 
-        const data: I_ApiBoardDetailResponse = await response.json();
+        const data = await response.json();
 
-        if (data && data.success) {
+        if (data && data) {
             board = data.Board;
             totalIndex = data.totalIndex;
         } else {

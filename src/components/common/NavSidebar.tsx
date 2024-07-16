@@ -12,11 +12,11 @@ import { IUser } from "@/store/auth/user-model";
 
 
 const NavSidebar = ({userData,isSticky}:{
-  userData:IUser|null,
+  userData:IUser|null|undefined,
   isSticky:boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useSidebarMenuAnimation(isOpen);
-  
+
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky? 'mx-10':''}`} 
     ref={scope}

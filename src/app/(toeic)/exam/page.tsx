@@ -1,5 +1,3 @@
-import Footer from "@/app/Footer";
-import Navbar from "@/app/Navbar";
 import { I_ApiExamRequest, I_ApiExamResponse } from "@/app/api/exam/route";
 import Search from "@/components/common/Search";
 import ExamLoading from "@/components/exam/ExamLoading";
@@ -7,8 +5,6 @@ import ExamTable from "@/components/exam/ExamTable";
 import CustomPagination from "@/components/common/CustomPagination";
 import { Suspense } from "react";
 import { CommonHeader } from "@/config/headers";
-import { getDecryptedUserData } from "@/store/auth/user-slice";
-import { store } from "@/redux";
 
 export default async function ExamPage({ searchParams }: {
     searchParams?: {
@@ -45,17 +41,9 @@ export default async function ExamPage({ searchParams }: {
     }catch(error){
         console.log('Error fetching exam data: ',error);
     }
-    console.log('rootState');
-    const rootState = store.getState();
-
-    const userData = getDecryptedUserData(rootState.user);
-    console.log('userData: ', userData);
-
 
     return (<>
-    <Navbar userData={userData}/>
     <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
-      
         <div className="md:py-28 lg:py-28">
             <h1 className="text-black font-medium text-start text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-4xl">기출 모의고사</h1>
             <div className="mt-4 flex items-center md:mt-8">
@@ -67,9 +55,7 @@ export default async function ExamPage({ searchParams }: {
             <div className="mt-5 flex w-full justify-center">
                <CustomPagination totalPages={totalPages} type={"double"}/> 
             </div>
-          
         </div>
         </div>
-        <Footer/>
     </>);
 }

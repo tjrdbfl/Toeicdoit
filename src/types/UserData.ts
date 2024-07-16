@@ -24,3 +24,14 @@ export type UserDataPublic={
     toeicLevel:UserData['toeicLevel'];
 }
 
+export interface I_ApiUserLoginRequest {
+    email: string;
+    password: string;
+}
+export interface I_ApiUserRegisterRequest {
+    email: string;
+    password: string;
+    phone:string;
+    name:string;
+}
+  

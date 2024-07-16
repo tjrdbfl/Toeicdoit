@@ -7,7 +7,8 @@ import BoardWriteReply from "@/components/board/BoardWriteReply";
 import FreeLink from "@/components/board/FreeLink";
 
 import { CommonHeader } from "@/config/headers";
-import { SERVER } from "@/constants/enums/API";
+import { SERVER, SERVER_API } from "@/constants/enums/API";
+import { ERROR } from "@/constants/enums/ERROR";
 import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
 import ChatIcon from '@mui/icons-material/Chat';
 
@@ -22,7 +23,6 @@ export default async function FreeDetailPage({ params }: {
     }
 }) {
 
-    const payload: I_ApiBoardDetailRequest = { id: params.id,type:'post' };
     let Board: BoardData = {
         id: 0,
         title: "",
@@ -30,33 +30,29 @@ export default async function FreeDetailPage({ params }: {
         userId: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
-        type: "자유"
+        type: "자유",
+        writer: ""
     };
 
     let totalIndex: number = 0;
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.USER}/board/detail`, {
-            method: 'POST',
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/detail?id=${params.id}`, {
+            method: 'GET',
             headers:CommonHeader,
-            body: JSON.stringify(payload),
             next: { revalidate: 60 * 60 }
         })
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch notice detail');
-        }
-
-        const data: I_ApiBoardDetailResponse = await response.json();
-
-        if (data && data.success) {
-            Board = data.Board;
+        const data = await response.json();
+        
+        if (data) {
+            Board = data;
             totalIndex = data.totalIndex;
         } else {
-            console.error('Failed to get response data');
+            console.error('Failed to get response data: '+ERROR.SERVER_ERROR);
         }
     } catch (err) {
-        console.log('Failed to get notice: ', err)
+        console.log('Failed to get notice: ', ERROR.SERVER_ERROR)
     }
 
     return (<>

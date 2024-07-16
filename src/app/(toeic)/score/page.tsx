@@ -47,55 +47,45 @@ export default async function ScorePage() {
     const UserLCPieData = [333, 162];
     const UserRCPieData = [333, 162];
 
-    const labels = [['듣기', '80/90'], ['어휘','/90'], ['구조','/90'], ['문법','/90'], ['독해','/90']];
+    const labels = [['듣기', '80/90'], ['어휘', '/90'], ['구조', '/90'], ['문법', '/90'], ['독해', '/90']];
     const UserRadarData = [65, 59, 90, 81, 56];
     const LevelRadarData = [28, 48, 40, 19, 96];
 
-    console.log('rootState');
-    const rootState = store.getState();
 
-    const userData = getDecryptedUserData(rootState.user);
-    console.log('userData: ', userData);
 
     return (<>
-        <div>
-            <Navbar userData={userData} />
-            <div className="w-full flex flex-col place-items-center py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[8%] px-5 sm:px-20 lg:px-0">
-                <div className="bg-blue-50 shadow-2xl rounded-2xl border-slate-200 border-2 w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%] animate-slidein300">
-                    <div className="flex flex-row justify-center">
-                        <LinkIcon size={28} />
-                        <div className="ml-2 form_title text-2xl text-center font-semibold text-black mb-[5%]">
-                            { }님의 점수는 { }입니다.
-                        </div>
-                    </div>
-
-                    <RadarContainer UserRadarData={UserRadarData} LevelRadarData={LevelRadarData} labels={labels} />
-
-                    <div className="mt-24" />
-                    <div className="text-black font-semibold text-xl">풀이 시간 분석</div>
-                    <div className="mt-2" />
-                    <div className="text-slate-500 text-lg mb-3">회원님과 { }점 사용자 파트별 정답률 차이입니다.</div>
-                    <div className="bg-white p-4 shadow-lg rounded-xl border-slate-200 border-2 w-[100%] h-auto flex items-center justify-center">
-                        <DoughnutChart />
-                    </div>
-
-
-
-                    <div className="mt-24" />
-                    <BarContainer UserBarData={UserBarData} PartBarData={p1} />
-
-                    <div className="mt-28" />
-
-                    <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels} />
-                    <div className="mt-20" />
-
-                    <div className="flex flex-wrap sm:flex-row justify-center gap-y-5 md:gap-x-20">
-                        <ScoreBtn label={"오답 하러 가기"} url={`${PG.LEVEL}/${1}`} />
-                        <ScoreBtn label={"응시하기 전으로 돌아가기"} url={`${PG.LEVEL}`} />
+        <div className="w-full flex flex-col place-items-center py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[8%] px-5 sm:px-20 lg:px-0">
+            <div className="bg-blue-50 shadow-2xl rounded-2xl border-slate-200 border-2 w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%] animate-slidein300">
+                <div className="flex flex-row justify-center">
+                    <LinkIcon size={28} />
+                    <div className="ml-2 form_title text-2xl text-center font-semibold text-black mb-[5%]">
+                        { }님의 점수는 { }입니다.
                     </div>
                 </div>
+
+                <RadarContainer UserRadarData={UserRadarData} LevelRadarData={LevelRadarData} labels={labels} />
+
+                <div className="mt-24" />
+                <div className="text-black font-semibold text-xl">풀이 시간 분석</div>
+                <div className="mt-2" />
+                <div className="text-slate-500 text-lg mb-3">회원님과 { }점 사용자 파트별 정답률 차이입니다.</div>
+                <div className="bg-white p-4 shadow-lg rounded-xl border-slate-200 border-2 w-[100%] h-auto flex items-center justify-center">
+                    <DoughnutChart />
+                </div>
+
+                <div className="mt-24" />
+                <BarContainer UserBarData={UserBarData} PartBarData={p1} />
+
+                <div className="mt-28" />
+
+                <PieContainer UserLCPieData={UserLCPieData} PieLCLabels={PieLCLabels} UserRCPieData={UserRCPieData} PieRCLabels={PieRCLabels} />
+                <div className="mt-20" />
+
+                <div className="flex flex-wrap sm:flex-row justify-center gap-y-5 md:gap-x-20">
+                    <ScoreBtn label={"오답 하러 가기"} url={`${PG.LEVEL}/${1}`} />
+                    <ScoreBtn label={"응시하기 전으로 돌아가기"} url={`${PG.LEVEL}`} />
+                </div>
             </div>
-            <Footer />
         </div>
     </>);
 }

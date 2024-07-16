@@ -28,7 +28,7 @@ const BoardDetailReply = ({
             <div className="mt-3" />
             <p
             className={`${id%2==1? "text-start":"text-end"} text-slate-400`}
-            >{create.getTime()}</p>
+            >{new Date(create).toISOString().slice(0,10)}</p>
         </div>
         </div>
         

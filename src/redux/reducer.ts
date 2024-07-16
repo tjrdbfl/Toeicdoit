@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
-import userReducer, { EncryptedUserState, getDecryptedUserData } from "@/store/auth/user-slice";
+import userReducer from "@/store/auth/user-slice";
 
 const createNoopStorage = () => {
   return {
@@ -25,7 +25,7 @@ const storage =
 const userPersistConfig = {
   key: "user",
   storage,
-  whitelist: ["UserState"],
+  whitelist: ["user"],
 };
 
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);

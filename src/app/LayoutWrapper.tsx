@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-import ReduxProvider from '@/redux/redux-provider';
+import ReduxProvider, { persistor } from '@/redux/redux-provider';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -15,12 +15,14 @@ interface Props {
 
 export default function LayoutWrapper(props: Props) {
     const { token, children } = props;
-
+    
     return (
         <>
             <QueryClientProvider client={new QueryClient()}>
                 <ReduxProvider>
-                    {children}
+                    <PersistGate loading={<LoadingPage/>} persistor={persistor}>
+                        {children}
+                    </PersistGate>
                 </ReduxProvider>
             </QueryClientProvider>
         </>

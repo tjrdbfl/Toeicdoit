@@ -16,7 +16,7 @@ writer,createdAt,updatedAt
                     <h4 className="text-black text-[18px]">
                         작성일자 : {createdAt ? (
                             <>
-                                {new Date().getFullYear() - createdAt.getFullYear()}년 전
+                                {new Date(createdAt).toISOString().slice(0,10)}
                             </>
                         ) : (
                             "No creation date available"
@@ -25,7 +25,7 @@ writer,createdAt,updatedAt
                     <h4 className="text-black text-[18px]">
                         업데이트 시간 : {updatedAt ? (
                             <>
-                                {new Date().getFullYear() - updatedAt.getFullYear()}년 전
+                                {new Date(updatedAt).toISOString().slice(0,10)}
                             </>
                         ) : (
                             "No creation date available"

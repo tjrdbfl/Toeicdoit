@@ -8,22 +8,11 @@ export default async function StudyLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    console.log('rootState');
-    const rootState = store.getState();
 
-    const userData = getDecryptedUserData(rootState.user);
-    console.log('userData: ', userData);
 
     return (
-        <>
-            <div className="w-full flex flex-col">
-                <Navbar userData={userData} />
-                <div className="w-full min-h-screen h-auto py-28">
-                    {children}
-                </div>
-                <Footer />
-            </div>
-        </>
-
+        <div className="w-full min-h-screen h-auto py-28">
+            {children}
+        </div>
     );
 }
