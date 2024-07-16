@@ -1,60 +1,68 @@
-import { Hero, About, Explore, GetStarted, WhatsNew, World, Review, Feedback,FooterStarted } from "@/templates/dashboard";
+'use server';
+import { Hero, About, Explore, GetStarted, WhatsNew, World, Review, Feedback, FooterStarted } from "@/templates/dashboard";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MoveToTopBtn from "@/components/button/MoveToTopBtn";
 import ChatBtn from "@/components/button/ChatBtn";
 import ChatContainer from "@/templates/chat/ChatContainer";
+import { store } from "@/redux";
+import { getDecryptedUserData } from "@/store/auth/user-slice";
 
+export default async function Home() {
 
-export default function Home() {
+  console.log('rootState');
+  const rootState=store.getState();
+
+  const userData=getDecryptedUserData(rootState.user);
+  console.log('userData: ',userData);
 
   return (
     <div className="">
       <div className="fixed bottom-5 right-5 z-40">
-      <MoveToTopBtn/>
+        <MoveToTopBtn />
       </div>
       <div className="fixed bottom-28 right-5 z-40">
-      <ChatBtn/>
+        <ChatBtn />
       </div>
-      <ChatContainer/>
+      <ChatContainer />
 
-      <Navbar/> 
-        <div className="total_padding">      
-      <div className="2xl:mt-[4%] xl:mt-[7%] lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />
-      <Hero />
+      <Navbar userData={userData} />
+      <div className="total_padding">
+        <div className="2xl:mt-[4%] xl:mt-[7%] lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />
+        <Hero />
 
-      <div className="mt-[7%]" />
-      <About />
+        <div className="mt-[7%]" />
+        <About />
 
-      <div className="absolute z-0" />
+        <div className="absolute z-0" />
         <div className="mt-[7%]" />
         <WhatsNew />
 
         <div className="mt-[10%] lg:mt-[7%]" />
         <World />
 
-      <div className="relative">
-        <div className="mt-[7%]" />
-        <div className="gradient-03 z-0" />
-        <Explore />
-      </div>
+        <div className="relative">
+          <div className="mt-[7%]" />
+          <div className="gradient-03 z-0" />
+          <Explore />
+        </div>
 
-      <div className="relative">
-      <div className="mt-[10%] lg:mt-[7%]" />
-        <GetStarted />
-      </div>
-      <div className="mt-[7%]" />
-      
-      <div className="relative">
+        <div className="relative">
+          <div className="mt-[10%] lg:mt-[7%]" />
+          <GetStarted />
+        </div>
         <div className="mt-[7%]" />
-        <Review />
+
+        <div className="relative">
+          <div className="mt-[7%]" />
+          <Review />
+        </div>
+
+        <div className="mt-[7%] z-20" />
+        <FooterStarted />
       </div>
-      
-      <div className="mt-[7%] z-20" />
-      <FooterStarted/>
-      </div>  
       <Footer />
-      
+
     </div>
   );
 }

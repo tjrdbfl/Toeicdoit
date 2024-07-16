@@ -3,7 +3,6 @@ import ToeicPlayer from '@/components/toeic/ToeicPlayer';
 import SubmitButton from '@/components/button/SubmitBtn';
 import LevelHeader from '@/components/toeic/LevelHeader';
 import QuestionCard from '@/components/toeic/QuestionCard';
-import { initialState } from '@/components/user/init/user.state.init';
 import { fetchQuestions, submitLevelTest } from '@/service/toeic/action';
 import { fetchItems } from '@/service/toeic/items';
 import { useInfiniteQuery } from '@tanstack/react-query';

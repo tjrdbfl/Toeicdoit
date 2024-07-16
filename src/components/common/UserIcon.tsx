@@ -4,7 +4,7 @@ const UserIcon=()=>(
     <>
     
     <AccountCircleIcon
-    className='user-icon' style={{fontSize:'45px'}}/>
+    className='user-icon' style={{fontSize:'30px'}}/>
     </>
 );
 

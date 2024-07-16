@@ -1,4 +1,5 @@
 import LinkIcon from '@/components/common/LinkIcon';
+import { PG } from '@/constants/enums/PG';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Link from 'next/link';
 
@@ -13,7 +14,7 @@ const FreeLink = ({label}:{label:string}) => {
                     </Link>
             <KeyboardArrowRightIcon className="text-slate-600 text-3xl" />
             <Link
-                href={'/post'}
+                href={`${PG.FREE}`}
                 className="text-black hover:text-slate-500 underline text-lg">자유게시판</Link>
            {label!=='' && <>
             <KeyboardArrowRightIcon className="text-slate-600 text-3xl" />

@@ -14,6 +14,8 @@ import PieContainer from "@/templates/toeic/PieContainer";
 import RadarContainer from "@/templates/toeic/RadarContainer";
 import BarContainer from "@/templates/toeic/BarContainer";
 import DoughnutChart from "@/components/chart/DoughnutChart";
+import { store } from "@/redux";
+import { getDecryptedUserData } from "@/store/auth/user-slice";
 
 export default async function ScorePage() {
 
@@ -49,9 +51,15 @@ export default async function ScorePage() {
     const UserRadarData = [65, 59, 90, 81, 56];
     const LevelRadarData = [28, 48, 40, 19, 96];
 
+    console.log('rootState');
+    const rootState = store.getState();
+
+    const userData = getDecryptedUserData(rootState.user);
+    console.log('userData: ', userData);
+
     return (<>
         <div>
-            <Navbar />
+            <Navbar userData={userData} />
             <div className="w-full flex flex-col place-items-center py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[8%] px-5 sm:px-20 lg:px-0">
                 <div className="bg-blue-50 shadow-2xl rounded-2xl border-slate-200 border-2 w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%] animate-slidein300">
                     <div className="flex flex-row justify-center">

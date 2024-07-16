@@ -1,143 +1,146 @@
 'use client';
 
-import { I_ApiUserLoginRequest, I_ApiUserLoginResponse } from "@/app/api/login/route";
-import { useApp } from "@/contexts/AppContext";
-import { useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import SubmitButton from "@/components/button/SubmitBtn";
+import { ERROR } from "@/constants/enums/ERROR";
+import { IUser } from "@/store/auth/user-model";
+import { setUserData } from "@/store/auth/user-slice";
+import { cookies } from "next/headers";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { useDispatch } from "react-redux";
 
-const LoginForm = () => {
+export interface LoginMessageState {
+    message: {
+        email?: string[] | undefined;
+        password?: string[] | undefined;
+    };
+    result_message: string;
+}  
+const initialState: LoginMessageState = {
+    message: {
+        email: "" || undefined,
+        password: "" || undefined,
+    },
+    result_message: "",
+}
 
-    const { userData, setUserData } = useApp();
+const LoginForm = ({ login }: {
+    login: (prevState: LoginMessageState, formData: FormData)
+        => Promise<{ message: { email?: string[] | undefined; password?: string[] | undefined; }; result_message: string; }>
+}) => {
 
-    //Utils
-    const searchParams = useSearchParams();
-    const redirect = searchParams.get('redirect');
+    const { pending } = useFormStatus();
+    const [state,formAction]=useFormState(login,initialState);
+    const [message,setMessage]=useState<LoginMessageState>(initialState);
+    const dispatch=useDispatch();
 
+    const router=useRouter();
+    const handleEmailChange=(event:ChangeEvent<HTMLInputElement>)=>{
+        if(event.target.value.length<1){
+            setMessage((prevState)=>({
+                ...prevState,
+                message:{
+                    ...prevState.message,
+                    email:['필수 항목입니다.']
+                }
+            }))
+        }else{
+            setMessage((prevState) => ({
+                ...prevState,
+                message: {
+                    ...prevState.message,
+                    email: [""]
+                },
+            }));
+        }
+    };
+    const handlePasswordChange=(event:ChangeEvent<HTMLInputElement>)=>{
+        if(event.target.value.length<1){
+            setMessage((prevState)=>({
+                ...prevState,
+                message:{
+                    ...prevState.message,
+                    password:['필수 항목입니다.']
+                }
+            }))
+        }else{
+            setMessage((prevState) => ({
+                ...prevState,
+                message: {
+                    ...prevState.message,
+                    password: [""]
+                },
+            }));
+        }
+    };
+    
     //Refs
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    
+    useEffect(() => {
+        console.log('state'+JSON.stringify(state));
+        setMessage(state);
 
-    //State
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
-    const [loginIsComplete, setLoginIsComplete] = useState<boolean>(false);
-
-    //Handlers
-    const handleLogin = async () => {
-        if (isLoading) return;
-
-        setIsLoading(true);
-        setError('');
-
-        try {
-
-            if (!emailRef.current?.value || !passwordRef.current?.value)
-                throw new Error('필수 항목입니다.');
-
-            const payload: I_ApiUserLoginRequest = {
-                email: emailRef.current?.value,
-                password: passwordRef.current?.value
-            };
-
-            console.log(`1 - 페이로드 정보 : ${JSON.stringify(payload)}`);
-
-            // console.log(`1 - App Routing GET`);
-            // const response1=await fetch('/api/hello',{
-            //     method:'GET',
-            //     headers:{
-            //         'Content-Type': 'application/json',
-            //     }
-            // });
-
-            console.log(`2 - App Routing POST`);
-
-            const response2=await fetch('/api/login',{
-                method:'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                },
-                body:JSON.stringify({email:"joe@test.com",password:"1234"}),
-                //body:JSON.stringify(payload),
-            })
-           
-            // const response = await fetch('http://localhost:8080/api/users/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'API-Key': process.env.DATA_API_KEY!,
-            //     },
-            //     body: JSON.stringify({ time: new Date().toISOString() }),
-            // })
-
-            // const data2 = await response.json()
-
-            // console.log(`3 - 자바를 다녀 온 정보 :${JSON.stringify(data2)} `)
-
-            // const data: I_ApiUserLoginResponse = await response.json();
-
-            // console.log(`4 - login/route 에서 온 정보 :${JSON.stringify(data)} `)
-            // // -------------------------------------------------------------
-            // if (data.success) {
-            //     setLoginIsComplete(true);
-            //     if (redirect) {
-            //         window.location.replace(redirect);
-            //     } else {
-            //         window.location.replace('/dashboard');
-            //     }
-            //     return;
-            // }
-            // throw new Error(data.message);
-        } catch (error) {
-            let mess = 'Something went wrong.';
-            if (error instanceof Error) {
-                mess = error.message;
-            }
-            setError(mess);
-        } finally {
-            setIsLoading(false);
+        if(state.result_message==='SUCCESS'){
+            //dispatch(setUserData());
+            router.push('/');
+            router.refresh();
+        }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
+            alert(state.result_message);
         }
-    };
+    }, [state.result_message, state.message.email, state.message.password]);
 
     return (<>
-        {loginIsComplete ? (<div>
-            loading
-        </div>) : (<>
-            <div className="">
-                <p className="form_label">이메일</p>
-                <input className="form_input"
-                    placeholder="이메일을 입력해주세요."
-                    type="email"
-                    ref={emailRef}
-                    onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                            if (passwordRef.current) {
-                                passwordRef.current.focus();
-                            }
+        <form
+            action={formAction}
+            className="">
+            <p className="form_label">이메일</p>
+            <input
+                id='email'
+                name='email'
+                className="form_input"
+                placeholder="이메일을 입력해주세요."
+                type="email"
+                required
+                ref={emailRef}
+                disabled={pending}
+                onChange={handleEmailChange}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        if (emailRef.current) {
+                            emailRef.current.focus();
                         }
-                    }}
-                />
-                {error && <p className="form_error_msg">{error}</p>}
+                    }
+                }}
+            />
+            {message.message.email && <p aria-live="polite"  className="form_error_msg">{message.message.email}</p>}
 
-                <div className="mt-[5%]" />
-                <p className="form_label">비밀번호</p>
-                <input 
+            <div className="mt-[5%]" />
+            <p className="form_label">비밀번호</p>
+            <input
+                id="password"
+                name='password'
                 type="password"
                 className="form_input"
-                    placeholder="비밀번호를 입력해주세요."
-                    ref={passwordRef}
-                    onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                            handleLogin();
+                placeholder="비밀번호를 입력해주세요."
+                required
+                disabled={pending}
+                onChange={handlePasswordChange}
+                ref={passwordRef}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        if (passwordRef.current) {
+                            passwordRef.current.focus();
                         }
-                    }}
-                />
-                {error && <p className="form_error_msg">{error}</p>}
-                <div className="mt-[7%]" />
-                <button
-                    className="form_submit_btn"
-                    onClick={handleLogin}>로그인</button>
-            </div>
-        </>)}
+                    }
+                }}
+            />
+            {message.message.password && <p aria-live="polite"  className="form_error_msg">{message.message.password}</p>}
+            <div className="mt-[7%]" />
+            <SubmitButton label={"로그인"} />
+        </form>
 
     </>);
 }

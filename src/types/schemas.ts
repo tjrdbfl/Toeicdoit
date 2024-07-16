@@ -1,13 +1,27 @@
 import * as z from "zod";
 
 export const LoginSchema = z.object({
-    email: z.string().email({
-        message: "이메일은 필수 항목입니다."
-    }),
-    password: z.string().refine(password => password.length >= 8, {
-        message: "Password must be at least 8 characters long",
-        path: ['password'], // indicates this error is about the password field
-    })
+    email: z.string(),
+    // email: z.string().email({
+    //     message: "유효한 이메일 형식이 아닙니다." 
+    // }).min(1,{
+    //     message: "이메일은 필수 항목입니다."
+    // }),
+    password: z.string()
+    // password: z.string().min(8,{
+    //     message: "비밀번호는 필수 항목입니다. ",
+    // }).refine(password => {
+    //     if (password.length < 8) {
+    //         return true; 
+    //     }
+    //     const hasUpperCase=/[A-Z]/.test(password);
+    //     const hasLowerCase=/[a-z]/.test(password);
+    //     const hasNumber=/[0-9]/.test(password);
+    //     const hasSpecialChar=/[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]/.test(password);
+    //     return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
+    // },{
+    //     message:'유효한 비밀번호 형식이 아닙니다.'
+    // })
 })
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&*\(\)\[\]\{\}\-_=\+:;'"<,./?])[a-zA-Z0-9!@#\$%\^&*\(\)\[\]\{\}\-_=\+:;'"<,./?]{8,}$/;

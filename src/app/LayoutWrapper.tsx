@@ -1,14 +1,12 @@
 'use client';
 
 import React from 'react';
-
-import { AppProvider } from '@/contexts/AppContext';
-
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import ReduxProvider from '@/redux/redux-provider';
-import { useSearchParams } from 'next/navigation';
-import ChatContainer from '@/templates/chat/ChatContainer';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PersistGate } from 'redux-persist/integration/react';
+import LoadingPage from './loading';
 
 interface Props {
     token: RequestCookie | undefined;
@@ -21,13 +19,10 @@ export default function LayoutWrapper(props: Props) {
     return (
         <>
             <QueryClientProvider client={new QueryClient()}>
-                <AppProvider>
+                <ReduxProvider>
                     {children}
-                </AppProvider>
+                </ReduxProvider>
             </QueryClientProvider>
-            {/* <ReduxProvider>
-                
-            </ReduxProvider> */}
         </>
 
     );

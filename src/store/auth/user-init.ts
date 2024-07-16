@@ -1,10 +1,9 @@
-import { UserDataPublic } from "@/types/UserData";
+import { IUser } from "./user-model";
 
-export const initState:UserDataPublic={
-    id:0,
-    name:'',
-    oauthId:0,
-    role:'',
-    calendarId:0,
-    toeicLevel:0,
+interface UserState {
+    data: IUser | null; 
 }
+  
+export const initialState: UserState = {
+    data: null,
+};

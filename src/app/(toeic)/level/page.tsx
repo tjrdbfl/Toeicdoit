@@ -1,13 +1,21 @@
 import Footer from "@/app/Footer";
 import Navbar from "@/app/Navbar";
 import LoadingPage from "@/app/loading";
+import { store } from "@/redux";
+import { getDecryptedUserData } from "@/store/auth/user-slice";
 import CardContainer from "@/templates/toeic/CardContainer";
 
 
 
-const LevelPage = () => {
+export default async function LevelPage(){
+    console.log('rootState');
+    const rootState = store.getState();
+
+    const userData = getDecryptedUserData(rootState.user);
+    console.log('userData: ', userData);
+
     return (<> 
-        <Navbar />
+        <Navbar userData={userData} />
         <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
         <h1 className="text-black font-medium text-start text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-4xl">수준별 연습문제</h1>
             <div className="mt-10" />
@@ -16,4 +24,3 @@ const LevelPage = () => {
         <Footer />
     </>);
 }
-export default LevelPage;

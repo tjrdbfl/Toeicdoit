@@ -1,21 +1,22 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {motion } from "framer-motion";
 import Logo from "./Logo";
 import Link from "next/link";
 import LogoIcon from "./LogoIcon";
 import { useSidebarMenuAnimation } from "@/constants/styles/animation";
 import SelectAuth from "../auth/SelectAuth";
-import { GettingStartedBtn } from "../button/GettingStartedBtn";
-import { useApp } from "@/contexts/AppContext";
 import { PG } from "@/constants/enums/PG";
+import { GettingStartedBtn } from "../button/GettingStartedBtn";
+import { IUser } from "@/store/auth/user-model";
 
 
-const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
+const NavSidebar = ({userData,isSticky}:{
+  userData:IUser|null,
+  isSticky:boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useSidebarMenuAnimation(isOpen);
-  const {userData}=useApp();
-
+  
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky? 'mx-10':''}`} 
     ref={scope}
@@ -41,10 +42,9 @@ const NavSidebar = ({isSticky}:{isSticky:boolean}) => {
 
         </motion.button>
 
-        {/* <SelectAuth/> */}
-        {userData ? 
+        {userData?.isLogined ? 
         <>
-          <SelectAuth/>
+          <SelectAuth name={userData.name} level={userData.toeicLevel}/>
         </> : <GettingStartedBtn isSticky={isSticky} />}
       
       </div>

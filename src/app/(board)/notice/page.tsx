@@ -7,6 +7,8 @@ import BoardTable from "@/components/board/BoardTable";
 import { BoardData, I_ApiBoardResponse } from "@/types/BoardData";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
+import { redirect } from "next/navigation";
+import { PG } from "@/constants/enums/PG";
 
 export const metadata = {
     title: "Toeicdoit - Notice Page",
@@ -25,7 +27,7 @@ export default async function NoticePage({searchParams}:{
     let notices:BoardData[]=[];
 
     try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=공지&size=10`,{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=공지&size=10&search=${'ddd'}`,{
             method:'GET',
             headers:CommonHeader,
             next:{revalidate:60*60}  //1시간

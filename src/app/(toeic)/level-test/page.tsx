@@ -12,6 +12,8 @@ import { p8 } from "@/constants/chart/bar";
 import BarChart from "@/components/chart/BarChart";
 import { lv8 } from "@/constants/chart/radar";
 import DoughnutContainer from "@/templates/toeic/DoughnutContainer";
+import { getDecryptedUserData } from "@/store/auth/user-slice";
+import { store } from "@/redux";
 
 export default async function LevelTestPage() {
     const UserBarData = {
@@ -27,8 +29,14 @@ export default async function LevelTestPage() {
     const labels = [['듣기', `${lv8[0]}/90`], ['어휘', `${lv8[1]}/90`], ['구조', `${lv8[2]}/90`], ['문법', `${lv8[3]}/90`], ['독해', `${lv8[4]}/90`]];
     const UserRadarData = [65, 59, 90, 81, 56];
 
+    console.log('rootState');
+    const rootState = store.getState();
+
+    const userData = getDecryptedUserData(rootState.user);
+    console.log('userData: ', userData);
+
     return (<>
-        <Navbar />
+        <Navbar userData={userData} />
         <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
             <div className="w-full flex justify-center items-center px-[5%] xl:px-[18%]">
                 <div className="bg-blue-50 shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center">

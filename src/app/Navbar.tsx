@@ -6,11 +6,18 @@ import { navVariants } from '@/utils/motion';
 
 import { useEffect, useState } from 'react';
 import NavSidebar from '@/components/common/NavSidebar';
+import { RootState } from '@/redux';
+import { getDecryptedUserData } from '@/store/auth/user-slice';
+import { useSelector } from 'react-redux';
+import { IUser } from '@/store/auth/user-model';
 
 
-const Navbar = () => {
+const Navbar = ({userData}:{
+  userData: IUser | null
+}) => {
   const [isSticky, setIsSticky] = useState(false);
   
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -36,7 +43,7 @@ const Navbar = () => {
       {isSticky? <>
       <div className={` bg-white border-b-2 border-r-2 border-l-2 border-slate-200 py-1 mb-5`}>
         <div className='flex items-center justify-center'>
-        <NavSidebar isSticky={isSticky} />
+        <NavSidebar isSticky={isSticky} userData={userData} />
         </div>
       
         </div>  
@@ -48,7 +55,7 @@ const Navbar = () => {
         <div
           className={`${styles.innerWidth} mx-auto bg-white p-5 rounded-b-3xl md:absolute md:shadow-lg`}
         >
-          <NavSidebar isSticky={isSticky}/>
+          <NavSidebar isSticky={isSticky} userData={userData}/>
         </div>
       </div>}
     </motion.nav>

@@ -4,14 +4,12 @@ import LogoutBtn from './LogoutBtn';
 import { useSelectAuthAnimation } from '@/constants/styles/animation';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { UserIcon } from '../common';
-import { useApp } from '@/contexts/AppContext';
 
-const SelectAuth = () => {
+const SelectAuth = ({name,level}:{
+    name:string,level:number
+}) => {
     const [isOpen, setIsOpen] = useState(false);
     const scope = useSelectAuthAnimation(isOpen);
-
-    const {userData} = useApp();
 
     return (<>
         <nav className="w-[150px] h-[30px] flex items-center justify-center mt-[10px]" ref={scope}
@@ -22,9 +20,9 @@ const SelectAuth = () => {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <div className="flex flex-row items-center justify-center mx-[1%]">
-                        <UserIcon />
-                        <p className="text-xl text-black font-semibold w-[90px]">{userData?.name} 님</p>
+                    <div className="flex flex-row items-center justify-between gap-x-2 mx-[1%]">
+                        <p className="text-[18px] text-blue-500 font-semibold w-[50px]"> Lv. {level}</p>
+                        <p className="text-[18px] text-black font-semibold w-[60px]">{name}님</p>
                         <div className="arrow" style={{ transformOrigin: "50% 55%" }}>
                             <svg width="15" height="15" viewBox="0 0 20 20">
                                 <path d="M0 7 L 20 7 L 10 16" />
@@ -45,7 +43,7 @@ const SelectAuth = () => {
                 }}
             >
                 <li className='hover:bg-slate-100 w-full h-auto flex justify-center items-center py-2'>
-                    <Link className='text-black text-[18px] font-semibold' href={'/user-info'}>마이페이지</Link>
+                    <Link className='text-black text-[16px] font-semibold' href={'/user-info'}>마이페이지</Link>
                 </li>
                 <div className='h-[2px] bg-slate-200'/>
                 <li className='hover:bg-slate-100 w-full h-auto flex justify-center items-center py-2'>

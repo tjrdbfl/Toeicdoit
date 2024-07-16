@@ -1,13 +1,19 @@
 'use client';
-import { useApp } from "@/contexts/AppContext";
-import { useEffect, useState } from "react";
+
+import { store } from "@/redux";
+import { clearUserData } from "@/store/auth/user-slice";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { persistStore } from "redux-persist";
 
 const LogoutBtn=()=>{
-    const [isLoading, setIsLoading] = useState(true);
-	const [isLoggedOut, setIsLoggedOut] = useState(false);
-    const {setUserData}=useApp();
+    
+    const dispatch=useDispatch();
+    const router=useRouter();
+    const persistor=persistStore(store);
 
-    const onClick=()=>{
+    const onClick=async()=>{
+        //cookie delete 역시 필요 
         // fetch('/api/logout',{
         //     method:'GET',
         // }).then(res=>{
@@ -21,10 +27,15 @@ const LogoutBtn=()=>{
         // }).finally(()=>{
         //     setIsLoading(false);
         // })
+        console.log('dispatch');
+        dispatch(clearUserData());
+        console.log('flush');
+        await persistor.purge();
+        router.refresh();
     };
 
     return(<>
-    <button className="text-black text-[18px] font-semibold"
+    <button className="text-black text-[16px] font-semibold"
     onClick={onClick}>로그아웃</button>
     </>);
 }

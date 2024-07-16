@@ -49,13 +49,13 @@ export async function saveFree(prevState: MessageState, formData: FormData) {
         console.log(JSON.stringify(result));
     
         if(result.message==='SUCCESS'){
-            revalidateTag(`${PG.FREE}/write`); 
-            redirect(`${PG.FREE}`); 
+            console.log('result.message: '+result.message);
+            return {...prevState,result_message:'SUCCESS'}; 
         }else{
-            return {...prevState,error_message:ERROR.SERVER_ERROR.toString()};
+            return {...prevState,result_message:ERROR.SERVER_ERROR.toString()};
         }
     }catch(err){
-        return {...prevState,error_message:ERROR.SERVER_ERROR};
+        return {...prevState,result_message:ERROR.SERVER_ERROR};
     }
         
 }

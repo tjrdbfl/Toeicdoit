@@ -7,6 +7,8 @@ import ExamTable from "@/components/exam/ExamTable";
 import CustomPagination from "@/components/common/CustomPagination";
 import { Suspense } from "react";
 import { CommonHeader } from "@/config/headers";
+import { getDecryptedUserData } from "@/store/auth/user-slice";
+import { store } from "@/redux";
 
 export default async function ExamPage({ searchParams }: {
     searchParams?: {
@@ -43,10 +45,15 @@ export default async function ExamPage({ searchParams }: {
     }catch(error){
         console.log('Error fetching exam data: ',error);
     }
-    
+    console.log('rootState');
+    const rootState = store.getState();
+
+    const userData = getDecryptedUserData(rootState.user);
+    console.log('userData: ', userData);
+
 
     return (<>
-    <Navbar/>
+    <Navbar userData={userData}/>
     <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
       
         <div className="md:py-28 lg:py-28">

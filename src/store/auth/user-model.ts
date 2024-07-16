@@ -5,4 +5,5 @@ export interface IUser{
     role:string;
     calendarId:number;
     toeicLevel:number;
+    isLogined:boolean;
 }

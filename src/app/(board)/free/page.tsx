@@ -9,6 +9,7 @@ import { CommonHeader } from "@/config/headers";
 import { ERROR } from "@/constants/enums/ERROR";
 import { SERVER_API } from "@/constants/enums/API";
 
+
 export const metadata = {
     title: "Toeicdoit - Free Page",
     description: "",
@@ -28,7 +29,7 @@ export default async function FreePage({searchParams}:{
         const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=자유&size=10`,{
             method:'GET',
             headers:CommonHeader,
-            next:{revalidate:60*60}
+            cache:'no-cache'
         })
 
         const data:I_ApiBoardResponse=await response.json();

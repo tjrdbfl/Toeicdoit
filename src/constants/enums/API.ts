@@ -8,6 +8,8 @@ export const enum SERVER_API{
     ROOM='room',
     BOARD='api/board',
     TOEIC='api/toeic',
+    AUTH='auth',
+    USER='api/user',
 }
 
 export const enum PUBLIC{

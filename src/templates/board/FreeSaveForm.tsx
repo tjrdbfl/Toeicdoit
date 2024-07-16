@@ -1,7 +1,9 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
+import { PG } from "@/constants/enums/PG";
 import { saveFree } from "@/service/board/action";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
@@ -11,7 +13,7 @@ export interface MessageState {
         category?: string[] | undefined;
         content?: string[] | undefined;
     };
-    error_message: string;
+    result_message: string;
 }
 
 const initialState: MessageState = {
@@ -20,7 +22,7 @@ const initialState: MessageState = {
         title: "" || undefined,
         content: "" || undefined,
     },
-    error_message: ""
+    result_message: ""
 };
 
 export default function FreeSaveForm() {
@@ -30,6 +32,7 @@ export default function FreeSaveForm() {
     const [state, formAction] = useFormState(saveFree, initialState);
     const { pending } = useFormStatus();
     const [message, setMessage] = useState<MessageState>(initialState);
+    const router=useRouter();
 
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length < 8) {
@@ -74,7 +77,14 @@ export default function FreeSaveForm() {
     useEffect(() => {
         console.log('state'+JSON.stringify(state));
         setMessage(state);
-    }, [state.error_message, state.message.category, state.message.title, state.message.content]);
+
+        if(state.result_message==='SUCCESS'){
+            console.log('ddd');
+            //router.push(`${PG.FREE}`);
+        }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
+            alert(state.result_message);
+        }
+    }, [state.result_message]);
 
     return (<>
         <form

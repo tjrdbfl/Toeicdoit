@@ -1,18 +1,12 @@
 'use client';
-
-import { I_ApiUserLoginRequest, I_ApiUserLoginResponse } from "@/app/api/login/route";
 import AuthInput from "@/components/auth/AuthInput";
 import PhoneNumberInput from "@/components/auth/PhoneNumberInput";
 import PhoneNumberSelect from "@/components/auth/PhoneNumberSelect";
 import RegCheckBox from "@/components/auth/RegCheckBox";
-import { useApp } from "@/contexts/AppContext";
-import { MenuItem, Select } from "@mui/material";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 const RegisterForm = () => {
-
-    const { userData, setUserData } = useApp();
 
     //Utils
     const searchParams = useSearchParams();
