@@ -11,6 +11,7 @@ import { PG } from "@/constants/enums/PG";
 import { ERROR } from "@/constants/enums/ERROR";
 import { MessageData } from "@/types/MessengerData";
 import { MessageState } from "@/templates/board/FreeSaveForm";
+import { DeleteMessageState } from "@/components/my-page/InquiryTable";
 
 export async function saveFree(prevState: MessageState, formData: FormData) {
 
@@ -156,4 +157,31 @@ export async function createReply(prevState: { message: string },
 
     revalidatePath(currentPath);
     return { message: 'Success' };
+}
+export async function deleteBoard(prevState:DeleteMessageState,formData:FormData){
+    const boardId=formData.get('boardId')?.toString();
+
+    if(boardId===''){
+        console.log('boardId is null: '+boardId);
+        return {...prevState,message:'삭제할 항목을 선택해주세요.'};
+    }
+
+    try{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/delete?id=${boardId}`,{
+            method:'DELETE',
+            headers:CommonHeader,
+            cache:'no-store'
+        });
+
+        const result:MessageData=await response.json();
+        if(result.message==='SUCCESS'){
+            console.log('result.message: '+result.message);
+            return {...prevState,result_message:'SUCCESS'}; 
+        }else{
+            return {...prevState,result_message:ERROR.SERVER_ERROR};
+        }
+
+    }catch(err){
+        return {...prevState,result_message:ERROR.SERVER_ERROR};
+    }
 }

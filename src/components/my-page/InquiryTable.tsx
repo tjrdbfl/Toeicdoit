@@ -1,9 +1,20 @@
 'use client';
 import { BoardData } from "@/types/BoardData";
 import ModifyBtn from "../button/ModifyBtn";
-import { ChangeEvent, useState } from "react";
-import { deleteFree } from "@/service/board/action";
-import { getRandomCategory } from "@/service/board/utils";
+import { ChangeEvent, useEffect, useState } from "react";
+import { deleteBoard, deleteFree } from "@/service/board/action";
+import { useFormState, useFormStatus } from "react-dom";
+import SubmitButton from "../button/SubmitBtn";
+
+export interface DeleteMessageState {
+    boardId?: string | undefined;    
+    result_message: string;
+}
+
+const initialState: DeleteMessageState = {
+    boardId: ""||undefined,    
+    result_message: ""
+};
 
 const InquiryTable = ({
     boards
@@ -11,45 +22,51 @@ const InquiryTable = ({
     boards: BoardData[]
 }) => {
 
+    const { pending } = useFormStatus();
+    const [formAction,state]=useFormState(deleteBoard,initialState);
     const [category, setCategory] = useState<string>('');
     const [selectedId, setSelectedId] = useState<number>(0);
-
+    const [message, setMessage] = useState<DeleteMessageState>(initialState);
+    
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();
-        setCategory(event.target.value==='공지사항'?'공지':event.target.value==='자유게시판'?'자유':'문의');
+        setCategory(event.target.value === '공지사항' ? '공지' : event.target.value === '자유게시판' ? '자유' : '문의');
     };
 
     const handleIdChange = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSelectedId(parseInt(event.target.value));
     };
-    let tempCategory:string='이벤트';
+    let tempCategory: string = '이벤트';
 
-    
-    const clickDelete = async () => {
-        try {
-            const response = await deleteFree(selectedId, 'customer');
+    // useEffect(() => {
+    //     console.log('state'+JSON.stringify(state));
+    //     setMessage(state);
 
-            if (!response.ok) {
-                alert('삭제 실패');
-            }
+    //     if(state.result_message==='SUCCESS'){
+    //         console.log('ddd');
+    //         //router.push(`${PG.FREE}`);
+    //     }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
+    //         alert(state.result_message);
+    //     }
+    // }, [state.result_message]);
 
-        } catch (err) {
-            alert("Network Error: 삭제 실패");
-            console.error("Error deleting post:", err);
-        }
-    }
 
     return (<>
         <div>
             <div className="flex flex-row justify-end gap-x-2">
                 <div className="w-[80px]">
-                    <button
-                        className="form_submit_btn"
-                        onClick={clickDelete}
+                    <form
+                    //action={formAction}
                     >
-                        삭제
-                    </button>
+                        <input
+                            name='boardId'
+                            id='boardId'
+                            type='text'
+                            className="hidden" />
+                        <SubmitButton label={"삭제"}/>
+                    </form>
+
                 </div>
                 <div className="w-[80px]">
                     <ModifyBtn id={selectedId} />
@@ -136,22 +153,22 @@ const InquiryTable = ({
                                             {board.id}
                                         </td>
                                         <td className="mr-5 whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
-                                            <p className={`${ board.type=== '문의' ? "text-red-500 font-medium" :
+                                            <p className={`${board.type === '문의' ? "text-red-500 font-medium" :
                                                 board.type == '자유' ? "text-yellow-500 font-medium" :
-                                                "text-zinc-500 font-medium"}`}>{board.type}</p>
+                                                    "text-zinc-500 font-medium"}`}>{board.type}</p>
                                         </td>
                                         <td className="whitespace-nowrap w-[42%] text-center">
                                             <div className="flex flex-row gap-x-5 items-center justify-start">
                                                 <p className={`${tempCategory === '이벤트' ? "text-blue-500 font-medium" :
                                                     tempCategory === '알림' ? "text-purple-500 font-medium" :
-                                                    tempCategory === '업데이트' ? "text-green-500 font-medium" :
+                                                        tempCategory === '업데이트' ? "text-green-500 font-medium" :
                                                             "text-black-500"}`}>{tempCategory}</p>
                                                 <p>{board.title}</p>
                                             </div>
                                         </td>
 
                                         <td className="whitespace-nowrap w-[20%] text-center">
-                                        {new Date(board.updatedAt).toISOString().slice(0, 10)}
+                                            {new Date(board.updatedAt).toISOString().slice(0, 10)}
                                         </td>
 
                                     </tr>

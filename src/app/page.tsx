@@ -19,7 +19,7 @@ export default async function Home() {
       <div className="fixed bottom-5 right-5 z-40">
         <MoveToTopBtn />
       </div>
-      <div className="fixed bottom-28 right-5 z-40">
+      <div className="fixed bottom-24 right-5 z-40">
         <ChatBtn />
       </div>
       <ChatContainer />

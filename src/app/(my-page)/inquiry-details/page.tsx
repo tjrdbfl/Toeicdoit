@@ -12,27 +12,27 @@ export const metadata = {
     title: "Toeicdoit - Inquiry Details Page",
     description: "",
 };
-const InquiryDetailsPage = async({ params }: {
+export default async function conInquiryDetailsPage({ params }: {
     params: {
         page: string;
     }
-}) => {
+}){
 
     const currentPage = Number(params.page) || 1;
     let totalPages: number = 0;
     let boards: BoardData[] = [];
     
     try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=공지&size=10`,{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-userId?id=10`,{
             method:'GET',
             headers:CommonHeader,
-            next:{revalidate:60*60}
+            cache:'no-store'
         })
 
-        const data:I_ApiBoardResponse=await response.json();
+        const data=await response.json();
 
         if(data){
-            boards=data.content;
+            boards=data;
             totalPages=data.totalPages;
         }else{
             console.error('Failed to get response data'+ERROR.SERVER_ERROR);
@@ -57,4 +57,3 @@ const InquiryDetailsPage = async({ params }: {
         </div>
     </>);
 }
-export default InquiryDetailsPage;

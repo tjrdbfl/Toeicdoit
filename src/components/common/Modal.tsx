@@ -11,7 +11,7 @@ export default function Modal({ children }: {
         <>
             {chat === 'true' &&
                 <div
-                    className="fixed inset-0 z-20 flex justify-end items-end m-28"
+                    className="fixed inset-0 z-20 flex justify-end items-end mb-12 mr-24"
                 >
                     {children}
                 </div>
