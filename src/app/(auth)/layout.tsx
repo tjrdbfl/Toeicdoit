@@ -13,7 +13,7 @@ export default function AuthLayout({
   
   return (
     <>
-      <div className="w-full flex justify-center items-center total_padding py-32">
+      <div className="w-full h-screen flex justify-center items-center total_padding py-32">
         {children}
       </div>
     </>

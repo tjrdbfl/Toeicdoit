@@ -19,7 +19,7 @@ const ScrollLeftBtn:FC<ScrollLeftBtnProps> = ({scrollRef}) => {
         onClick={moveLeft}
         className='bg-white opacity-65 border-slate-100 border-2 shadow-lg rounded-full p-7 h-[50px] w-[50px] flex items-center justify-center hover:bg-blue-50'
         >
-            <ArrowBackIosNewIcon className='text-[#5AB2FF] text-4xl' />
+            <ArrowBackIosNewIcon className='text-[var(--blue2)] text-4xl' />
         </button>
     </>);
 }

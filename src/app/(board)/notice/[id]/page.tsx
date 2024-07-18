@@ -51,9 +51,9 @@ export default async function NoticeDetailPage({ params }: {
 
     return (<>
         <div className="total_padding py-28">
-            <div className="w-full flex flex-col z-10 px-[7%]">
+            <div className="w-full flex flex-col z-10 lg:px-20 2xl:px-[25%]">
                 <NoticeLink />
-                <div className="mt-10" />
+                <div className="mt-5" />
                 <BoardDetailTitle
                     type={"notice"}
                     title={Board?.title}
@@ -65,7 +65,7 @@ export default async function NoticeDetailPage({ params }: {
                     createdAt={Board?.createdAt}
                     updatedAt={Board?.updatedAt} />
 
-                <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
+                <div className="bg-zinc-300 w-full h-[0.5px] mt-3" />
                 <BoardDetailContent content={Board?.content} />
                 <BoardDetailControl id={params.id} totalIndex={totalIndex}/>
             </div>

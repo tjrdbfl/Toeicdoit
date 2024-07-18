@@ -54,3 +54,8 @@ const nextConfig = {
   };
   
   module.exports = withNextVideo(nextConfig);
+  module.exports = {
+    images:{
+      domains:['dummyimage.com']
+    }
+  }

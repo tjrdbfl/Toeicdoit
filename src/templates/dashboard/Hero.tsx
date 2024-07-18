@@ -2,54 +2,49 @@
 
 import { motion } from 'framer-motion';
 
-import { textVariant, slideIn, fadeIn } from '@/utils/motion';
+import { textVariant, fadeIn } from '@/utils/motion';
 import { styles } from '@/constants/styles/dashboard';
-import Image from 'next/image';
 
+       
 const Hero = () => (
   <section className={`${styles.yPaddings} sm:pl-16 pl-6`}>
     <motion.div
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className={`${styles.innerWidth} mx-auto flex flex-col z-0`}
-    >
-
+      className={`${styles.innerWidth} mx-auto flex flex-col items-center justify-center w-full h-full`}    
+      >
       <motion.div
-        variants={fadeIn('up', 'tween', 0.3, 1)}
-        className="relative flex justify-center w-full"
+        variants={fadeIn("up", "tween", 0.3, 1)}
+        className="relative w-[800px] object-fill"
       >
         <video
-          width="85%"
+          width={900}
+          height={800}
           autoPlay
           muted
           preload="auto"
           playsInline
           loop
-          className='h-[70%] pointer-events-none '
+          className="pointer-events-none"
         >
-          <source
-            src='/videos/main.mp4'
-            type="video/mp4"
-          />
+          <source src="/videos/main.mp4" type="video/mp4" />
         </video>
         <div className="video-overlay flex justify-center items-center flex-col">
-
-          <motion.div 
+        <motion.div 
           
           variants={textVariant(1.1)} 
-          className={styles.heroHeading}
+          className={'font-medium text-[28px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[var(--blue2)]'}
           >
             토익 점수 향상
           </motion.div>
           <motion.div
             variants={textVariant(1.2)}
-            className="flex flex-row justify-center items-center"
+            className="flex flex-row justify-center items-center font-medium text-[28px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[var(--blue2)]"
           >
-            <h1 className={styles.heroHeading}>지금 바로 토익 두잇 !</h1>
+            지금 바로 토익 두잇 !
           </motion.div>
         </div>
-
       </motion.div>
     </motion.div>
   </section>

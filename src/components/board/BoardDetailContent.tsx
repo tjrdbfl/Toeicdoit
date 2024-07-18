@@ -5,7 +5,7 @@ const BoardDetailContent = ({content}:{
 }) => {
     return (<>
         <ScrollArea
-            className="sm:h-[500px] xl:h-[600px] py-5"
+            className="sm:h-[450px] xl:h-[550px] py-3 px-5"
         >
             <p className="text-black text-xl leading-10 text-balance mr-3 px-3">
                 {content}

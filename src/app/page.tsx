@@ -15,7 +15,7 @@ export default async function Home() {
   
   
   return (
-    <div className="">
+    <div className="xl:px-[15%] 2xl:px-24">
       <div className="fixed bottom-5 right-5 z-40">
         <MoveToTopBtn />
       </div>
@@ -25,35 +25,40 @@ export default async function Home() {
       <ChatContainer />
 
       <div className="total_padding">
-        <div className="2xl:mt-[4%] xl:mt-[7%] lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />
+        <div className="xl:mt-20 lg:mt-[10%] sm:mt-[10%] md:mt-[15%] " />
         <Hero />
 
-        <div className="mt-[7%]" />
+        <div className="2xl:mt-5" />
         <About />
 
-        <div className="absolute z-0" />
-        <div className="mt-[7%]" />
-        <WhatsNew />
-
-        <div className="mt-[10%] lg:mt-[7%]" />
-        <World />
-
         <div className="relative">
-          <div className="mt-[7%]" />
+          <div className="mt-5" />
           <div className="gradient-03 z-0" />
+          <div className="xl:px-32">
           <Explore />
+          </div>
+          </div>
+        
+        <div className="mt-10 xl:px-32">
+        <WhatsNew />
         </div>
-
+        
+        <div className="mt-20 px-32" >
+        <World />
+        </div>
+        
         <div className="relative">
-          <div className="mt-[10%] lg:mt-[7%]" />
+          <div className="mt-10 xl:px-32" >
           <GetStarted />
-        </div>
+          </div>
+          </div>
         <div className="mt-[7%]" />
 
         <div className="relative">
-          <div className="mt-[7%]" />
+          <div className="mt-10 xl:px-32">
           <Review />
-        </div>
+          </div>
+          </div>
 
         <div className="mt-[7%] z-20" />
         <FooterStarted />

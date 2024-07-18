@@ -37,3 +37,11 @@ export interface I_ApiBoardDetailResponse{
     totalIndex: number;
     Board:BoardData;
 }
+
+export interface I_ApiBoardSaveRequest {
+    userId:number,
+    title: string;
+    content: string;
+    type: string;
+    category:string;
+}

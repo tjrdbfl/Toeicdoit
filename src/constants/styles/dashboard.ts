@@ -15,7 +15,7 @@ export const styles = {
 
     // hero section
     heroHeading:
-        'font-semibold lg:text-[36px] md:text-[40px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[#5AB2FF] ',
+        ' ',
     heroDText:
         'md:w-[212px] sm:w-[80px] w-[60px] md:h-[108px] sm:h-[48px] h-[38px] md:border-[18px] border-[9px] rounded-r-[50px] border-white sm:mx-2 mx-[6px] ',
 };
@@ -29,19 +29,19 @@ export const exploreWorlds = [
     },
     {
         id: 'function-2',
-        imgUrl: '/images/dashboard/planet-02.png',
+        imgUrl: '/images/dashboard/level-practice.png',
         title: '수준별 연습문제',
         content:'Toicdoit은 실시간 학습 데이터를 분석하여 학습자에게 가장 효과적인 학습 전략을 제시합니다. 취약점을 보완하고, 강점을 더욱 강화하여 전반적인 능력 향상을 도와줍니다.',
     },
     {
         id: 'function-3',
-        imgUrl: '/images/dashboard/planet-05.png',
+        imgUrl: '/images/dashboard/part-practice.png',
         title: '파트별 연습문제',
         content:'Toicdoit은 맞춤형 연습 문제를 제공하여 자신의 강점과 약점을 파악하여 부족한 부분을 집중적으로 보완할 수 있습니다.',
     },
     {
         id: 'function-4',
-        imgUrl: '/images/dashboard/planet-04.png',
+        imgUrl: '/images/dashboard/level-test.png',
         title: '레벨테스트',
         content:'Toicdoit은 레벨 테스트를 통해 토익 공식 시험과 동일한 형식과 난이도의 문제로 구성되어 실제 실력을 정확하게 평가할 수 있습니다.',
     }
@@ -77,21 +77,35 @@ export const effects = [
 export const newFeatures = [
     {
         imgUrl: '/images/dashboard/feature-01.png',
-        title: 'AI 선생님을 통한 TOEIC 문제 학습',
-        subtitle:
-            ' AI 선생님은 각 학습자의 강점과 약점, 학습 스타일, 학습 속도 등을 분석하여 맞춤형 학습 경험을 제공합니다. AI 선생님의 해설 강의를 통해 피드백을 제공하여 오류를 바로잡고 학습 효과를 극대화 해보세요.',
-    },
-    {
-        imgUrl: '/images/dashboard/feature-02.png',
         title: '10만건 이상의 TOEIC 문제 보유',
         subtitle:
             '토익두잇은 방대한 문제풀이 기회를 제공하여 다양한 유형의 문제를 경험할 수 있습니다. 수준별 학습, 파트별 문제풀이, 실전 모의고사를 통해 자신의 학습 수준에 맞는 문제를 풀 수 있습니다.',
     },
     {
+        imgUrl: '/images/dashboard/feature-02.png',
+        title: '토익 학습자들을 위한 오픈채팅방',
+        subtitle:
+            '토익두잇은 학습자 간의 활발한 소통과 정보 교류를 위해 오픈채팅방을 제공합니다. 이를 통해 스터디 모집과 유사한 방식으로 함께 공부할 학습자를 찾고, 서로 격려하며 목표 달성을 위한 시너지를 만들어갈 수 있습니다.',
+    },
+    {
         imgUrl: '/images/dashboard/feature-03.png',
         title: '사용자의 TOEIC 수준 측정',
         subtitle:
-            '인터넷, 모바일 등 다양한 기기를 통해 언제 어디서든 손쉽게 레벨 테스트를 응시할 수 있습니다. 짧은 시간 안에 실력을 신속하게 파악하여 효율적인 학습을 진행해 보세요.',
+            '토익두잇은 개인별 맞춤형 성적 분석 차트를 제공하여, 학습자들이 자신의 강점과 약점을 파악하고, 이를 바탕으로 효율적인 학습 전략을 수립할 수 있도록 지원합니다.',
+    },
+];
+export const newGetStarted = [
+    {
+        imgUrl: '/images/dashboard/chat-main.png',
+        title: '토익두잇 오픈채팅방을 만들어보세요',
+        subtitle:
+            '토익두잇에서 제공하는 오픈채팅방을 직접 생성하고 참여해보세요! 학습자 간의 활발한 소통과 정보 교류를 위해 오픈채팅방을 제공합니다. 이를 통해 스터디 모집과 유사한 방식으로 함께 공부할 학습자를 찾고, 서로 격려하며 목표 달성을 위한 시너지를 만들어갈 수 있습니다.',
+    },
+    {
+        imgUrl: '/images/dashboard/chat-main.png',
+        title: '토익두잇 오픈채팅방에서 대화해보세요',
+        subtitle:
+            '혼자 토익 공부하기 막막하셨죠? 토익두잇 오픈채팅방이 여러분의 고민을 해결해 드립니다! 또한, 최신 토익 경향, 문제 유형 분석, 고득점 전략 등 혼자서는 얻기 힘든 알짜 정보들을 실시간으로 공유해보세요. 혼자 끙끙 앓던 문제, 오픈채팅방에 올리면 토익 고수들이 친절하게 답변해 드립니다.',
     },
 ];
 

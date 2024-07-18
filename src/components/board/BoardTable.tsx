@@ -16,7 +16,7 @@ const BoardTable = async ({
         <div className="mt-10 flow-root">
             <div className="inline-block min-w-full align-middle shadow-md">
                 <div className="rounded-2xl border-slate-100 border-2 bg-white p-2 md:pt-0">
-                    <div className="md:hidden">
+                    {/* <div className="md:hidden">
                         {boards?.map((item) => (
                             <div
                                 key={item.id}
@@ -32,21 +32,21 @@ const BoardTable = async ({
                                 </div>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
-                    <table className="hidden min-w-full text-gray-900 md:table">
+                    <table className="min-w-full text-gray-900">
                         <thead className="rounded-2xl bg-white text-left text-lg font-normal border-b-slate-200 border-b-2 min-w-full">
                             <tr className="flex w-full flex-row justify-between">
-                                <th scope="col" className="w-[15%] 2xl:w-[5%] lg:w-[10%] py-4 font-medium sm:pl-6 text-center ">
+                                <th scope="col" className="w-[15%] 2xl:w-[5%] lg:w-[10%] py-4 font-medium sm:pl-6 text-center text-[16px] sm:text-[20px]">
                                     번호
                                 </th>
-                                <th scope="col" className="w-[40%] py-4 font-medium text-center">
+                                <th scope="col" className="w-[40%] py-4 font-medium text-center text-[16px] sm:text-[20px]">
                                     제목
                                 </th>
-                                <th scope="col" className="w-[10%] py-4 font-medium text-center">
+                                <th scope="col" className="w-[15%] py-4 font-medium text-center text-[16px] sm:text-[20px]">
                                     작성자
                                 </th>
-                                <th scope="col" className="w-[20%] py-4 font-medium text-center ">
+                                <th scope="col" className="w-[20%] py-4 font-medium text-center text-[16px] sm:text-[20px]">
                                     작성날짜
                                 </th>
                             </tr>
@@ -58,22 +58,25 @@ const BoardTable = async ({
                                     id={notice.id}
                                     type={type}
                                 >
-                                    <td className="whitespace-nowrap 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
+                                    <td className="whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center text-[16px] sm:text-[20px]">
                                         {notice.id}
                                     </td>
-                                    <td className="whitespace-nowrap w-[40%] text-center">
+                                    <td className="whitespace-nowrap sm:w-[40%] text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
-                                            <p className={`${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
+                                            <p className={`text-[16px] sm:text-[20px] ${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
                                                 getRandomCategory() == '알림' ? "text-purple-500 font-medium" :
                                                     getRandomCategory() === '업데이트' ? "text-green-500 font-medium" :
                                                         "text-black-500"}`}>{getRandomCategory()}</p>
-                                            <p className="text-ellipsis">{notice.title}</p>
-                                        </div>
+                                            <p className="hidden text-ellipsis text-[16px] sm:text-[20px] md:table">{notice.title}</p>
+                                            <div className="md:hidden">
+                                            <p className="text-ellipsis text-[16px] sm:text-[20px]">{notice.title.slice(0,9)+'...'}</p>
+                                            </div>
+                                    </div>
                                     </td>
-                                    <td className="whitespace-nowrap w-[10%] text-center">
+                                    <td className="whitespace-nowrap w-[10%] text-center text-[16px] sm:text-[20px]">
                                         {notice.writer}
                                     </td>
-                                    <td className="whitespace-nowrap w-[20%] text-center">
+                                    <td className="whitespace-nowrap w-[20%] text-center text-[16px] sm:text-[20px]">
                                         {new Date(notice.updatedAt).toISOString().slice(0, 10)}
                                     </td>
 

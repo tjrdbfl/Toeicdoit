@@ -10,7 +10,7 @@ export default function LevelLayout({
 }>) {
     return (
         <>
-            <div className="w-full total_padding min-h-screen">
+            <div className="w-full total_padding h-screen">
             {children}
             </div>
         </>

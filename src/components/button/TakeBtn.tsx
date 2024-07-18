@@ -13,7 +13,7 @@ const TakeBtn = ({ id }: {
 
     return (<>
         <button
-            className="text-[#5AB2FF] underline text-lg hover:text-[#89CFF3]"
+            className="text-[var(--blue2)] underline text-lg hover:text-[#89CFF3]"
             onClick={toggleModal}
         >
             응시하기

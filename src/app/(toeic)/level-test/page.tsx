@@ -41,10 +41,10 @@ export default async function LevelTestPage() {
                     <div className="mt-20 xl:mt-32" />
                     <div className="flex">
                         <div className="order-2 z-10 bg-white shadow-md w-[350px] lg:w-[500px] 2xl:w-[600px] p-10 flex flex-col justify-center items-center">
-                            <div className="level_header w-full p-5 lg:text-2xl 2xl:text-4xl text-slate-500 text-center relative">
+                            <div className="level_header w-full p-5 lg:text-2xl 2xl:text-3xl text-slate-500 text-center relative">
                                 TEST
                                 <div className="flex w-full justify-end">
-                                    <div className="object-fit rounded-full w-[120px] md:w-[160px] xl:w-[250px] h-[160px] transform rotate-12 absolute top-0 -right-16">
+                                    <div className="object-fit rounded-full w-[120px] md:w-[160px] xl:w-[200px] h-[160px] transform rotate-12 absolute top-0 -right-16">
                                         <Image
                                             src={"/images/level-test/level-test-score.png"}
                                             alt={"level-test-score"}
@@ -56,26 +56,26 @@ export default async function LevelTestPage() {
                                     </div>
                                 </div>
                             </div>
-                            <p className=" text-zinc-600 font-bold lg:text-2xl 2xl:text-3xl mt-10 text-center">무료 레벨테스트</p>
-                            <p className="text-zinc-700 text-center text-md lg:text-xl 2xl:text-2xl mt-10 font-medium text-pretty">지금 바로 내 실력 확인하고 맞춤 학습 전략 세우기!</p>
+                            <p className=" text-zinc-600 font-bold lg:text-xl xl:text-2xl mt-10 text-center">무료 레벨테스트</p>
+                            <p className="text-zinc-700 text-center text-md lg:text-xl mt-10 font-medium text-pretty">지금 바로 내 실력 확인하고 맞춤 학습 전략 세우기!</p>
                             <div className="bg-zinc-200 w-[260px] lg:w-[420px] 2xl:w-[480px] h-[10px] rounded-full" />
-                            <p className="text-zinc-700 text-center text-md lg:text-xl 2xl:text-2xl mt-5 font-medium border-b-zinc-400">레벨 테스트를 통해</p>
+                            <p className="text-zinc-700 text-center text-md lg:text-xl mt-5 font-medium border-b-zinc-400">레벨 테스트를 통해</p>
                             <div className="bg-zinc-200 w-[120px] lg:w-[150px] 2xl:w-[180px] h-[10px] rounded-full" />
-                            <p className="text-zinc-700 text-center text-md lg:text-xl 2xl:text-2xl mt-5 font-medium border-b-zinc-400">자신의 약점을 파악하고 강화해보세요! </p>
+                            <p className="text-zinc-700 text-center text-md lg:text-xl mt-5 font-medium border-b-zinc-400">자신의 약점을 파악하고 강화해보세요! </p>
                             <div className="bg-zinc-200 w-[250px] lg:w-[310px] 2xl:w-[370px] h-[10px] px-12 rounded-full" />
                             <div className="flex flex-row">
-                                <p className="text-black text-[50px] lg:text-[100px] font-bold">0</p>
-                                <p className="text-black text-[30px] lg:text-[60px] font-bold mt-5 lg:mt-10">원</p>
+                                <p className="text-black text-[50px] lg:text-[80px] font-bold">0</p>
+                                <p className="text-black text-[30px] lg:text-[40px] font-bold mt-5 lg:mt-10">원</p>
                             </div>
                         </div>
                         <div className="absolute shadow-lg order-1 z-0 bg-blue-600 w-[350px] md:w-[400px] lg:w-[450px] xl:w-[500px] 2xl:w-[600px] h-[500px] lg:h-[600px] transform -rotate-12" />
                     </div>
-                    <div className="mt-32" />
+                    <div className="mt-40" />
                     <div className="flex h-[60px] lg:h-[120px] flex-row">
                         <div className="z-0">
                             <StartLevelTestBtn />
                         </div>
-                        <div className="absolute order-2 z-10 ml-48 lg:ml-44 -mt-10 w-[130px] lg:w-[200px]">
+                        <div className="absolute order-2 z-10 ml-48 lg:ml-44 -mt-10 w-[130px] lg:w-[180px]">
                             <Image
                                 src={"/images/level-test/level-test-point.png"}
                                 alt={"level-test-poing"}

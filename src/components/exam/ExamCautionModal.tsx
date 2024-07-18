@@ -30,7 +30,7 @@ const ExamCautionModal = ({ id,
                     className="h-[500px] w-auto">
                     <div className="mr-5">
                        <h2
-                       className="text-[#5AB2FF] text-xl font-medium"
+                       className="text-[var(--blue2)] text-xl font-medium"
                        >토익 실전 모의고사를 풀기 전에 다음 사항들을 꼭 확인하세요!
                        </h2>
                        <h3

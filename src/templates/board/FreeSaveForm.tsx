@@ -3,35 +3,20 @@ import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { saveFree } from "@/service/board/action";
+import { initialMessageState, MessageState } from "@/types/MessengerData";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
-export interface MessageState {
-    message: {
-        title?: string[] | undefined;
-        category?: string[] | undefined;
-        content?: string[] | undefined;
-    };
-    result_message: string;
-}
 
-const initialState: MessageState = {
-    message: {
-        category: "" || undefined,
-        title: "" || undefined,
-        content: "" || undefined,
-    },
-    result_message: ""
-};
 
 export default function FreeSaveForm() {
 
     const [charCount, setCharCount] = useState(0);
 
-    const [state, formAction] = useFormState(saveFree, initialState);
+    const [state, formAction] = useFormState(saveFree, initialMessageState);
     const { pending } = useFormStatus();
-    const [message, setMessage] = useState<MessageState>(initialState);
+    const [message, setMessage] = useState<MessageState>(initialMessageState);
     const router=useRouter();
 
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +38,7 @@ export default function FreeSaveForm() {
             }));
         }
     }
+
     const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setCharCount(event.target.value.length);
         if (event.target.value.length < 50) {
@@ -79,8 +65,7 @@ export default function FreeSaveForm() {
         setMessage(state);
 
         if(state.result_message==='SUCCESS'){
-            console.log('ddd');
-            //router.push(`${PG.FREE}`);
+            router.push(`${PG.FREE}`);
         }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
             alert(state.result_message);
         }

@@ -1,20 +1,8 @@
 'use client';
 import { BoardData } from "@/types/BoardData";
-import ModifyBtn from "../button/ModifyBtn";
 import { ChangeEvent, useEffect, useState } from "react";
-import { deleteBoard, deleteFree } from "@/service/board/action";
-import { useFormState, useFormStatus } from "react-dom";
-import SubmitButton from "../button/SubmitBtn";
+import BoardBody from "../board/BoardBody";
 
-export interface DeleteMessageState {
-    boardId?: string | undefined;    
-    result_message: string;
-}
-
-const initialState: DeleteMessageState = {
-    boardId: ""||undefined,    
-    result_message: ""
-};
 
 const InquiryTable = ({
     boards
@@ -22,58 +10,19 @@ const InquiryTable = ({
     boards: BoardData[]
 }) => {
 
-    const { pending } = useFormStatus();
-    const [formAction,state]=useFormState(deleteBoard,initialState);
+    
     const [category, setCategory] = useState<string>('');
-    const [selectedId, setSelectedId] = useState<number>(0);
-    const [message, setMessage] = useState<DeleteMessageState>(initialState);
     
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();
         setCategory(event.target.value === '공지사항' ? '공지' : event.target.value === '자유게시판' ? '자유' : '문의');
     };
 
-    const handleIdChange = (event: ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        setSelectedId(parseInt(event.target.value));
-    };
+    
     let tempCategory: string = '이벤트';
 
-    // useEffect(() => {
-    //     console.log('state'+JSON.stringify(state));
-    //     setMessage(state);
-
-    //     if(state.result_message==='SUCCESS'){
-    //         console.log('ddd');
-    //         //router.push(`${PG.FREE}`);
-    //     }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
-    //         alert(state.result_message);
-    //     }
-    // }, [state.result_message]);
-
-
     return (<>
-        <div>
-            <div className="flex flex-row justify-end gap-x-2">
-                <div className="w-[80px]">
-                    <form
-                    //action={formAction}
-                    >
-                        <input
-                            name='boardId'
-                            id='boardId'
-                            type='text'
-                            className="hidden" />
-                        <SubmitButton label={"삭제"}/>
-                    </form>
-
-                </div>
-                <div className="w-[80px]">
-                    <ModifyBtn id={selectedId} />
-                </div>
-            </div>
-
-            <div className="flow-root mt-4">
+    <div className="flow-root mt-4">
                 <div className="inline-block min-w-full align-middle shadow-md">
                     <div className="rounded-2xl border-slate-100 border-2 bg-white p-2 md:pt-0">
                         <table className="md:hidden">
@@ -108,7 +57,7 @@ const InquiryTable = ({
                         <table className="hidden min-w-full text-gray-900 md:table">
                             <thead className="rounded-2xl bg-white text-left text-lg font-normal border-b-slate-200 border-b-2 min-w-full">
                                 <tr className="flex w-full flex-row justify-between">
-                                    <th scope="col" className="lg:ml-8 xl:ml-10 2xl:ml-20 w-[15%] 2xl:w-[7%] lg:w-[10%] py-4 font-medium sm:pl-6 text-center ">
+                                    <th scope="col" className="lg:ml-8 xl:ml-10 w-[15%] 2xl:w-[7%] lg:w-[10%] py-4 font-medium sm:pl-6 text-center ">
                                         번호
                                     </th>
                                     <th scope="col" className="md:ml-10 xl:ml-8 2xl:ml-0 lg:w-[14%] xl:w-[12%] 2xl:w-[10%] flex items-center">
@@ -135,21 +84,14 @@ const InquiryTable = ({
 
                             <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between items-center">
                                 {boards?.map((board) => (
-                                    <tr
-                                        key={board.id}
-                                        className="w-full items-center flex flex-row justify-between border-b py-3 text-lg rounded-2xl hover:bg-slate-50"
+                                    <BoardBody
+                                        key={board.id} 
+                                        id={board.id} 
+                                        type={board.type}
+                                        modify={true}                                        
                                     >
-                                        <td className="whitespace-nowrap text-center ml-2 mt-2">
-                                            <input
-                                                id="boardId"
-                                                type="radio"
-                                                value={board.id}
-                                                name={"boardId"}
-                                                onChange={handleIdChange}
-                                                className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                                        </td>
                                         <td
-                                            className="whitespace-nowrap 2xl:w-[2%] lg:w-[10%] md:w-[12%] text-start">
+                                            className="whitespace-nowrap 2xl:w-[9%] lg:w-[10%] md:w-[12%] text-center 2xl:ml-10">
                                             {board.id}
                                         </td>
                                         <td className="mr-5 whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
@@ -171,19 +113,16 @@ const InquiryTable = ({
                                             {new Date(board.updatedAt).toISOString().slice(0, 10)}
                                         </td>
 
-                                    </tr>
+                                    </BoardBody>
 
                                 ))}
 
                             </tbody>
-
-
                         </table>
 
                     </div>
                 </div>
             </div>
-        </div>
     </>);
 }
 export default InquiryTable;

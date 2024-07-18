@@ -17,10 +17,10 @@ export type UserData={
 
 export type UserDataPublic={
     id:UserData['id'];
+    email:UserData['email'];
+    phone:UserData['phone'];
+    profile:UserData['profile'];
     name:UserData['name'];
-    oauthId:UserData['oauthId'];
-    calendarId:UserData['calendarId'];
-    role:UserData['role'];
     toeicLevel:UserData['toeicLevel'];
 }
 

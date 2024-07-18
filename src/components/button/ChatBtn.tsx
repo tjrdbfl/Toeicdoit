@@ -7,14 +7,13 @@ import CloseIcon from '@mui/icons-material/Close';
 const ChatBtn = () => {
 
     const open = useSearchParams().get('chat');
-    console.log("Chat Btn open: " + open);
-
+    
     return (<>
         {open === 'true'
             ? <Link
                 href={`/`}
                 scroll={false}
-                className='bg-[#5AB2FF] hover:bg-[#00A9FF] hover:ring-2 rounded-full p-4 z-50'>
+                className='bg-[var(--blue2)] hover:bg-[#00A9FF] hover:ring-2 rounded-full p-4 z-50'>
                 <CloseIcon
                     className="text-white text-[32px]" />
             </Link>
@@ -22,7 +21,7 @@ const ChatBtn = () => {
                 href={`?chat=true`}
                 scroll={false}  //scroll방지
                 shallow={true}  //새로고침
-                className='bg-[#5AB2FF] hover:bg-[#00A9FF] hover:ring-2 rounded-full p-4'>
+                className='bg-[var(--blue2)] hover:bg-[#00A9FF] hover:ring-2 rounded-full p-4'>
                 <ChatIcon
                     className="text-white text-[96px]" />
             </Link>}

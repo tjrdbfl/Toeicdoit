@@ -8,7 +8,7 @@ writer,createdAt,updatedAt
     updatedAt:Date;
 }) => {
     return (<>
-        <div className="flex flex-row py-3">
+        <div className="flex flex-row py-1">
             <AccountCircleIcon className="text-slate-200 text-6xl" />
             <div className="flex flex-col ml-5">
                 <h4 className="text-black text-[18px] mb-2">작성자 : {writer}</h4>

@@ -161,7 +161,7 @@
   .footer-gradient {
     position: absolute;
     width: 500px;
-    height: 100px;
+    height: 50px;
     left: 37%;
     bottom: 0;
   
@@ -193,16 +193,13 @@
       gap: 190px;
     }
     .gettingStarted_btn{
-      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
       @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
-    }
-    .review_card{
-      @apply w-[720px] h-[520px]
     }
   }
 
@@ -211,16 +208,13 @@
       gap: 90px;
     }
     .gettingStarted_btn{
-      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
       @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
-    }
-    .review_card{
-      @apply w-[630px] h-[550px]
     }
   }
 
@@ -229,16 +223,13 @@
       gap: 90px;
     }
     .gettingStarted_btn{
-      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
       @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
-    }
-    .review_card{
-      @apply w-[600px] h-[610px]
     }
   }
 
@@ -247,16 +238,13 @@
       gap: 90px;
     }
     .gettingStarted_btn{
-      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
       @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
-    }
-    .review_card{
-      @apply w-[570px] h-[570px]
     }
   }
 
@@ -265,16 +253,13 @@
       gap: 50px;
     }
     .gettingStarted_btn{
-      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
       @apply text-black text-[15px] font-semibold hover:text-zinc-700 z-10
-    }
-    .review_card{
-      @apply w-[450px] h-[630px]
     }
   }
 
@@ -283,16 +268,13 @@
       gap: 40px;
     }
     .gettingStarted_btn{
-      @apply h-[40px] flex justify-center items-center text-white font-semibold text-[15px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[40px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
       @apply text-black text-[14px] font-semibold hover:text-zinc-700 z-10
-    }
-    .review_card{
-      @apply w-[400px] h-[690px]
     }
   }
 
@@ -301,7 +283,7 @@
       gap: 40px;
     }
     .gettingStarted_btn{
-      @apply h-[40px] w-[160px] flex justify-center items-center text-white font-semibold text-[15px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[40px] w-[160px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
@@ -316,7 +298,7 @@
       gap: 40px;
     }
     .gettingStarted_btn{
-      @apply h-[40px] w-[190px] flex justify-center items-center text-white font-semibold text-[15px] bg-[#5AB2FF] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+      @apply h-[40px] w-[190px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
       @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10

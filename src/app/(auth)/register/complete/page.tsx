@@ -12,7 +12,7 @@ export default function CompletePage(){
    </div>
 
    <div
-    className="text-[#5AB2FF] text-4xl font-semibold"
+    className="text-[var(--blue2)] text-4xl font-semibold"
     >토익두잇에 오신 것을 환영합니다!</div>
    </div>
    

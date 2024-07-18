@@ -1,17 +1,15 @@
 "use server";
 import { I_ApiFreeReplyRequest } from "@/app/api/free/reply/route";
-import { I_ApiFreeRequest } from "@/app/api/free/route";
 import { CommonHeader } from "@/config/headers";
 import { FreeReplySchema, FreeSaveSchema } from "@/types/schemas";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { getCookie, setCookie } from 'cookies-next';
 import { SERVER_API } from "@/constants/enums/API";
-import { PG } from "@/constants/enums/PG";
 import { ERROR } from "@/constants/enums/ERROR";
-import { MessageData } from "@/types/MessengerData";
-import { MessageState } from "@/templates/board/FreeSaveForm";
-import { DeleteMessageState } from "@/components/my-page/InquiryTable";
+import { MessageData, MessageState } from "@/types/MessengerData";
+import { I_ApiBoardSaveRequest } from "@/types/BoardData";
+import { redirect } from "next/navigation";
+
 
 export async function saveFree(prevState: MessageState, formData: FormData) {
 
@@ -27,7 +25,7 @@ export async function saveFree(prevState: MessageState, formData: FormData) {
     }
     
 
-    const rawFormData: I_ApiFreeRequest = {
+    const rawFormData: I_ApiBoardSaveRequest = {
         category:validatedFields.data.category,
         title:validatedFields.data.title,
         content:validatedFields.data.content,
@@ -50,7 +48,6 @@ export async function saveFree(prevState: MessageState, formData: FormData) {
         console.log(JSON.stringify(result));
     
         if(result.message==='SUCCESS'){
-            console.log('result.message: '+result.message);
             return {...prevState,result_message:'SUCCESS'}; 
         }else{
             return {...prevState,result_message:ERROR.SERVER_ERROR.toString()};
@@ -61,41 +58,67 @@ export async function saveFree(prevState: MessageState, formData: FormData) {
         
 }
 
+export async function modifyBoard(prevState: MessageState,formData: FormData) {
+
+    const boardId=formData.get('boardId')?.toString();
+
+    if(boardId===''){
+        return {...prevState,result_message:ERROR.SERVER_ERROR};
+    }
+
+    const validatedFields = FreeSaveSchema.safeParse({
+        category: formData.get('category'),
+        title: formData.get('title'),
+        content: formData.get('content')
+    })
+    
+    if (!validatedFields.success) {
+        console.log('saveFree'+JSON.stringify(validatedFields.error.flatten().fieldErrors))
+        return {...prevState,message:validatedFields.error.flatten().fieldErrors};
+    }
     
 
-export async function modifyFree(prevState: { message: string },
-    formData: FormData
-) {
+    const rawFormData = {
+        id:boardId,
+        category:validatedFields.data.category,
+        title:validatedFields.data.title,
+        content:validatedFields.data.content,
+    };
+    // const rawFormData: I_ApiBoardRequest = {
+    //     category:validatedFields.data.category,
+    //     title:validatedFields.data.title,
+    //     content:validatedFields.data.content,
+    //     type:'자유',
+    //     userId:1
+    // };
 
-    // const parse = FreeSaveSchema.safeParse({
-    //     id: formData.get('id'),
-    //     category: formData.get('category'),
-    //     title: formData.get('title'),
-    //     content: formData.get('content')
-    // })
+    console.log('Received form data: ', rawFormData);
 
-
-    // if (!parse.success) {
-    //     return { message: "Failed to create todo" };
-    // }
-
-    // const rawFormData: I_ApiFreeRequest = parse.data;
-
-    // console.log('Received form data: ', rawFormData);
-
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/post`, {
-    //     method: 'PUT',
-    //     headers: CommonHeader,
-    //     body: JSON.stringify(rawFormData),
-    //     cache: 'no-store'
-    // });
-
-    // if (!response.ok) {
-    //     return { message: '네트워크 오류 : 다시 제출해주세요.' };
-    // }
-
-    // revalidateTag('/inquiry-details'); // Update cached posts
-    // redirect(`/inquiry-details`); // Navigate to the new post page
+    try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/modify`, {
+            method: 'PUT',
+            headers: CommonHeader,
+            body: JSON.stringify(rawFormData),
+            cache: 'no-store'
+        });
+    
+        const result:MessageData=await response.json();
+        
+        console.log(JSON.stringify(result));
+    
+        if(result.message==='SUCCESS'){
+            console.log('result.message: '+result.message);
+            revalidatePath('/inquiry-details');
+            revalidatePath(`/inquiry-details/modify/${boardId}`);
+            
+            return {...prevState,result_message:'SUCCESS'}; 
+        }else{
+            return {...prevState,result_message:ERROR.SERVER_ERROR.toString()};
+        }
+    }catch(err){
+        return {...prevState,result_message:ERROR.SERVER_ERROR};
+    }
+    
 }
 export async function deleteFree(boardId:number,type:string) {
 
@@ -120,8 +143,6 @@ export async function deleteFree(boardId:number,type:string) {
     if (!response.ok) {
         setCookie('deleteErrorMessage', '삭제에 실패하셨습니다. 다시 시도해주세요.', { maxAge: 5 }); // 쿠키 설정
     }
-
-    revalidatePath('/inquiry-details');
 
     return response;
 }
@@ -158,12 +179,11 @@ export async function createReply(prevState: { message: string },
     revalidatePath(currentPath);
     return { message: 'Success' };
 }
-export async function deleteBoard(prevState:DeleteMessageState,formData:FormData){
-    const boardId=formData.get('boardId')?.toString();
-
-    if(boardId===''){
+export async function deleteBoard(boardId:number){
+    
+    if(boardId===0){
         console.log('boardId is null: '+boardId);
-        return {...prevState,message:'삭제할 항목을 선택해주세요.'};
+        return {message:ERROR.INVALID_INPUT}
     }
 
     try{
@@ -176,12 +196,13 @@ export async function deleteBoard(prevState:DeleteMessageState,formData:FormData
         const result:MessageData=await response.json();
         if(result.message==='SUCCESS'){
             console.log('result.message: '+result.message);
-            return {...prevState,result_message:'SUCCESS'}; 
+            revalidatePath(`/inquiry-details`);   
+            return {message:'SUCCESS'};
         }else{
-            return {...prevState,result_message:ERROR.SERVER_ERROR};
+           return {message:ERROR.SERVER_ERROR};
         }
 
     }catch(err){
-        return {...prevState,result_message:ERROR.SERVER_ERROR};
+       return {message:ERROR.SERVER_ERROR};
     }
 }

@@ -57,7 +57,7 @@ export default async function FreeDetailPage({ params }: {
 
     return (<>
         <div className="total_padding py-28">
-            <div className="w-full flex flex-col z-10 px-[7%]">
+            <div className="w-full flex flex-col z-10 lg:px-20 2xl:px-[25%]">
                 <FreeLink label={""} />
                 <div className="mt-10" />
                 <BoardDetailTitle

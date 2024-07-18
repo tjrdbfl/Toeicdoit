@@ -1,42 +1,49 @@
 'use client';
-import SearchIcon from '@mui/icons-material/Search';
+import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-const Search=({placeholder}:{
-    placeholder:string
-})=>{
+const Search = ({ placeholder }: {
+  placeholder: string
+}) => {
 
-    const searchParams=useSearchParams();
-    const pathname=usePathname();
-    const {replace}=useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
-    function handleSearch(term:string){
-        const params=new URLSearchParams(searchParams);
-        
-        if(term){
-            params.set('query',term);
-        }
-        else{
-            params.delete('query');
-        }
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);
 
-        replace(`${pathname}?${params.toString()}`);
+    if (term) {
+      params.set('query', term);
+    }
+    else {
+      params.delete('query');
     }
 
-    return(<>
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  return (<>
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
         Search
       </label>
       <input
-        className="bg-white shadow-md w-[500px] rounded-3xl border-slate-200 border-2 py-[13px] px-[52px] text-black text-lg placeholder:text-gray-500
-        hover:border-[#5AB2FF] focus:border-[#5AB2FF] "
+        className="bg-white shadow-md w-[400px] sm:w-[500px] rounded-3xl border-slate-200 border-2 py-[13px] px-[52px] text-black text-lg placeholder:text-gray-500
+        hover:border-[var(--blue2)] focus:border-[var(--blue2)] "
         placeholder={placeholder}
-        onChange={(e)=>{handleSearch(e.target.value);}}
+        onChange={(e) => { handleSearch(e.target.value); }}
         defaultValue={searchParams.get('query')?.toString()}
       />
-      <SearchIcon className="text-[#5AB2FF] text-4xl absolute ml-3 mt-3"/>
+      <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
+        <Image
+          src={'svgs/icons/search-icon.svg'}
+          alt={'search-icon'}
+          width={30}
+          height={30}
+        />
+      </div>
     </div>
-    </>);
+  </>);
 }
 export default Search;

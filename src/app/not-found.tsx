@@ -15,7 +15,7 @@ export default function NotFoundPage() {
                 <div className="flex flex-col w-[40%] gap-y-7 h-full mr-10 py-[20%]">
                     <div className="flex flex-row items-center">
                         <LogoIcon size={49} />
-                        <h1 className="font-extrabold text-4xl lg:text-5xl leading-[30.24px] text-[#5AB2FF]">
+                        <h1 className="font-extrabold text-4xl lg:text-5xl leading-[30.24px] text-[var(--blue2)]">
                             Toeicdoit
                         </h1>
                     </div>

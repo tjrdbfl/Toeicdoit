@@ -9,7 +9,7 @@ import Image from "next/image";
 
 
 const WhatsNew = () => (
-  <section className={`${styles.paddings} relative z-10`}>
+  <section className={`relative z-10 mt-20 `}>
     <motion.div
       initial="hidden"
       whileInView="show"
@@ -22,13 +22,13 @@ const WhatsNew = () => (
       >
           
             <TypingText title="| Whats new?" />
-            <div className="flex flex-wrap justify-between">
+            <div className="flex flex-wrap justify-between mt-5">
             <div className="flex flex-col w-[50%]">  
             <TitleText title={<>토익 두잇에서 제공하는 맞춤형 학습으로 학습 효율을 극대화 해보세요!</>} />
             <motion.p
               variants={fadeIn('up', 'tween', 0.2, 1)}
-              className="mt-[8px] font-normal text-2xl lg:text-[36px] text-left text-black "
-              style={{ marginTop: '40px', lineHeight: '45px' }}
+              className="mt-[8px] font-normal text-[20px] text-left text-black "
+              style={{ marginTop: '36px', lineHeight: '36px' }}
             >
               토익두잇은 사용자에 대해 학습하여 10만 건의 학습 데이터를 바탕으로 최적의 학습 경로를 제공합니다.
               또한, 사용자 간의 소통과 정보 공유를 통해 학습 동기를 부여하고 지속 가능한 학습 환경을 조성합니다.
@@ -36,7 +36,7 @@ const WhatsNew = () => (
             </motion.p>
           </div>
           <div
-            className={`w-[40%] object-cover`}
+            className={`w-[400px] object-cover`}
           >
             <Image
               width={500}

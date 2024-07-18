@@ -5,6 +5,7 @@ import ExamTable from "@/components/exam/ExamTable";
 import CustomPagination from "@/components/common/CustomPagination";
 import { Suspense } from "react";
 import { CommonHeader } from "@/config/headers";
+import LinkIcon from "@/components/common/LinkIcon";
 
 export default async function ExamPage({ searchParams }: {
     searchParams?: {
@@ -44,8 +45,11 @@ export default async function ExamPage({ searchParams }: {
 
     return (<>
     <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
-        <div className="md:py-28 lg:py-28">
-            <h1 className="text-black font-medium text-start text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-4xl">기출 모의고사</h1>
+        <div className="md:py-28 lg:py-28 xl:px-20 2xl:px-32">
+            <div className="flex flex-row items-center gap-x-2">
+            <LinkIcon size={30}/>
+            <h1 className="text-black font-medium text-start text-2xl xl:text-3xl">기출 모의고사</h1>
+            </div>
             <div className="mt-4 flex items-center md:mt-8">
                 <Search placeholder={"검색어를 입력해주세요."} />
             </div>

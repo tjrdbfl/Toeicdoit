@@ -31,7 +31,7 @@ const Footer = () => {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className='flex flex-row'>
           <LogoIcon size={35}/>
-          <h4 className="font-extrabold text-[24px] text-[#5AB2FF]">
+          <h4 className="font-extrabold text-[24px] text-[var(--blue2)]">
             Toeicdoit
           </h4>
           </div>

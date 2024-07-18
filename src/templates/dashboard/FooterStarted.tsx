@@ -17,7 +17,7 @@ const FooterStarted = () => (
   >
       <div className="footer-gradient" />
       <div className='flex flex-wrap justify-between'>
-      <h1 className='text-[#5AB2FF] footer-started font-semibold'>토익 두잇, 지금 바로 시작해보세요 !</h1>
+      <h1 className='text-[var(--blue2)] footer-started font-semibold'>토익 두잇, 지금 바로 시작해보세요 !</h1>
       <Link href={'/login'}
       //style={{backgroundColor:'#5AB2FF', padding:15,}}
       className='started-btn'

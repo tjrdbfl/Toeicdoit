@@ -12,7 +12,7 @@ interface TypingTextProps {
 export const TypingText:FC<TypingTextProps> = ({ title, textStyles }) => (
   <motion.p
     variants={textContainer}
-    className={`font-normal text-[20px] text-black  ${textStyles}`}
+    className={`font-normal text-[18px] text-black  ${textStyles}`}
   >
     {Array.from(title).map((letter:string, index) => (
       <motion.span variants={textVariant2} key={index}>
@@ -32,7 +32,7 @@ export const TitleText:FC<TitleTextProps> = ({ title, textStyles }) => (
     variants={textVariant2}
     initial="hidden"
     whileInView="show"
-    className={`mt-[30px] font-bold text-[36px] text-black text-balance  ${textStyles}`}
+    className={`font-medium text-[28px] text-black text-balance ${textStyles}`}
   >
     {title}
   </motion.h2>

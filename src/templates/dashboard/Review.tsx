@@ -23,7 +23,7 @@ const Review = () => (
       <div className='mt-[1%]'/>
       <TitleText title={<>Toeicdoit 졸업생들의 성공 후기!</>} textStyles="text-center" />
       <div className='mt-[3%]'/>
-      <div className="mt-[50px] flex flex-wrap justify-between ">
+      <div className="mt-[50px] flex flex-wrap justify-between">
         {reviews.map((item, index) => (
           <ReviewCard key={`insight-${index}`} {...item} index={index + 1} />
         ))}

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { exploreWorlds, styles } from '@/constants/styles/dashboard';
 import { TitleText, TypingText } from '@/components/dashboard/CustomTexts';
 import { ExploreCard } from '@/components/dashboard';
+import LinkIcon from '@/components/common/LinkIcon';
 
 const Explore = () => {
   const [active, setActive] = useState('function-2');
@@ -15,16 +16,21 @@ const Explore = () => {
       <motion.div
         initial="hidden"
         whileInView="show"
-        viewport={{ once: false, amount: 0.25 }}
+        viewport={{ once: false, amount: 0.5 }}
         className={`${styles.innerWidth} mx-auto flex flex-col`}
       >
-        <TypingText title="| 최적의 학습 경로 제공" textStyles="text-center" />
+        <div className='flex flex-row items-center gap-x-2 justify-center w-full'>
+          <LinkIcon size={30}/>
+          <TitleText
+          title={<>Toeicdoit</>}
+          textStyles='text-center'/>
+        </div>
         <TitleText
-          title={<>Toeicdoit은 <br className="md:block hidden" /> 더욱 간편하고 효율적인 토익 공부 경험을 선사합니다!</>}
+          title={<>에서 제공하는 다양한 학습 경험을 통해 토익 실력을 증진시켜 보세요!</>}
           textStyles="text-center"
         />
         <div className="mt-[30px]" />
-        <div className=" flex flex-wrap md:flex-col md:flex-nowrap mt-[50px] min-h-[70vh]">
+        <div className=" flex flex-wrap md:flex-col md:flex-nowrap mt-5 min-h-[70vh]">
           {exploreWorlds.map((world, index) => (
             <ExploreCard
               key={world.id}

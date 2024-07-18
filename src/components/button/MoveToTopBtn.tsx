@@ -10,7 +10,7 @@ const MoveToTopBtn=()=>{
     <button onClick={MoveToTop}
     className='bg-black hover:bg-zinc-800 hover:ring-2 rounded-full h-auto w-auto p-2'>
         <Image 
-        src={'/svgs/icons/KeyboardArrowUp.svg'} 
+        src={'/svgs/icons/key-board-arrow-up-icon.svg'} 
         alt={'KeyboardArrowUp'}
         width={38}        
         height={38}
