@@ -1,5 +1,7 @@
 import Sidebar from "@/components/my-page/Sidebar";
 import "@/styles/my-page.css";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 
 export const metadata = {
@@ -14,7 +16,8 @@ export default function MyPageLayout({
   }>) {
     
     return (
-      <div className="w-full min-h-screen">   
+      <div className="w-full min-h-screen"> 
+      <Navbar/>  
         <div className="2xl:px-[10%] flex flex-row">
         <div className="flex flex-wrap lg:flex-row min-h-screen justify-center xl:justify-between w-full h-full py-[14%] lg:py-[15%] xl:py-[13%] 2xl:py-[7%] bg-white lg:gap-x-10 md:gap-x-24 sm:gap-x-40 total_padding">
         <div className="xl:w-[15%] w-full">
@@ -27,6 +30,7 @@ export default function MyPageLayout({
         </div>
         </div>
       </div>
+      <Footer/>
       </div>
     );
   }

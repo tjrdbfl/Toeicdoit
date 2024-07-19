@@ -1,11 +1,12 @@
-import { PG } from '@/constants/enums/PG';
 import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 
-const CloseBtn=()=>{
+const CloseBtn=({url}:{
+    url:string
+})=>{
     return(<>
     <Link
-    href={`${PG.LEVEL_TEST}`}
+    href={url}
     className='rounded-full hover:bg-blue-50 p-2'
     >
     <CloseIcon className='text-black text-2xl'/>

@@ -16,10 +16,10 @@ const Hero = () => (
       >
       <motion.div
         variants={fadeIn("up", "tween", 0.3, 1)}
-        className="relative w-[800px] object-fill"
+        className="relative w-[600px] object-fill"
       >
         <video
-          width={900}
+          width={800}
           height={800}
           autoPlay
           muted
@@ -34,13 +34,13 @@ const Hero = () => (
         <motion.div 
           
           variants={textVariant(1.1)} 
-          className={'font-medium text-[28px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[var(--blue2)]'}
+          className={'font-medium text-[24px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[var(--blue2)]'}
           >
             토익 점수 향상
           </motion.div>
           <motion.div
             variants={textVariant(1.2)}
-            className="flex flex-row justify-center items-center font-medium text-[28px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[var(--blue2)]"
+            className="flex flex-row justify-center items-center font-medium text-[24px] lg:leading-[158.4px] md:leading-[114.4px] sm:leading-[74.4px] leading-[64.4px] text-[var(--blue2)]"
           >
             지금 바로 토익 두잇 !
           </motion.div>

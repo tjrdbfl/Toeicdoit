@@ -1,10 +1,11 @@
-import { useTimerStore } from "@/store/toeic/timer";
-import ExamTimer from "./ExamTimer";
+import { useExamTimerStore } from "@/store/toeic/timer";
+
+import { useNumberOfQuestionStore } from "@/store/toeic/store";
 import ExamPlayer from "./ExamPlayer";
-import { useNumberOfQuestionStore } from "@/store/exam/store";
+import ExamTimer from "./ExamTimer";
 
 const ExamControl = () => {
-    const { pauseTimer, resumeTimer } = useTimerStore();
+    const { pauseTimer, resumeTimer } = useExamTimerStore();
     const {count}=useNumberOfQuestionStore();
 
     return (<>

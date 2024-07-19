@@ -92,7 +92,7 @@ const RadarChart = ({
                     label: '800점 사용자',
                     data: LevelData,
                     fill: false,
-                    borderColor: 'rgb(18, 17, 17, 0.5)',
+                    borderColor: 'rgba(18, 17, 17, 0.5)',
                     pointBackgroundColor: 'rgb(18, 17, 17)',
                     pointBorderColor: '#fff',
                     pointHoverBackgroundColor: '#fff',

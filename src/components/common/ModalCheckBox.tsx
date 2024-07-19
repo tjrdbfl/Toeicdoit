@@ -1,5 +1,5 @@
 'use client';
-import { useExamCautionModalStore, useExamRetakeModalStore } from "@/store/exam/store";
+import { useExamCautionModalStore, useExamRetakeModalStore } from "@/store/toeic/store";
 import Checkbox from "@mui/material/Checkbox";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

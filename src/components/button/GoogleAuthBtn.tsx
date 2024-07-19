@@ -11,7 +11,7 @@ const GoogleAuthBtn = () => {
             href={'http://localhost:8000/oauth2/authorization/google'}
         >
             <FcGoogle className="h-[50%] w-[6%] mr-[5%]" />
-            <p className="text-xl text-slate-500 font-bold ">구글 계정으로 시작</p>
+            <p className="text-lg text-slate-500 font-bold ">구글 계정으로 시작</p>
         </Link>
     </>);
 }

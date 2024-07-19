@@ -12,7 +12,7 @@ const RegCheckModal = ({ id, label, setOpen }: {
     return (<>
         <div className="bg-white p-5">
             <div className="flex flex-row justify-between items-center">
-                <div className="text-xl font-semibold ml-2">{check[id].label}</div>
+                <div className="text-lg font-semibold ml-2">{check[id].label}</div>
 
                 <button
                     onClick={() => setOpen(false)}
@@ -29,7 +29,7 @@ const RegCheckModal = ({ id, label, setOpen }: {
                         <>
                             <div
                                 key={term.id}
-                                className="text-xl mb-2 text-balance">
+                                className="text-lg mb-2 text-balance">
                                 {term.title}
                             </div>
                             {checkTermsContent.filter((content) => content.order === term.order)

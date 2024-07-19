@@ -6,9 +6,9 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import LayoutWrapper from "./LayoutWrapper";
 
 import React from "react";
-import { IUser } from "@/store/auth/user-model";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { PG } from "@/constants/enums/PG";
 
 const inter = Inter({ subsets: ["latin"] });
 const notoSans = Noto_Sans_KR({
@@ -35,6 +35,9 @@ export default async function RootLayout({
   // const userData:IUser|null=userDataString? JSON.parse(userDataString):null;
 
   const token: RequestCookie | undefined = cookieStore.get('token');
+  
+
+  
 
   return (
     <html lang="en">
@@ -43,10 +46,8 @@ export default async function RootLayout({
 
         <div className="bg-white overflow-hidden">
           <LayoutWrapper token={token}>
-          <Navbar userData={null} />
             {modal}
             {children}
-            <Footer />
           </LayoutWrapper>
         </div>
       </body>

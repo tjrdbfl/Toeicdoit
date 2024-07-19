@@ -16,11 +16,11 @@ const World = () => (
       className={`${styles.innerWidth} mx-auto flex flex-col`}
     >
 
-      <TypingText title="| AI Level Test" textStyles="text-center" />
+      <TypingText title="| Test Result" textStyles="text-center" />
       <div className='mt-5'/>
       <TitleText
         title={(
-          <>AI 진단 테스트를 통해 현재 실력을 정확히 알아보세요
+          <>진단 테스트를 통해 현재 실력을 정확히 알아보세요
           </>
         )}
         textStyles="text-center"
@@ -31,8 +31,14 @@ const World = () => (
         variants={fadeIn('up', 'tween', 0.3, 1)}
         className="relative mt-[68px] flex w-full h-[550px]"
       >
-          <div className='bg-blue-500 w-full h-full'>
-            dd
+          <div className='w-full flex justify-center'>
+          <Image
+                width={500}
+                height={500}
+                src={'/images/dashboard/result-chart.png'}
+                alt="icon"
+                className="rounded-xl w-[500px] shadow-lg" />
+            
           </div>
         
          </motion.div>

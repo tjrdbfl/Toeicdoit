@@ -6,6 +6,8 @@ import CustomPagination from "@/components/common/CustomPagination";
 import { Suspense } from "react";
 import { CommonHeader } from "@/config/headers";
 import LinkIcon from "@/components/common/LinkIcon";
+import Navbar from "@/app/Navbar";
+import Footer from "@/app/Footer";
 
 export default async function ExamPage({ searchParams }: {
     searchParams?: {
@@ -15,51 +17,53 @@ export default async function ExamPage({ searchParams }: {
 }) {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
-    let totalPages:number=0;
+    let totalPages: number = 0;
 
-    const payload:I_ApiExamRequest={
-        query:query
+    const payload: I_ApiExamRequest = {
+        query: query
     }
 
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`,{
-            method:'POST',
-            headers:CommonHeader,
-            body:JSON.stringify(payload),
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`, {
+            method: 'POST',
+            headers: CommonHeader,
+            body: JSON.stringify(payload),
         });
-    
-        if(!response){
+
+        if (!response) {
             console.error('Failed to get response');
         }
-    
-        const data:I_ApiExamResponse=await response.json();
-    
-        if(!data.success){
-            console.error('Failed to fetch exam data: ',data.message);
+
+        const data: I_ApiExamResponse = await response.json();
+
+        if (!data.success) {
+            console.error('Failed to fetch exam data: ', data.message);
         }
-        
-        totalPages=data.totalPages||0;
-    }catch(error){
-        console.log('Error fetching exam data: ',error);
+
+        totalPages = data.totalPages || 0;
+    } catch (error) {
+        console.log('Error fetching exam data: ', error);
     }
 
     return (<>
-    <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
-        <div className="md:py-28 lg:py-28 xl:px-20 2xl:px-32">
-            <div className="flex flex-row items-center gap-x-2">
-            <LinkIcon size={30}/>
-            <h1 className="text-black font-medium text-start text-2xl xl:text-3xl">기출 모의고사</h1>
-            </div>
-            <div className="mt-4 flex items-center md:mt-8">
-                <Search placeholder={"검색어를 입력해주세요."} />
-            </div>
-            <Suspense key={query + currentPage} fallback={<><ExamLoading/></>}>
-                <ExamTable query={query} currentPage={currentPage} />
-            </Suspense>
-            <div className="mt-5 flex w-full justify-center">
-               <CustomPagination totalPages={totalPages} type={"double"}/> 
+        <Navbar />
+        <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
+            <div className="md:py-28 lg:py-28 xl:px-20 2xl:px-32">
+                <div className="flex flex-row items-center gap-x-2">
+                    <LinkIcon size={25} />
+                    <h1 className="text-black font-medium text-start text-xl xl:text-2xl">기출 모의고사</h1>
+                </div>
+                <div className="mt-4 flex items-center md:mt-8">
+                    <Search placeholder={"검색어를 입력해주세요."} />
+                </div>
+                <Suspense key={query + currentPage} fallback={<><ExamLoading /></>}>
+                    <ExamTable query={query} currentPage={currentPage} />
+                </Suspense>
+                <div className="mt-5 flex w-full justify-center">
+                    <CustomPagination totalPages={totalPages} type={"double"} />
+                </div>
             </div>
         </div>
-        </div>
+        <Footer />
     </>);
 }

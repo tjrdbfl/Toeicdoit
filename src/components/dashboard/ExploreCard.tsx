@@ -25,12 +25,12 @@ const ExploreCard = ({ id, imgUrl, title, content, index, active, handleClick }:
     <Image
       src={imgUrl}
       alt="TestImage"
-      className="w-full h-full object-cover rounded-[24px] p-5"
-      width={500}
+      className="w-[800px] h-full object-cover rounded-[24px] p-5"
+      width={400}
       height={400}
     />
     {active !== id ? (
-      <h3 className="font-semibold text-[22px] text-[var(--blue2)] p-2 absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
+      <h3 className="font-semibold text-[20px] text-[var(--blue2)] p-2 absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
         {title}
       </h3>
     ) : (
@@ -49,10 +49,10 @@ const ExploreCard = ({ id, imgUrl, title, content, index, active, handleClick }:
         <p className="font-normal text-[16px] leading-[20.16px] text-[var(--blue2)] uppercase">
           Enter Toeicdoit
         </p>
-        <h2 className="mt-[24px] font-semibold text-[28px] text-[var(--blue1)]">
+        <h2 className="mt-[24px] font-semibold text-[24px] text-[var(--blue1)]">
           {title}
         </h2>
-        <h4 className="mt-[24px] sm:text-[25px] text-[24px] text-black">
+        <h4 className="mt-[24px] text-[20px] text-black">
           {content}
         </h4>
       </div>

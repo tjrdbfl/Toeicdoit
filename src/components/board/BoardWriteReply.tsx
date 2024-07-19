@@ -18,7 +18,7 @@ const BoardWriteReply = () => {
     }
     
     return (<>
-        <p className="text-black text-xl">작성자 : </p>
+        <p className="text-black text-lg">작성자 : </p>
         <div className="mt-5" />
         <form
             action={formAction}
@@ -43,7 +43,7 @@ const BoardWriteReply = () => {
             />
             <div className="flex flex-row justify-between mt-5">
                 <p className="text-slate-500 text-end text-lg font-medium">{charCount}자/100자</p>
-                <div className="w-32"> 
+                <div className="w-28"> 
                     <SubmitButton label={"등록하기"} /></div>
             </div>
         </form>

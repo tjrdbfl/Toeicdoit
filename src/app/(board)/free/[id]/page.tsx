@@ -56,10 +56,10 @@ export default async function FreeDetailPage({ params }: {
     }
 
     return (<>
-        <div className="total_padding py-28">
-            <div className="w-full flex flex-col z-10 lg:px-20 2xl:px-[25%]">
+        <div className="total_padding py-20">
+            <div className="w-full flex flex-col z-10 px-10 lg:px-20 2xl:px-[25%]">
                 <FreeLink label={""} />
-                <div className="mt-10" />
+                <div className="mt-5" />
                 <BoardDetailTitle
                     type={"post"}
                     title={Board?.title}
@@ -77,8 +77,8 @@ export default async function FreeDetailPage({ params }: {
 
                 <div className="mt-16" />
                 <div className='flex flex-row items-center gap-x-3'>
-                    <ChatIcon className='text-[#F9F07A] text-3xl' />
-                    <p className="text-black text-2xl font-medium">댓글</p>
+                    <ChatIcon className='text-[#F9F07A] text-2xl' />
+                    <p className="text-black text-xl font-medium">댓글</p>
                 </div>
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardWriteReply/>

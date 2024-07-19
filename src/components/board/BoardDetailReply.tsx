@@ -22,12 +22,12 @@ const BoardDetailReply = ({
             </div>
 
             <div className="mt-3" />
-            <p className="text-black text-lg">
+            <p className="text-black">
                 {content}
             </p>
             <div className="mt-3" />
             <p
-            className={`${id%2==1? "text-start":"text-end"} text-slate-400`}
+            className={`${id%2==1? "text-start":"text-end"} text-slate-400 text-[14px]`}
             >{new Date(create).toISOString().slice(0,10)}</p>
         </div>
         </div>

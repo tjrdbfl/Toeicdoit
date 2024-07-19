@@ -11,15 +11,15 @@ const BoardDetailTitle = ({
     <>
         <div className="flex flex-row gap-x-5">
 
-            {type === 'notice' ? <p className={`text-[var(--blue2)] font-medium text-xl md:text-2xl`}>[공지]</p>
-                : <p className={`text-[var(--blue2)] font-medium text-xl md:text-2xl`}>[자유]</p>}
+            {type === 'notice' ? <p className={`text-[var(--blue2)] font-medium text-lg md:text-xl`}>[공지]</p>
+                : <p className={`text-[var(--blue2)] font-medium text-lg md:text-xl`}>[자유]</p>}
             <div className="flex flex-row gap-x-2">
-                <p className={`text-xl md:text-2xl ${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
+                <p className={`text-lg md:text-xl ${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
                     getRandomCategory() == '알림' ? "text-purple-500 font-medium" :
                         getRandomCategory() === '업데이트' ? "text-green-500 font-medium" :
                             "text-black-500"}`}
                 >{category}</p>
-                <h1 className="text-black font-medium text-xl md:text-2xl">
+                <h1 className="text-black font-medium text-lg md:text-xl">
                     {title}
                 </h1>
             </div>

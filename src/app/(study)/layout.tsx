@@ -11,8 +11,14 @@ export default async function StudyLayout({
 
 
     return (
-        <div className="w-full min-h-screen h-auto py-28">
+        <>
+        <Navbar/>
+        <div className="w-full min-h-screen h-auto py-28 md:px-32">
             {children}
-        </div>
+         
+        </div> 
+        <Footer/>
+        </>
+        
     );
 }

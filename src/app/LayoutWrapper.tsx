@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import ReduxProvider, { persistor } from '@/redux/redux-provider';
 
@@ -15,7 +15,7 @@ interface Props {
 
 export default function LayoutWrapper(props: Props) {
     const { token, children } = props;
-    
+   
     return (
         <>
             <QueryClientProvider client={new QueryClient()}>

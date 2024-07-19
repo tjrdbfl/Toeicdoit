@@ -1,4 +1,4 @@
-import { useExamRetakeModalStore, useExamCautionModalStore } from "@/store/exam/store";
+import { useExamRetakeModalStore, useExamCautionModalStore } from "@/store/toeic/store";
 
 
 const RetakeModal=({id}:{id:number})=>{

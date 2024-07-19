@@ -8,11 +8,11 @@ const GoForwardBtn = ({ id,totalIndex }: { id: number,totalIndex:number }) => {
 
     return (<>
         {id !== totalIndex && <button
-            className="go_btn flex flex-row p-3 justify-center items-center"
+            className="go_btn flex flex-row px-3 py-2 justify-center items-center"
             onClick={() => router.push(`/notice/${++id}`)}
         >
-            <p className='text-black text-xl'>다음</p>
-            <KeyboardArrowRightIcon className='text-black text-2xl' />
+            <p className='text-black text-lg'>다음</p>
+            <KeyboardArrowRightIcon className='text-black text-xl' />
         </button>}
     </>);
 }

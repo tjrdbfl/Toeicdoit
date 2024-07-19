@@ -196,10 +196,10 @@
       @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
-      @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
-      @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
     }
   }
 
@@ -211,10 +211,10 @@
       @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
-      @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
-      @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
     }
   }
 
@@ -226,10 +226,10 @@
       @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
-      @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
-      @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
     }
   }
 
@@ -241,10 +241,10 @@
       @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
-      @apply text-zinc-400 text-[20px] md:w-[14%] lg:w-[11%] text-balance z-10
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
-      @apply text-black text-[18px] font-semibold hover:text-zinc-700 z-10
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
     }
   }
 
@@ -313,7 +313,7 @@
   }
 
   .navSidebar_p{
-    @apply text-balance md:text-[15px] lg:text-[14px] xl:text-[20px]
+    @apply text-balance md:text-[12px] lg:text-[14px] xl:text-[17px]
   }
 
   .video-overlay {
@@ -328,18 +328,14 @@
     text-align: center;
   }
 
-  .footer-started{
-    font-size: 35px;
-  }
-
   .started-btn {
     background-color:var(--blue2);
-    padding: 15px;
+    padding: 10px;
     cursor: pointer;
     text-decoration: none;
     color: white;
-    font-size: 1.25rem;
-    border-radius: 1rem;
+    font-size: 20px;
+    border-radius: 0.75rem;
     font-weight: bold;
   
     &:hover {

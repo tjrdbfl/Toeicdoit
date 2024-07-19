@@ -23,8 +23,8 @@ const NavSidebar = ({userData,isSticky}:{
     >
       <div className={`w-full h-full flex justify-between gap-8 ${isSticky? '':''}`}>
 
-        <div className="flex flex-row mt-2">
-          <LogoIcon size={35} />
+        <div className="flex flex-row items-center">
+          <LogoIcon size={25} />
           <Logo />
         </div>
         <motion.button
@@ -33,7 +33,7 @@ const NavSidebar = ({userData,isSticky}:{
           onMouseEnter={()=>setIsOpen(!isOpen)}
           className=""
         >
-          <div className="w-full h-full flex justify-between md:mt-[13px] xl:mt-[10px] px-[5px] navSidebar_div ">
+          <div className="w-full h-full flex justify-between items-center px-[5px] navSidebar_div ">
             <p className="hidden sm:hidden md:block  md:text-black font-[550] navSidebar_p">토익두잇 공부법</p>
             <p className="hidden sm:hidden md:block md:text-black font-[550]  navSidebar_p">문제 풀기</p>
             <p className="hidden sm:hidden md:block md:text-black  font-[550]  navSidebar_p">커뮤니티</p>
@@ -49,7 +49,7 @@ const NavSidebar = ({userData,isSticky}:{
       
       </div>
       <ul
-        className="menu-list bg-white h-auto w-full rounded-b-3xl px-10 py-5 mt-2 border-t-zinc-200 border-t-2 flex flex-col justify-start absolute"
+        className="menu-list bg-white h-auto w-full rounded-b-3xl px-10 py-5 mt-1 border-t-zinc-200 border-t-2 flex flex-col justify-start absolute"
         style={{
           pointerEvents: isOpen ? "auto" : "none",
           clipPath: "inset(10% 50% 90% 50% round 10px)",
@@ -60,8 +60,8 @@ const NavSidebar = ({userData,isSticky}:{
       >
         <li className='navSidebar_ul_list'>
           <p className=' navSidebar_ul_p'>토익두잇 공부법</p>
-          <Link className=' navSidebar_ul_link' href={`${PG.RECOMMEND}`}>공부법 추천</Link>
-          <Link className=' navSidebar_ul_link' href={`${PG.STUDY_FAQ}`}>토익두잇 FAQ</Link>
+          <Link className='navSidebar_ul_link' href={`${PG.RECOMMEND}`}>공부법 추천</Link>
+          <Link className='navSidebar_ul_link' href={`${PG.STUDY_FAQ}`}>토익두잇 FAQ</Link>
 
         </li>
 

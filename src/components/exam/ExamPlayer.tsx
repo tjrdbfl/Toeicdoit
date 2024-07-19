@@ -5,7 +5,7 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
-const ExamPlayer = ({ sound }: { sound: string }) => {
+const  ExamPlayer = ({ sound }: { sound: string }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);

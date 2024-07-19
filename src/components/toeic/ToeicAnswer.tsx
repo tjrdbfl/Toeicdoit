@@ -1,5 +1,6 @@
 'use client';
 
+import { useToeicAnswerStore } from "@/store/toeic/store";
 import { OptionData } from "@/types/ToeicData";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,13 @@ const ToeicAnswer = ({op}:{op:OptionData}) => {
         console.log('select: '+select[1]);
     },[selected]);
 
+    const {answers,setAnswer}=useToeicAnswerStore();
+
+    useEffect(()=>{
+        console.log('answers: '+JSON.stringify(answers));
+
+    },[answers]);
+    
     return (<>
     <div className="flex flex-col">
         {select.map((choice,index)=>(
@@ -22,7 +30,10 @@ const ToeicAnswer = ({op}:{op:OptionData}) => {
                 type='radio'
                 name={`${op.id}`}
                 value={choice}
-                onChange={()=>setSelected(choice)}
+                onChange={()=>{
+                    setSelected(choice);
+                    setAnswer(op.id,choice);
+                }}
                 checked={selected===choice}
                 className="hidden"
                 />

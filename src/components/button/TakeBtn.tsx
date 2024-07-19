@@ -2,7 +2,7 @@
 
 import { Dialog } from "@mui/material";
 import RealTestCautionModal from "../exam/ExamCautionModal";
-import { useExamCautionModalStore } from "@/store/exam/store";
+import { useExamCautionModalStore } from "@/store/toeic/store";
 
 
 const TakeBtn = ({ id }: {

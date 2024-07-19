@@ -6,10 +6,12 @@ import StartLevelTestBtn from "@/components/button/StartLevelTestBtn";
 import LinkIcon from "@/components/common/LinkIcon";
 import RadarContainer from "@/templates/toeic/RadarContainer";
 import PieContainer from "@/templates/toeic/PieContainer";
-import { p8 } from "@/constants/chart/bar";
+import { p8 } from "@/constants/chart/constant";
 import BarChart from "@/components/chart/BarChart";
-import { lv8 } from "@/constants/chart/radar";
+import { lv8 } from "@/constants/chart/constant";
 import DoughnutContainer from "@/templates/toeic/DoughnutContainer";
+import Navbar from '@/app/Navbar';
+import Footer from '@/app/Footer';
 
 
 export default async function LevelTestPage() {
@@ -28,7 +30,7 @@ export default async function LevelTestPage() {
 
 
     return (<>
-       
+       <Navbar/>
         <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
             <div className="w-full flex justify-center items-center px-[5%] xl:px-[18%]">
                 <div className="bg-blue-50 shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center">
@@ -96,7 +98,7 @@ export default async function LevelTestPage() {
                 <div className="border-slate-100 border-2 bg-white shadow-lg rounded-xl w-full h-auto p-10 flex flex-col justify-center items-center mt-5">
                     <div className="flex flex-col">
                         <div className="flex flex-wrap gap-x-10 gap-y-10">
-                        <RadarContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels} />
+                        <RadarContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels} score={800} />
                         <DoughnutContainer UserRadarData={UserRadarData} LevelRadarData={lv8} labels={labels}/>
                         </div>
                         <div className="w-full mt-10">
@@ -113,7 +115,7 @@ export default async function LevelTestPage() {
                 </div>
             </div>
         </div>
-       
+       <Footer/>
        </>);
 }
 

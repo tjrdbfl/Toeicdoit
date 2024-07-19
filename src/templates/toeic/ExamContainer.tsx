@@ -1,18 +1,17 @@
 "use client";
-import ToeicPlayer from '@/components/toeic/ToeicPlayer';
-import SubmitButton from '@/components/button/SubmitBtn';
-import QuestionCard from '@/components/toeic/QuestionCard';
-import { submitLevelTest } from '@/service/toeic/action';
+
 import { classifyQuestion, fetchItems } from '@/service/toeic/items';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import ExamHeader from '@/components/toeic/exam/ExamHeader';
-import ExamControl from '@/components/toeic/exam/ExamControl';
-import ExamAnswer from '@/components/toeic/exam/ExamAnswer';
-import ExamCard from '@/components/toeic/exam/ExamCard';
+import ExamHeader from '@/components/exam/ExamHeader';
+
+import ExamAnswer from '@/components/exam/ExamAnswer';
+
 import { allParts } from '@/constants/toeic/exam';
+import ExamControl from '@/components/exam/ExamControl';
+import ExamCard from '@/components/exam/ExamCard';
 
 const LoadingPage = dynamic(() => import('@/app/loading'), { ssr: false });
 const PaginationLoading = dynamic(() => import('@/components/utils/PaginationLoading'), { ssr: false });

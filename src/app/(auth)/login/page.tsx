@@ -3,16 +3,23 @@ import GoogleAuthBtn from "@/components/button/GoogleAuthBtn";
 import RegisterBtn from "@/components/auth/RegisterBtn";
 import LoginForm from "@/templates/auth/LoginForm";
 import { login } from "@/service/auth/action";
+import Link from "next/link";
+import { PG } from "@/constants/enums/PG";
 
 
 export default async function LoginPage() {
 
     return (<>
-        <div className="form xl:w-[40%] lg:w-[400px] md:w-[60%] sm:w-[90%] lg:p-[2%] p-[3%] mt-[2%]">
+        <div className="form w-[550px] p-10">
             <p className="form_title">Login</p>
             <LoginForm login={login} />
             <GoogleAuthBtn />
-            <p className="text-black text-lg">아직 계정이 없으신가요?</p>
+            <Link
+            href={`${PG.LOGIN}/find`}
+            className="text-zinc-700 underline"
+            >비밀번호 찾기</Link>
+            <div className="mt-5"/>
+            <p className="text-black">아직 계정이 없으신가요?</p>
             <RegisterBtn />
         </div>
     </>);

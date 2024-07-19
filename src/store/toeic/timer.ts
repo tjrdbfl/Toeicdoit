@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { initialState } from '../auth/user-init';
 
-interface TimerState {
+interface ExamTimerState {
     timeElapsed: number;
     isRunning: boolean;
     isPaused: boolean;
@@ -13,7 +14,7 @@ interface TimerState {
     resumeTimer: () => void;
     resetTimer: (initialTime?: number) => void;
 }
-export const useTimerStore = create<TimerState>()(persist(
+export const useExamTimerStore = create<ExamTimerState>()(persist(
     (set) => ({
         timeElapsed: 0,
         isRunning: false,
@@ -25,7 +26,7 @@ export const useTimerStore = create<TimerState>()(persist(
             set((state) => ({
                 isRunning: true,
                 startTime: Date.now(),
-                timeElapsed:0,
+                timeElapsed: 0,
                 timeLeft: initialTime ?? initialTime,
                 totalTime: initialTime ?? initialTime,
             })),
@@ -45,9 +46,46 @@ export const useTimerStore = create<TimerState>()(persist(
                 startTime: null,
                 timeLeft: initialTime ?? 120 * 60 * 1000
             })
-    }), {
-    name: 'timerStorage',
-    storage: createJSONStorage(() => sessionStorage),
-}
+    })
+    , {
+        name: 'ExamTimerStorage',
+        storage: createJSONStorage(() => sessionStorage),
+    }
 )
 );
+
+export const usePracticeTimerStore = create<ExamTimerState>()(persist(
+    (set) => ({
+        timeElapsed: 0,
+        isRunning: false,
+        startTime: null,
+        isPaused: false,
+        timeLeft: 0,
+        totalTime: 0,
+        startTimer: (initialTime?: number) =>
+            set((state) => ({
+                isRunning: true,
+                startTime: Date.now(),
+                timeElapsed: 0
+            })),
+        pauseTimer: () =>
+            set((state) => ({
+                isPaused: true,
+                timeElapsed: state.timeElapsed,
+            })),
+        resetTimer: () =>
+            set((state) => ({
+                isPaused: false,
+            })),
+        resumeTimer: (initialTime?: number) =>
+            set({
+                isRunning: true,
+                isPaused:false,
+                startTime: null,
+            })
+    }),
+    {
+        name: 'PracticeTimerStorage',
+        storage: createJSONStorage(() => sessionStorage),
+    }
+))

@@ -1,3 +1,6 @@
+import Footer from "@/app/Footer";
+import Navbar from "@/app/Navbar";
+
 export const metadata = {
     title: "Toeicdoit - Score Page",
     description: "",
@@ -10,9 +13,11 @@ export default function ScoreLayout({
 }>) {
     return (
         <>
+        <Navbar/>
             <div className="w-full">
                 {children}
             </div>
+        <Footer/>
         </>
 
     );

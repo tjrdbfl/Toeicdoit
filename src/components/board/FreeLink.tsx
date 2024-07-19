@@ -8,14 +8,14 @@ const FreeLink = ({label}:{label:string}) => {
         <div className="flex flex-row gap-x-2 items-center">
             <Link
                 href={'/'}
-                className="text-black hover:text-slate-500 underline text-lg flex flex-row items-center gap-x-2">
+                className="text-black hover:text-slate-500 underline flex flex-row items-center gap-x-2">
                      <LinkIcon size={20}/>
                     Toeicdoit(KR)
                     </Link>
-            <KeyboardArrowRightIcon className="text-slate-600 text-3xl" />
+            <KeyboardArrowRightIcon className="text-slate-600 text-2xl" />
             <Link
                 href={`${PG.FREE}`}
-                className="text-black hover:text-slate-500 underline text-lg">자유게시판</Link>
+                className="text-black hover:text-slate-500 underline">자유게시판</Link>
            {label!=='' && <>
             <KeyboardArrowRightIcon className="text-slate-600 text-3xl" />
             <p

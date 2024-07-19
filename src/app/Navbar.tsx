@@ -11,6 +11,7 @@ import { getDecryptedUserData } from '@/store/auth/user-slice';
 import { useSelector } from 'react-redux';
 import { IUser } from '@/store/auth/user-model';
 import { PG } from '@/constants/enums/PG';
+import { useRouter } from 'next/navigation';
 
 
 const Navbar = ({userData}:{
@@ -18,7 +19,6 @@ const Navbar = ({userData}:{
 }) => {
   const [isSticky, setIsSticky] = useState(false);
   
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -29,17 +29,8 @@ const Navbar = ({userData}:{
   
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  if(window.location.pathname===`${PG.LEVEL_TEST}/test` ||
-    window.location.pathname.match(/^\/exam\/\d+$/) ||
-    window.location.pathname.match(/^\/level\/\d+$/) ||
-    window.location.pathname.match(/^\/part\/\d+$/) 
-  ){
-    return null;
-  }
 
   return(<>
- 
   <div className={`${isSticky? '': 'total_padding'}`}>
   <motion.nav
       variants={navVariants}
@@ -58,11 +49,11 @@ const Navbar = ({userData}:{
         </div>  
       </>
       :
-      <div className='py-[3%]'>
+      <div className='py-[2.5%]'>
 
         <div className="absolute w-[50%] inset-0 gradient-01" />
         <div
-          className={`${styles.innerWidth} mx-auto bg-white p-5 rounded-b-3xl md:absolute md:shadow-lg`}
+          className={`${styles.innerWidth} mx-auto bg-white px-5 py-2 rounded-b-3xl md:absolute md:shadow-lg`}
         >
           <NavSidebar isSticky={isSticky} userData={userData}/>
         </div>

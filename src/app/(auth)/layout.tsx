@@ -1,5 +1,7 @@
 import { getDecryptedUserData } from "@/store/auth/user-slice";
 import { store } from "@/redux";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 export const metadata = {
   title: "Toeicdoit - Auth Page",
@@ -13,9 +15,11 @@ export default function AuthLayout({
   
   return (
     <>
-      <div className="w-full h-screen flex justify-center items-center total_padding py-32">
+    <Navbar/>
+      <div className="w-full min-h-screen flex justify-center items-center total_padding py-32">
         {children}
       </div>
+      <Footer/>
     </>
 
   );

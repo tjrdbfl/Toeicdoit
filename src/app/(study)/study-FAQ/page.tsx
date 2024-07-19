@@ -14,8 +14,8 @@ export default function StudyFAQPage() {
                 <div className="flex flex-col">
                     <div className="text-black text-md mb-7 ml-2">토익두잇 공부법 FAQ</div>
                     <div className="flex flex-row gap-x-2">
-                        <LinkIcon size={35} />
-                        <div className="text-black text-4xl font-medium mb-10">자주 묻는 질문</div>
+                        <LinkIcon size={30} />
+                        <div className="text-black text-3xl font-medium mb-10">자주 묻는 질문</div>
                     </div>
 
                     <div
@@ -51,8 +51,8 @@ export default function StudyFAQPage() {
                 <div className="gradient-01 opacity-95 w-full" />
                 <div className="text-black text-md mb-7 ml-2 z-10">학습 가이드</div>
                 <div className="flex flex-row gap-x-2 z-10">
-                    <LinkIcon size={35} />
-                    <div className="text-black text-4xl font-medium mb-10">점수대별 학습 레시피</div>
+                    <LinkIcon size={30} />
+                    <div className="text-black text-3xl font-medium mb-10">점수대별 학습 레시피</div>
                 </div>
                 <p className="text-black text-lg">안녕하세요, 토익두잇입니다.</p>
                 <p className="text-black text-lg">

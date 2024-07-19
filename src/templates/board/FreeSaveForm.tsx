@@ -80,7 +80,7 @@ export default function FreeSaveForm() {
                 <label htmlFor="type"
                     className="form_label"
                 >카테고리</label>
-                <div className="mt-5" />
+                <div className="mt-3" />
                 <select
                     name="category"
                     id="category"
@@ -96,11 +96,11 @@ export default function FreeSaveForm() {
             <p aria-live="polite" className="sr-only text-red-500 mt-1">{message.message.category}</p>
 
 
-            <div className="mt-10">
+            <div className="mt-5">
                 <label htmlFor="title"
                     className="form_label"
                 >제목</label>
-                <div className="mt-5" />
+                <div className="mt-3" />
                 <input type="text" name="title" id="title"
                     required
                     className="form_input"
@@ -112,18 +112,18 @@ export default function FreeSaveForm() {
             {message.message.title && <p aria-live="polite" className="text-red-500 mt-1">{message.message.title}</p>}
 
 
-            <div className="mt-10">
+            <div className="mt-5">
                 <label htmlFor="content"
                     className="form_label"
                 >내용</label>
-                <div className="mt-5" />
+                <div className="mt-3" />
                 <textarea
                     name="content"
                     id="content"
                     required
                     className="form_input"
                     placeholder="필수 항목입니다."
-                    style={{ height: 400 }}
+                    style={{ height: 250 }}
                     maxLength={1000}
                     onChange={handleContentChange}
                     disabled={pending}

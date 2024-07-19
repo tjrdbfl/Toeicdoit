@@ -91,6 +91,7 @@ const LoginForm = ({ login }: {
             action={formAction}
         >
             <p className="form_label">이메일</p>
+            <div className="mt-3"/>
             <input
                 id='email'
                 name='email'
@@ -113,6 +114,7 @@ const LoginForm = ({ login }: {
 
             <div className="mt-[5%]" />
             <p className="form_label">비밀번호</p>
+            <div className="mt-3"/>
             <input
                 id="password"
                 name='password'

@@ -12,7 +12,7 @@ export const MoreInfoBtn=()=>(<>
  >
     
        <Link href={`${PG.FREE}`}
-       className='bg-black text-2xl text-white w-[350px] h-[80px] pl-4 py-5 text-center shadow-3xl rounded-xl hover:bg-zinc-800 ring-8 ring-blue-100 md:mt-[3%]'>
+       className='font-semibold flex justify-center items-center bg-black text-xl text-white w-[250px] h-[50px] pl-4 py-7 text-center shadow-3xl rounded-xl hover:bg-zinc-800 ring-4 ring-blue-100 md:mt-[3%]'>
     <div className="flex flex-row justify-center items-center">
     더 많은 정보 보기
     <ForwardIcon className="text-white h-10 w-10 ml-3"/>

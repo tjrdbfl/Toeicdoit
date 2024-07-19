@@ -1,7 +1,8 @@
 import { OptionData, OptionDataPublic, ToeicDataPublic } from "@/types/ToeicData";
 import Image from "next/image";
 import { FC } from "react";
-import ToeicModalBtn from "../ToeicModalBtn";
+import ToeicModalBtn from "../toeic/ToeicModalBtn";
+
 
 interface ExamCardProps {
     id: number;

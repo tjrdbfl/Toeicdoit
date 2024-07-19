@@ -47,26 +47,9 @@ export default async function ExamTable({ query, currentPage }: {
         <div className="mt-10 flow-root">
             <div className="inline-block min-w-full align-middle shadow-md">
                 <div className="rounded-2xl border-slate-100 border-2 bg-white p-2 md:pt-0">
-                    <div className="md:hidden">
-                        {tests?.map((item) => (
-                            <div
-                                key={item.id}
-                                className="mb-2 w-full rounded-md bg-white p-4"
-                            >
-                                <div className="flex items-center justify-between border-b pb-4">
-                                    <div>
-                                        <p className="text-sm text-gray-500">{item.title}</p>
-                                    </div>
-                                </div>
-                                <div className="flex w-full items-center justify-between pt-4">
 
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <table className="hidden min-w-full text-gray-900 md:table">
-                        <thead className="rounded-2xl bg-white text-left text-lg font-normal border-b-slate-200 border-b-2">
+                    <table className="min-w-full text-gray-900">
+                        <thead className="rounded-2xl bg-white text-left font-normal border-b-slate-200 border-b-2">
                             <tr>
                                 <th scope="col" className="px-4 py-4 font-medium sm:pl-6">
                                     번호

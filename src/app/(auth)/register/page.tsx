@@ -5,7 +5,7 @@ import RegisterForm, { RegisterMessageState } from "@/templates/auth/RegisterFor
 export default async function RegisterPage() {
     
     return (<>
-        <div className="form lg:w-[34%] md:w-[60%] sm:w-[90%] lg:p-[2%] p-[3%] mt-[2%]">
+        <div className="form w-[550px] p-10">
             <p className="form_title">Sign-Up</p>
             <RegisterForm register={register} />
         </div>

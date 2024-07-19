@@ -50,7 +50,7 @@ export default async function NoticeDetailPage({ params }: {
     }
 
     return (<>
-        <div className="total_padding py-28">
+        <div className="total_padding py-20">
             <div className="w-full flex flex-col z-10 lg:px-20 2xl:px-[25%]">
                 <NoticeLink />
                 <div className="mt-5" />

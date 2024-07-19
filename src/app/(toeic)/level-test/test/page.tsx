@@ -2,12 +2,14 @@
 
 import CloseBtn from "@/components/button/CloseBtn";
 import SubmitButton from "@/components/button/SubmitBtn";
+import ToeicSubmitBtn from "@/components/button/ToeicSubmitBtn";
 import CustomPagination from "@/components/common/CustomPagination";
 import LinkIcon from "@/components/common/LinkIcon";
 import ToeicAnswer from "@/components/toeic/ToeicAnswer";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
+import { PG } from "@/constants/enums/PG";
 import { MessageData } from "@/types/MessengerData";
 import { I_ApiLevelTestResponse, OptionData, ToeicDataPublic } from "@/types/ToeicData";
 
@@ -15,7 +17,6 @@ export default async function LevelTestPage({ searchParams }: {
     searchParams: { page: number }
 }) {
 
-    //get level test questions
     const currentPage = Number(searchParams.page) || 1;
     let totalPages: number = 2;
     let tests: ToeicDataPublic = {
@@ -34,11 +35,12 @@ export default async function LevelTestPage({ searchParams }: {
         take: false,
         answer: "",
         description: "",
-        script: ""
+        script: "",
+        numberOfQuestions: 0
     };
 
     const option: OptionData = {
-        id: 1,
+        id: 2,
         choice1: 'to convince',
         choice2: 'to convince',
         choice3: 'to convince',
@@ -63,14 +65,14 @@ export default async function LevelTestPage({ searchParams }: {
         console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
     }
 
-   
+
     return (<>
         <div className="bg-white w-screen h-screen">
             <div className="flex flex-row w-full p-3">
-                <CloseBtn />
+                <CloseBtn url={`${PG.LEVEL_TEST}`} />
             </div>
-            <div className="w-full flex justify-center">
-                <div className="flex flex-col  w-[768px] h-screen">
+            <div className="w-full flex justify-center items-center px-10">
+                <div className="flex flex-col w-[768px] h-screen mt-16">
                     <div className="p-2">
                         <div className="flex flex-row gap-x-2 items-center">
                             <LinkIcon size={30} />
@@ -82,22 +84,17 @@ export default async function LevelTestPage({ searchParams }: {
                             <ToeicAnswer op={option} />
                         </div>
 
-                        {/* <div className="mt-10">
+                        <div className="mt-10">
                             <div className="w-full flex justify-end">
                                 {Number(searchParams.page)===totalPages && 
-                                <button 
-                                onClick={()=>{}}
-                                className="bg-blue-100 hover:bg-blue-50 text-black font-medium p-5 rounded-t-3xl rounded-bl-3xl"
-                                >
-                                    제출하기
-                                </button>          
+                                 <ToeicSubmitBtn/>
                                 }
                             </div>
-                        </div> */}
+                        </div>
 
                     </div>
                     <div className="mt-10 flex w-full justify-end">
-                        <CustomPagination totalPages={10} type={"single"} />
+                        <CustomPagination totalPages={5} type={"single"} />
                     </div>
                 </div>
 

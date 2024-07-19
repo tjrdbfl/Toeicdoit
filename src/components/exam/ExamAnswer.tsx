@@ -3,7 +3,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ScrollArea, ScrollBar } from "@/components/utils/ScrollArea";
 import { ExamPart, allParts } from "@/constants/toeic/exam";
-import { useNumberOfQuestionStore } from "@/store/exam/store";
+import { useNumberOfQuestionStore } from "@/store/toeic/store";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const ExamAnswer = () => {
@@ -11,27 +11,35 @@ const ExamAnswer = () => {
     const option1: string[] = ['a', 'b', 'c', 'd'];
     const option2: string[] = ['a', 'b', 'c'];
     const [selections, setSelections] = useState<{ [key: number]: string }>({});
+    
+    let initialAnswers:boolean[]=[];
+    for(let i=1;i<=200;i++){
+        initialAnswers[i]=false;
+    }
     const [questionNumbers, setQuestionNumbers] = useState<{ [key: string]: number[] }>({});
+    const [select,setSelect]=useState<{[key:number]:boolean}>({});
 
     const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-    const {setCount}=useNumberOfQuestionStore();
-    
     useEffect(() => {
         const numbers: { [key: string]: number[] } = {};
         let questionNumber = 1;
         allParts.forEach(part => {
             numbers[part.label] = Array.from({ length: part.question }, () => questionNumber++);
         });
-        setQuestionNumbers(numbers);
-        console.log("questionNumbers: "+JSON.stringify(numbers));
-
+        setQuestionNumbers(numbers); 
     }, []);
 
 
     const handleSelect = (questionId: number, value: string) => {
         setSelections((prevSelections) => ({ ...prevSelections, [questionId]: value }));
-        setCount();
+        setSelect((prevAnswers)=>({
+            ...prevAnswers,
+            [questionId]:value!=='' 
+        }));
+        if(value!=='' && !select[questionId]){
+            useNumberOfQuestionStore.setState({ count: Object.values(select).filter(answer => answer === true).length + 1 });
+        }
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +59,7 @@ const ExamAnswer = () => {
 
     const setPartRef = useCallback((label: string) => (el: HTMLDivElement | null) => {
         partRefs.current[label] = el;
-      }, []);
+    }, []);
       
     return (
         <div className="bg-white border-slate-200 border-2 shadow-lg rounded-lg w-[250px] h-[800px] m-5 fixed right-0 lg:mr-[25%]">

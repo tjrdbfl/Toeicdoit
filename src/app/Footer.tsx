@@ -1,21 +1,13 @@
 'use client';
 
 import { LogoIcon } from '@/components/common';
-import { PG } from '@/constants/enums/PG';
 import { socials, styles } from '@/constants/styles/dashboard';
 import { footerVariants } from '@/utils/motion';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const Footer = () => {
-  if(window.location.pathname===`${PG.LEVEL_TEST}/test` ||
-    window.location.pathname.match(/^\/exam\/\d+$/) ||
-    window.location.pathname.match(/^\/level\/\d+$/) ||
-    window.location.pathname.match(/^\/part\/\d+$/) 
-  ){
-    return null;
-  }
-  
+
   return(<motion.footer
     variants={footerVariants}
     initial="hidden"
@@ -29,9 +21,9 @@ const Footer = () => {
         <div className="mb-[50px] h-[2px] bg-white opacity-10" />
 
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className='flex flex-row'>
-          <LogoIcon size={35}/>
-          <h4 className="font-extrabold text-[24px] text-[var(--blue2)]">
+          <div className='flex flex-row items-center'>
+          <LogoIcon size={25}/>
+          <h4 className="font-extrabold text-[22px] text-[var(--blue2)]">
             Toeicdoit
           </h4>
           </div>

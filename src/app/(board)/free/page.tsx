@@ -49,8 +49,8 @@ export default async function FreePage({searchParams}:{
     <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[10%] xl:py-[10%] 2xl:py-[5%] total_padding">
         <div className="xl:px-32">
         <div className="flex flex-row items-center gap-x-2">
-            <LinkIcon size={30}/>
-            <h1 className="text-black font-medium text-start text-2xl xl:text-3xl">자유게시판</h1>
+            <LinkIcon size={25}/>
+            <h1 className="text-black font-medium text-start xl:text-2xl">자유게시판</h1>
             </div>
        
             <div className="mt-4 flex items-center md:mt-8 flex-wrap justify-between gap-y-5">

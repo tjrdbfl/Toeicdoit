@@ -172,6 +172,7 @@ const RegisterForm = ({ register }: {
         >
 
             <p className="form_label">이름</p>
+            <div className="mt-3"/>
             <input
                 id='name'
                 name='name'
@@ -194,6 +195,8 @@ const RegisterForm = ({ register }: {
             <div className="flex flex-row items-end justify-between gap-x-5">
                 <div className="flex flex-col">
                 <p className="form_label">이메일</p>
+                <div className="mt-3"/>
+            
                     <input
                         id='email'
                         name='email'
@@ -220,6 +223,8 @@ const RegisterForm = ({ register }: {
 
             <div className="mt-[5%]" />
             <p className="form_label">비밀번호</p>
+            <div className="mt-3"/>
+            
             <input
                 id='password'
                 name='password'
@@ -239,6 +244,8 @@ const RegisterForm = ({ register }: {
 
             <div className="mt-[5%]" />
             <p className="form_label">비밀번호 확인</p>
+            <div className="mt-3"/>
+            
             <input
                 type='password'
                 className="form_input"
@@ -262,6 +269,8 @@ const RegisterForm = ({ register }: {
 
             <div className="mt-[5%]" />
             <p className="form_label">전화번호</p>
+            <div className="mt-3"/>
+            
             <input
                 type='text'
                 name='phone'

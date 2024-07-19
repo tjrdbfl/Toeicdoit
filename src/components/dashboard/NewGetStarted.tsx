@@ -17,8 +17,8 @@ const NewGetStarted = ({ imgUrl, title, subtitle }: {
 
         <div className="flex flex-col w-[800px]">
             <div className="flex flex-row items-center gap-x-2">
-            <LinkIcon size={30}/>
-            <h1 className="font-semibold text-[24px] leading-[30.24px] text-black text-balance">
+            <LinkIcon size={25}/>
+            <h1 className="font-semibold text-[20px] leading-[30.24px] text-black text-balance">
                 {title}
             </h1> 
             

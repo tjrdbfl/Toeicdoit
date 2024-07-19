@@ -1,12 +1,12 @@
 'use client';
 import { formattedTime } from "@/service/utils/date";
-import { useTimerStore } from "@/store/toeic/timer"
+import { useExamTimerStore } from "@/store/toeic/timer"
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const ExamTimer = () => {
     const router=useRouter();
-    const { timeLeft, startTimer,resetTimer, isRunning,isPaused } = useTimerStore();
+    const { timeLeft, startTimer,resetTimer, isRunning,isPaused } = useExamTimerStore();
 
     const INTERVAL = 1000;
     
@@ -25,7 +25,7 @@ const ExamTimer = () => {
     
         if (!isPaused && isRunning) {
           timerId = setInterval(() => {
-            useTimerStore.setState((state) => ({
+            useExamTimerStore.setState((state) => ({
               timeElapsed: state.timeElapsed + INTERVAL,
               timeLeft: state.timeLeft - INTERVAL,
             }));
@@ -43,7 +43,7 @@ const ExamTimer = () => {
         if (timeLeft <= 0 && isRunning) {
           console.log("Time is up!");
           router.push("/score");
-          useTimerStore.setState({ isRunning: false }); // Explicitly stop the timer in the store
+          useExamTimerStore.setState({ isRunning: false }); // Explicitly stop the timer in the store
         }
       }, [timeLeft, isRunning]);
 

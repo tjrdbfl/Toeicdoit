@@ -15,8 +15,12 @@ export default function BoardLayout({
 }>) {
 
     return (
-        <div className="w-full min-h-screen h-auto">
+        <div className="w-full">
+            <Navbar/>
+            <div className="min-h-screen">
             {children}
+            </div>
+            <Footer/>
         </div>
     );
 }

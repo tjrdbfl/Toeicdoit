@@ -18,7 +18,7 @@ const About = () => (
       
       <motion.p
         variants={fadeIn('up', 'tween', 0.2, 1)}
-        className="mt-[8px] font-normal text-[24px] text-center text-black"
+        className="mt-[8px] font-normal text-[20px] text-center text-black"
         style={{ marginTop: '30px',lineHeight:'36px'}} 
       >
         <span className="font-semibold text-black mr-2"

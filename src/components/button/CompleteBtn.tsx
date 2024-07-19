@@ -2,7 +2,7 @@
 
 import { Dialog } from "@mui/material";
 import RetakeModal from "../exam/RetakeModal";
-import { useExamRetakeModalStore } from "@/store/exam/store";
+import { useExamRetakeModalStore } from "@/store/toeic/store";
 
 const CompleteBtn = ({ id }: {
     id: number,

@@ -1,3 +1,4 @@
+
 export const metadata = {
     title: "Toeicdoit - Level Practice Page",
     description: "",
@@ -10,7 +11,7 @@ export default function LevelLayout({
 }>) {
     return (
         <>
-            <div className="w-full total_padding h-screen">
+            <div className="w-full h-screen">
             {children}
             </div>
         </>

@@ -42,10 +42,10 @@ export default async function NoticePage({searchParams}:{
 
     return(<>
     <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[10%] xl:py-[10%] 2xl:py-[5%] total_padding">
-        <div className="xl:px-32">
+        <div className="xl:px-40">
         <div className="flex flex-row items-center gap-x-2">
-            <LinkIcon size={30}/>
-            <h1 className="text-black font-medium text-start text-2xl xl:text-3xl">공지사항</h1>
+            <LinkIcon size={25}/>
+            <h1 className="text-black font-medium text-start text-xl xl:text-2xl">공지사항</h1>
             </div>
             <div className="mt-4 flex items-center md:mt-8">
                 <Search placeholder={"검색어를 입력해주세요."} />

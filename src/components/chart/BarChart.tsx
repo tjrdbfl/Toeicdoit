@@ -1,5 +1,5 @@
 'use client';
-import { labels } from "@/constants/chart/bar";
+import { labels } from "@/constants/chart/constant";
 import {
     Chart as ChartJS,
     CategoryScale,

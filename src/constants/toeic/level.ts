@@ -13,7 +13,7 @@ export const LevelCardContent:LevelCardContentType[]=[
     },
     {
         id: 3,
-        description: "토익 300점대를 위한 연습문제 입니다. 초급자를 위한 토익 첫걸음! 다양한 주제와 어려움 수준의 문제를 경험하며 토익 실력을 한 단계 더 발전시키세요!"
+        description: "토익 300점대를 위한 연습문제 입니다. 초급자를 위한 토익 첫걸음! 다양한 주제와 어려운 수준의 문제를 경험해보세요!"
     },
     {
         id: 4,
@@ -37,6 +37,6 @@ export const LevelCardContent:LevelCardContentType[]=[
     },
     {
         id: 9,
-        description: "토익 900점대를 위한 연습문제 입니다. 초급자를 위한 토익 첫걸음! 보다 심화된 어휘와 표현, 문법 활용 능력을 익혀 토익 900점대 목표를 달성하세요!"
+        description: "토익 900점대를 위한 연습문제 입니다. 보다 심화된 어휘와 표현, 문법 활용 능력을 익혀 토익 900점대 목표를 달성하세요!"
     },
 ]

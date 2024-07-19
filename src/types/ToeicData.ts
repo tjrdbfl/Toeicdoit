@@ -6,6 +6,7 @@ export type ToeicData={
     level:number;
     quesiton:string;
     answer:string;
+    numberOfQuestions:number;
     description:string;
     image:string;
     sound:string;
@@ -42,6 +43,7 @@ export type ToeicDataPublic={
     part:ToeicData['part'];
     image:ToeicData['image'];
     sound:ToeicData['sound'];
+    numberOfQuestions:ToeicData['numberOfQuestions'];
     option:ToeicData['option'];
     take:ToeicData['take'];
     answer:ToeicData['answer'];

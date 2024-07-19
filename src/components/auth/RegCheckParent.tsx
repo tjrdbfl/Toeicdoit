@@ -23,7 +23,7 @@ const RegCheckParent = (
                 }}
                 labelPlacement='start'
                 label={
-                    <Typography className="text-black" fontSize={20} fontWeight={600}>
+                    <Typography className="text-black" fontSize={18} fontWeight={600}>
                         {label}
                     </Typography>
                 }
