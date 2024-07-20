@@ -6,7 +6,7 @@ export default function AxiosConfig(){
         headers:{
             "Cache-Control":"no-cache",
             "Content-Type":"application/json",
-            Authorization:`Bearer blah~`,
+            "Authorization":`Bearer blah~`,
             "Access-Control-Allow-Origin":"*"
         }
     };

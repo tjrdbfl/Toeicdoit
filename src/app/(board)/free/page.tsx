@@ -21,11 +21,13 @@ export default async function FreePage({searchParams}:{
         page:string;
     }
 }){
+    
     const search = searchParams?.search || '';
     const currentPage=Number(searchParams?.page)||1;
     let totalPages:number=0;
     let posts:BoardData[]=[];
 
+    
     try{
         const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=자유&size=10`,{
             method:'GET',
