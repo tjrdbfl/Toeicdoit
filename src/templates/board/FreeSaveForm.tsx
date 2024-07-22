@@ -3,7 +3,7 @@ import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { saveFree } from "@/service/board/action";
-import { initialMessageState, MessageState } from "@/types/MessengerData";
+import { initialFreeMessageState, FreeMessageState } from "@/types/MessengerData";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -14,9 +14,9 @@ export default function FreeSaveForm() {
 
     const [charCount, setCharCount] = useState(0);
 
-    const [state, formAction] = useFormState(saveFree, initialMessageState);
+    const [state, formAction] = useFormState(saveFree, initialFreeMessageState);
     const { pending } = useFormStatus();
-    const [message, setMessage] = useState<MessageState>(initialMessageState);
+    const [message, setMessage] = useState<FreeMessageState>(initialFreeMessageState);
     const router=useRouter();
 
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {

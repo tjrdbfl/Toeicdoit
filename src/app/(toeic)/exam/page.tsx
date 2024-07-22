@@ -8,6 +8,7 @@ import { CommonHeader } from "@/config/headers";
 import LinkIcon from "@/components/common/LinkIcon";
 import Navbar from "@/app/Navbar";
 import Footer from "@/app/Footer";
+import MainHeader from "@/components/common/MainHeader";
 
 export default async function ExamPage({ searchParams }: {
     searchParams?: {
@@ -49,10 +50,8 @@ export default async function ExamPage({ searchParams }: {
         <Navbar />
         <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
             <div className="md:py-28 lg:py-28 xl:px-20 2xl:px-32">
-                <div className="flex flex-row items-center gap-x-2">
-                    <LinkIcon size={25} />
-                    <h1 className="text-black font-medium text-start text-xl xl:text-2xl">기출 모의고사</h1>
-                </div>
+                <MainHeader label={"기출 모의고사"}/>
+       
                 <div className="mt-4 flex items-center md:mt-8">
                     <Search placeholder={"검색어를 입력해주세요."} />
                 </div>

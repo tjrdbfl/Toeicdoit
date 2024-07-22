@@ -7,7 +7,7 @@ export type MessageData={
     refreshTokenExpired:number;
 }
 
-export interface MessageState {
+export interface FreeMessageState {
     message: {
         title?: string[] | undefined;
         category?: string[] | undefined;
@@ -16,7 +16,7 @@ export interface MessageState {
     result_message: string;
 }
 
-export const initialMessageState: MessageState = {
+export const initialFreeMessageState: FreeMessageState = {
     message: {
         category: "" || undefined,
         title: "" || undefined,
@@ -24,3 +24,9 @@ export const initialMessageState: MessageState = {
     },
     result_message: ""
 };
+export interface MessageState{
+    message:string;
+}
+export const initialMessageState:MessageState={
+    message:""
+}

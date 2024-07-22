@@ -1,45 +1,60 @@
-import { CommonHeader } from "@/config/headers";
+
 import { BoardData } from "@/types/BoardData";
-import { NextResponse } from "next/server";
+import CalendarContainer from "@/templates/my-page/CalendarContainer";
+import { cookies } from "next/headers";
+import { CommonHeader } from "@/config/headers";
+import { IEvent } from "@/types/TransactionData";
+import { ERROR } from "@/constants/enums/ERROR";
+import { SERVER_API } from "@/constants/enums/API";
 
 export interface I_ApiFreeSaveResponse{
     success:boolean;
     message?:string;
     board:BoardData;
 }
-const CalendarPage = async () => {
+export default async function CalendarPage(){
+    
+    const cookieStore=cookies();
+    //const userId=cookieStore.get('userId');
 
-    let board:BoardData[] = [];
-    try {
-        const data = await fetch(`${process.env.NEXT_PUBLIC_BOARD_API_URL}/board/findAll`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(async (res)=>{
-            if(res.ok){
-                const json=await res.json();
-                console.log(JSON.stringify(json));
-                return NextResponse.json({success:true,board:json.board},{status:200});
-            }else{
-                const errorJson=await res.json();
-                return NextResponse.json({success:false,message:errorJson.message},{status:res.status});
-            }
-        }).catch(async (err)=>{
-            console.log(err);
-            return NextResponse.json({success:false,message:err},{status:500})
-        })
+    const userId=1;
+    console.log(JSON.stringify(userId));
+    let event:IEvent[]=[];
+    
+    try{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/list?id=${userId}`,{
+            method:'GET',
+            headers:CommonHeader,
+            cache:'no-store'
+        });
 
-    } catch (err) {
+        const result:IEvent[]=await response.json();
+        
+        if(result){
+            console.log(result);
+            event = result.map(event => ({
+                id:event.id,
+                userId:userId,
+                allDay:event.allDay,
+                title:event.title,
+                start: event.startTime,
+                end: event.endTime, 
+            }));
+            console.log('event: '+JSON.stringify(event));
+        }else{
+            console.log(ERROR.SERVER_ERROR);
+        }
 
+    }catch(err){
+        console.error(err);
+        console.log(ERROR.SERVER_ERROR);
     }
 
-
-    console.log(JSON.stringify(board));
-    return (<>
-        <div className="text-black">
-            {JSON.stringify(board)}
-        </div>
-    </>);
+    return (
+        <>
+        <div className="mt-5 lg:mt-10"/>
+        <CalendarContainer userId={userId} event={event}/>
+        </>
+      );
+    
 }
-export default CalendarPage;

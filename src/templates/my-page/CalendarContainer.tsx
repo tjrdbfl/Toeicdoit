@@ -1,0 +1,252 @@
+'use client';
+import { BoardData } from "@/types/BoardData";
+import { NextResponse } from "next/server";
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin, { Draggable, DropArg } from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import { EventSourceInput } from '@fullcalendar/core';
+import MainHeader from "@/components/common/MainHeader";
+import { SetStateAction, useEffect, useState } from "react";
+import { IEvent } from "@/types/TransactionData";
+import MyPageCautionModal from "@/components/my-page/MyPageCautionModal";
+import MyPageFormModal from "@/components/my-page/MyPageFormModal";
+import { CommonHeader } from "@/config/headers";
+import { SERVER_API } from "@/constants/enums/API";
+import { Router } from "express";
+import { useRouter } from "next/navigation";
+import { ERROR } from "@/constants/enums/ERROR";
+
+
+export interface I_ApiFreeSaveResponse {
+    success: boolean;
+    message?: string;
+    board: BoardData;
+}
+const CalendarContainer = ({
+    userId, event
+}: {
+    userId: number | string,
+    event: IEvent[]
+}) => {
+
+    const [events, setEvents] = useState([
+        { title: '출석', id: '1' },
+        { title: 'event 2', id: '2' },
+        { title: 'event 3', id: '3' },
+    ]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [allEvents, setAllEvents] = useState<IEvent[]>(event);
+    const [newEvents,setNewEvents]=useState<IEvent[]>([]);
+    const [newEvent, setNewEvent] = useState<IEvent>({
+        title: '',
+        start: '',
+        end: '', // Initialize end field
+        allDay: false,
+        id: 0,
+        userId: userId,
+    });
+    const [idToDelete, setIdToDelete] = useState<number | null>(null);
+    const router=useRouter();
+    
+    function handleDateClick(arg: { date: Date; allDay: boolean }) {
+
+        setNewEvent({
+            ...newEvent
+            , start: arg.date.toISOString()
+            , end: arg.date.toISOString()
+            , allDay: arg.allDay
+            , id: new Date().getTime()
+        });
+        
+        setShowModal(true);
+    }
+
+
+    function addEvent(data: DropArg) {
+       
+        const event = {
+            ...newEvent,
+            start: data.date.toISOString(),
+            end: data.date.toISOString(), // Set end time
+            title: data.draggedEl.innerText,
+            allDay: true,
+            id: new Date().getTime(),
+        };
+        setNewEvents((prevEvents)=> [...prevEvents,event]);
+        setAllEvents((prevEvents) => [...prevEvents, event]);
+    }
+
+    function handleDeleteModal(data: { event: { id: string } }) {
+        setShowDeleteModal(true);
+        setIdToDelete(Number(data.event.id));
+    }
+
+    function deleteEvent() {
+        setAllEvents(newEvents.filter((e) => e.id !== idToDelete));
+        setIdToDelete(null);
+    }
+
+    const handleSave = async () => {
+
+        const eventsToSave = newEvents.map(event => ({
+            id:event.id,
+            userId:userId,
+            isAllDay:true,
+            title:event.title,
+            startTime: event.start,
+            endTime: event.end, 
+        }));
+
+        if(eventsToSave.length===0){
+            alert('일정을 생성해주세요');
+            return;
+        }
+        console.log('newEvents:', eventsToSave);
+        
+        try{
+            const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/save`,{
+                method:'POST',
+                headers:CommonHeader,
+                body:JSON.stringify(eventsToSave),
+                cache:'no-store'
+            });
+        
+            const result:string=await response.json();
+    
+            console.log('result: '+JSON.stringify(result))
+            if(result==='SUCCESS'){
+                alert('일정 저장에 성공했습니다.');
+                router.refresh();
+            }else{
+                alert('일정 저장에 실패했습니다.');
+                router.refresh();
+            }
+        }catch(err){
+            alert(ERROR.SERVER_ERROR);
+        }
+       
+    }
+
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setNewEvent({
+            ...newEvent,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    useEffect(() => {
+        const draggableEl = document.getElementById('draggable-el');
+        if (draggableEl && !draggableEl.hasAttribute('data-initialized')) {
+            new Draggable(draggableEl, {
+                itemSelector: '.fc-event',
+                eventData(eventEl) {
+                    const title = eventEl.getAttribute('title');
+                    const id = eventEl.getAttribute('data');
+                    const start = eventEl.getAttribute('start');
+                    const end = eventEl.getAttribute('end');
+                    return { title, id, start, end };
+                },
+            });
+            draggableEl.setAttribute('data-initialized', 'true');
+        }
+    }, []);
+
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setAllEvents((prevEvents) => [...prevEvents, newEvent]);
+        setNewEvents((prevEvents) => [...prevEvents, newEvent]);
+        
+        setShowModal(false);
+        setNewEvent({
+            title: '',
+            start: '',
+            end: '', // Reset end field
+            allDay: false,
+            id: 0,
+            userId: userId,
+        });
+    }
+    return (
+        <>
+            <nav className="flex justify-between mb-3 border-b-2 border-violet-100 p-4">
+                <MainHeader label={"Calendar"} />
+            </nav>
+
+            <p className="px-10">1. 일정 추가</p>
+            <p className="px-10"> - 다음 버튼들을 캘린더의 원하는 날짜로 드래그해서 일정을 추가해보세요!</p>
+            <p className="px-10"> - 캘린더에서 일정을 추가하고 싶은 날짜를 클릭해 보세요!</p><br />
+            <p className="px-10">2. 일정 삭제</p>
+            <p className="px-10"> - 해당 달력의 날짜를 클릭해 일정을 삭제해 보세요!</p>
+            <div className="flex flex-row justify-between items-center px-10 my-5">
+                <div className="w-[100px]">
+                    <button
+                        type="button"
+                        className="form_submit_btn"
+                        onClick={handleSave}
+                    >
+                        저장하기
+                    </button>
+                </div>
+                <div id="draggable-el" className="rounded-xl flex flex-row mb-2 justify-end">
+                    {events.map((event) => (
+                        <div
+                            className={`fc-event border-slate-200  bg-[var(--blue4)]  hover:bg-[var(--blue5)] border-1 p-1 m-2 w-[100px] rounded-md ml-auto text-center font-medium shadow-md`}
+                            title={event.title}
+                            key={event.id}
+                        >
+                            {event.title}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="px-10">
+
+                <FullCalendar
+                    plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+                    headerToolbar={{
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'resourceTimelineWeek, dayGridMonth,timeGridWeek',
+                    }}
+                    events={allEvents as EventSourceInput}
+                    nowIndicator={true}
+                    editable={true}
+                    droppable={true}
+                    selectable={true}
+                    selectMirror={true}
+                    dateClick={handleDateClick}
+                    drop={addEvent}
+                    eventClick={handleDeleteModal}
+                    locale={'ko'}
+                    height={500}
+                />
+            </div>
+
+            {showDeleteModal && <MyPageCautionModal
+                option={{
+                    id: idToDelete,
+                    title: "삭제",
+                    message: "해당 일정을 삭제하시겠습니까?"
+                }}
+                setOpen={setShowDeleteModal}
+                event={allEvents}
+                deleteEvent={deleteEvent}
+            />
+            }
+
+            {showModal && <MyPageFormModal
+                handleChange={handleChange}
+                newEvent={newEvent}
+                setOpen={setShowModal}
+                handleSubmit={handleSubmit}
+            />}
+
+        </>
+    );
+
+}
+export default CalendarContainer;

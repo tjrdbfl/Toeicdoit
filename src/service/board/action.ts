@@ -6,12 +6,12 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { getCookie, setCookie } from 'cookies-next';
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
-import { MessageData, MessageState } from "@/types/MessengerData";
+import { MessageData, FreeMessageState } from "@/types/MessengerData";
 import { I_ApiBoardSaveRequest } from "@/types/BoardData";
 import { redirect } from "next/navigation";
 
 
-export async function saveFree(prevState: MessageState, formData: FormData) {
+export async function saveFree(prevState: FreeMessageState, formData: FormData) {
 
     const validatedFields = FreeSaveSchema.safeParse({
         category: formData.get('category'),
@@ -58,7 +58,7 @@ export async function saveFree(prevState: MessageState, formData: FormData) {
         
 }
 
-export async function modifyBoard(prevState: MessageState,formData: FormData) {
+export async function modifyBoard(prevState: FreeMessageState,formData: FormData) {
 
     const boardId=formData.get('boardId')?.toString();
 

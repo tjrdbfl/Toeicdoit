@@ -1,7 +1,9 @@
 'use server';
+import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { MessageData } from "@/types/MessengerData";
+import { IEvent } from "@/types/TransactionData";
 import { I_ApiUserLoginRequest } from "@/types/UserData";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -30,7 +32,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify(data),
       cache: 'no-store',
-      credentials:'include'
+      credentials: 'include'
     });
 
     const result: MessageData = await response.json();
@@ -38,6 +40,29 @@ export async function POST(request: NextRequest) {
     if (result.message === 'SUCCESS') {
       const nextResponse = NextResponse.json({ success: true, message: "SUCCESS" }, { status: 200 });
 
+      const calendarBody: IEvent = {
+        title: '출석',
+        startTime: new Date(),
+        endTime: new Date(),
+        allDay: true,
+        id: new Date().getTime(),
+        userId: 1
+      };
+      
+      const calendarResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/add`, {
+        method: 'POST',
+        headers:CommonHeader,
+        body:JSON.stringify(calendarBody),
+        cache:'no-store'
+      });
+
+      const calendarResult=await calendarResponse.json();
+      if(calendarResult==='SUCCESS'){
+        console.log('출책 SUCCESS');
+      }else{
+        console.log('출책 ERROR IN SERVER');
+      }
+      
       // 쿠키 설정 (필요에 따라 수정)
       nextResponse.cookies.set({
         name: 'UserData',
@@ -57,7 +82,7 @@ export async function POST(request: NextRequest) {
         path: '/',
         //expires: new Date(Date.now() + result.refreshTokenExpired)
       });
-      
+
       //store에 데이터 추가
       // store.dispatch(setUserData({
       //   id: 1,

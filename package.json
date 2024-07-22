@@ -81,7 +81,13 @@
     "axios":"1.7.2",
     "crypto-js":"4.2.0",
     "@types/crypto-js":"4.2.2",
-    "react-dropzone": "14.2.3"
+    "react-dropzone": "14.2.3",
+    "@fullcalendar/react":"6.1.15",
+    "@fullcalendar/daygrid":"6.1.15",
+    "@fullcalendar/timegrid":"6.1.15",
+    "@fullcalendar/interaction":"6.1.15",
+    "@fullcalendar/core":"6.1.15",
+    "moment-timezone":"0.5.45"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

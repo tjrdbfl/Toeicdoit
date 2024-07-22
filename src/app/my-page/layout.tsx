@@ -19,9 +19,9 @@ export default function MyPageLayout({
       <div className="w-full min-h-screen"> 
       <Navbar/>  
         <div className="2xl:px-[10%] flex flex-row">
-        <div className="flex flex-wrap lg:flex-row min-h-screen justify-center xl:justify-between w-full h-full py-[14%] lg:py-[15%] xl:py-[13%] 2xl:py-[7%] bg-white lg:gap-x-10 md:gap-x-24 sm:gap-x-40 total_padding">
+        <div className="flex flex-wrap lg:flex-row min-h-screen justify-center xl:justify-between w-full h-full bg-white lg:gap-x-10 md:gap-x-24 sm:gap-x-40 total_padding">
         <div className="xl:w-[15%] w-full">
-          <div className="xl:mt-10">
+          <div className="mt-20 xl:mt-40">
           <Sidebar/>
           </div>
         </div>

@@ -1,24 +1,27 @@
 'use client';
 
-import { ChatOptionType } from "@/constants/chat/constant";
-import { useChatAlertStore } from "@/store/chat/store";
-import { ChatData } from "@/types/ChatData";
+import { IEvent, OptionType } from "@/types/TransactionData";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
-const ChatCautionModal=({type,chat,option,setOpen}:{
-    type:'block'|'drawer',
-    chat?:ChatData,
-    option:ChatOptionType,
-    setOpen:Dispatch<SetStateAction<boolean>>
+const MyPageCautionModal=({
+    event,option,setOpen,deleteEvent    
+}:{
+    event:IEvent[],
+    option:OptionType,
+    deleteEvent(): void,
+    setOpen:Dispatch<SetStateAction<boolean>>,   
 })=>{
     
     const message=option.message.split('||');
-
+    
+    console.log('option.id: '+JSON.stringify(option.id));
+    console.log(JSON.stringify(event));
+    
     return(<>
     <dialog
-    className="fixed inset-0 z-40 flex mt-84 lg:mr-64"
+    className="fixed inset-0 z-40 flex justify-center items-center"
     >
-        <div className="bg-white w-[400px] h-auto shadow-lg py-3 px-5">
+        <div className="bg-white w-[400px] h-auto shadow-lg py-3 px-5 border-slate-100 border-2">
             {message.map((msg)=>(
                 <p 
                 key={msg.indexOf(msg)}
@@ -34,16 +37,7 @@ const ChatCautionModal=({type,chat,option,setOpen}:{
                 <button
                 onClick={()=>{
                     setOpen(false);
-                    if(type==='block'){
-                        useChatAlertStore.setState({
-                            fadeOut:true,
-                            message:chat?.senderName+`님이 채팅방을 나가셨습니다`,
-                        });
-                    }else if(type==='drawer' && option.id===1){
-                        //api 통신
-
-                    }
-                   
+                    deleteEvent(); 
                 }}
                 className="text-blue-500 text-md hover:bg-blue-50 rounded-full p-2"
                 >
@@ -54,4 +48,4 @@ const ChatCautionModal=({type,chat,option,setOpen}:{
     </dialog>
     </>);
 }
-export default ChatCautionModal;
+export default MyPageCautionModal;

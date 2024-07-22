@@ -26,6 +26,19 @@
 	--container-size: 250px;
 	--box-size: 33px;
 	--box-border-radius: 15%;
+  
+  --fc-small-font-size: .85em;
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: rgba(208, 208, 208, 0.3);
+  --fc-neutral-text-color: #808080;
+  --fc-border-color: #ddd;
+  
+  --fc-event-bg-color: var(--blue4);
+  --fc-event-border-color: var(--blue4);
+  --fc-event-text-color: black;
+  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
+  
+  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -48,6 +61,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    color: black;
 }
 
 @layer utilities {
@@ -133,7 +147,6 @@ body {
 
   .fade-out-scale {
     animation: fadeOutScale 1s ease-out forwards; 
-
   }
 
 }

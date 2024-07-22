@@ -4,7 +4,7 @@ import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { deleteBoard, modifyBoard } from "@/service/board/action";
 import { BoardData } from "@/types/BoardData";
-import { initialMessageState, MessageState } from "@/types/MessengerData";
+import { initialFreeMessageState, FreeMessageState } from "@/types/MessengerData";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
@@ -12,9 +12,9 @@ import { useFormState } from "react-dom";
 
 export default function FreeModifyForm({ post }: { post: BoardData }) {
 
-    const [state, formAction] = useFormState(modifyBoard, initialMessageState);
+    const [state, formAction] = useFormState(modifyBoard, initialFreeMessageState);
     const [charCount, setCharCount] = useState(post.content.length);
-    const [message, setMessage] = useState<MessageState>(initialMessageState);
+    const [message, setMessage] = useState<FreeMessageState>(initialFreeMessageState);
     const [deleteResult, setDeleteResult] = useState<string>('');
 
     const router = useRouter();
