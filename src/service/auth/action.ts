@@ -6,16 +6,17 @@ import { IUser } from "@/store/auth/user-model";
 import { LoginMessageState } from "@/templates/auth/LoginForm";
 import { UploadMessage } from "@/templates/auth/ProfileForm";
 import { RegisterMessageState } from "@/templates/auth/RegisterForm";
-//import { UserInfoMessageState } from "@/templates/auth/UserInfoForm";
 import { MessageData } from "@/types/MessengerData";
 import { LoginSchema, RegisterSchema } from "@/types/schemas";
 import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest } from "@/types/UserData";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { extractCookie } from "../utils/extract";
+import { PG } from "@/constants/enums/PG";
 
 export async function login(prevState: LoginMessageState, formData: FormData) {
-    const cookieStore=cookies();
-    let UserData:IUser={
+
+    let UserData: IUser = {
         id: 0,
         name: "",
         oauthId: 0,
@@ -48,13 +49,44 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             body: JSON.stringify(data),
         })
 
+        const cookieAccessString = response.headers.getSetCookie()[0];
+        const cookieRefreshString = response.headers.getSetCookie()[1];
+
+       
+
+        cookies().set({
+            name: 'accessToken',
+            value: extractCookie(cookieAccessString, 'accessToken'),
+            path: '/',
+            maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+            expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+            sameSite: 'lax',
+            httpOnly: true,
+        });
+
+        cookies().set({
+            name: 'refreshToken',
+            value: extractCookie(cookieRefreshString, 'refreshToken'),
+            maxAge: Number(extractCookie(cookieRefreshString, 'Max-Age')),
+            expires: new Date(extractCookie(cookieRefreshString, 'Expires')),
+            path: '/',
+            sameSite: 'lax',
+            httpOnly: true
+        });
+        
+        if (cookieAccessString === undefined || cookieRefreshString === undefined) {
+            return { ...prevState, result_message: ERROR.INVALID_INPUT };
+        }else{
+            return { ...prevState, result_message: 'SUCCESS' };
+        }       
+
         const result: MessageData = await response.json();
         console.log(JSON.stringify(result));
 
         if (result.message === 'SUCCESS') {
             return { ...prevState, result_message: 'SUCCESS' };
         } else {
-            return { ...prevState, result_message: ERROR.SERVER_ERROR };
+            return { ...prevState, result_message: ERROR.INVALID_INPUT };
         }
     } catch (err) {
         console.log(err);
@@ -63,7 +95,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
 }
 
 export async function register(prevState: RegisterMessageState, formData: FormData) {
-    
+
     const validatedFields = RegisterSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password'),
@@ -79,8 +111,8 @@ export async function register(prevState: RegisterMessageState, formData: FormDa
     const data: I_ApiUserRegisterRequest = {
         email: validatedFields.data.email,
         password: validatedFields.data.password,
-        phone:validatedFields.data.phone,
-        name:validatedFields.data.name
+        phone: validatedFields.data.phone,
+        name: validatedFields.data.name
     }
     console.log('Received form data: ', data);
 
@@ -89,7 +121,7 @@ export async function register(prevState: RegisterMessageState, formData: FormDa
             method: 'POST',
             headers: CommonHeader,
             body: JSON.stringify(data),
-            cache:'no-store'
+            cache: 'no-store'
         })
 
         const result: MessageData = await response.json();
@@ -107,35 +139,35 @@ export async function register(prevState: RegisterMessageState, formData: FormDa
     }
 }
 
-export async function uploadFiles(prevState:UploadMessage,formData:FormData){
-    const file=formData.get('file') as File;
-    console.log('rawFormData: '+JSON.stringify(file));
+export async function uploadFiles(prevState: UploadMessage, formData: FormData) {
+    const file = formData.get('file') as File;
+    console.log('rawFormData: ' + JSON.stringify(file));
 
-    if(!file){
-        return{...prevState,message:ERROR.INVALID_INPUT};
+    if (!file) {
+        return { ...prevState, message: ERROR.INVALID_INPUT };
     }
 
-    const buffer=Buffer.from(await file.arrayBuffer());
-    console.log('buffer: '+JSON.stringify(buffer));
+    const buffer = Buffer.from(await file.arrayBuffer());
+    console.log('buffer: ' + JSON.stringify(buffer));
 
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify`,{
-            method:'POST',
-            body:JSON.stringify(buffer),
-            headers:CommonHeader,
-            cache:'no-store',
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify`, {
+            method: 'POST',
+            body: JSON.stringify(buffer),
+            headers: CommonHeader,
+            cache: 'no-store',
         });
 
-        const result:MessageData=await response.json();
+        const result: MessageData = await response.json();
 
-        if(result.message==='SUCCESS'){
+        if (result.message === 'SUCCESS') {
             revalidatePath('/user-info');
-            return {...prevState,message:'SUCCESS'};
-        }else{
-            return {...prevState,message:ERROR.SERVER_ERROR};
+            return { ...prevState, message: 'SUCCESS' };
+        } else {
+            return { ...prevState, message: ERROR.SERVER_ERROR };
         }
-    }catch(err){
-        return {...prevState,message:ERROR.SERVER_ERROR};
+    } catch (err) {
+        return { ...prevState, message: ERROR.SERVER_ERROR };
     }
 
 }

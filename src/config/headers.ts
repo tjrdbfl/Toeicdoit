@@ -9,3 +9,13 @@ export const CommonHeader = {
      'Content-Type': 'application/json',
 }
 
+export const AuthorizeHeader=(token:string|undefined)=>{
+     
+     return({
+          "Cache-Control":"no-cache",
+          "Content-Type":"application/json",
+          "Authorization":`Bearer ${token}`,
+          "Access-Control-Allow-Origin":"*"
+     });
+}
+    

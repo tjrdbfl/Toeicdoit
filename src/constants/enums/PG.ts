@@ -4,10 +4,10 @@ export const enum PG{
     NOTICE='/notice',
     FREE='/free',
     CUSTOMER_SERVICE='/customer-service',
-    CALENDAR='my-page/calendar',
-    INQUIRY_DETAILS='my-page/inquiry-details',
-    RESULT='my-page/result',
-    USER_INFO='my-page/user-info',
+    CALENDAR='/my-page/calendar',
+    INQUIRY_DETAILS='/my-page/inquiry-details',
+    RESULT='/my-page/result',
+    USER_INFO='/my-page/user-info',
     RECOMMEND='/recommend',
     STUDY_FAQ='/study-FAQ',
     EXAM='/exam',
@@ -15,5 +15,6 @@ export const enum PG{
     PART='/part',
     SCORE='/score',
     LEVEL_TEST='/level-test',
-    CHAT='/chat'
+    CHAT='/chat',
+    PAYMENT='/payment'
 }

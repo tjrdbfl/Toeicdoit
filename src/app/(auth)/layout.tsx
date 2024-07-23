@@ -1,5 +1,3 @@
-import { getDecryptedUserData } from "@/store/auth/user-slice";
-import { store } from "@/redux";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 

@@ -42,11 +42,13 @@ const NavSidebar = ({userData,isSticky}:{
 
         </motion.button>
 
-        {userData?.isLogined ? 
+        <SelectAuth name={'유리'} level={9}/>
+    
+        {/* {userData?.isLogined ? 
         <>
           <SelectAuth name={userData.name} level={userData.toeicLevel}/>
         </> : <GettingStartedBtn isSticky={isSticky} />}
-      
+       */}
       </div>
       <ul
         className="menu-list bg-white h-auto w-full rounded-b-3xl px-10 py-5 mt-1 border-t-zinc-200 border-t-2 flex flex-col justify-start absolute"

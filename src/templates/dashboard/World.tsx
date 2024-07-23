@@ -35,7 +35,7 @@ const World = () => (
           <Image
                 width={500}
                 height={500}
-                src={'/images/dashboard/result-chart.png'}
+                src={'/images/dashboard/result.png'}
                 alt="icon"
                 className="rounded-xl w-[500px] shadow-lg" />
             

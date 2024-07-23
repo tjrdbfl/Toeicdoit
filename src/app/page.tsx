@@ -9,10 +9,25 @@ import { store } from "@/redux";
 import { getDecryptedUserData } from "@/store/auth/user-slice";
 import { cookies } from "next/headers";
 import { IUser } from "@/store/auth/user-model";
+import { AuthorizeHeader } from "@/config/headers";
 
 export default async function Home() {
   
-  
+  const cookieStore=cookies();
+   
+  try{
+    const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat`,{
+      method:'GET',
+      headers:AuthorizeHeader(cookieStore.get('accessToken')?.value),
+      cache:'no-store'
+    });
+
+    const result=await response.json();
+    console.log(result);
+
+  }catch(err){
+    console.log('home'+err);
+  }
   
   return (
     <>

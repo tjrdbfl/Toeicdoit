@@ -75,16 +75,17 @@ const LoginForm = ({ login }: {
     const passwordRef = useRef<HTMLInputElement>(null);
     
     useEffect(() => {
-        console.log('state'+JSON.stringify(state));
-        setMessage(state);
-
-        if(state.result_message==='SUCCESS'){
+        console.log(state.result_message);
+        router.refresh();
+       
+        if(state.result_message==='SUCCESS'){    
             router.push('/');
-            router.refresh();
-        }else if(state.result_message===`${ERROR.SERVER_ERROR}`){
+        }else if(state.result_message===ERROR.SERVER_ERROR){
             alert(state.result_message);
+        }else if(state.result_message===ERROR.INVALID_INPUT){
+            alert('존재하지 않는 아이디와 비밀번호 입니다.');
         }
-    }, [state.result_message, state.message.email, state.message.password]);
+    }, [state.result_message]);
 
     return (<>
         <form

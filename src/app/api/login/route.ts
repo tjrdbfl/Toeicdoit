@@ -1,11 +1,8 @@
 'use server';
-import { CommonHeader } from "@/config/headers";
-import { SERVER_API } from "@/constants/enums/API";
-import { ERROR } from "@/constants/enums/ERROR";
-import { MessageData } from "@/types/MessengerData";
-import { IEvent } from "@/types/TransactionData";
-import { I_ApiUserLoginRequest } from "@/types/UserData";
 
+import { ERROR } from "@/constants/enums/ERROR";
+import { extractCookie } from "@/service/utils/extract";
+import { I_ApiUserLoginRequest } from "@/types/UserData";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -20,87 +17,109 @@ export async function POST(request: NextRequest) {
     )
   ) as I_ApiUserLoginRequest;
 
+
+
   if (!data.email || !data.password) {
     return NextResponse.json({ status: 400 });
   }
 
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.AUTH}/local/login`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-      cache: 'no-store',
-      credentials: 'include'
+
+  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/local`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(async (res) => {
+    
+    const nextResponse = NextResponse.json({ success: true, message: "SUCCESS" }, { status: 200 });
+    
+    const cookieAccessString=res.headers.getSetCookie()[0];
+    const cookieRefreshString=res.headers.getSetCookie()[1];
+
+    nextResponse.cookies.set({
+      name:'accessToken',
+      value:extractCookie(cookieAccessString, 'accessToken'),
+      path:'/',
+      maxAge:Number(extractCookie(cookieAccessString,'Max-Age')),
+      expires:new Date(extractCookie(cookieAccessString,'Expires')),
+      sameSite:'none',
+      httpOnly:false,    
     });
 
-    const result: MessageData = await response.json();
+    nextResponse.cookies.set({
+      name:'refreshToken',
+      value:extractCookie(cookieRefreshString,'refreshToken'),
+      maxAge:Number(extractCookie(cookieRefreshString,'Max-Age')),
+      expires:new Date(extractCookie(cookieRefreshString,'Expires')),
+      path:'/', 
+      sameSite:'none',
+      httpOnly:false,
+    });
 
-    if (result.message === 'SUCCESS') {
-      const nextResponse = NextResponse.json({ success: true, message: "SUCCESS" }, { status: 200 });
+    
+    return nextResponse;
+    
+    // const calendarBody: IEvent = {
+    //   title: '출석',
+    //   startTime: new Date(),
+    //   endTime: new Date(),
+    //   allDay: true,
+    //   id: new Date().getTime(),
+    //   userId: 1
+    // };
 
-      const calendarBody: IEvent = {
-        title: '출석',
-        startTime: new Date(),
-        endTime: new Date(),
-        allDay: true,
-        id: new Date().getTime(),
-        userId: 1
-      };
-      
-      const calendarResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/add`, {
-        method: 'POST',
-        headers:CommonHeader,
-        body:JSON.stringify(calendarBody),
-        cache:'no-store'
-      });
+    // const calendarResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/add`, {
+    //   method: 'POST',
+    //   headers: CommonHeader,
+    //   body: JSON.stringify(calendarBody),
+    //   cache: 'no-store'
+    // });
 
-      const calendarResult=await calendarResponse.json();
-      if(calendarResult==='SUCCESS'){
-        console.log('출책 SUCCESS');
-      }else{
-        console.log('출책 ERROR IN SERVER');
-      }
-      
-      // 쿠키 설정 (필요에 따라 수정)
-      nextResponse.cookies.set({
-        name: 'UserData',
-        value: JSON.stringify(result.data),
-        path: '/',
-        //expires: new Date(Date.now() + result.refreshTokenExpired)
-      });
-      nextResponse.cookies.set({
-        name: 'accessToken',
-        value: result.accessToken,
-        path: '/',
-        //expires: new Date(Date.now() + result.accessTokenExpired)
-      });
-      nextResponse.cookies.set({
-        name: 'refreshToken',
-        value: result.refreshToken,
-        path: '/',
-        //expires: new Date(Date.now() + result.refreshTokenExpired)
-      });
+    // const calendarResult = await calendarResponse.json();
+    // if (calendarResult === 'SUCCESS') {
+    //   console.log('출책 SUCCESS');
+    // } else {
+    //   console.log('출책 ERROR IN SERVER');
+    // }
 
-      //store에 데이터 추가
-      // store.dispatch(setUserData({
-      //   id: 1,
-      //   name: "유리",
-      //   oauthId: 0,
-      //   role: "ROLE_USER",
-      //   calendarId: 0,
-      //   toeicLevel: 2,
-      //   isLogined: true
-      // }));
+    // 쿠키 설정 (필요에 따라 수정)
+    // nextResponse.cookies.set({
+    //   name: 'UserData',
+    //   value: JSON.stringify(res.data),
+    //   path: '/',
+    //   //expires: new Date(Date.now() + result.refreshTokenExpired)
+    // });
+    // nextResponse.cookies.set({
+    //   name: 'accessToken',
+    //   value: result.accessToken,
+    //   path: '/',
+    //   //expires: new Date(Date.now() + result.accessTokenExpired)
+    // });
+    // nextResponse.cookies.set({
+    //   name: 'refreshToken',
+    //   value: result.refreshToken,
+    //   path: '/',
+    //   //expires: new Date(Date.now() + result.refreshTokenExpired)
+    // });
+
+    // //store에 데이터 추가
+    // // store.dispatch(setUserData({
+    // //   id: 1,
+    // //   name: "유리",
+    // //   oauthId: 0,
+    // //   role: "ROLE_USER",
+    // //   calendarId: 0,
+    // //   toeicLevel: 2,
+    // //   isLogined: true
+    // // }));
 
 
-      return nextResponse;
-    } else {
-      return NextResponse.json({ success: false, error_message: result.message }, { status: 401 });
-    }
-  } catch (err) {
+  
+  }).catch((err) => {
     console.error(err);
-    return NextResponse.json({ success: false, error_message: ERROR.SERVER_ERROR }, { status: 500 }); // 서버 오류 상태 코드 500
-  }
+    return NextResponse.json({ success: false, error_message: ERROR.SERVER_ERROR }, { status: 500 });
+  });
+
+
 }

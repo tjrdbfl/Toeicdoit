@@ -14,7 +14,7 @@ const Sidebar = () => {
     return (<>
         <div
             className={`sidebar_container container_color`}>
-            <Link href={`/${PG.USER_INFO}`}
+            <Link href={`${PG.USER_INFO}`}
                 className="sidebar_fill"
             >
                 <AccountCircleOutlinedIcon className={`sidebar_icons ${currentUrl === `${PG.USER_INFO}` ? 'font-semibold' : ''}`} />
@@ -23,7 +23,7 @@ const Sidebar = () => {
                 >회원정보</p>
             </Link>
 
-            <Link href={`/${PG.CALENDAR}`}
+            <Link href={`${PG.CALENDAR}`}
                 className="sidebar_fill"
             >
                 <CalendarMonthOutlinedIcon className="sidebar_icons" />
@@ -31,7 +31,7 @@ const Sidebar = () => {
                     className={`sidebar_texts ${currentUrl === `${PG.CALENDAR}` ? 'font-semibold' : ''}`}
                 >캘린더</p>
             </Link>
-            <Link href={`/${PG.RESULT}`}
+            <Link href={`${PG.RESULT}`}
                 className="sidebar_fill"
             >
                 <DrawOutlinedIcon className="sidebar_icons" />
@@ -39,7 +39,7 @@ const Sidebar = () => {
                     className={`sidebar_texts ${currentUrl === `${PG.RESULT}` ? 'font-semibold' : ''}`}
                 >레벨테스트 및 문제풀이</p>
             </Link>
-            <Link href={`/${PG.INQUIRY_DETAILS}`}
+            <Link href={`${PG.INQUIRY_DETAILS}`}
                 className="sidebar_fill"
             >
                 <FindInPageOutlinedIcon className="sidebar_icons" />

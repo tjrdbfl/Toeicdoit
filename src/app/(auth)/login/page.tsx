@@ -9,6 +9,7 @@ import { PG } from "@/constants/enums/PG";
 
 export default async function LoginPage() {
 
+    
     return (<>
         <div className="form w-[550px] p-10">
             <p className="form_title">Login</p>

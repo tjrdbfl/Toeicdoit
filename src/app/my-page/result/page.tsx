@@ -12,7 +12,7 @@ const ResultPage = () => {
     const data=[data1,data2,data3,data4];
                     
     return (<>
-        <div className="total_padding md:mt-10 lg:mt-0">
+        <div className="px-[5%] mt-16">
 
             <div className="mt-16 xl:mt-0"/>
             <div className="flex flex-row gap-x-2">

@@ -4,6 +4,7 @@ import LogoutBtn from './LogoutBtn';
 import { useSelectAuthAnimation } from '@/constants/styles/animation';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { PG } from '@/constants/enums/PG';
 
 const SelectAuth = ({name,level}:{
     name:string,level:number
@@ -35,7 +36,7 @@ const SelectAuth = ({name,level}:{
             </div>
 
             <ul
-                className="menu-list bg-white h-auto w-[160px] rounded-b-xl mt-[140px] border-zinc-200 border-[3px] flex flex-col absolute"
+                className="menu-list bg-white h-auto w-[160px] rounded-b-xl mt-40 border-zinc-200 border-[3px] flex flex-col absolute"
                 style={{
                     pointerEvents: isOpen ? "auto" : "none",
                     clipPath: "inset(10% 50% 90% 50% round 10px)",
@@ -43,14 +44,17 @@ const SelectAuth = ({name,level}:{
                 }}
             >
                 <li className='hover:bg-slate-100 w-full h-auto flex justify-center items-center py-2'>
-                    <Link className='text-black text-[16px] font-semibold' href={'/user-info'}>마이페이지</Link>
+                    <Link className='text-black text-[16px] font-semibold' href={`${PG.USER_INFO}`}>마이페이지</Link>
+                </li>
+                <div className='h-[2px] bg-slate-200'/>
+                <li className='hover:bg-slate-100 w-full h-auto flex justify-center items-center py-2'>
+                    <Link className='text-black text-[16px] font-semibold' href={`${PG.PAYMENT}`}>결제하기</Link>
                 </li>
                 <div className='h-[2px] bg-slate-200'/>
                 <li className='hover:bg-slate-100 w-full h-auto flex justify-center items-center py-2'>
                     <LogoutBtn />
-                </li>
-
-            </ul>{" "}
+                </li> 
+            </ul>
 
         </nav>
 

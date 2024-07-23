@@ -10,7 +10,9 @@ export const enum SERVER_API{
     TOEIC='api/toeic',
     AUTH='auth',
     USER='api/user',
-    CALENDAR='api/calendars'
+    CALENDAR='api/calendars',
+    PAYMENT='api/payment',
+    SUBSCRIBE='api/subscribe'
 }
 
 export const enum PUBLIC{
