@@ -37,7 +37,7 @@ const ModalCheckBox=({id}:{id:number})=>{
                             color: '#5AB2FF',
                         },
                     }}
-                    size='large'
+                    size='medium'
         />
     </>);
 }

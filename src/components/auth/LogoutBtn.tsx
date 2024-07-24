@@ -35,7 +35,7 @@ const LogoutBtn=()=>{
     };
 
     return(<>
-    <button className="text-black text-[16px] font-semibold"
+    <button className="text-black navSidebar_p font-semibold"
     onClick={onClick}>로그아웃</button>
     </>);
 }

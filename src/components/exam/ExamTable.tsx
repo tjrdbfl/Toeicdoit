@@ -51,30 +51,44 @@ export default async function ExamTable({ query, currentPage }: {
                     <table className="min-w-full text-gray-900">
                         <thead className="rounded-2xl bg-white text-left font-normal border-b-slate-200 border-b-2">
                             <tr>
-                                <th scope="col" className="px-4 py-4 font-medium sm:pl-6">
+                                <th scope="col" className="px-4 py-3 font-medium sm:pl-6 text-[14px]">
                                     번호
                                 </th>
-                                <th scope="col" className="px-3 py-4 font-medium">
+                                <th scope="col" className="px-3 py-3 font-medium text-[14px]">
                                     기출 문제
                                 </th>
-                                <th scope="col" className="px-3 py-4 font-medium">
+                                <th scope="col" className="px-3 py-3 font-medium text-[14px]">
                                     응시 여부
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="bg-white rounded-2xl">
+                        <ExamBody
+                                    key={1}
+                                    id={1}
+                                >
+                                    <td className="whitespace-nowrap py-1.5 pl-8 pr-3 text-[14px]">
+                                        1
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
+                                        아이이이ㅣㅣㅣ
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
+                                    <TakeBtn id={1} />
+                                    </td>
+                                </ExamBody>
                             {tests?.map((content) => (
                                 <ExamBody
                                     key={content.id}
                                     id={content.id}
                                 >
-                                    <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                                    <td className="whitespace-nowrap py-1.5 pl-8 pr-2 text-[14px]">
                                         {content.id}
                                     </td>
-                                    <td className="whitespace-nowrap px-3 py-3">
+                                    <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
                                         {content.title}
                                     </td>
-                                    <td className="whitespace-nowrap px-3 py-3">
+                                    <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
                                         {content.take ?
                                             <TakeBtn id={content.id} />
                                             : <CompleteBtn id={content.id} />}

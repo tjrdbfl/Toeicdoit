@@ -301,10 +301,10 @@
       @apply h-[40px] w-[190px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
     }
     .navSidebar_ul_p{
-      @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
+      @apply text-zinc-400 md:w-[14%] lg:w-[11%] text-balance z-10
     }
     .navSidebar_ul_link{
-      @apply text-black text-[14px] font-semibold hover:text-zinc-700 z-10
+      @apply text-black font-semibold hover:text-zinc-700 z-10
     }
   }
 
