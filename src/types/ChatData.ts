@@ -1,7 +1,11 @@
 export type ChatRoomData={
     id:string;
     title:string;
-    members:string[];
+    roomCategories:string[];
+    adminIds:string[];
+    memberIds:string[];
+    createdAt:Date;
+    updatedAt:Date;
 }
 export type ChatData={
     id:string;
@@ -9,7 +13,14 @@ export type ChatData={
     senderId:string;
     senderName:string;
     message:string;
-    createdAt?:Date;
+    createdAt:Date;
+    updatedAt:Date;
+}
+export type Messenger={
+    message:string;
+    state:boolean;
+    count:number;
+    data:Object;
 }
 export interface I_ApiChatMsgGetRequest{
     page:number,

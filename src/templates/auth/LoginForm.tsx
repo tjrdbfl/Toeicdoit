@@ -80,8 +80,10 @@ const LoginForm = ({ login }: {
        
         if(state.result_message==='SUCCESS'){    
             router.push('/');
+
         }else if(state.result_message===ERROR.SERVER_ERROR){
             alert(state.result_message);
+            
         }else if(state.result_message===ERROR.INVALID_INPUT){
             alert('존재하지 않는 아이디와 비밀번호 입니다.');
         }

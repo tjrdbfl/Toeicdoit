@@ -6,13 +6,14 @@ import { IUser } from "@/store/auth/user-model";
 import { LoginMessageState } from "@/templates/auth/LoginForm";
 import { UploadMessage } from "@/templates/auth/ProfileForm";
 import { RegisterMessageState } from "@/templates/auth/RegisterForm";
-import { MessageData } from "@/types/MessengerData";
+import { MessageData, PayloadData } from "@/types/MessengerData";
 import { LoginSchema, RegisterSchema } from "@/types/schemas";
 import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest } from "@/types/UserData";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { extractCookie } from "../utils/extract";
 import { PG } from "@/constants/enums/PG";
+import { jwtDecode } from "jwt-decode";
 
 export async function login(prevState: LoginMessageState, formData: FormData) {
 
@@ -53,7 +54,6 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         const cookieRefreshString = response.headers.getSetCookie()[1];
 
        
-
         cookies().set({
             name: 'accessToken',
             value: extractCookie(cookieAccessString, 'accessToken'),
@@ -73,6 +73,33 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             sameSite: 'lax',
             httpOnly: true
         });
+
+        const payload:PayloadData=jwtDecode(cookieAccessString);
+        if(payload!==undefined){
+            cookies().set({
+                name:'email',
+                value:payload.sub,
+                maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true
+            })
+
+            cookies().set({
+                name:'roles',
+                value:payload.roles[0],
+                maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true
+            })
+            
+        }else{
+            return { ...prevState, result_message: ERROR.SERVER_ERROR };
+        }
+
+        console.log('email: '+cookies().get('email')?.value);
+        console.log('roles: '+cookies().get('roles')?.value);
         
         if (cookieAccessString === undefined || cookieRefreshString === undefined) {
             return { ...prevState, result_message: ERROR.INVALID_INPUT };

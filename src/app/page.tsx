@@ -5,25 +5,26 @@ import Footer from "./Footer";
 import MoveToTopBtn from "@/components/button/MoveToTopBtn";
 import ChatBtn from "@/components/button/ChatBtn";
 import ChatContainer from "@/templates/chat/ChatContainer";
-import { store } from "@/redux";
-import { getDecryptedUserData } from "@/store/auth/user-slice";
 import { cookies } from "next/headers";
-import { IUser } from "@/store/auth/user-model";
-import { AuthorizeHeader } from "@/config/headers";
+import { MessageData } from "@/types/MessengerData";
+import { ChatRoomData, Messenger } from "@/types/ChatData";
 
 export default async function Home() {
   
   const cookieStore=cookies();
-   
+  let chatRoom:ChatRoomData[]=[];
   try{
-    const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat`,{
+    const response=await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/api/room/find-all`,{
       method:'GET',
-      headers:AuthorizeHeader(cookieStore.get('accessToken')?.value),
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization':`Bearer ${cookieStore.get('accessToken')?.value}`
+      },
       cache:'no-store'
     });
 
-    const result=await response.json();
-    console.log(result);
+    const result:Messenger=await response.json();
+    chatRoom=result.data as ChatRoomData[];
 
   }catch(err){
     console.log('home'+err);

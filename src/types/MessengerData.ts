@@ -7,6 +7,14 @@ export type MessageData={
     refreshTokenExpired:number;
 }
 
+export type PayloadData={
+    sub:string;
+    iss:string;
+    roles:string[];
+    type:string,
+    iat:number,
+    exp:number
+}
 export interface FreeMessageState {
     message: {
         title?: string[] | undefined;
