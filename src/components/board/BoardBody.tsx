@@ -14,7 +14,7 @@ const BoardBody = ({ children, id,type,modify }: {
     return (<>
         <tr
             key={id}
-            className="w-full flex flex-row justify-between border-b py-2 text-lg rounded-2xl hover:bg-slate-50"
+            className="w-full flex flex-row justify-between border-b py-2 text-[14px] rounded-2xl hover:bg-slate-50"
             onClick={()=>router.push(`${modify ? 'inquiry-details/modify':type==='notice'? PG.NOTICE: PG.FREE}/${id}`)}
         >
             {children}

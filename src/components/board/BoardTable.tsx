@@ -19,20 +19,21 @@ const BoardTable = async ({
                     <table className="min-w-full text-gray-900">
                         <thead className="rounded-2xl bg-white text-left text-lg font-normal border-b-slate-200 border-b-2 min-w-full">
                             <tr className="flex w-full flex-row justify-between">
-                                <th scope="col" className="w-[15%] 2xl:w-[5%] lg:w-[10%] py-2 font-medium sm:pl-6 text-center">
+                                <th scope="col" className="w-[15%] 2xl:w-[5%] lg:w-[10%] py-2 font-medium sm:pl-6 text-center text-[14px]">
                                     번호
                                 </th>
-                                <th scope="col" className="w-[40%] py-2 font-medium text-center">
+                                <th scope="col" className="w-[40%] py-2 font-medium text-center text-[14px]">
                                     제목
                                 </th>
-                                <th scope="col" className="w-[15%] py-2 font-medium text-center">
+                                <th scope="col" className="w-[15%] py-2 font-medium text-center text-[14px]">
                                     작성자
                                 </th>
-                                <th scope="col" className="w-[20%] py-2 font-medium text-center">
+                                <th scope="col" className="w-[20%] py-2 font-medium text-center text-[14px]">
                                     작성날짜
                                 </th>
                             </tr>
                         </thead>
+
                         <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between">
                             {boards?.map((notice) => (
                                 <BoardBody
@@ -40,10 +41,10 @@ const BoardTable = async ({
                                     id={notice.id}
                                     type={type}
                                 >
-                                    <td className="whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
+                                    <td className=" whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
                                         {notice.id}
                                     </td>
-                                    <td className="whitespace-nowrap sm:w-[40%] text-center">
+                                    <td className="whitespace-nowrap  sm:w-[36%]  text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
                                             <p className={`${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
                                                 getRandomCategory() == '알림' ? "text-purple-500 font-medium" :
@@ -58,7 +59,7 @@ const BoardTable = async ({
                                     <td className="whitespace-nowrap w-[10%] text-center ">
                                         {notice.writer}
                                     </td>
-                                    <td className="whitespace-nowrap w-[20%] text-center">
+                                    <td className=" whitespace-nowrap w-[20%] text-center">
                                         {new Date(notice.updatedAt).toISOString().slice(0, 10)}
                                     </td>
 

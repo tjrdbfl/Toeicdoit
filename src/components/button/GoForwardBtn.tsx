@@ -11,7 +11,7 @@ const GoForwardBtn = ({ id,totalIndex }: { id: number,totalIndex:number }) => {
             className="go_btn flex flex-row px-3 py-2 justify-center items-center"
             onClick={() => router.push(`/notice/${++id}`)}
         >
-            <p className='text-black text-lg'>다음</p>
+            <p className='text-black text-[15px]'>다음</p>
             <KeyboardArrowRightIcon className='text-black text-xl' />
         </button>}
     </>);

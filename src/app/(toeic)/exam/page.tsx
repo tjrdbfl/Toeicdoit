@@ -48,7 +48,7 @@ export default async function ExamPage({ searchParams }: {
 
     return (<>
         <Navbar />
-        <div className="w-full min-h-screen flex flex-col px-16 lg:px-[23%] py-20">
+        <div className="w-full min-h-screen flex flex-col px-16 lg:px-[17%] py-20 ">
             <div className="">
                 <MainHeader label={"기출 모의고사"}/>
        

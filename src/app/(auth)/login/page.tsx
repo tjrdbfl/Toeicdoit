@@ -11,8 +11,8 @@ export default async function LoginPage() {
 
     
     return (<>
-        <div className="form w-[550px] p-10">
-            <p className="form_title">Login</p>
+        <div className="form w-[500px] p-10">
+            <p className="form_title">로그인</p>
             <LoginForm login={login} />
             <GoogleAuthBtn />
             <Link

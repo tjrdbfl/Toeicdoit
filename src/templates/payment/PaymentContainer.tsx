@@ -166,7 +166,7 @@ const PaymentContainer = ({userId}:{
             <div className="w-full bg-slate-200 h-0.5 my-3" />
             <div className="flex flex-row justify-between my-2">
                 <p className="text-slate-500 text-[15px]">총 결제금액</p>
-                <p className="font-medium">{products[selectedOption].price}포인트</p>
+                <p className="font-medium text-sm">{products[selectedOption].price}포인트</p>
             </div>
 
             <button
@@ -174,7 +174,7 @@ const PaymentContainer = ({userId}:{
                 onClick={handlePurchaseClick}
                 className="form_submit_btn mt-3"
             >
-                상품구매하기
+                상품 구매하기
             </button>
         </div>
 

@@ -6,7 +6,14 @@ export type MessageData={
     accessTokenExpired:number;
     refreshTokenExpired:number;
 }
-
+export type PayloadData={
+    sub:string;
+    iss:string;
+    roles:string[];
+    type:string,
+    iat:number,
+    exp:number
+}
 export interface FreeMessageState {
     message: {
         title?: string[] | undefined;
@@ -15,7 +22,6 @@ export interface FreeMessageState {
     };
     result_message: string;
 }
-
 export const initialFreeMessageState: FreeMessageState = {
     message: {
         category: "" || undefined,

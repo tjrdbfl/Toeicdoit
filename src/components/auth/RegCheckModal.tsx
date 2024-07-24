@@ -10,14 +10,14 @@ const RegCheckModal = ({ id, label, setOpen }: {
     setOpen: Dispatch<SetStateAction<boolean>>
 }) => {
     return (<>
-        <div className="bg-white p-5">
+        <div className="bg-white p-3">
             <div className="flex flex-row justify-between items-center">
-                <div className="text-lg font-semibold ml-2">{check[id].label}</div>
+                <div className="text-[16px] font-semibold ml-2">{check[id].label}</div>
 
                 <button
                     onClick={() => setOpen(false)}
                     className="hover:rounded-full hover:bg-slate-100 w-10 h-10">
-                    <CloseIcon className="text-slate-400 text-3xl" />
+                    <CloseIcon className="text-slate-400 text-xl" />
                 </button>
 
             </div>
@@ -29,20 +29,20 @@ const RegCheckModal = ({ id, label, setOpen }: {
                         <>
                             <div
                                 key={term.id}
-                                className="text-lg mb-2 text-balance">
+                                className="text-[15px] mb-2 text-balance">
                                 {term.title}
                             </div>
                             {checkTermsContent.filter((content) => content.order === term.order)
                                 .map((content) => (
                                     <div
                                         key={content.order}
-                                        className="mb-2 text-balance">
+                                        className="mb-2 text-balance text-[14px]">
                                         {content.content}
                                     </div>
                                 ))}
                         </>
                     ))}
-                    <div className="text-xl mt-5 text-balance">
+                    <div className="mt-5 text-balance text-[15px]">
                         [서비스 제공자]
                     </div>
                     </div>

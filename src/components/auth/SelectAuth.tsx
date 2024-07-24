@@ -13,7 +13,8 @@ const SelectAuth = ({name,level}:{
     const scope = useSelectAuthAnimation(isOpen);
 
     return (<>
-        <nav className="w-[120px] lg:w-[160px] h-[30px] flex items-center justify-center mt-[10px] z-20" ref={scope}
+        <nav className="w-[120px] lg:w-[160px] h-[30px] flex items-center justify-center mt-[10px] z-20" 
+            ref={scope}
             onClick={() => setIsOpen(!isOpen)}
         >
             <div className=''>

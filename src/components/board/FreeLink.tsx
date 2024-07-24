@@ -19,7 +19,7 @@ const FreeLink = ({label}:{label:string}) => {
            {label!=='' && <>
             <KeyboardArrowRightIcon className="text-slate-600 text-3xl" />
             <p
-                className="text-black text-lg">
+                className="text-black text-[16px]">
                 {label}
             </p>
            </>}
