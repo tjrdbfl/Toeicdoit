@@ -21,10 +21,12 @@ const options = {
             display: true,
             labels: {
                 font: {
-                    size: 20,
+                    size: 10,
                     weight: 600,
                     margin:50,
-                },      
+                   
+                },  
+                padding:20,  
                 boxWidth: 10,
                 boxHeight: 10,
                 usePointStyle: true,
@@ -44,7 +46,7 @@ const options = {
             max: 100,
             stepSize: 20,
             font: {
-                size: 14,
+                size: 10,
             },
         },
 
@@ -56,7 +58,7 @@ const options = {
             },
             pointLabels: {
                 font: {
-                    size: 18,
+                    size: 9,
                     weight: 600,
                 },
             },

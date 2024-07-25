@@ -8,12 +8,13 @@ const UserInfoContainer = ({userInfo}:{
 }) => {
 
     return (<>
-        <div className="container_color w-auto p-7 flex flex-row gap-x-10">
+        <div className="container_color w-[600px] px-4 flex flex-row gap-x-10">
             <ModifyProfileBtn profile={userInfo.profile}/>
-            <div className='flex flex-row gap-x-10 p-5 container_color'>
+            <div className='flex flex-row gap-x-10 p-4'>
             <ModifyUserInfo userInfo={userInfo}/>
-            <div className="bg-black w-1 h-full"/>
+            <div className="bg-slate-200 w-1 h-full"/>
             </div>
+
         </div>
 
     </>);

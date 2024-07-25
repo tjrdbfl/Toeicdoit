@@ -171,16 +171,7 @@ const CalendarContainer = ({
     }
     return (
         <>
-            <nav className="flex justify-between mb-3 border-b-2 border-violet-100 p-4">
-                <MainHeader label={"Calendar"} />
-            </nav>
-
-            <p className="px-10">1. 일정 추가</p>
-            <p className="px-10"> - 다음 버튼들을 캘린더의 원하는 날짜로 드래그해서 일정을 추가해보세요!</p>
-            <p className="px-10"> - 캘린더에서 일정을 추가하고 싶은 날짜를 클릭해 보세요!</p><br />
-            <p className="px-10">2. 일정 삭제</p>
-            <p className="px-10"> - 해당 달력의 날짜를 클릭해 일정을 삭제해 보세요!</p>
-            <div className="flex flex-row justify-between items-center px-10 my-5">
+          <div className="flex flex-row justify-between items-center px-10 my-5">
                 <div className="w-[100px]">
                     <button
                         type="button"

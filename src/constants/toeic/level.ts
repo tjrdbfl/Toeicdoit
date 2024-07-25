@@ -25,7 +25,7 @@ export const LevelCardContent:LevelCardContentType[]=[
     },
     {
         id: 6,
-        description: "토익 600점대를 위한 연습문제 입니다. 토익 시험에서 자주 출제되는 어휘, 표현, 문법 활용 능력을 익혀 토익 600점대 목표를 달성하세요!"
+        description: "토익 600점대를 위한 연습문제 입니다. 토익 시험에서 자주 출제되는 어휘, 표현, 문법을 익혀 토익 600점대 목표를 달성하세요!"
     },
     {
         id: 7,

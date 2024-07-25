@@ -57,6 +57,15 @@ export type OptionDataPublic={
     choice3:OptionData['choice3'];
     choice4:OptionData['choice4'];
 }
+
+export type ChartData = {
+    BarData: number[];     //파트별 점수 합산 
+    score: number;       //level 정제 필요 score/100
+    LC_score: number;
+    RC_Score: number;
+    RadarData: number[];     //듣기, 어휘, 구조, 문법, 독해 별 정보
+    timeElapsed:number;
+}
 export const ITEMS_PER_PAGE = 10;
 export const CURRENT_TOTAL_PAGE=10;
 

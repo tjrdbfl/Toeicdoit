@@ -30,9 +30,12 @@ const options = {
         position: "bottom" as const,
         labels:{
             font:{
-                size:20,
-                weight:500,
-            }
+                size:14,
+                weight:600,
+            },
+            padding:20,
+            boxWidth: 10,
+            boxHeight: 10,
         },
       },
       title: {
@@ -46,7 +49,7 @@ const options = {
         y:{
             ticks:{
                 font:{
-                    size:14
+                    size:12
                 },
                 color:'black'
             }

@@ -100,7 +100,7 @@ const ChatScrollArea = ({ children }: {
     }
 
     return (<>
-        <div className="overflow-y-auto h-[600px] scroll-area p-2">
+        <div className="overflow-y-auto h-[600px] scroll-area-chat p-2">
             {children}
             <div className="p-3">
                 <h2 className="text-black text-lg font-semibold mb-3">인기있는 오픈채팅방</h2>

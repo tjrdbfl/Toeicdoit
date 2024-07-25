@@ -135,7 +135,7 @@ const ChatRoom = ({
     return (<>
         <div
             ref={scrollRef}
-            className="overflow-y-auto h-[500px] mt-5 mb-4 scroll-area p-2">
+            className="overflow-y-auto h-[500px] mt-5 mb-4 scroll-area-chat p-2">
 
             <div
                 ref={ref}

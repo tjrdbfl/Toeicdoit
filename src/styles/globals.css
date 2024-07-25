@@ -38,7 +38,6 @@
   --fc-event-text-color: black;
   --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
   
-  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -203,18 +202,68 @@ textarea:focus {
   @apply bg-slate-100;
 }
 
+.scroll-area-chat::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+.scroll-area-chat::-webkit-scrollbar-track {
+  background-color: var(--gray); /* Adjust track color */
+}
+
+.scroll-area-chat::-webkit-scrollbar-thumb {
+  background-color: var(--white); /* Adjust thumb color */
+  border-radius: 4px;
+}
+
 .scroll-area::-webkit-scrollbar {
   width: 8px; /* Adjust the width as needed */
 }
 
 .scroll-area::-webkit-scrollbar-track {
-  background-color: var(--gray); /* Adjust track color */
+  background-color: var(--white); /* Adjust track color */
 }
 
 .scroll-area::-webkit-scrollbar-thumb {
-  background-color: var(--white); /* Adjust thumb color */
+  background-color: var(--gray); /* Adjust thumb color */
   border-radius: 4px;
 }
+
+.fc-header-toolbar * {  
+  font-size: 12px;
+}
+
+.fc-header-toolbar .fc-button {
+  font-size: 10px;
+}
+.fc-header-toolbar .fc-button:hover {
+  font-size: 10px;
+}
+.fc-header-toolbar .fc-button:focus {
+  font-size: 10px;
+}
+
+.fc-header-toolbar .fc-toolbar-title {
+  font-size: 20px; /* Slightly larger for the title, if desired */
+  color: black;
+  font-weight: 500;
+}
+
+.fc-toolbar-title {
+  font-size: 18px;
+}
+
+.fc-daygrid-day-number {
+  font-size: 14px; 
+}
+
+.fc-col-header-cell-cushion {
+  font-size: 14px; 
+}
+
+.fc-timegrid-slot-label-cushion {
+  font-size: 12px;
+}
+
 
 .dropzone {
   width: 98%;

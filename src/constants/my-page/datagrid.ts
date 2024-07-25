@@ -276,10 +276,6 @@ export const MyPageResultContent:MyPageResultContentType[] = [
         score: 770,
         categoryId: 3
     },
-    {
-        id: 16,
-        date: new Date(),
-        score: 770,
-        categoryId: 3
-    },
-];
+
+]
+

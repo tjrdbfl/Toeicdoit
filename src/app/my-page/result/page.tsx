@@ -1,5 +1,6 @@
 import LineChart from "@/components/chart/LineChart";
 import LinkIcon from "@/components/common/LinkIcon";
+import MyPageHeader from "@/components/common/MyPageHeader";
 import ResultContainer from "@/templates/my-page/ResultContainer";
 
 
@@ -12,26 +13,20 @@ const ResultPage = () => {
     const data=[data1,data2,data3,data4];
                     
     return (<>
-        <div className="px-[5%] mt-16">
+        <div className="px-[5%] mt-10 lg:mt-20">
 
-            <div className="mt-16 xl:mt-0"/>
-            <div className="flex flex-row gap-x-2">
-                <LinkIcon size={35} />
-                <div className="text-black text-3xl font-medium mb-10">학업 성취도</div>
-            </div>
-
-            <div className="bg-blue-50 shadow-md rounded-2xl border-slate-200 border-2 w-full p-[2%]">
-            <div className="w-full h-[500px] bg-white p-5 rounded-xl shadow-lg border-slate-200 border-2 flex items-center justify-center">
+            <MyPageHeader label={"학업 성취도"}/>
+            <div className="mt-2 lg:mt-5"/>
+            <div className="bg-blue-50 shadow-md rounded-2xl border-slate-200 border-2 w-full p-2">
+            <div className="w-full h-[400px] bg-white p-5 rounded-xl shadow-lg border-slate-200 border-2 flex items-center justify-center">
                 <LineChart label={labels} data={data}  />
             </div>
             </div>
                 
             
-            <div className="mt-16"/>
-            <div className="flex flex-row gap-x-2">
-                <LinkIcon size={35} />
-                <div className="text-black text-3xl font-medium mb-10">문제 풀이 기록</div>
-            </div>
+            <div className="mt-10"/>
+            <MyPageHeader label={"문제 풀이 기록"}/>
+            <div className="mt-2 lg:mt-5"/>
             <ResultContainer/>
         </div>
 

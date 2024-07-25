@@ -35,7 +35,7 @@ const ChatMessageContainer=({chat}:{chat:ChatData})=>{
                 id="message"
                 onKeyDown={handleKeyDown}
                 disabled={pending}
-                className="bg-white w-full h-[50px] max-h-[70px] scroll-area p-3 leading-6"
+                className="bg-white w-full h-[50px] max-h-[70px] scroll-area-chat p-3 leading-6"
             />
             <button
                 disabled={pending}

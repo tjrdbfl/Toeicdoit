@@ -108,7 +108,7 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
                 <label htmlFor="category"
                     className="form_label"
                 >카테고리</label>
-                <div className="mt-5" />
+                <div className="mt-3" />
                 <select
                     name="category"
                     id="category"
@@ -125,11 +125,12 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
                 name='boardId'
                 hidden
                 value={post.id} />
-            <div className="mt-10">
+
+            <div className="mt-5">
                 <label htmlFor="title"
                     className="form_label"
                 >제목</label>
-                <div className="mt-5" />
+                <div className="mt-3" />
                 <input
                     type="text"
                     name="title"
@@ -143,11 +144,11 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
             </div>
             {message.message.title && <p aria-live="polite" className="text-red-500 mt-1">{message.message.title}</p>}
 
-            <div className="mt-10">
+            <div className="mt-5">
                 <label htmlFor="content"
                     className="form_label"
                 >내용</label>
-                <div className="mt-5" />
+                <div className="mt-3" />
                 <textarea
                     name="content"
                     id="content"
@@ -155,15 +156,15 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
                     className="form_input"
                     placeholder={post.content}
                     defaultValue={post.content}
-                    style={{ height: 300 }}
+                    style={{ height: 250 }}
                     maxLength={1000}
                     onChange={handleContentChange}
                 />
                 <div className="flex flex-row justify-between mt-1">
                     {message.message.content && ( // error_message가 있으면 오류 메시지 표시
-                        <p aria-live="polite" className="text-red-500 mt-1">{message.message.content}</p>
+                        <p aria-live="polite" className="text-red-500 mt-1 text-[14px]">{message.message.content}</p>
                     )}
-                    <p className="text-slate-500 text-end text-lg font-medium">{charCount}자/1000자</p>
+                    <p className="text-slate-500 text-end font-medium text-[14px]">{charCount}자/1000자</p>
                 </div>
             </div>
         </form>

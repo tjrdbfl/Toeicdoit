@@ -5,7 +5,7 @@ const CardContainer = () => {
     
     return (<>
         <ul 
-        className="flex flex-wrap justify-between gap-y-10">
+        className="flex flex-wrap gap-x-5 gap-y-10 justify-between ">
             {LevelCardContent.map((card) => (
                 <LevelCard 
                 key={card.id}

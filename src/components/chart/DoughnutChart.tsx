@@ -4,10 +4,6 @@ import {Doughnut} from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = {
-  
-};
-
 const options = {
   cutout: '80%', // 중앙 빈 공간 비율 (원의 크기 조절)
   rotation: 200, // 시작 위치 (12시 방향)
@@ -21,9 +17,7 @@ const options = {
     },
   },
 };
-const plugins = [
- 
-];
+
 const DoughnutChart=({data,text}:{data:number[],text:string})=>{
     return(<>
     <Doughnut data={
@@ -42,7 +36,7 @@ const DoughnutChart=({data,text}:{data:number[],text:string})=>{
     beforeDraw: (chart:Chart<'doughnut'>) => {
       const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
       ctx.save();
-      ctx.font = 'bold 20px sans-serif';
+      ctx.font = 'bold 14px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(text, width / 2 + left, height / 2 + top);

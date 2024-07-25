@@ -7,9 +7,9 @@ const ScoreBtn=({label,url}:{label:string,url:string})=>{
     return(<>
     <Link
     href={`${url}`}
-    className="lime_button w-[300px] justify-center p-5"
+    className="lime_button w-[230px] justify-center p-3"
     >
-        <p className="text-black font-semibold text-2xl">{label}</p>
+        <p className="text-black font-semibold">{label}</p>
     </Link>
     </>);
 }

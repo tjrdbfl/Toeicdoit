@@ -14,6 +14,7 @@ import { cookies } from "next/headers";
 import { extractCookie } from "../utils/extract";
 import { PG } from "@/constants/enums/PG";
 import { jwtDecode } from "jwt-decode";
+import { UserInfoMessage } from "@/templates/auth/UserInfoForm";
 
 export async function login(prevState: LoginMessageState, formData: FormData) {
     let UserData: IUser = {
@@ -100,13 +101,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         } else {
             return { ...prevState, result_message: 'SUCCESS' };
         }
-        const result: MessageData = await response.json();
-        console.log(JSON.stringify(result));
-        if (result.message === 'SUCCESS') {
-            return { ...prevState, result_message: 'SUCCESS' };
-        } else {
-            return { ...prevState, result_message: ERROR.INVALID_INPUT };
-        }
+       
     } catch (err) {
         console.log(err);
         return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -201,17 +196,36 @@ export async function uploadFiles(prevState: UploadMessage, formData: FormData) 
         return { ...prevState, message: ERROR.SERVER_ERROR };
     }
 }
-// export async function modifyUserInfo(prevState:UserInfoMessageState,formData:FormData){
-//     const rawFormData={
-//         name:formData.get('name')?.toString(),
-//         phone:formData.get('phone')?.toString(),
-//     }
-//     if(rawFormData.name==='' || rawFormData.phone===''){
-//         if(rawFormData.name===''){
-//             return {...prevState,name_message:'필수 항목입니다.'}
-//         }
-//         if(rawFormData.phone===''){
-//             return {...prevState,phone_message:'필수 항목입니다.'}
-//         }
-//     }
-// }
+
+export async function modifyUserInfo(prevState:UserInfoMessage,formData:FormData){
+    const rawFormData={
+        name:formData.get('name')?.toString(),
+        phone:formData.get('phone')?.toString(),
+    }
+
+    if(rawFormData.name==='' || rawFormData.phone===''){
+        if(rawFormData.name===''){
+            return {...prevState,name_message:'필수 항목입니다.'}
+        }
+        if(rawFormData.phone===''){
+            return {...prevState,phone_message:'필수 항목입니다.'}
+        }
+    }
+
+    const response=await fetch(``,{
+        method:'PUT',
+        headers:CommonHeader,
+        body:JSON.stringify(rawFormData),
+        cache:'no-store'
+    });
+
+    const result:MessageData=await response.json();
+
+    if(result.message==='SUCCESS'){
+        revalidatePath(`${PG.USER_INFO}?modify=true`);
+        return {...prevState,result_message:'SUCCESS'};
+    }else{
+        return {...prevState,result_message:ERROR.SERVER_ERROR};
+    }
+
+}

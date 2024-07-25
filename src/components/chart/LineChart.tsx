@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import { Padding } from "@mui/icons-material";
 
 ChartJS.register(
     CategoryScale,
@@ -39,9 +40,10 @@ const options = {
             position: "bottom" as const,
             labels: {
                 font: {
-                    size: 20,
-                    weight: 600,
+                    size: 13,
+                    weight: 700,
                 },
+                padding:20,
                 boxWidth: 10,
                 boxHeight: 10,
                 usePointStyle: true,

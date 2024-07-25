@@ -11,11 +11,12 @@ const options = {
             position: "bottom" as const,
             labels: {
                 font: {
-                    size: 20,
+                    size: 12,
                     weight: 600,
                 },
-                boxWidth: 10,
-                boxHeight: 10,
+                padding:10,
+                boxWidth: 5,
+                boxHeight: 5,
                 usePointStyle: true,
                 pointStyle: 'circle',
             },
@@ -49,7 +50,7 @@ const PieChart = ({ UserScoreData, labels }: {
                     color: 'black',
                     font: {
                         weight: 'bold',
-                        size: 20
+                        size: 14
                     },
                     align: 'center',
                     anchor: 'center'

@@ -65,15 +65,15 @@ export default function ProfileForm() {
 
     return (
         <dialog
-            className="flex justify-center items-centerz-50"
+            className="flex justify-center items-center z-50 "
         >
             <div
-                className="bg-white w-[500px] h-auto shadow-lg border-slate-200 border-2 p-3"
+                className="bg-white w-[450px] h-auto shadow-lg border-slate-200 border-2 p-3"
             >
                 <div className="w-full flex justify-end">
                     <button
                         onClick={handleClose}
-                        className=' flex justify-start hover:bg-blue-50 rounded-full p-2'
+                        className='flex justify-start hover:bg-blue-50 rounded-full p-1'
                     >
                         <CloseIcon className='' />
                     </button>
@@ -90,8 +90,8 @@ export default function ProfileForm() {
                         <Image
                             src={"/svgs/icons/profile-icon.svg"}
                             alt={"Profile"}
-                            width={100}
-                            height={100}
+                            width={80}
+                            height={80}
                         />
 
                         <div
@@ -115,16 +115,16 @@ export default function ProfileForm() {
                                 ))}
                               </div>
                             ) : (
-                                <p>Drag & drop some files here, or click to select files</p>
+                                <p className="text-[14px] text-pretty text-center mt-2">Drag & drop some files here, or click to select files</p>
                             )}
                         </div>
 
                     </div>
-                    <p className="text-red-500">※ .jpg , .png 파일만 가능합니다.</p>
-                    <p className="text-red-500">※ 파일 업로드는 1개 까지만 가능합니다.</p>
+                    <p className="text-red-500 text-[12px] mt-4">※ .jpg , .png 파일만 가능합니다.</p>
+                    <p className="text-red-500 text-[12px]">※ 파일 업로드는 1개 까지만 가능합니다.</p>
                     <button
                         disabled={pending}
-                        className="w-full rounded-lg font-medium bg-white text-xl border-slate-200 border-2 shadow-lg hover:bg=slate-50 p-2 mt-5 mb-2"
+                        className="w-full rounded-lg font-medium bg-white text-[14px] border-slate-200 border-2 shadow-md hover:bg-slate-50 p-2 mt-5 mb-2"
                         type="submit">프로필 수정</button>
                 </form>
             </div>

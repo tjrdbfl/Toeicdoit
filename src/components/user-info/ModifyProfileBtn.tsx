@@ -13,8 +13,8 @@ const ModifyProfileBtn = ({ profile }: {
     const searchParams=useSearchParams().get('profile');
 
     return (<>
-        <div className='flex flex-col'>
-            <div className={`object-fill md:w-[120px] rounded-full mb-5`}>
+        <div className='flex flex-col justify-center items-center my-4'>
+            <div className={`object-fill w-[80px] rounded-full mb-2`}>
                 {profile === '' ?
                     <Image
                         src={'/svgs/icons/account-icon.svg'}
@@ -32,7 +32,7 @@ const ModifyProfileBtn = ({ profile }: {
             </div>
             <Link
             href={'?profile=true'}
-            className='bg-white text-black text-xl border-slate-100 border-2 ring-offset-4 ring-slate-100 shadow-lg ring-2 rounded-xl p-3 hover:bg-slate-50'
+            className='user_info_btn'
             >
                 프로필 수정
             </Link>
