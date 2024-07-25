@@ -6,7 +6,7 @@ import { ExamPart, allParts } from "@/constants/toeic/exam";
 import { useNumberOfQuestionStore } from "@/store/toeic/store";
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const ExamAnswer = () => {
+const ExamAnswer = () => {     
     const [selectedTab, setSelectedTab] = useState(allParts[0].label);
     const option1: string[] = ['a', 'b', 'c', 'd'];
     const option2: string[] = ['a', 'b', 'c'];
@@ -62,14 +62,14 @@ const ExamAnswer = () => {
     }, []);
       
     return (
-        <div className="bg-white border-slate-200 border-2 shadow-lg rounded-lg w-[250px] h-[800px] m-5 fixed right-0 lg:mr-[25%]">
+        <div className="bg-white border-slate-200 border-2 shadow-lg rounded-lg w-[230px] h-[670px] top-32 fixed right-0 mr-5 lg:mr-[25%]">
             <nav className="p-2 flex justify-center">
                 <ul className="flex">
                     {allParts.map((item) => (
                         <li
                             key={item.label}
                             onClick={() => handleTabClick(item.label)}
-                            className={`cursor-pointer relative text-lg font-semibold bg-white border-slate-200 border-2 p-1 shadow-md
+                            className={`cursor-pointer relative text-[14px] font-semibold bg-white border-slate-100 border-2 p-1 shadow-md
                             ${item.label === selectedTab
                                 ? "text-blue-600 after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-blue-600 after:transition-all after:duration-200"
                                 : "text-black"
@@ -82,7 +82,7 @@ const ExamAnswer = () => {
             </nav>
 
             <form onSubmit={handleSubmit} method="POST">
-                <ul className="mt-2 m-2 p-2 border-slate-200 border-2 h-[650px] rounded-lg shadow-md">
+                <ul className="mx-2 p-2 border-slate-200 border-2 h-[550px] rounded-lg shadow-md">
                     <ScrollArea className="transition-opacity duration-200 text-black w-full h-full">
                         {allParts.map((part: ExamPart) => (
                             <div 
@@ -96,7 +96,7 @@ const ExamAnswer = () => {
                                     >
                                         <div
                                             key={`question-${part.label}-${questionNumber}`}
-                                            className={`text-black text-xl font-semibold w-[52px] border-slate-200 border-r-2 py-1 px-2 bg-blue-50`}
+                                            className={`text-black text-[14px] font-semibold w-[52px] border-slate-200 border-r-2 py-1 px-2 bg-blue-50`}
                                         >
                                             {questionNumber}
                                         </div>
@@ -113,7 +113,7 @@ const ExamAnswer = () => {
                                                     />
                                                     <label
                                                         htmlFor={`${questionNumber}-${option}`}
-                                                        className={`text-black w-6 h-6 text-xl rounded-full ring-1 ring-black flex items-center justify-center cursor-pointer 
+                                                        className={`text-black w-4 h-4 text-[14px] rounded-full ring-1 ring-black flex items-center justify-center cursor-pointer 
                                                             hover:bg-blue-50 hover:ring-2 hover:ring-blue-600 
                                                             ${selections[questionNumber] === option ? 'bg-blue-200' : 'bg-white'}`}
                                                     >

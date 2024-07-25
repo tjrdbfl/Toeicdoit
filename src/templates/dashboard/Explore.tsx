@@ -30,7 +30,7 @@ const Explore = () => {
           textStyles="text-center"
         />
         <div className="mt-[30px]" />
-        <div className=" flex flex-wrap md:flex-col md:flex-nowrap mt-5 min-h-[70vh]">
+        <div className="flex flex-row lg:flex-nowrap mt-5 min-h-[70vh]">
           {exploreWorlds.map((world, index) => (
             <ExploreCard
               key={world.id}
@@ -41,6 +41,7 @@ const Explore = () => {
             />
           ))}
         </div>
+         
       </motion.div>
     </section>
   );

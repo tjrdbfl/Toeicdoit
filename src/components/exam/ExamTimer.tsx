@@ -49,7 +49,7 @@ const ExamTimer = () => {
 
     
     return (<>
-        <span className="text-blue-600 text-xl font-semibold">
+        <span className="text-blue-600 text-[16px] font-semibold">
             {formattedTime(timeLeft)}
         </span>
     </>);

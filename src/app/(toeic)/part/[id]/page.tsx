@@ -1,4 +1,3 @@
-'use server';
 import CustomPagination from "@/components/common/CustomPagination";
 import PracticeAnswer from "@/components/toeic/PracticeAnswer";
 import QuestionCard from "@/components/toeic/QuestionCard";
@@ -13,7 +12,7 @@ import Link from "next/link";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-export default async function PartPracticePage({ params }: {
+export default function PartPracticePage({ params }: {
     params: {
         id: number;
         page?: string;
@@ -42,29 +41,34 @@ export default async function PartPracticePage({ params }: {
         numberOfQuestions: 20
     };
 
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.TOEIC}/find-types?page=${currentPage - 1}&size=1`, {
-            method: 'GET',
-            headers: CommonHeader,
-            cache: 'no-store'
-        })
-        const data: I_ApiLevelTestResponse = await response.json();
-
-        if (data) {
-            totalPages = data.totalPages || 0;
-            toeic = data.questions;
-        } else {
-            console.error('Failed to get response data' + ERROR.SERVER_ERROR);
+    async function getPartQuestion(){
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.TOEIC}/find-types?page=${currentPage - 1}&size=1`, {
+                method: 'GET',
+                headers: CommonHeader,
+                cache: 'no-store'
+            })
+            const data: I_ApiLevelTestResponse = await response.json();
+    
+            if (data) {
+                totalPages = data.totalPages || 0;
+                toeic = data.questions;
+            } else {
+                console.error('Failed to get response data' + ERROR.SERVER_ERROR);
+            }
+        } catch (err) {
+            console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
         }
-    } catch (err) {
-        console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
+    
     }
-
+    
     return (<>
         <div className="total_padding">
             <ToeicHeader label={`토익두잇 파트 ${params.id} 연습문제`} />
         </div>
-        <ToeicControl sound={toeic.sound} numberOfQuestions={toeic.numberOfQuestions} />
+
+        <ToeicControl sound={toeic.sound} numberOfQuestions={toeic.numberOfQuestions} type={"practice"} />
+        
         <div className="flex flex-row items-start justify-center gap-x-16 mt-5">
             <div className="px:px-[10%] md:w-[350px] lg:px-[23%] lg:w-[800px] xl:px-[25%] xl:w-[900px] 2xl:px-[27%] 2xl:w-[900px] flex flex-col mt-5">
                 <div className="flex flex-row w-full gap-x-5 justify-between">

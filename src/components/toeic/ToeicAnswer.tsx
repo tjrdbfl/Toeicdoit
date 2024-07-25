@@ -4,7 +4,7 @@ import { useToeicAnswerStore } from "@/store/toeic/store";
 import { OptionData } from "@/types/ToeicData";
 import { useEffect, useState } from "react";
 
-const ToeicAnswer = ({op}:{op:OptionData}) => {
+const ToeicAnswer = ({op}:{op:OptionData}) => {  
     const [selected, setSelected] = useState<string>('');
 
     const select = ['A', 'B', 'C', 'D'];

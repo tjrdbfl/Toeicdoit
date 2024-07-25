@@ -19,7 +19,7 @@ const ExploreCard = ({ id, imgUrl, title, content, index, active, handleClick }:
   <motion.div
     variants={fadeIn('right', 'spring', index * 0.5, 0.75)}
     className={`relative m-1 ${active === id ? 'lg:flex-[3.5] flex-[10]' : 'lg:flex-[0.5] flex-[2]'
-      } flex items-center justify-center min-w-[170px] h-[700px] transition-[flex] duration-[0.7s] ease-out-flex cursor-pointer shadow-lg rounded-3xl border-slate-200 border-2`}
+      } flex items-center justify-center min-w-[170px] h-[550px] transition-[flex] duration-[0.7s] ease-out-flex cursor-pointer shadow-lg rounded-3xl border-slate-200 border-2`}
     onClick={() => handleClick(id)}
   >
     <Image
@@ -44,6 +44,7 @@ const ExploreCard = ({ id, imgUrl, title, content, index, active, handleClick }:
             className="w-1/2 h-1/2 object-cover"
             width={2000}
             height={500}
+
           />
         </div>
         <p className="font-normal text-[16px] leading-[20.16px] text-[var(--blue2)] uppercase">

@@ -9,18 +9,18 @@ import { PG } from '@/constants/enums/PG';
 const SelectAuth = ({name,level}:{
     name:string,level:number
 }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const scope = useSelectAuthAnimation(isOpen);
+    const [isOpenSelectAuth, setIsOpenSelectAuth] = useState(false); 
+    const scope = useSelectAuthAnimation(isOpenSelectAuth);
 
     return (<>
-        <nav className="w-[120px] lg:w-[160px] h-[30px] flex items-center justify-center mt-[10px] z-20" 
+        <div className="w-[120px] lg:w-[160px] h-[30px] flex items-center justify-center mt-[10px] z-20" 
             ref={scope}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpenSelectAuth(!isOpenSelectAuth)}
         >
             <div className=''>
                 <motion.button
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsOpenSelectAuth(!isOpenSelectAuth)}
                 >
                     <div className="flex flex-row items-center justify-between lg:gap-x-2 mx-[1%]">
                         <p className=" text-blue-500 font-semibold w-[40px] lg:w-[50px] navSidebar_p"> Lv. {level}</p>
@@ -37,9 +37,9 @@ const SelectAuth = ({name,level}:{
             </div>
 
             <ul
-                className="menu-list bg-white h-auto w-[120px] lg:w-[160px] rounded-b-xl mt-36 lg:mt-40 border-zinc-200 border-2 flex flex-col absolute"
+                className="select-auth-menu bg-white h-auto w-[120px] lg:w-[160px] rounded-b-xl mt-36 lg:mt-40 border-zinc-200 border-2 flex flex-col absolute"
                 style={{
-                    pointerEvents: isOpen ? "auto" : "none",
+                    pointerEvents: isOpenSelectAuth ? "auto" : "none",
                     clipPath: "inset(10% 50% 90% 50% round 10px)",
                     zIndex: 10,
                 }}
@@ -57,7 +57,7 @@ const SelectAuth = ({name,level}:{
                 </li> 
             </ul>
 
-        </nav>
+        </div>
 
     </>);
 }

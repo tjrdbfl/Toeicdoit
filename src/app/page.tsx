@@ -43,7 +43,6 @@ export default async function Home() {
       <ChatContainer />
 
       <div className="total_padding">
-        <div className="mt-5" />
         <Hero />
         <About />
 

@@ -4,15 +4,16 @@ import { useAnimate, stagger } from "framer-motion";
 
 export const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
-export function useSidebarMenuAnimation(isOpen: boolean) {
+export function useSidebarMenuAnimation(isOpenSidebar: boolean) {
+
     const [scope, animate] = useAnimate();
 
     useEffect(() => {
 
         animate(
-            "ul",
+            ".menu-list",
             {
-                clipPath: isOpen
+                clipPath: isOpenSidebar
                     ? "inset(0% 0% 0% 0% round 10px)"
                     : "inset(10% 50% 90% 50% round 10px)",
             },
@@ -25,29 +26,31 @@ export function useSidebarMenuAnimation(isOpen: boolean) {
         );
 
         animate(
-            "li",
-            isOpen
+            ".menu-list li",
+            isOpenSidebar
                 ? { opacity: 1, scale: 1, filter: "blur(0px)" }
                 : { opacity: 0, scale: 0.3, filter: "blur(20px)" },
             {
                 duration: 0.2,
-                delay: isOpen ? staggerMenuItems : 0,
+                delay: isOpenSidebar ? staggerMenuItems : 0,
             }
         );
-    }, [isOpen, animate]);
+    }, [isOpenSidebar, animate]);
 
     return scope;
 }
-export function useSelectAuthAnimation(isOpen: boolean) {
+
+export function useSelectAuthAnimation(isOpenSelectAuth: boolean) {
+
     const [scope, animate] = useAnimate();
 
     useEffect(() => {
-        animate(".arrow", { rotate: isOpen ? 180 : 0 }, { duration: 0.2 });
+        animate(".arrow", { rotate: isOpenSelectAuth ? 180 : 0 }, { duration: 0.2 });
         
         animate(
-            "ul",
+            ".select-auth-menu",
             {
-                clipPath: isOpen
+                clipPath: isOpenSelectAuth
                     ? "inset(0% 0% 0% 0% round 10px)"
                     : "inset(10% 50% 90% 50% round 10px)",
             },
@@ -60,16 +63,16 @@ export function useSelectAuthAnimation(isOpen: boolean) {
         );
 
         animate(
-            "li",
-            isOpen
+            ".select-auth-menu li",
+            isOpenSelectAuth
                 ? { opacity: 1, scale: 1, filter: "blur(0px)" }
                 : { opacity: 0, scale: 0.3, filter: "blur(20px)" },
             {
                 duration: 0.2,
-                delay: isOpen ? staggerMenuItems : 0,
+                delay: isOpenSelectAuth ? staggerMenuItems : 0,
             }
         );
-    }, [isOpen, animate]);
+    }, [isOpenSelectAuth, animate]);
 
     return scope;
 }

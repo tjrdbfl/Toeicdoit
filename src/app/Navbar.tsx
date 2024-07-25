@@ -36,7 +36,7 @@ const Navbar = ({userData}:{
       variants={navVariants}
       initial="hidden"
       whileInView="show"
-      layout  //layout prop을 추가하여 Framer Motion이 요소의 레이아웃 변경을 처리하도록 
+      layout 
       className={`${isSticky===true?  'fixed top-0 w-full ' : 'relative'}`}  
       style={{zIndex:100}}
     >

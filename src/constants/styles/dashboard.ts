@@ -23,7 +23,7 @@ export const styles = {
 export const exploreWorlds = [
     {
         id: 'function-1',
-        imgUrl: '/images/dashboard/planet-01.png',
+        imgUrl: '/images/dashboard/main-exam.png',
         title: '실전 모의고사',
         content:'Toeicdoit은 실제 시험과 동일한 형식, 시간, 문제 유형으로 진행되어 실전 감각을 익히고, ai 선생님의 해설 강의를 제공하여 틀린 문제를 해결할 수 있도록 도와줍니다.',
     },

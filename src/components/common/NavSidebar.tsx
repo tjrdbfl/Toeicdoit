@@ -14,8 +14,8 @@ import { IUser } from "@/store/auth/user-model";
 const NavSidebar = ({userData,isSticky}:{
   userData:IUser|null|undefined,
   isSticky:boolean}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const scope = useSidebarMenuAnimation(isOpen);
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const scope = useSidebarMenuAnimation(isOpenSidebar);
 
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky? 'mx-10':''}`} 
@@ -29,8 +29,7 @@ const NavSidebar = ({userData,isSticky}:{
         </div>
         <motion.button
           whileTap={{ scale: 0.97 }}
-          onClick={() => setIsOpen(!isOpen)}
-          onMouseEnter={()=>setIsOpen(!isOpen)}
+          onClick={() => setIsOpenSidebar(!isOpenSidebar)}
           className=""
         >
           <div className="w-full h-full flex justify-between items-center px-[5px] navSidebar_div ">
@@ -53,12 +52,12 @@ const NavSidebar = ({userData,isSticky}:{
       <ul
         className="menu-list bg-white h-auto w-full rounded-b-3xl px-10 py-5 mt-1 border-t-zinc-200 border-t-2 flex flex-col justify-start absolute"
         style={{
-          pointerEvents: isOpen ? "auto" : "none",
+          pointerEvents: isOpenSidebar ? "auto" : "none",
           clipPath: "inset(10% 50% 90% 50% round 10px)",
           zIndex: 10,
         }}
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
+        onMouseEnter={() => setIsOpenSidebar(true)}
+        onMouseLeave={() => setIsOpenSidebar(false)}
       >
         <li className='navSidebar_ul_list'>
           <p className='navSidebar_ul_p navSidebar_p'>토익두잇 공부법</p>
