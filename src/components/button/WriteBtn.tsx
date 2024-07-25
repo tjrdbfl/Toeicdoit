@@ -19,8 +19,8 @@ const WriteBtn = () => {
             className='go_btn flex flex-row gap-x-2 p-3 items-center'
             onClick={()=>handleClick(true)}
         >
-            <DriveFileRenameOutlineIcon className='text-black text-xl' />
-            <p className='text-black text-lg font-medium'>글쓰기</p>
+            <DriveFileRenameOutlineIcon className='text-black text-[14px]' />
+            <p className='text-black text-[14px] font-medium'>글쓰기</p>
         </button>
     </>);
 }

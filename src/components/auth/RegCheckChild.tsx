@@ -31,19 +31,19 @@ const RegCheckChild=(
         label={
             id === 1 ?
                 <div className='flex flex-row w-[150%]'>
-                    <div className="text-[17px] text-slate-500 font-medium">
+                    <div className="text-[14px] text-slate-500 font-medium">
                         {label}
                     </div>
-                    <div className='text-slate-300 ml-[2%] mt-[0.5%] font-semibold text-[16px]'>
+                    <div className='text-slate-300 ml-[2%] mt-[0.5%] font-semibold text-[14px]'>
                         {option ? '(필수)' : '(선택)'}
                     </div>
                 </div>
                 :
-                <div className='flex flex-row w-[150%]'>
+                <div className='flex flex-row w-[150%] '>
               
               <RegCheckModalBtn id={id} label={label}/>
                    
-                    <div className='text-slate-300 ml-[2%] mt-[0.65%] font-semibold text-[16px]'>
+                    <div className='text-slate-300 ml-[2%] mt-[0.65%] font-semibold text-[14px]'>
                         {option ? '(필수)' : '(선택)'}
                     </div>
                 </div>
@@ -60,7 +60,7 @@ const RegCheckChild=(
                             color: '#5AB2FF',
                         },
                     }}
-                    size='large'
+                    size='medium'
                 />
                 :
                 <Checkbox

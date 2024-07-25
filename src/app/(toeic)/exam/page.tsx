@@ -48,8 +48,8 @@ export default async function ExamPage({ searchParams }: {
 
     return (<>
         <Navbar />
-        <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[15%] xl:py-[13%] 2xl:py-[10%] total_padding">
-            <div className="md:py-28 lg:py-28 xl:px-20 2xl:px-32">
+        <div className="w-full min-h-screen flex flex-col px-16 lg:px-[17%] py-20 ">
+            <div className="">
                 <MainHeader label={"기출 모의고사"}/>
        
                 <div className="mt-4 flex items-center md:mt-8">
@@ -59,7 +59,7 @@ export default async function ExamPage({ searchParams }: {
                     <ExamTable query={query} currentPage={currentPage} />
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
-                    <CustomPagination totalPages={totalPages} type={"double"} />
+                    <CustomPagination totalPages={10} type={"double"} />
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ const StudyCard = ({ FAQ }: { FAQ: FrequentlyAskType }) => {
 
     return (<>
         <button
-            className="bg-blue-50 hover:bg-blue-100 w-[900px] h-auto text-black text-lg font-semibold py-3 px-5 flex flex-col items-center shadow-lg z-10
+            className="bg-blue-50 hover:bg-blue-100 w-[650px] h-auto text-black text-[15px] font-semibold py-3 px-5 flex flex-col items-center shadow-lg z-10
                     rounded-xl"
             onClick={() => setOpen(!open)}
         >
@@ -30,7 +30,7 @@ const StudyCard = ({ FAQ }: { FAQ: FrequentlyAskType }) => {
                         className="flex flex-col justify-start w-full">
                             <p 
                             key={FAQ.id}
-                            className="text-black font-normal text-base text-start mt-2">
+                            className="text-black font-normal text-[14px] text-start mt-2">
                                 {content}
                             </p>
                         </div>

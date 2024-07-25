@@ -71,7 +71,7 @@ const RegCheckBox = () => {
             />
             <div className='h-[1px] bg-slate-300 mt-[2%]'/>
             {children}
-            <div className='text-red-600 text-[16px] mt-[2%]'
+            <div className='text-red-600 text-[14px] mt-[2%]'
             >{error}</div>
         </div>
     );

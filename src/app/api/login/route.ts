@@ -1,28 +1,21 @@
 'use server';
-
 import { ERROR } from "@/constants/enums/ERROR";
 import { extractCookie } from "@/service/utils/extract";
 import { I_ApiUserLoginRequest } from "@/types/UserData";
 import { NextRequest, NextResponse } from "next/server";
 
-
 export async function POST(request: NextRequest) {
   console.log(`3 - login POST 경로 : 진입 성공`);
   const body = (await request.json()) as I_ApiUserLoginRequest;
-
   //trim all values
   const data = Object.fromEntries(
     Object.entries(body).map(([key, value]) =>
       [key, value.trim()]
     )
   ) as I_ApiUserLoginRequest;
-
-
-
   if (!data.email || !data.password) {
     return NextResponse.json({ status: 400 });
   }
-
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/local`, {
       method: "POST",
@@ -37,7 +30,6 @@ export async function POST(request: NextRequest) {
       const cookieAccessString = response.headers.getSetCookie()[0];
       const cookieRefreshString = response.headers.getSetCookie()[1];
       const nextResponse = NextResponse.json({ success: true, message: "SUCCESS" }, { status: 200 });
-      
       nextResponse.cookies.set({
         name: 'accessToken',
         value: extractCookie(cookieAccessString, 'accessToken'),
@@ -47,7 +39,6 @@ export async function POST(request: NextRequest) {
         sameSite: 'none',
         httpOnly: false,
       });
-
       nextResponse.cookies.set({
         name: 'refreshToken',
         value: extractCookie(cookieRefreshString, 'refreshToken'),
@@ -57,7 +48,6 @@ export async function POST(request: NextRequest) {
         sameSite: 'none',
         httpOnly: false,
       });
-
       return nextResponse;
     }
   } catch (err) {
@@ -73,21 +63,18 @@ export async function POST(request: NextRequest) {
   //   id: new Date().getTime(),
   //   userId: 1
   // };
-
   // const calendarResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/add`, {
   //   method: 'POST',
   //   headers: CommonHeader,
   //   body: JSON.stringify(calendarBody),
   //   cache: 'no-store'
   // });
-
   // const calendarResult = await calendarResponse.json();
   // if (calendarResult === 'SUCCESS') {
   //   console.log('출책 SUCCESS');
   // } else {
   //   console.log('출책 ERROR IN SERVER');
   // }
-
   // 쿠키 설정 (필요에 따라 수정)
   // nextResponse.cookies.set({
   //   name: 'UserData',
@@ -107,7 +94,6 @@ export async function POST(request: NextRequest) {
   //   path: '/',
   //   //expires: new Date(Date.now() + result.refreshTokenExpired)
   // });
-
   // //store에 데이터 추가
   // // store.dispatch(setUserData({
   // //   id: 1,
@@ -118,5 +104,4 @@ export async function POST(request: NextRequest) {
   // //   toeicLevel: 2,
   // //   isLogined: true
   // // }));
-
 }

@@ -1,3 +1,9 @@
+export type productsType={
+    id:number,
+    name:string,
+    price:number,
+    duration:number,
+}
 export const products = {
     option1: { id: 1, name: '상품 1', price: 100, duration: 10 },
     option2: { id: 2, name: '상품 2', price: 200, duration: 30 },

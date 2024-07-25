@@ -13,7 +13,6 @@ import MyPageCautionModal from "@/components/my-page/MyPageCautionModal";
 import MyPageFormModal from "@/components/my-page/MyPageFormModal";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
-import { Router } from "express";
 import { useRouter } from "next/navigation";
 import { ERROR } from "@/constants/enums/ERROR";
 

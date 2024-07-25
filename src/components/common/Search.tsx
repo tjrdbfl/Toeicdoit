@@ -29,7 +29,7 @@ const Search = ({ placeholder }: {
         Search
       </label>
       <input
-        className="bg-white shadow-md w-[400px] sm:w-[500px] rounded-3xl border-slate-200 border-2 py-3 px-[52px] text-black text-lg placeholder:text-gray-500
+        className="bg-white flex items-center shadow-md w-[400px] sm:w-[500px] rounded-3xl border-slate-200 border-2 py-3 px-[48px] text-black text-[16px] placeholder:text-gray-500
         hover:border-[var(--blue2)] focus:border-[var(--blue2)] "
         placeholder={placeholder}
         onChange={(e) => { handleSearch(e.target.value); }}
@@ -39,8 +39,8 @@ const Search = ({ placeholder }: {
         <Image
           src={'svgs/icons/search-icon.svg'}
           alt={'search-icon'}
-          width={30}
-          height={30}
+          width={23}
+          height={23}
         />
       </div>
     </div>

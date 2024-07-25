@@ -7,10 +7,10 @@ export default async function FreeWritePage() {
    
 
     return (<>
-        <div className="total_padding py-28">
+        <div className="py-20 lg:py-16 px-40">
             <div className="w-full flex flex-col z-10 lg:px-20 2xl:px-[20%]">
                 <FreeLink label={"글쓰기"} />
-                <div className="mt-10" />
+                <div className="mt-5" />
                 <div className="flex items-center justify-center">
                     <div className="form w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-[2%]">
                         <div className="flex flex-row items-center justify-center gap-x-2">

@@ -6,7 +6,6 @@ export type MessageData={
     accessTokenExpired:number;
     refreshTokenExpired:number;
 }
-
 export type PayloadData={
     sub:string;
     iss:string;
@@ -23,7 +22,6 @@ export interface FreeMessageState {
     };
     result_message: string;
 }
-
 export const initialFreeMessageState: FreeMessageState = {
     message: {
         category: "" || undefined,

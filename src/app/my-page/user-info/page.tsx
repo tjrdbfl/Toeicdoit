@@ -1,4 +1,3 @@
-'use server';
 import MainHeader from "@/components/common/MainHeader";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";

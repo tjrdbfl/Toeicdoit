@@ -2,7 +2,7 @@
 import GoogleAuthBtn from "@/components/button/GoogleAuthBtn";
 import RegisterBtn from "@/components/auth/RegisterBtn";
 import LoginForm from "@/templates/auth/LoginForm";
-import { login } from "@/service/auth/action";
+import { login } from "@/service/auth/actions";
 import Link from "next/link";
 import { PG } from "@/constants/enums/PG";
 
@@ -11,8 +11,8 @@ export default async function LoginPage() {
 
     
     return (<>
-        <div className="form w-[550px] p-10">
-            <p className="form_title">Login</p>
+        <div className="form w-[500px] p-10">
+            <p className="form_title">로그인</p>
             <LoginForm login={login} />
             <GoogleAuthBtn />
             <Link

@@ -6,7 +6,7 @@ import { useDropzone } from "react-dropzone";
 import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import { useFormState, useFormStatus } from "react-dom";
-import { uploadFiles } from "@/service/auth/action";
+import { uploadFiles } from "@/service/auth/actions";
 import { ERROR } from "@/constants/enums/ERROR";
 
 interface DropzoneProps{

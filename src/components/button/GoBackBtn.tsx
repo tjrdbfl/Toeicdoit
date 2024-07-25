@@ -10,8 +10,8 @@ const GoBackBtn=({id}:{id:number})=>{
     className="go_btn flex flex-row px-2 justify-center items-center"
     onClick={()=>router.push(`/notice/${id-1}`)}
     >
-    <KeyboardArrowLeftIcon className='text-black text-xl'/>
-    <p className='text-black text-lg'>이전</p>
+    <KeyboardArrowLeftIcon className='text-black'/>
+    <p className='text-black text-[16px]'>이전</p>
     </button>}
     </>);
 }

@@ -13,16 +13,16 @@ const BoardDetailReply = ({
         key={id}
         className={`${id%2==1? "bg-blue-50 ":""}rounded-xl shadow-md m-5 p-5 w-[80%]`}>
             <div className={`flex flex-row gap-x-2 ${id%2==1? "justify-start":"justify-end"}`}>
-                <p className="text-black text-lg font-medium">
+                <p className="text-black text-[16px] font-medium">
                     By.
                 </p>
-                <p className="text-blue-500 text-lg font-medium">
+                <p className="text-blue-500 text-[16px] font-medium">
                     {writer}
                 </p>
             </div>
 
             <div className="mt-3" />
-            <p className="text-black">
+            <p className="text-black text-[16px]">
                 {content}
             </p>
             <div className="mt-3" />

@@ -8,7 +8,7 @@ const ExamBody = ({ children, id }: {
     return (<>
         <tr
             key={id}
-            className="w-full border-b py-3 text-lg rounded-2xl hover:bg-slate-50"
+            className="w-full border-b text-lg rounded-2xl"
         >
             {children}
         </tr>

@@ -1,7 +1,10 @@
 'use client';
 import { SERVER_API } from "@/constants/enums/API";
+import { PG } from "@/constants/enums/PG";
 import { products } from "@/constants/payment/constant";
+import { handlePayment } from "@/service/payment/actions";
 import { I_ApiPaymentRequest, IamportResponse } from "@/types/TransactionData";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 declare global {
@@ -9,11 +12,10 @@ declare global {
         IMP: any;
     }
 }
-const PaymentContainer = ({userId}:{
-    userId:number
-}) => {
+const PaymentContainer = () => {
     const [selectedOption, setSelectedOption] = useState<'option1' | 'option2' | 'option3'>('option1');
     const merchant_uid = new Date().getTime().toString();
+    const router=useRouter();
 
     useEffect(() => {
         const jquery = document.createElement('script');
@@ -39,81 +41,22 @@ const PaymentContainer = ({userId}:{
                 merchant_uid: merchant_uid, 
                 name: products[selectedOption].name,
                 amount: products[selectedOption].price, 
-                buyer_name: '유리',
+                buyer_name: '철수',
                 buyer_tel: '010-4444-1111',
             },
 
             async (rsp: IamportResponse) => {
+              
                 try {
                     if (rsp.success) {
-                        console.log(rsp.imp_uid);
+                        console.log('rsp.imp_uid: '+rsp.imp_uid);
+                        const result=await handlePayment(rsp.imp_uid,rsp.paid_amount,products[selectedOption]);
 
-                        const token = '';
-
-                        const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/verifyIamport/${rsp.imp_uid}`,
-                            {
-                                method:'POST',
-                                headers: {
-                                    Authorization: `Bearer ${token}`
-                                },
-                                cache:'no-store'
-                            });
-
-                        console.log(rsp.imp_uid);
-
-                        const result=await response.json();
-
-                        if (rsp.paid_amount === result.amount) {
-                            console.log(result.response);
-                            
-                            const subscribeDate:I_ApiPaymentRequest = {
-                                userId: userId,
-                                productId: products[selectedOption].id,
-                                createdAt: new Date(),
-                                endDate: new Date(new Date().getTime() + products[selectedOption].duration * 24 * 60 * 60 * 1000)
-                            }
-
-                            const subscribeResponse=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.SUBSCRIBE}/save`,{
-                                method:'POST',
-
-                            });
-                            // dispatch(ChangeSubscribe(subscribeDate)).then((res: any) => {
-                            //     console.log('구독 변경 완료');
-                            //     console.log(res.payload.message);
-                            //     // 상품 결제
-                            //     const productData = {
-                            //         userId: params.id,
-                            //         subscribeId: res.payload.subscribeId,
-                            //         productId: selectedProduct.id,
-                            //         amount: selectedProduct.price,
-                            //         name: selectedProduct.name,
-                            //         subscribeDate: selectedProduct.subscribe,
-                            //         paymentUid: rsp.imp_uid,
-                            //         createdAt: new Date(),
-                            //         status: 'OK'
-                            //     };
-                            //     dispatch(paymentproduct(productData))
-                            //         .then((res: any) => {
-                            //             console.log('상품 결제 전송 완료');
-                            //             console.log(res.payload.paymentId.toString());
-                            //             if (res.payload.message === "SUCCESS") {
-                            //                 alert('상품결제 성공');
-
-                            //             } else {
-                            //                 alert('상품결제 실패');
-                            //                 alert(res.payload.message);
-                            //             }
-                            //         })
-                            //         .catch((err: any) => {
-                            //             console.log("상품결제 실패", err);
-                            //         });
-
-                            //     alert('결제 성공');
-                            // }).catch((err: any) => {
-                            //     console.log("구독 변경 실패", err);
-                            // });
-
-                        } else {
+                        if(result?.message==='SUCCESS'){
+                            alert('상품 결제를 성공하셨습니다.');
+                            router.push(`${PG.USER_INFO}`);
+                        }
+                        else{
                             alert('결제에 실패하셨습니다. 다시 시도해주세요.');
                         }
                     } else {
@@ -166,7 +109,7 @@ const PaymentContainer = ({userId}:{
             <div className="w-full bg-slate-200 h-0.5 my-3" />
             <div className="flex flex-row justify-between my-2">
                 <p className="text-slate-500 text-[15px]">총 결제금액</p>
-                <p className="font-medium">{products[selectedOption].price}포인트</p>
+                <p className="font-medium text-sm">{products[selectedOption].price}포인트</p>
             </div>
 
             <button
@@ -174,7 +117,7 @@ const PaymentContainer = ({userId}:{
                 onClick={handlePurchaseClick}
                 className="form_submit_btn mt-3"
             >
-                상품구매하기
+                상품 구매하기
             </button>
         </div>
 

@@ -42,7 +42,7 @@ const BoardWriteReply = () => {
                 onChange={handleContentChange}
             />
             <div className="flex flex-row justify-between mt-5">
-                <p className="text-slate-500 text-end text-lg font-medium">{charCount}자/100자</p>
+                <p className="text-slate-500 text-end text-[16px] font-medium">{charCount}자/100자</p>
                 <div className="w-28"> 
                     <SubmitButton label={"등록하기"} /></div>
             </div>

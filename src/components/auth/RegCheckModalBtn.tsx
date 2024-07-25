@@ -10,7 +10,7 @@ const RegCheckModalBtn = ({ id, label }: {
     const [open, setOpen] = useState(false);
 
     return (<>
-        <button className="text-[17px] text-slate-500 font-medium underline hover:text-slate-400"
+        <button className="text-[14px] text-slate-500 font-medium underline hover:text-slate-400"
             onClick={() => setOpen(true)}>
             {label}
         </button>

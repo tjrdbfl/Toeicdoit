@@ -12,7 +12,7 @@ const CompleteBtn = ({ id }: {
     
     return (<>
         <button
-            className="text-emerald-500 underline text-lg hover:text-emerald-400"
+            className="text-emerald-500 underline text-[15px] hover:text-emerald-400"
             onClick={setShow}
         >
             응시완료
