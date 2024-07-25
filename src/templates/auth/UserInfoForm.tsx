@@ -118,7 +118,7 @@ const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
                     </div>
                     <p className="form_error_msg">변경 불가능한 항목입니다.</p>
                     <div className="mt-[5%]" />
-                    <p className="form_label mb-2 mb-2">이름</p>
+                    <p className="form_label mb-2">이름</p>
                     <input
                         id='name'
                         name='name'

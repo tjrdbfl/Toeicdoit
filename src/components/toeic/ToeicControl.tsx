@@ -19,12 +19,12 @@ const ToeicControl = ({sound,numberOfQuestions}:{
             <div className="w-[1000px] flex flex-row justify-between items-center">
                 <div className='flex flex-row gap-x-3'>
                     <div className='flex flex-row gap-x-2 mt-2'>
-                        <p className='text-black text-start font-semibold text-lg'>응시 문항 :</p>
-                        <p className='text-blue-600 font-semibold text-lg'>{count}</p>
-                        <p className='text-black font-semibold text-lg'>/ {numberOfQuestions}문항</p>
+                        <p className='text-black text-start font-semibold text-[16px]'>응시 문항 :</p>
+                        <p className='text-blue-600 font-semibold text-[16px]'>{count}</p>
+                        <p className='text-black font-semibold text-[16px]'>/ {numberOfQuestions}문항</p>
                     </div>
                     <div className='flex flex-row gap-x-2 mt-2'>
-                        <p className='text-black text-start font-semibold text-lg'>풀이시간 :</p>
+                        <p className='text-black text-start font-semibold text-[16px]'>풀이시간 :</p>
                         <ToeicTimer/>
                       </div>
                     <ExamPlayer sound={sound} />
@@ -32,7 +32,7 @@ const ToeicControl = ({sound,numberOfQuestions}:{
                 <div className='flex flex-row gap-x-2'>
                     <div className='w-[80px]'>
                         <button
-                            className=' w-full h-auto py-[2.5%] flex text-center items-center text-white shadow-xl rounded-lg bg-black justify-center text-[17px] hover:bg-zinc-800'
+                            className=' w-full h-auto py-[2.5%] flex text-center items-center text-white shadow-xl rounded-lg bg-black justify-center text-[15px] hover:bg-zinc-800'
                             onClick={() => {
                                 resumeTimer();
                             }}
@@ -40,7 +40,7 @@ const ToeicControl = ({sound,numberOfQuestions}:{
                     </div>
                     <div className='w-[80px]'>
                         <button
-                            className='w-full h-auto py-[2.5%] flex text-center items-center text-white shadow-xl rounded-lg bg-black justify-center text-[17px] hover:bg-zinc-800'
+                            className='w-full h-auto py-[2.5%] flex text-center items-center text-white shadow-xl rounded-lg bg-black justify-center text-[15px] hover:bg-zinc-800'
                             onClick={() => {
                                 pauseTimer();
                             }

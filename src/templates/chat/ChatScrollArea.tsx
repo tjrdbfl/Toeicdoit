@@ -57,47 +57,47 @@ const ChatScrollArea = ({ children }: {
         console.log('rawFormData: ' + rawFormData.category?.toString());
     }
 
-    const [chatRoom, setChatRoom] = useState<ChatRoomData>({
-        id: '',
-        title: '',
-        members:[]
-    });
+    // const [chatRoom, setChatRoom] = useState<ChatRoomData>({
+    //     id: '',
+    //     title: '',
+    //     members:[]
+    // });
 
-    const [roomId, setRoomId] = useState<string>('');
+    // const [roomId, setRoomId] = useState<string>('');
 
-    let chat: ChatData = {
-        id: "",
-        roomId: "",
-        senderId: "",
-        senderName: "",
-        message: "",
-        createdAt: new Date(),
-    };
+    // let chat: ChatData = {
+    //     id: "",
+    //     roomId: "",
+    //     senderId: "",
+    //     senderName: "",
+    //     message: "",
+    //     createdAt: new Date(),
+    // };
 
-    const createRoomIdURL=(roomId:string)=>{
-        const params=new URLSearchParams(searchParams);
-        params.set('roomId',roomId);
-        return `${pathname}?${params.toString()}`;
-    }
-    //사용자 인증 필요
-    const clickChatRoom = async (room: ChatRoomData) => {
-        setRoomId(room.id);
-        router.push(createRoomIdURL(room.id));
+    // const createRoomIdURL=(roomId:string)=>{
+    //     const params=new URLSearchParams(searchParams);
+    //     params.set('roomId',roomId);
+    //     return `${pathname}?${params.toString()}`;
+    // }
+    // //사용자 인증 필요
+    // const clickChatRoom = async (room: ChatRoomData) => {
+    //     setRoomId(room.id);
+    //     router.push(createRoomIdURL(room.id));
 
-        setChatRoom({
-            id: room.id.toString(),
-            title: "토익 스터디 모집해요! 강남구 서초대로 74길에서 진행할 예정입니다~",
-            members:[]
-        });
+    //     setChatRoom({
+    //         id: room.id.toString(),
+    //         title: "토익 스터디 모집해요! 강남구 서초대로 74길에서 진행할 예정입니다~",
+    //         members:[]
+    //     });
 
-        // const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.CHAT}?roomId=${roomId}`,{
-        //     method:'GET',
-        //     headers:CommonHeader
-        // })
+    //     // const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.CHAT}?roomId=${roomId}`,{
+    //     //     method:'GET',
+    //     //     headers:CommonHeader
+    //     // })
 
-        // const tempData=await response.json();
-        // chat=tempData.data;
-    }
+    //     // const tempData=await response.json();
+    //     // chat=tempData.data;
+    // }
 
     return (<>
         <div className="overflow-y-auto h-[600px] scroll-area-chat p-2">
@@ -115,7 +115,7 @@ const ChatScrollArea = ({ children }: {
                     {data?.pages.map((page) => {
 
                         return (<>
-                            {page.data.map((item) => {
+                            {/* {page.data.map((item) => {
                                 return (
                                     <div
                                         onClick={() => clickChatRoom({
@@ -135,13 +135,13 @@ const ChatScrollArea = ({ children }: {
                                         />
                                     </div>
                                 )
-                            })}
+                            })} */}
                         </>)
                     })}
                 </div>
             </div>
 
-            {searchParams.get('roomId') &&
+            {/* {searchParams.get('roomId') &&
                 <ChatModal
                     roomId={chatRoom.id}
                     header={<ChatRoomHeader
@@ -157,7 +157,7 @@ const ChatScrollArea = ({ children }: {
                         createdAt: undefined,
                     }} />
                 </ChatModal>
-            }
+            } */}
 
             {isFetchingNextPage && <PaginationLoading />}
         </div>

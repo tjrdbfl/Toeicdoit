@@ -10,7 +10,7 @@ import Navbar from "@/app/Navbar";
 import Footer from "@/app/Footer";
 import MainHeader from "@/components/common/MainHeader";
 
-export default async function ExamPage({ searchParams }: {
+export default function ExamPage({ searchParams }: {
     searchParams?: {
         query?: string;
         page?: string;
@@ -24,28 +24,31 @@ export default async function ExamPage({ searchParams }: {
         query: query
     }
 
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`, {
-            method: 'POST',
-            headers: CommonHeader,
-            body: JSON.stringify(payload),
-        });
-
-        if (!response) {
-            console.error('Failed to get response');
+    async function getAllExam(){
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`, {
+                method: 'POST',
+                headers: CommonHeader,
+                body: JSON.stringify(payload),
+            });
+    
+            if (!response) {
+                console.error('Failed to get response');
+            }
+    
+            const data: I_ApiExamResponse = await response.json();
+    
+            if (!data.success) {
+                console.error('Failed to fetch exam data: ', data.message);
+            }
+    
+            totalPages = data.totalPages || 0;
+        } catch (error) {
+            console.log('Error fetching exam data: ', error);
         }
-
-        const data: I_ApiExamResponse = await response.json();
-
-        if (!data.success) {
-            console.error('Failed to fetch exam data: ', data.message);
-        }
-
-        totalPages = data.totalPages || 0;
-    } catch (error) {
-        console.log('Error fetching exam data: ', error);
+    
     }
-
+   
     return (<>
         <Navbar />
         <div className="w-full min-h-screen flex flex-col px-16 lg:px-[17%] py-20 ">

@@ -24,7 +24,7 @@ const ChatRoomHeader = ({ room }: { room: ChatRoomData }) => {
             >{room.title}</h1>
             <div className="flex flex-row gap-x-2">
                 <PersonIcon className="text-zinc-400" />
-                <h2 className="text-zinc-400 text-[16px]">{room.members.length}</h2>
+                <h2 className="text-zinc-400 text-[16px]">{''}</h2>
             </div>
         </div>
 
