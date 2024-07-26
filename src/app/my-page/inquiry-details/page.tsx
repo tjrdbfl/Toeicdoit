@@ -41,7 +41,7 @@ export default async function conInquiryDetailsPage({ params }: {
         console.log('Failed to get notice: ',ERROR.SERVER_ERROR);
     }
 
-
+     
     return (<>
         <div className="flex flex-col gap-y-10 mt-10 lg:mt-20">
             <MyPageHeader label={"문의내역"}/>
