@@ -5,9 +5,9 @@ import { CommonHeader } from "@/config/headers";
 import { IEvent } from "@/types/TransactionData";
 import { ERROR } from "@/constants/enums/ERROR";
 import { SERVER_API } from "@/constants/enums/API";
-import MainHeader from "@/components/common/MainHeader";
-import LinkIcon from "@/components/common/LinkIcon";
-import MyPageHeader from "@/components/common/MyPageHeader";
+import MyPageHeader from "@/components/my-page/MyPageHeader";
+
+
 
 export interface I_ApiFreeSaveResponse{
     success:boolean;

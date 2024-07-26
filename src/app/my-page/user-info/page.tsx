@@ -1,6 +1,5 @@
-import LinkIcon from "@/components/common/LinkIcon";
-import MainHeader from "@/components/common/MainHeader";
-import MyPageHeader from "@/components/common/MyPageHeader";
+
+import MyPageHeader from "@/components/my-page/MyPageHeader";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";

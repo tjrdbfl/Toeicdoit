@@ -70,7 +70,7 @@ export default function LevelTestPage() {
   return (
     <>
       <Navbar />
-      <div className="w-full flex flex-col py-20">
+      <div className="w-full flex flex-col py-20 min-h-screen">
         <div className="w-full flex justify-center items-center">
           <div className="bg-blue-50 shadow-lg rounded-xl w-[700px] h-auto p-5 flex flex-col justify-center items-center">
             <div className="flex flex-row gap-x-2 w-full justify-center">

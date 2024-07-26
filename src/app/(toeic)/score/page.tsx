@@ -92,7 +92,7 @@ export default function ScorePage() {
 
   return (
     <>
-      <div className="w-full flex flex-col justify-center items-center mt-20 px-20">
+      <div className="w-full flex flex-col justify-center items-center mt-20 px-20 min-h-screen">
         <div className="bg-blue-50 justify-center shadow-xl rounded-2xl border-slate-200 border-2 lg:w-[650px] p-5 animate-slidein300">
           <div className="flex flex-row justify-center ">
             <LinkIcon size={20} />

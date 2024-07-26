@@ -33,8 +33,8 @@
   --fc-neutral-text-color: #808080;
   --fc-border-color: #ddd;
   
-  --fc-event-bg-color: var(--blue4);
-  --fc-event-border-color: var(--blue4);
+  --fc-event-bg-color: transparent;
+  --fc-event-border-color: transparent;
   --fc-event-text-color: black;
   --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
   

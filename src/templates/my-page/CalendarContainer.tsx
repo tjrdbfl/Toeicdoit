@@ -15,6 +15,7 @@ import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { useRouter } from "next/navigation";
 import { ERROR } from "@/constants/enums/ERROR";
+import LinkIcon from "@/components/common/LinkIcon";
 
 
 export interface I_ApiFreeSaveResponse {
@@ -30,9 +31,9 @@ const CalendarContainer = ({
 }) => {
 
     const [events, setEvents] = useState([
-        { title: '출석', id: '1' },
-        { title: 'event 2', id: '2' },
-        { title: 'event 3', id: '3' },
+        { title: '출석', id: '1', color: '#CAF4FF' },
+        { title: '토익 시험일', id: '2' , color: '#fee2e2' },
+        { title: '성적 발표일', id: '3', color: '#d1fae5' },
     ]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -213,6 +214,22 @@ const CalendarContainer = ({
                     eventClick={handleDeleteModal}
                     locale={'ko'}
                     height={500}
+                    eventContent={(eventInfo) => {
+                        let color = '#f3e8ff'; // 기본 색상
+                        if (eventInfo.event.title === '토익 시험일') {
+                          color = '#fee2e2';
+                        } else if (eventInfo.event.title === '성적 발표일') {
+                          color = '#d1fae5';
+                        } else if(eventInfo.event.title==='출석'){
+                          color='#CAF4FF'
+                        }
+                        return (
+                          <div className={`fc-event text-center font-medium flex items-center justify-center`} style={{ backgroundColor: color, height:40, borderRadius:10,opacity: 0.9 }}>
+                            {eventInfo.timeText}
+                            {eventInfo.event.title}
+                          </div>
+                        );
+                      }}
                 />
             </div>
 

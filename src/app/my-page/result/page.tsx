@@ -1,6 +1,5 @@
 import LineChart from "@/components/chart/LineChart";
-import LinkIcon from "@/components/common/LinkIcon";
-import MyPageHeader from "@/components/common/MyPageHeader";
+import MyPageHeader from "@/components/my-page/MyPageHeader";
 import ResultContainer from "@/templates/my-page/ResultContainer";
 
 

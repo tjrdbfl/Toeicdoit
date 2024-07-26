@@ -150,12 +150,11 @@
   .feedback-gradient {
     position: absolute;
     width: 200px;
-    height: 316px;
-    left: 0px;
-    top: 0px;
+    height: 30px;
+   
   
-    background: #8d39a3;
-    filter: blur(175px);
+    background: var(--blue2);
+    filter: blur(150px);
   }
   
   .footer-gradient {
