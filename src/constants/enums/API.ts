@@ -5,14 +5,14 @@ export const enum SERVER{
     TOEIC='toeic/api'
 }
 export const enum SERVER_API{
-    ROOM='room',
     BOARD='api/board',
     TOEIC='api/toeic',
     AUTH='auth',
     USER='api/user',
     CALENDAR='api/calendars',
     PAYMENT='api/payment',
-    SUBSCRIBE='api/subscribe'
+    SUBSCRIBE='api/subscribe',
+    ROOM='api/room',
 }
 
 export const enum PUBLIC{

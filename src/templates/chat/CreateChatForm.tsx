@@ -1,76 +1,87 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
-import { saveFree } from "@/service/board/action";
-import { ChangeEvent, useState } from "react";
-import { useFormState } from "react-dom";
+import { chatCategory, chatCategoryType } from "@/constants/chat/constant";
+import { ERROR } from "@/constants/enums/ERROR";
+import { saveRoom } from "@/service/chat/actions";
+import { initialMessageState } from "@/types/MessengerData";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
-const initialState = {
-    message: "",
-};
-export default function CreateChatForm() {
-    // //const [state, formAction] = useFormState(saveFree, initialState);
-    // const [charCount, setCharCount] = useState(0);
-    // const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    //     setCharCount(event.target.value.length);
-    // }
 
-    // return (<>
-    //     <form
-    //         action={formAction}
-    //         className="mt-5"
-    //     >
-    //         <div>
-    //             <label htmlFor="category"
-    //                 className="form_label"
-    //             >카테고리 선택하기</label>
-    //             <div className="mt-5" />
-    //             <select
-    //                 name="category"
-    //                 id="category"
-    //                 required
-    //                 className="form_input block w-full"
-    //             >
-    //                 <option value="공부법">공부법</option>
-    //                 <option value="문의">문의</option>
-    //                 <option value="시험 후기">시험 후기</option>
-    //             </select>
-    //         </div>
+export default function CreateChatForm({setCreate}:{
+    setCreate: Dispatch<SetStateAction<boolean>>
+}) {
+    const [selected, setSelected] = useState<string[]>([]);
 
-    //         <div className="mt-10">
-    //             <label htmlFor="title"
-    //                 className="form_label"
-    //             >제목</label>
-    //             <div className="mt-5" />
-    //             <input type="text" name="title" id="title"
-    //                 required
-    //                 className="form_input"
-    //                 placeholder="필수 항목입니다."
-    //             />
-    //         </div>
+    const { pending } = useFormStatus();
+    const saveRoomWithCategory=saveRoom.bind(null,selected);
+    const [state, formAction] = useFormState(saveRoomWithCategory, initialMessageState);
+    
 
-    //         <div className="mt-10">
-    //             <label htmlFor="content"
-    //                 className="form_label"
-    //             >내용</label>
-    //             <div className="mt-5" />
-    //             <textarea
-    //                 name="content"
-    //                 id="content"
-    //                 required
-    //                 className="form_input"
-    //                 placeholder="필수 항목입니다."
-    //                 style={{ height: 400 }}
-    //                 maxLength={1000}
-    //                 onChange={handleContentChange}
-    //             />
-    //             <p className="text-slate-500 text-end text-lg font-medium">{charCount}자/1000자</p>
-    //         </div>
+    const handleClick = (category: string) => {
+        setSelected(prevCategories => {
+            if (prevCategories.includes(category)) {
+                return prevCategories.filter(item => item != category);
+            } else {
+                return [...prevCategories, category];
+            }
+        })
+        console.log(selected);
+    }
 
-    //         <div className="mt-10" />
-    //         <SubmitButton label={"등록하기"} />
-    //         <p aria-live="polite" className="sr-only" role="status">
-    //             {state?.message}
-    //         </p>
-    //     </form>
-    // </>);
+    useEffect(() => {
+        if (state?.message === ERROR.INVALID_INPUT) {
+            alert('입력 항목을 확인해주세요.');
+        }else if(state.message==='SUCCESS'){
+            setCreate(false);
+        }
+
+    }, [state?.message]);
+
+    return (<>
+        <form
+            action={formAction}
+            className="mt-5"
+        >
+            <div className="w-full h-full">
+                <label htmlFor="roomCategories"
+                    className="form_label"
+                >카테고리 선택하기</label>
+
+                <ul
+                    className="flex flex-wrap gap-x-2 gap-y-3 mt-5">
+                    {chatCategory.map((category, index) => {
+                        return (
+                            <button
+                            type="button"
+                            onClick={() => { handleClick(category.category) }}
+                            key={category.id}
+                            className={`text-black ${selected.includes(category.category) ? 'bg-slate-200': 'bg-white'} shadow-lg rounded-full py-3 px-4 hover:bg-slate-50`}
+                        >
+                            {category.title}
+                        </button>
+                        );
+                    })}
+                </ul>
+            </div>
+
+            <div className="mt-5">
+                <label htmlFor="title"
+                    className="form_label"
+                >제목</label>
+                <div className="mt-5" />
+                <input type="text" name="title" id="title"
+                    required
+                    className="form_input"
+                    placeholder="필수 항목입니다."
+                />
+            </div>
+
+            <div className="mt-10" />
+            <SubmitButton disabled={pending} label={"등록하기"} />
+            <p aria-live="polite" className="sr-only" role="status">
+                {state?.message}
+            </p>
+        </form>
+    </>);
 } 

@@ -1,31 +1,54 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { isTokenExpired } from "./service/utils/extract";
+import { getAccessToken } from "./service/utils/token";
+import { PG } from "./constants/enums/PG";
+import { logout } from "./service/auth/actions";
 
 export function middleware(request: NextRequest) {
 
-  // const cookieStore=cookies();
-  // const accessToken=cookieStore.get('accessToken')?.value;
-  // // const userRole=cookieStore.get('userRole');
-  // const pathname=request.nextUrl.pathname;
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
+  const userRole = cookieStore.get('roles');
+  const pathname = request.nextUrl.pathname;
 
+  //1. 로그인된 사용자 redirection
+  if (accessToken && (pathname === '/login' || pathname === '/register')) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+  
+  if (accessToken === undefined
+    && (pathname.match(/^\/exam\/\d+/)
+      || pathname.match(/^\/level\/\d+/)
+      || pathname.match(/^\/part\/\d+/)
+      || pathname.startsWith('/level-test/test')
+      || pathname.startsWith('/my-page'))
+  ) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
-  // if(accessToken && (pathname ==='/login' || pathname==='/register')){
-  //     return NextResponse.redirect(new URL('/',request.url));
-  // }
+  if (pathname.startsWith('/admin') && userRole?.value !== 'ROLE_ADMIN') {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
 
-  // if(accessToken===undefined 
-  //     && (pathname.match(/^\/exam\/\d+/) 
-  //     || pathname.match(/^\/level\/\d+/) 
-  //     || pathname.match(/^\/part\/\d+/) 
-  //     || pathname.startsWith('/level-test/test')
-  //     || pathname.startsWith('/my-page'))
-  //   ){
-  //     return NextResponse.redirect(new URL('/login',request.url));
-  // }
+  //2. AccessToken 만료 시
+  if (accessToken !== undefined) {
+    if (isTokenExpired(accessToken)) {  //accessToken 만료 시간 체크 
+      console.log('isAccessTokenExpired: ' + true);
 
-  // if(pathname.startsWith('/admin') && userRole?.value!=='ROLE_ADMIN'){
-  //     return NextResponse.redirect(new URL('/',request.url));
-  // }
+      if (refreshToken === undefined || (refreshToken !== undefined && isTokenExpired(refreshToken))) {
+        //로그아웃 로직 처리
+        logout();
+        return NextResponse.redirect(new URL(`${PG.LOGIN}`, request.url));
+      } else {
+        getAccessToken(refreshToken);
+      }
+    } else {
+      console.log('isAccessTokenExpired: ' + false);
+    }
+  }
+
 
   return NextResponse.next();
 }

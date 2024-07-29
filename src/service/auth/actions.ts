@@ -26,10 +26,12 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         toeicLevel: 0,
         isLogined: false
     };
+
     const validatedFields = LoginSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password')
     });
+
     if (!validatedFields.success) {
         console.log('LoginSchema: ' + JSON.stringify(validatedFields.error.flatten().fieldErrors));
         return { ...prevState, message: validatedFields.error.flatten().fieldErrors };
@@ -39,6 +41,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         password: validatedFields.data.password
     }
     console.log('Received form data: ', data);
+    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/login`, {
             method: 'POST',
@@ -58,6 +61,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             sameSite: 'lax',
             httpOnly: true,
         });
+
         cookies().set({
             name: 'refreshToken',
             value: extractCookie(cookieRefreshString, 'refreshToken'),
@@ -69,6 +73,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         });
 
         const payload: PayloadData = jwtDecode(cookieAccessString);
+        
         if (payload !== undefined) {
 
             cookies().set({
@@ -229,3 +234,4 @@ export async function modifyUserInfo(prevState:UserInfoMessage,formData:FormData
     }
 
 }
+

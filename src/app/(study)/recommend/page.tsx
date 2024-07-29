@@ -8,7 +8,7 @@ const metadata = {
 export default function StudyRecommendPage() {
   return (
     <>
-      <div className="lg:px-[20%] w-full flex flex-col">
+      <div className="lg:px-[20%] w-screen flex flex-col">
        <RecommendGuide/>
        <div className="mt-28"/>
        <RecommendStep1/>

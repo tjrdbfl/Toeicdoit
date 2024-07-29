@@ -1,26 +1,26 @@
 'use client';
 import CreateChatForm from '@/templates/chat/CreateChatForm';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
-const CreateBtn = () => {
+const CreateChatBtn = () => {
 
     const [create, setCreate] = useState<boolean>(false);
 
     return (<>
         <button
             onClick={() => setCreate(true)}
-            className="bg-white text-black font-semibold py-2 px-4 rounded-lg shadow-lg flex flex-row justify-center items-center gapx-x-2 hover:bg-slate-50">
+            className="bg-white mb-5 text-black font-semibold py-2 px-4 rounded-lg shadow-lg flex flex-row justify-center items-center gapx-x-2 hover:bg-slate-50">
             <AddIcon />
             <p className=''>만들기</p>
         </button>
         {create && <>
             <dialog
-                className="fixed inset-0 z-20 flex justify-end items-end m-28"
+                className="fixed inset-0 z-20 flex justify-end items-end"
             >
                 <div
-                    className="bg-blue-100 w-[500px] h-[650px] shadow-lg border-slate-200 border-2 p-5"
+                    className="bg-blue-100 w-[400px] h-[450px] shadow-lg border-slate-200 border-2 p-5"
                 >
                     <div className='flex flex-row justify-between items-center'>
                         <h1 
@@ -34,7 +34,7 @@ const CreateBtn = () => {
                         </button>
                         
                     </div>
-                    {/* <CreateChatForm /> */}
+                    <CreateChatForm setCreate={setCreate} />
                 </div>
 
             </dialog>
@@ -42,4 +42,4 @@ const CreateBtn = () => {
         </>}
     </>);
 }
-export default CreateBtn;
+export default CreateChatBtn;

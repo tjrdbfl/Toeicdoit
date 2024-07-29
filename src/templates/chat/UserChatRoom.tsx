@@ -1,5 +1,6 @@
 'use server';
-import CreateBtn from "@/components/button/CreateBtn";
+
+import CreateChatBtn from "@/components/button/CreateChatBtn";
 import { ScrollArea, ScrollBar } from "@/components/utils/ScrollArea";
 import { ChatRoomData } from "@/types/ChatData";
 import Image from "next/image";
@@ -9,11 +10,11 @@ const UserChatRoom = ({ chat }: { chat: ChatRoomData[] }) => {
     return (<>
         <div className="p-3">
             <div className="flex flex-row justify-between">
-                <h2 className="text-black text-lg mb-2 font-semibold">나의 오픈채팅방</h2>
-                <CreateBtn />
+                <h2 className="text-black text-lg mb-5 font-semibold">나의 오픈채팅방</h2>
+                <CreateChatBtn />
             </div>
             <ScrollArea
-                className="relative w-[450px] h-[180px] flex flex-row gap-x-2 overflow-x-hidden"
+                className="relative w-[400px] h-[180px] flex flex-row gap-x-2 overflow-x-hidden"
             >
                 <div className="flex flex-row gap-x-2">
                     {chat.length === 0 ?

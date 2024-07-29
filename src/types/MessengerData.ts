@@ -1,5 +1,7 @@
 export type MessageData={
     message:string;
+    state?:boolean;
+    count?:number;
     data:Object;
     accessToken:string;
     refreshToken:string;

@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
       [key, value.trim()]
     )
   ) as I_ApiUserLoginRequest;
+
   if (!data.email || !data.password) {
     return NextResponse.json({ status: 400 });
   }
@@ -30,6 +31,7 @@ export async function POST(request: NextRequest) {
       const cookieAccessString = response.headers.getSetCookie()[0];
       const cookieRefreshString = response.headers.getSetCookie()[1];
       const nextResponse = NextResponse.json({ success: true, message: "SUCCESS" }, { status: 200 });
+      
       nextResponse.cookies.set({
         name: 'accessToken',
         value: extractCookie(cookieAccessString, 'accessToken'),
@@ -39,6 +41,7 @@ export async function POST(request: NextRequest) {
         sameSite: 'none',
         httpOnly: false,
       });
+      
       nextResponse.cookies.set({
         name: 'refreshToken',
         value: extractCookie(cookieRefreshString, 'refreshToken'),

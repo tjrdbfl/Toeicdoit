@@ -14,24 +14,30 @@ import ChatRoom from "./ChatRoom";
 import ChatModal from "@/components/chat/ChatModal";
 import ChatRoomHeader from "@/components/chat/ChatRoomHeader";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { fetchChatRoom } from "@/service/chat/actions";
+import { ScrollArea } from "@/components/utils/ScrollArea";
+import { chatCategoryType } from "@/constants/chat/constant";
+
 
 const PaginationLoading = dynamic(() => import('@/components/utils/PaginationLoading'), { ssr: false });
 
 const ChatScrollArea = ({ children }: {
     children: React.ReactNode
 }) => {
-
-    const { data, error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ['items'],
-        queryFn: fetchItems,
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) => lastPage.nextPage,
-    })
+    const [category,setCategory]=useState< 'STUDY' | 'FREE' | 'WORK' | 'UNI' | 'SEEK'|'ETC'>('ETC');
+    
+    const { data, error, status, fetchNextPage, isFetchingNextPage, refetch } =
+        useInfiniteQuery({
+            queryKey: ['chatRooms',category],
+            queryFn: ({ pageParam = 1 }) => fetchChatRoom({ pageParam,category }),
+            initialPageParam: 1,
+            getNextPageParam: (lastPage) => lastPage.nextPage,
+        });
 
     const { ref, inView } = useInView();
-    const searchParams=useSearchParams();
-    const pathname=usePathname();
-    const router=useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
 
     useEffect(() => {
         if (inView) {
@@ -39,23 +45,9 @@ const ChatScrollArea = ({ children }: {
         }
     }, [fetchNextPage, inView]);
 
-    //chat room을 위한 
-    // const { data, error, status, fetchNextPage, isFetchingNextPage } =
-    //     useInfiniteQuery({
-    //         queryKey: ['questions', id],
-    //         queryFn: ({ pageParam = 1 }) => fetchQuestions({ pageParam, level: id }),
-    //         initialPageParam: 1,
-    //         getNextPageParam: (lastPage) => lastPage.nextPage,
-    //     });
-
-    async function getChatRoom(formData: FormData) {
-
-        const rawFormData = {
-            category: formData.get(`category`)
-        }
-
-        console.log('rawFormData: ' + rawFormData.category?.toString());
-    }
+    useEffect(()=>{
+        refetch();
+    },[category]);
 
     // const [chatRoom, setChatRoom] = useState<ChatRoomData>({
     //     id: '',
@@ -99,44 +91,42 @@ const ChatScrollArea = ({ children }: {
     //     // chat=tempData.data;
     // }
 
+    if(error){
+        alert(error.message);
+    }
     return (<>
-        <div className="overflow-y-auto h-[600px] scroll-area-chat p-2">
+        <ScrollArea
+            className="h-[600px] overflow-y-auto">
             {children}
             <div className="p-3">
                 <h2 className="text-black text-lg font-semibold mb-3">인기있는 오픈채팅방</h2>
-                <form
-                    action={getChatRoom}
-                    className="mb-5"
-                >
-                    <ChatCategory />
-                </form>
+                <ChatCategory setCategory={setCategory} />
                 <div
-                    className="flex flex-col w-full h-full">
-                    {data?.pages.map((page) => {
-
-                        return (<>
-                            {/* {page.data.map((item) => {
+                    className="flex flex-col w-full h-full mt-5">
+                    {data?.pages.map((page, index) => {
+                        return (<div
+                            key={index}>
+                            {page.data?.map((item, index) => {
                                 return (
                                     <div
-                                        onClick={() => clickChatRoom({
-                                            id: item.id.toString(),
-                                            title: "토익 스터디 모집해요! 강남구 서초대로 74길에서 진행할 예정입니다~",
-                                            members:["a","b"]
-                                        })}
-                                        key={item.id}
+                                        onClick={() => {
+                                            console.log('채팅방 가져오기 성공!');
+                                        }}
+                                        key={index}
                                         ref={ref}>
                                         <ChatCard
-                                            key={item.id}
+                                            key={index}
                                             id={item.id}
+                                            index={index}
                                             name={"item.name"}
-                                            title={"토익 스터디 모집해요! 강남구 서초대로 74길에서 진행할 예정입니다~"}
-                                            member={70}
-                                            category={"스터디 모집"}
+                                            title={item.title}
+                                            member={item.memberIds.length}
+                                            categories={item.roomCategories}
                                         />
                                     </div>
                                 )
-                            })} */}
-                        </>)
+                            })}
+                        </div>)
                     })}
                 </div>
             </div>
@@ -160,8 +150,10 @@ const ChatScrollArea = ({ children }: {
             } */}
 
             {isFetchingNextPage && <PaginationLoading />}
-        </div>
 
+        </ScrollArea>
+    
+    
     </>);
 }
 export default ChatScrollArea;

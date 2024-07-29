@@ -5,11 +5,36 @@ import Modal from "@/components/common/Modal";
 import { ChatRoomData } from "@/types/ChatData";
 import ChatScrollArea from "./ChatScrollArea";
 import UserChatRoom from "./UserChatRoom";
+import { cookies } from "next/headers";
+import { MessageData } from "@/types/MessengerData";
+import { ERROR } from "@/constants/enums/ERROR";
+import { SERVER_API } from "@/constants/enums/API";
 
 const ChatContainer = async () => {
     //유저의 기존 채팅방 페이지 server action
-    const chat: ChatRoomData[] = [];
+    let chat: ChatRoomData[]=[]
     //전체 채팅방 페이지 with infinite scroll pagination
+    try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/find-all`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${cookies().get('accessToken')}`
+            },
+            cache: 'no-store'
+        });
+
+        const result:MessageData=await response.json();
+
+        if(result.state){
+            chat=result.data as ChatRoomData[];
+        }else{
+            console.log(ERROR.SERVER_ERROR);
+        }
+    }catch(err){
+        console.log(err);
+    }
+      
     return (<>
         <Modal>
             <div 

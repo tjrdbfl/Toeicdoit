@@ -1,33 +1,44 @@
 export type chatCategoryType = {
     id: number;
     title: string;
+    category: 'STUDY' | 'FREE' | 'WORK' | 'UNI' | 'SEEK' |'ETC'
 }
 export const chatCategory: chatCategoryType[] = [
     {
         id: 1,
-        title: "토익 공부법"
+        title: "스터디 모집",
+        category: "STUDY"
     },
     {
         id: 2,
-        title: "스터디 모집"
+        title: "수다방",
+        category: "FREE"
     },
     {
         id: 3,
-        title: "20대"
+        title: "대학생",
+        category: "UNI"
     },
     {
         id: 4,
-        title: "고시생"
+        title: "회사원",
+        category: "WORK"
     },
     {
         id: 5,
-        title: "MBTI"
+        title: "취준생",
+        category: "SEEK"
+    },
+    {
+        id: 6,
+        title: "기타",
+        category: "ETC"
     },
 ]
-export type ChatOptionType={
+export type ChatOptionType = {
     id: number;
     title: string;
-    message: string 
+    message: string
 }
 export const block: ChatOptionType[] = [
     {
@@ -46,7 +57,7 @@ export const block: ChatOptionType[] = [
         message: "해당 멤버는 차단 및 퇴출 시 채팅방에서 나가짐과 동시에 상대방의 메세지가 보이지 않게 됩니다. 차단 해제 전까지 채팅방에서 상대방과 대화할 수 없습니다. "
     },
 ];
-export const drawer:ChatOptionType[]=[
+export const drawer: ChatOptionType[] = [
     {
         id: 1,
         title: "채팅방 나가기",

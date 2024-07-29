@@ -38,9 +38,6 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Head>
-        <link rel="icon" href="/svgs/header/bubble.svg"  type="image/svg+xml" />
-      </Head>
       <body className={`${inter.className} ${notoSans.className}`}>
         <div className="bg-white overflow-hidden">
           <LayoutWrapper token={token}>

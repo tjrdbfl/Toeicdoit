@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 const ChatBtn = () => {
 
     const open = useSearchParams().get('chat');
-    
+
     return (<>
         {open === 'true'
             ? <Link

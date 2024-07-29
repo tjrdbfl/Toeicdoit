@@ -1,4 +1,3 @@
-'use server';
 import { Hero, About, Explore, GetStarted, WhatsNew, World, Review, Feedback, FooterStarted } from "@/templates/dashboard";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -9,26 +8,9 @@ import { cookies } from "next/headers";
 import { MessageData } from "@/types/MessengerData";
 import { ChatRoomData, Messenger } from "@/types/ChatData";
 
-export default async function Home() {
+export default function Home() {
   
-  const cookieStore=cookies();
   let chatRoom:ChatRoomData[]=[];
-  try{
-    const response=await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/api/room/find-all`,{
-      method:'GET',
-      headers:{
-        'Content-Type': 'application/json',
-        'Authorization':`Bearer ${cookieStore.get('accessToken')?.value}`
-      },
-      cache:'no-store'
-    });
-
-    const result:Messenger=await response.json();
-    chatRoom=result.data as ChatRoomData[];
-
-  }catch(err){
-    console.log('home'+err);
-  }
   
   return (
     <>
