@@ -18,7 +18,6 @@ const ToeicAnswer = ({op}:{op:OptionData}) => {
 
     useEffect(()=>{
         console.log('answers: '+JSON.stringify(answers));
-
     },[answers]);
     
     return (<>
