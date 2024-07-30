@@ -10,7 +10,10 @@ const NewMessage=({ref}:{
     const { fadeOut } = useChatNewMessageStore();
     
     const handleScroll=()=>{
-        if(ref?.current){
+        if(ref===null){
+            return;
+        }
+        else if(ref?.current){
             ref.current.scrollTo({top:ref.current?.scrollHeight,behavior:'smooth'})
         }
       

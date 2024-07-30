@@ -141,11 +141,11 @@ body {
   }
 
   .fade-in-scale {
-    animation: fadeInScale 1s ease-out forwards; 
+    animation: fadeInScale 3s ease-out forwards; 
   }
 
   .fade-out-scale {
-    animation: fadeOutScale 1s ease-out forwards; 
+    animation: fadeOutScale 2s ease-out forwards; 
   }
 
 }

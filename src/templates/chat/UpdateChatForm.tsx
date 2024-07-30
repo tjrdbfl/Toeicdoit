@@ -3,15 +3,19 @@ import SubmitButton from "@/components/button/SubmitBtn";
 import { chatCategory, chatCategoryType } from "@/constants/chat/constant";
 import { ERROR } from "@/constants/enums/ERROR";
 import { saveRoom } from "@/service/chat/actions";
+import { handleError } from "@/service/utils/error";
+import { ChatRoomData } from "@/types/ChatData";
 import { initialMessageState } from "@/types/MessengerData";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 
-export default function CreateChatForm({setCreate}:{
+export default function UpdateChatForm({setCreate,chat}:{
+    chat:ChatRoomData
     setCreate: Dispatch<SetStateAction<boolean>>
 }) {
-    const [selected, setSelected] = useState<string[]>([]);
+
+    const [selected, setSelected] = useState<string[]>(chat.roomCategories.map(item=>item.toLocaleUpperCase()));
 
     const { pending } = useFormStatus();
     const saveRoomWithCategory=saveRoom.bind(null,selected);
@@ -31,14 +35,10 @@ export default function CreateChatForm({setCreate}:{
 
     useEffect(() => {
         console.log('state.message: '+state.message);
-        if (state?.message === ERROR.INVALID_INPUT) {
-            alert('입력 항목을 확인해주세요.');
-        }else if(state.message==='SUCCESS'){
+        handleError(state.message);
+        if(state.message==='SUCCESS'){
             setCreate(false);
-        }else if(state.message===ERROR.INVALID_INPUT){
-            alert(ERROR.INVALID_INPUT);
         }
-
     }, [state?.message]);
 
     return (<>
@@ -50,7 +50,11 @@ export default function CreateChatForm({setCreate}:{
                 <label htmlFor="roomCategories"
                     className="form_label"
                 >카테고리 선택하기</label>
-
+                <input 
+                name='roomId'
+                value={chat.id}
+                className="hidden"
+                />
                 <ul
                     className="flex flex-wrap gap-x-2 gap-y-3 mt-5">
                     {chatCategory.map((category, index) => {
@@ -77,11 +81,12 @@ export default function CreateChatForm({setCreate}:{
                     required
                     className="form_input"
                     placeholder="필수 항목입니다."
+                    defaultValue={chat.title}
                 />
             </div>
 
             <div className="mt-10" />
-            <SubmitButton disabled={pending} label={"등록하기"} />
+            <SubmitButton disabled={pending} label={"변경하기"} />
             <p aria-live="polite" className="sr-only" role="status">
                 {state?.message}
             </p>

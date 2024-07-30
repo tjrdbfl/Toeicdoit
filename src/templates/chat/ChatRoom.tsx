@@ -6,27 +6,33 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchItems } from "@/service/toeic/items";
 import { useInView } from "react-intersection-observer";
 import { useFormStatus } from "react-dom";
-import { fetchChatMessage } from "@/service/chat/actions";
+import { findChatByRoomId } from "@/service/chat/actions";
 import ChatMessageContainer from "./ChatMessageContainer";
 import { SERVER, SERVER_API } from "@/constants/enums/API";
-import { useChatAlertStore } from "@/store/chat/store";
+import { useChatAlertStore, useChatNewMessageStore } from "@/store/chat/store";
 import { ERROR } from "@/constants/enums/ERROR";
 import NewMessage from "@/components/chat/NewMessage";
+import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+import { ScrollArea } from "@/components/utils/ScrollArea";
+import Loading from "@/app/loading";
+import PaginationLoading from "@/components/utils/PaginationLoading";
+
 
 const ChatRoom = ({
-    chat
+    roomId, token
 }: {
-    chat: ChatData,
+    roomId: string,
+    token: string | undefined
 }) => {
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const [messages, setMessages] = useState<ChatData[]>([]);
     const [currentScrollTop, setCurrentScrollTop] = useState(0);
-    const [newMsg,setNewMsg]=useState<string>('');
+    const [newMsg, setNewMsg] = useState<string>('');
     const { ref, inView } = useInView({
-        rootMargin: "-200px 0px 0px 0px",
+        rootMargin: "0px 0px 0px 0px",
     });
-
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
     // const { data, error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     //     queryKey: ['items'],
     //     queryFn: fetchItems,
@@ -34,10 +40,18 @@ const ChatRoom = ({
     //     getNextPageParam: (lastPage) => lastPage.nextPage,
     // });
 
+    function isScrollAtBottom(scrollRef: React.RefObject<HTMLElement>): boolean {
+        if (!scrollRef.current) return false;
+      
+        const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+        const tolerance = 10; // 허용 오차 (픽셀)
+      
+        return Math.abs(scrollTop + clientHeight - scrollHeight) <= tolerance;
+      }
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['chatMessages'],
-        queryFn: ({pageParam=1})=>fetchChatMessage({pageParam,roomId:chat.roomId}),
-        initialPageParam: 1,
+        queryFn: ({ pageParam = 0 }) => findChatByRoomId({ pageParam, roomId, createdAt: messages[0].createdAt }),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => lastPage?.nextPage
     });
 
@@ -64,32 +78,47 @@ const ChatRoom = ({
         })
     }, [inView]);
 
-    // // 스크롤 이벤트 핸들러
-    // const handleScroll = () => {
-    //     if (scrollRef.current) {
-    //         setCurrentScrollTop(scrollRef.current.scrollTop);
-    //         console.log('currentScrollTop: ' + currentScrollTop);
-    //         console.log('scrollHeight: ' + scrollRef.current.scrollHeight);
+    // 스크롤 이벤트 핸들러
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            setCurrentScrollTop(scrollRef.current.scrollTop);
 
-    //         if (scrollRef.current.scrollTop === 0 && !isFetchingNextPage) {
+            if (
+                scrollRef.current.scrollTop === 0 &&
+                !isFetchingNextPage
+            ) {
+                fetchNextPage().then(() => {
+                    if (scrollRef.current) {
+                        scrollRef.current.scrollTo({ top: currentScrollTop + 200 }); // 스크롤 위치 조정
+                    }
+                });
+            }
+        }
+    };
 
-    //             fetchNextPage()
-    //                 .then(() => { scrollRef.current?.scrollTo({ top: currentScrollTop }) }); // 데이터 가져오기 완료 후 스크롤 위치 복원
-    //         }
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     scrollRef.current?.addEventListener('scroll', handleScroll);
-    //     return () => scrollRef.current?.removeEventListener('scroll', handleScroll);
-    // }, [handleScroll]); 
-
-    // EventSource 연결 및 메시지 업데이트
     useEffect(() => {
-        const eventSource = new EventSource(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER.CHAT}/${SERVER_API.ROOM}/receive/${chat.roomId}`);
+        scrollRef.current?.addEventListener('scroll', handleScroll);
+        return () => scrollRef.current?.removeEventListener('scroll', handleScroll);
+    }, [handleScroll]);
+
+    //EventSource 연결 및 메시지 업데이트
+    useEffect(() => {
+        if (token === undefined) {
+            alert(ERROR.INVALID_MEMBER);
+            return;
+        }
+
+        const eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_API_URL}/chat/${SERVER_API.CHAT}/recieve/${roomId}`,
+            {
+                headers:
+                {
+                    Authorization: "Bearer " + token
+                }, withCredentials: true
+            }
+        );
 
         eventSource.onopen = () => {
-            console.log("SSE connection open");
+            console.log("SSE connection opened");
         };
 
         eventSource.onmessage = (event) => {
@@ -121,60 +150,94 @@ const ChatRoom = ({
         }
     }, []);
 
+
     //메세지 배열 업데이트
     useEffect(() => {
         if (data) {
             const allMessages = data.pages
-            .flatMap((page) => page?.data||[]);
-            if(allMessages.length!==0){
-                setMessages(allMessages);
+                .flatMap((page) => page?.data || []);
+            if (allMessages.length !== 0) {
+                setMessages(allMessages.map((msg) => (
+                    {
+                        id: msg.id.toString(),
+                        roomId: "",
+                        senderId: "admin",
+                        senderName: 'item.id.toString()',
+                        message: "안녕하세요. 처음 오신 걸 환영합니다! 안녕하세요. 처음 오신 걸 환영합니다!",
+                        createdAt: new Date().toISOString(),
+                    }
+                )));
             }
         }
     }, [data]);
 
-    return (<>
-        <div
-            ref={scrollRef}
-            className="overflow-y-auto h-[500px] mt-5 mb-4 scroll-area-chat p-2">
+    useEffect(() => {
+        if (scrollRef.current) {
+            
+            if (isScrollAtBottom(scrollRef)) {
+              messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            }else{
+                useChatNewMessageStore.setState({
+                    fadeOut:true,
+                    message:'새 메세지'
+                });                
+            }
+          }
+    }, [messages]);
 
+    return (<>
+        <ScrollArea
+            ref={scrollRef}
+            className="h-[450px] w-[400px] overflow-y-auto mt-5 mb-3">
+                {isFetchingNextPage && <PaginationLoading/>}
             <div
                 ref={ref}
                 className="flex flex-col gap-y-7">
-                {/* {data?.pages.slice().reverse().map((page) => {
+                {data?.pages.slice().reverse().map((page, index) => {
                     return (
                         <div
                             ref={ref}
-                            key={page.currentPage}
+                            key={index}
                             className="flex flex-col gap-y-7"
                         >
-                            {page.data.map((item) => {
+                            {page?.data.map((item, index) => {
                                 return (
                                     <div
-                                        key={item.id}
+                                        key={index}
                                     >
-                                        <ChatMessage chat={{
-                                            id: item.id.toString(),
-                                            roomId: "",
-                                            senderId: "admin",
-                                            senderName: item.id.toString(),
-                                            message: "안녕하세요. 처음 오신 걸 환영합니다! 안녕하세요. 처음 오신 걸 환영합니다!",
-                                            createdAt: new Date(),
-                                        }} />
+                                        {/* <ChatMessage
+                                            key={item.id}
+                                            token={token}
+                                            chat={item} /> */}
+                                        <ChatMessage
+                                            key={item.id}
+                                            token={''}
+                                            chat={{
+                                                id: item.id.toString(),
+                                                roomId: "",
+                                                senderId: "admin",
+                                                senderName: item.id.toString(),
+                                                message: "안녕하세요. 처음 오신 걸 환영합니다! 안녕하세요. 처음 오신 걸 환영합니다!",
+                                                createdAt: new Date().toISOString(),
+                                            }} />
+
 
                                     </div>);
                             })}
                         </div>
                     );
-                })} */}
-                {messages.map((msg)=>(
-                    <ChatMessage 
-                    key={msg.id}
-                    chat={msg}/>
+                })}
+                {messages.map((msg) => (
+                    <ChatMessage
+                        token={token}
+                        key={msg.id}
+                        chat={msg} />
                 ))}
+                <div ref={messagesEndRef} />
             </div>
-        </div>
-            <NewMessage ref={scrollRef}/>
-        <ChatMessageContainer chat={chat} />
+        </ScrollArea>
+        <NewMessage ref={scrollRef} />
+        <ChatMessageContainer roomId={roomId} />
 
     </>);
 }

@@ -35,10 +35,7 @@ const ChatScrollArea = ({ children }: {
         });
 
     const { ref, inView } = useInView();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
-
+    
     useEffect(() => {
         if (inView) {
             fetchNextPage();
@@ -114,7 +111,7 @@ const ChatScrollArea = ({ children }: {
                                         }}
                                         key={index}
                                         ref={ref}>
-                                        <ChatCard
+                                        {/* <ChatCard
                                             key={index}
                                             id={item.id}
                                             index={index}
@@ -122,7 +119,7 @@ const ChatScrollArea = ({ children }: {
                                             title={item.title}
                                             member={item.memberIds.length}
                                             categories={item.roomCategories}
-                                        />
+                                        /> */}
                                     </div>
                                 )
                             })}
@@ -130,25 +127,6 @@ const ChatScrollArea = ({ children }: {
                     })}
                 </div>
             </div>
-
-            {/* {searchParams.get('roomId') &&
-                <ChatModal
-                    roomId={chatRoom.id}
-                    header={<ChatRoomHeader
-                        room={chatRoom}
-                    />}
-                    >
-                    <ChatRoom chat={{
-                        id: "ddddddd",
-                        roomId: "",
-                        senderId: "",
-                        senderName: "",
-                        message: "",
-                        createdAt: undefined,
-                    }} />
-                </ChatModal>
-            } */}
-
             {isFetchingNextPage && <PaginationLoading />}
 
         </ScrollArea>

@@ -13,8 +13,7 @@ export type ChatData={
     senderId:string;
     senderName:string;
     message:string;
-    createdAt:Date;
-    updatedAt:Date;
+    createdAt:string;
 }
 export type Messenger={
     message:string;

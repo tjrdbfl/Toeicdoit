@@ -1,4 +1,5 @@
 'use client';
+import Image from "next/image";
 import CreateChatForm from '@/templates/chat/CreateChatForm';
 import AddIcon from '@mui/icons-material/Add';
 import { SetStateAction, useState } from 'react';
@@ -11,9 +12,15 @@ const CreateChatBtn = () => {
     return (<>
         <button
             onClick={() => setCreate(true)}
-            className="bg-white mb-5 text-black font-semibold py-2 px-4 rounded-lg shadow-lg flex flex-row justify-center items-center gapx-x-2 hover:bg-slate-50">
-            <AddIcon />
-            <p className=''>만들기</p>
+            className="bg-white mb-5 text-black font-semibold p-2 rounded-lg shadow-lg flex flex-row justify-center items-center gap-x-2 hover:bg-slate-50">
+             <Image
+                src={"/svgs/icons/add-icon.svg"}
+                alt={"setting-icon"}
+                width={17}
+                height={17}
+                className="w-[20px] h-[20px]"
+            />
+            <p className='text-[14px]'>만들기</p>
         </button>
         {create && <>
             <dialog

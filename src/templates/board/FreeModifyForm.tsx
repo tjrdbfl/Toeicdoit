@@ -2,7 +2,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
-import { deleteBoard, modifyBoard } from "@/service/board/action";
+import { modifyBoard, deleteBoard } from "@/service/board/actions";
 import { BoardData } from "@/types/BoardData";
 import { initialFreeMessageState, FreeMessageState } from "@/types/MessengerData";
 import { useRouter } from "next/navigation";

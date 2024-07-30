@@ -7,11 +7,14 @@ import ChatContainer from "@/templates/chat/ChatContainer";
 import { cookies } from "next/headers";
 import { MessageData } from "@/types/MessengerData";
 import { ChatRoomData, Messenger } from "@/types/ChatData";
+import ChatContentContainer from "@/templates/chat/ChatContentContainer";
 
-export default function Home() {
+export default function Home({searchParams}:{
+  searchParams:{roomId:string}
+}) {
   
   let chatRoom:ChatRoomData[]=[];
-  
+  console.log('searchParams: '+searchParams.roomId);
   return (
     <>
     <Navbar userData={null} />
@@ -23,7 +26,7 @@ export default function Home() {
         <ChatBtn />
       </div>
       <ChatContainer />
-
+      {searchParams.roomId &&<ChatContentContainer roomId={searchParams.roomId}/>}
       <div className="total_padding">
         <Hero />
         <About />

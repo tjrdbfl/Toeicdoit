@@ -19,7 +19,8 @@ export default function AlertMessage() {
         };
     },[fadeOut,message]);
 
-    return (fadeOut && <dialog className="z-10 flex justify-center bg-transparent mt-20">
+    return (fadeOut && <dialog className="fixed inset-0 z-0 flex justify-end items-start bg-transparent mr-72"
+        >
         <div className={`${fadeOut ? 'fade-out-scale' : 'fade-in-scale'} fade-out-animation rounded-full mx-10 text-black py-2 px-5 flex items-center justify-center bg-blue-50 text-center text-pretty`}>
             <p className="text-black">{message}</p>
         </div>

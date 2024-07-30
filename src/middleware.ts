@@ -32,22 +32,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  //2. AccessToken 만료 시
-  if (accessToken !== undefined) {
-    if (isTokenExpired(accessToken)) {  //accessToken 만료 시간 체크 
-      console.log('isAccessTokenExpired: ' + true);
-
-      if (refreshToken === undefined || (refreshToken !== undefined && isTokenExpired(refreshToken))) {
-        //로그아웃 로직 처리
-        logout();
-        return NextResponse.redirect(new URL(`${PG.LOGIN}`, request.url));
-      } else {
-        getAccessToken(refreshToken);
-      }
-    } else {
-      console.log('isAccessTokenExpired: ' + false);
-    }
-  }
+  // //2. AccessToken 만료 시
+  // if (accessToken === undefined) {
+  //   if (refreshToken === undefined) {
+  //     //로그아웃 로직 처리
+  //     logout();
+  //     return NextResponse.redirect(new URL(`${PG.LOGIN}`, request.url));
+  //   } else {
+  //     getAccessToken(refreshToken);
+  //   }
+  // }
 
 
   return NextResponse.next();
@@ -62,6 +56,6 @@ export const config = {
     '/level/:path*', // /level/ 하위 경로 모두
     '/part/:path*', // /part/ 하위 경로 모두
     '/level-test/test',
-    '/my-page/:path*'  // my-page 하위 경로 모두
+    '/my-page/:path*',  // my-page 하위 경로 모두
   ],
 };

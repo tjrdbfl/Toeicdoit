@@ -43,11 +43,12 @@ function PopOverOption({
             {open && (
                  <div
                  ref={popoverRef}
-                 className="absolute z-10 bg-white border border-gray-200 rounded shadow-md"
+                 className="absolute bg-white border border-gray-200 rounded shadow-md"
                  style={{
                      top: anchorEl!.offsetTop + anchorEl!.offsetHeight,
-                     left: anchorEl!.offsetLeft,
+                     right: anchorEl!.offsetLeft,
                  }}
+                 onClick={()=>setAnchorEl(null)}
              >
                  {optionChildren}
              </div>

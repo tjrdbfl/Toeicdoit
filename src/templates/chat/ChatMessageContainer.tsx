@@ -1,13 +1,17 @@
-import { sendMessage } from "@/service/chat/actions";
+import { saveMessage } from "@/service/chat/actions";
+import { handleError } from "@/service/utils/error";
 import { ChatData } from "@/types/ChatData";
-import { useRef } from "react";
-import { useFormStatus } from "react-dom";
+import { initialMessageState } from "@/types/MessengerData";
+import { useEffect, useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
-const ChatMessageContainer=({chat}:{chat:ChatData})=>{
+const ChatMessageContainer=({roomId}:{roomId:string})=>{
     
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const sendMessageAction = sendMessage.bind(null, chat.id,chat.roomId);
+    const saveMessageByRoomId = saveMessage.bind(null,roomId);
+    const [status,formAction]=useFormState(saveMessageByRoomId,initialMessageState);
     const { pending } = useFormStatus();
+    
     const initialize=()=>{
         if(textareaRef.current){
             textareaRef.current.value='';
@@ -22,12 +26,15 @@ const ChatMessageContainer=({chat}:{chat:ChatData})=>{
         }
     }
 
+    useEffect(()=>{
+        handleError(status.message);
+    },[status.message]);
 
     return(<>
      <form   
             id="chat_message"
             className="flex flex-row w-full h-[70px]"
-            action={sendMessageAction}
+            action={formAction}
         >
             <textarea
                 ref={textareaRef}
@@ -41,7 +48,7 @@ const ChatMessageContainer=({chat}:{chat:ChatData})=>{
                 disabled={pending}
                 type="submit"
                 onClick={initialize}
-                className="bg-black text-white w-[70px] h-[50px] text-lg hover:bg-zinc-800"
+                className="bg-black text-white w-[70px] h-[50px] text-[14px] hover:bg-zinc-800"
             >전송</button>
         </form>
     </>);

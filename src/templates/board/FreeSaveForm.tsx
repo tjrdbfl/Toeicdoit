@@ -2,7 +2,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
-import { saveFree } from "@/service/board/action";
+import { saveFree } from "@/service/board/actions";
 import { initialFreeMessageState, FreeMessageState } from "@/types/MessengerData";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";

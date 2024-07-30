@@ -87,7 +87,9 @@
     "@fullcalendar/timegrid":"6.1.15",
     "@fullcalendar/interaction":"6.1.15",
     "@fullcalendar/core":"6.1.15",
-    "moment-timezone":"0.5.45"
+    "moment-timezone":"0.5.45",
+    "event-source-polyfill":"1.0.31",
+    "@types/event-source-polyfill":"1.0.5"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

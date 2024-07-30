@@ -73,7 +73,8 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         });
 
         const payload: PayloadData = jwtDecode(cookieAccessString);
-        
+        //const payload: PayloadData = jwtDecode(cookieAccessString);
+        //console.log(jwtDecode(cookieAccessString));
         if (payload !== undefined) {
 
             cookies().set({
@@ -83,7 +84,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 expires: new Date(extractCookie(cookieAccessString, 'Expires')),
                 sameSite: 'lax',
                 httpOnly: true
-            })
+            });
 
             cookies().set({
                 name: 'roles',
@@ -92,7 +93,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 expires: new Date(extractCookie(cookieAccessString, 'Expires')),
                 sameSite: 'lax',
                 httpOnly: true
-            })
+            });
 
         } else {
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
