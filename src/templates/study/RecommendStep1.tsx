@@ -47,7 +47,7 @@ export default function RecommendStep1() {
                 alt={"level-test-start"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[280px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[450px] h-[280px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -61,7 +61,7 @@ export default function RecommendStep1() {
                 alt={"level-test"}
                 width={500}
                 height={500}
-                className="p-2 w-[300px] h-[280px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[500px] h-[280px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -75,11 +75,11 @@ export default function RecommendStep1() {
                 alt={"level-test-result"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[400px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
             </div>
 
-            <div className="flex flex-row gap-x-5 items-end mt-10">
+            <div className="flex flex-row gap-x-5 items-end mt-20">
               <h1 className="text-3xl mb-2 text-[var(--blue1)]">Step 2.</h1>
               <h1 className="text-xl mb-2 font-medium">
                 실전 모의고사, 파트별, 수준별 연습문제
@@ -115,7 +115,7 @@ export default function RecommendStep1() {
                 alt={"level-test-start"}
                 width={500}
                 height={500}
-                className="w-[250px] h-[230px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="w-[450px] h-[280px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -129,7 +129,7 @@ export default function RecommendStep1() {
                 alt={"main-exam"}
                 width={500}
                 height={500}
-                className="w-[300px] h-[200px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
+                className="w-[450px] h-[400px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -143,7 +143,7 @@ export default function RecommendStep1() {
                 alt={"result"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[400px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
             </div>
 
@@ -169,7 +169,7 @@ export default function RecommendStep1() {
                 alt={"level-practice"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[200px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[400px] h-[300px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -183,7 +183,7 @@ export default function RecommendStep1() {
                 alt={"main-exam"}
                 width={500}
                 height={500}
-                className="w-[300px] h-[200px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
+                className="w-[450px] h-[300px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -197,7 +197,7 @@ export default function RecommendStep1() {
                 alt={"result"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[400px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
             </div>
 
@@ -220,7 +220,7 @@ export default function RecommendStep1() {
                 alt={"part-practice"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[200px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[400px] h-[300px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -234,7 +234,7 @@ export default function RecommendStep1() {
                 alt={"main-exam"}
                 width={500}
                 height={500}
-                className="w-[300px] h-[200px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
+                className="w-[450px] h-[300px]  p-2 rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}
@@ -248,7 +248,7 @@ export default function RecommendStep1() {
                 alt={"result"}
                 width={500}
                 height={500}
-                className="p-2 w-[250px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
+                className="p-2 w-[400px] h-[250px] rounded-xl border-slate-100 border-2 shadow-lg"
               />
             </div>
 
@@ -284,7 +284,7 @@ export default function RecommendStep1() {
             </div>
 
 
-            <div className="mt-10" />
+            <div className="mt-20" />
             <div className="flex flex-row gap-x-5 items-end">
               <h1 className="text-3xl mb-2 text-[var(--blue1)]">Step 3.</h1>
               <h1 className="text-xl mb-2 font-medium">

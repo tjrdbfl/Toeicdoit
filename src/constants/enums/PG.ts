@@ -16,5 +16,7 @@ export const enum PG{
     SCORE='/score',
     LEVEL_TEST='/level-test',
     CHAT='/chat',
-    PAYMENT='/payment'
+    PAYMENT='/payment',
+    REQUESTS='/customer/requests',
+    CUSTOMER_FAQ='/customer/faq',
 }

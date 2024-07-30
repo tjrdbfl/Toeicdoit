@@ -10,7 +10,7 @@ export default function RecommendStep2() {
             <div className="text-black text-[14px] ml-2 mb-7">
               토익두잇 공부법 2
             </div>
-            <div className="feedback-gradient w-full opacity-5 -z-5" />
+            <div className=" w-full opacity-5 -z-5" />
             <div className="flex flex-row gap-x-5 items-end">
               <h1 className="text-3xl mb-2 text-[var(--blue1)]">Step 4.</h1>
               <h1 className="text-xl mb-2 font-medium">캘린더</h1>
@@ -86,21 +86,21 @@ export default function RecommendStep2() {
             alt={"score-check"}
             width={500}
             height={500}
-            className="p-1 w-[300px] h-[400px] rounded-xl border-slate-100 border-2 shadow-lg"
+            className="p-1 w-[300px] h-[450px] rounded-xl border-slate-100 border-2 shadow-lg"
           />
           <Image
             src={"/images/recommend/score-check.png"}
             alt={"score-check"}
             width={500}
             height={500}
-            className="p-1 w-[300px] h-[400px] rounded-xl border-slate-100 border-2 shadow-lg"
+            className="p-1 w-[300px] h-[450px] rounded-xl border-slate-100 border-2 shadow-lg"
           />
           <Image
             src={"/images/recommend/score-check.png"}
             alt={"score-check"}
             width={500}
             height={500}
-            className="p-1 w-[300px] h-[400px] rounded-xl border-slate-100 border-2 shadow-lg"
+            className="p-1 w-[300px] h-[450px] rounded-xl border-slate-100 border-2 shadow-lg"
           />
         </div>
     

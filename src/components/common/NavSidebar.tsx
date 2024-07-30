@@ -83,8 +83,8 @@ const NavSidebar = ({userData,isSticky}:{
 
         <li className='navSidebar_ul_list'>
           <p className='navSidebar_ul_p navSidebar_p'>고객센터</p>
-          <Link className=' navSidebar_ul_link navSidebar_p' href={''}>1대1 문의</Link>
-          <Link className=' navSidebar_ul_link navSidebar_p' href={''}>고객센터 FAQ</Link>
+          <Link className=' navSidebar_ul_link navSidebar_p' href={`${PG.REQUESTS}`}>1대1 문의</Link>
+          <Link className=' navSidebar_ul_link navSidebar_p' href={`${PG.CUSTOMER_FAQ}`}>고객센터 FAQ</Link>
 
         </li>
 
