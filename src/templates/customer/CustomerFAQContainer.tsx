@@ -1,6 +1,6 @@
 "use client";
 import { classifyPart, classifyQuestion, items } from "@/service/toeic/items";
-import { useCallback, useRef, useState } from "react";
+import { SetStateAction, useCallback, useRef, useState } from "react";
 import { allParts } from "@/constants/toeic/exam";
 import {
   CustomerFAQCategory,
@@ -27,7 +27,9 @@ export default function CustomerFAQContainer({ page }: { page: number }) {
             {CustomerFAQCategory.map((item, index) => (
               <li
                 key={index}
-                onClick={() => setSelectedTab(item.id)}
+                onClick={() => {
+                  setSelectedTab(item.id)
+                }}
                 className={`cursor-pointer relative font-medium text-[12px] lg:text-[14px] text-center w-[130px] lg:w-[150px] py-2 shadow-md
                        ${
                          item.id === selectedTab
@@ -46,29 +48,33 @@ export default function CustomerFAQContainer({ page }: { page: number }) {
           ? CustomerFAQPart.map((part) => {
               return (
                 <>
-                  {part.content.filter((item)=>item.id>=(page-1)*7+1 && item.id<=page*7).map((item, index) => {
-
-                    return (
-                      <CustomerFAQCard
-                        key={index}
-                        id={index}
-                        category={part.label}
-                        question={item.question}
-                        answer={item.answer}
-                      />
-                    );
-                  })}
+                  {part.content
+                    .filter(
+                      (item) =>
+                        item.id >= (page - 1) * 7 + 1 && item.id <= page * 7
+                    )
+                    .map((item, index) => {
+                      return (
+                        <CustomerFAQCard
+                          key={index}
+                          id={index}
+                          category={part.label}
+                          question={item.question}
+                          answer={item.answer}
+                        />
+                      );
+                    })}
                 </>
               );
             })
           : CustomerFAQPart[selectedTab - 1].content.map((item, index) => (
-            <CustomerFAQCard
-            key={index}
-            id={index}
-            category={CustomerFAQPart[selectedTab - 1].label}
-            question={item.question}
-            answer={item.answer}
-          />
+              <CustomerFAQCard
+                key={index}
+                id={index}
+                category={CustomerFAQPart[selectedTab - 1].label}
+                question={item.question}
+                answer={item.answer}
+              />
             ))}
       </div>
 

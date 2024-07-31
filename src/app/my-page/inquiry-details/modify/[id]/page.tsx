@@ -2,6 +2,7 @@
 import FreeLink from "@/components/board/FreeLink";
 import SubmitButton from "@/components/button/SubmitBtn";
 import LinkIcon from "@/components/common/LinkIcon";
+import MyPageHeader from "@/components/my-page/MyPageHeader";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
@@ -46,20 +47,13 @@ export default async function BoardModifyPage({ params }: {
 
 
     return (<>
-        <div className="lg:mt-20">
-            <div className="w-full flex flex-col z-10 px-32 lg:px-[7%]">
-                <div className="flex items-center justify-center">
-                    <div className="form w-full xl:w-[60%] lg:w-[80%] lg:p-[2%] p-[3%] mt-10 xl:mt-0">
-                        <div className="flex flex-row items-center justify-center gap-x-2">
-                            <LinkIcon size={30} />
-                            <h1 className="text-black font-medium text-lg md:text-xl ">
-                                {board.type === '자유' ? '자유게시판' : '1대1 문의'} 수정하기
-                            </h1>
-                        </div>
-                        <FreeModifyForm post={board} />
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div className="px-20 lg:px-52">
+      <div className="mt-5 lg:mt-20" />
+      <nav className="flex justify-between mb-3 border-b-2 border-violet-100 p-4">
+        <MyPageHeader label={`${board.type === '자유' ? '자유게시판' : '1대1 문의'} 수정하기`} />
+      </nav>
+      <FreeModifyForm post={board} />
+    </div>
+        
     </>);
 }

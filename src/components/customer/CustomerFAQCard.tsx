@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
@@ -14,13 +14,14 @@ const CustomerFAQCard = ({
   question:string;
   answer: string;
 }) => {
-  const [open, setOpen] = useState(false);
+
+  const [answerOpen,setAnswerOpen]=useState<boolean>(false);
 
   return (
     <>
       <button
         className="w-full p-5 text-black flex flex-col items-center border-b-slate-200 border-b-2"
-        onClick={() => setOpen(!open)}
+        onClick={() => setAnswerOpen(!answerOpen)}
       >
 
         <div className="flex flex-row justify-between w-full">
@@ -32,14 +33,14 @@ const CustomerFAQCard = ({
           <p className="text-[12px] lg:text-[14px] w-[130px] text-start">{category}</p>
           <p className="text-[12px] lg:text-[14px] text-start">{question}</p>
         </div>
-        {open ? (
+        {answerOpen ? (
             <KeyboardArrowUpIcon className="text-black text-3xl" />
           ) : (
             <KeyboardArrowDownIcon className="text-black text-3xl" />
           )}
          
         </div>
-        {open && (
+        {answerOpen && (
            <div
            key={id}
            className="flex flex-row justify-between gap-x-52 w-full items-start mt-5 pt-8 pb-3 px-5 border-t-slate-100 border-t-2"

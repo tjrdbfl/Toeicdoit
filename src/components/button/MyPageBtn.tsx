@@ -9,7 +9,7 @@ const MyPageBtn=({label}:{
     return(<>
     <Link
     href={'?modify=true'}
-    className={`user_info_btn`}
+    className={`text-[14px] bg-white text-center border-slate-100 border-2 shadow-md rounded-lg py-2`}
     >
         <p
         className=""

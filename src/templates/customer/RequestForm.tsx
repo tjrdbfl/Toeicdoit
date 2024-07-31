@@ -3,6 +3,7 @@ import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { saveFree } from "@/service/board/actions";
+import { handleError } from "@/service/utils/error";
 import {
   initialFreeMessageState,
   FreeMessageState,
@@ -20,26 +21,6 @@ export default function RequestForm() {
     initialFreeMessageState
   );
   const router = useRouter();
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length < 8) {
-      setMessage((prevState) => ({
-        ...prevState,
-        message: {
-          ...prevState.message,
-          title: ["최소 8자리 이상 입력해주세요."],
-        },
-      }));
-    } else {
-      setMessage((prevState) => ({
-        ...prevState,
-        message: {
-          ...prevState.message,
-          title: [""],
-        },
-      }));
-    }
-  };
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCharCount(event.target.value.length);
@@ -68,8 +49,8 @@ export default function RequestForm() {
 
     if (state.result_message === "SUCCESS") {
       router.push(`${PG.FREE}`);
-    } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
-      alert(state.result_message);
+    } else {
+      handleError(state.result_message);
     }
   }, [state.result_message]);
 
@@ -101,7 +82,7 @@ export default function RequestForm() {
 
         <div className="flex flex-row gap-x-5">
           <div className="flex flex-row gap-x-2 w-[100px]">
-            <label htmlFor="type" className="form_label ">
+            <label htmlFor="content" className="form_label">
               문의내용
             </label>
             <p className="text-red-500">*</p>
@@ -130,10 +111,7 @@ export default function RequestForm() {
           {message.message.category}
         </p>
 
-        <label
-          className="form_label"
-          htmlFor="file_input"
-        >
+        <label className="form_label" htmlFor="file_input">
           파일 첨부하기
         </label>
         <input
@@ -143,11 +121,9 @@ export default function RequestForm() {
           type="file"
           name="file"
         />
-        <p
-          className="mt-1 text-[13px] text-gray-400"
-          id="file_input_help"
-        >
-          pg, gif, psd, png, tif, zip, pdf ,ms office, hwp 만 첨부 가능하고<br/>
+        <p className="mt-1 text-[13px] text-gray-400" id="file_input_help">
+          pg, gif, psd, png, tif, zip, pdf ,ms office, hwp 만 첨부 가능하고
+          <br />
           20MB까지 등록가능하며 첨부파일은 답변완료가 되면 즉시 삭제됩니다.
         </p>
 

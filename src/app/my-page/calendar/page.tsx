@@ -58,7 +58,7 @@ export default function CalendarPage(){
   
     return (
         <>
-        <div className="mt-5 lg:mt-10"/>
+        <div className="mt-5 lg:mt-16"/>
         <nav className="flex justify-between mb-3 border-b-2 border-violet-100 p-4">
         <MyPageHeader label={"Calendar"}/>
             </nav>

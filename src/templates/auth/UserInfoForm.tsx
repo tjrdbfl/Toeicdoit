@@ -92,7 +92,7 @@ const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
             className="flex justify-center items-center"
         >
             <div
-                className="z-20 bg-white w-[400px] h-auto shadow-md border-slate-200 border-2 p-4 rounded-xl"
+                className="z-20 bg-white w-[400px] h-auto shadow-md border-slate-100 border-2 p-4 rounded-xl"
             >
                 <div className="w-full flex justify-end">
                 <ModalCloseBtn url={`${PG.USER_INFO}`} />

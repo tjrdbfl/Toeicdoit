@@ -6,6 +6,7 @@ import DrawOutlinedIcon from '@mui/icons-material/DrawOutlined';
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
 import { usePathname } from "next/navigation";
 import { PG } from "@/constants/enums/PG";
+import Image from "next/image";
 
 
 const Sidebar = () => {
@@ -46,6 +47,20 @@ const Sidebar = () => {
                 <p
                     className={`sidebar_texts ${currentUrl === `${PG.INQUIRY_DETAILS}` ? 'font-semibold' : ''}`}
                 >문의내역</p>
+            </Link>
+            <Link href={`${PG.WITHDRAWAL}`}
+                className="sidebar_fill"
+            >
+                <Image 
+                src={"/svgs/icons/person-off-icon.svg"} 
+                alt={"person-off"}
+                width={22}
+                height={22}
+                className="mr-5"
+                />
+                <p
+                    className={`sidebar_texts ${currentUrl === `${PG.INQUIRY_DETAILS}` ? 'font-semibold' : ''}`}
+                >회원탈퇴</p>
             </Link>
         </div>
     </>);

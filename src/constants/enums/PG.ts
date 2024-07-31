@@ -8,6 +8,7 @@ export const enum PG{
     INQUIRY_DETAILS='/my-page/inquiry-details',
     RESULT='/my-page/result',
     USER_INFO='/my-page/user-info',
+    WITHDRAWAL='/my-page/withdrawal',
     RECOMMEND='/study/recommend',
     STUDY_FAQ='/study/faq',
     EXAM='/exam',

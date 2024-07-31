@@ -32,7 +32,7 @@ const ModifyProfileBtn = ({ profile }: {
             </div>
             <Link
             href={'?profile=true'}
-            className='user_info_btn'
+            className='bg-white text-center border-slate-100 border-2 shadow-md rounded-lg py-2 text-[14px] px-4'
             >
                 프로필 수정
             </Link>

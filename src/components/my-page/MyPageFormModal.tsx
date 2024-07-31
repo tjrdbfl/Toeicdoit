@@ -21,7 +21,7 @@ const MyPageFormModal = ({
         <dialog
             className="fixed inset-0 z-40 flex justify-center items-center"
         >
-            <div className="bg-white w-[400px] h-auto shadow-lg py-3 px-5 border-slate-100 border-2">
+            <div className="bg-white w-[400px] h-auto shadow-lg py-3 px-5 border-slate-50 border-2">
                 <form 
                 action="submit" onSubmit={handleSubmit}
                 >

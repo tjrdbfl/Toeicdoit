@@ -6,12 +6,7 @@ import { navVariants } from '@/utils/motion';
 
 import { useEffect, useState } from 'react';
 import NavSidebar from '@/components/common/NavSidebar';
-import { RootState } from '@/redux';
-import { getDecryptedUserData } from '@/store/auth/user-slice';
-import { useSelector } from 'react-redux';
 import { IUser } from '@/store/auth/user-model';
-import { PG } from '@/constants/enums/PG';
-import { useRouter } from 'next/navigation';
 
 
 const Navbar = ({userData}:{
