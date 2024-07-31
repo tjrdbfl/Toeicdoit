@@ -12,7 +12,7 @@ import { SERVER, SERVER_API } from "@/constants/enums/API";
 import { useChatAlertStore, useChatNewMessageStore } from "@/store/chat/store";
 import { ERROR } from "@/constants/enums/ERROR";
 import NewMessage from "@/components/chat/NewMessage";
-import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+    import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
 import { ScrollArea } from "@/components/utils/ScrollArea";
 import Loading from "@/app/loading";
 import PaginationLoading from "@/components/utils/PaginationLoading";

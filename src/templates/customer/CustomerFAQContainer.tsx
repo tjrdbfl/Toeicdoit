@@ -1,43 +1,38 @@
-'use client';
+"use client";
 import { classifyPart, classifyQuestion, items } from "@/service/toeic/items";
 import { useCallback, useRef, useState } from "react";
 import { allParts } from "@/constants/toeic/exam";
-import { CustomerFAQPart } from "@/constants/customer/constant";
+import {
+  CustomerFAQCategory,
+  CustomerFAQPart,
+} from "@/constants/customer/constant";
+import CustomerFAQCard from "@/components/customer/CustomerFAQCard";
+import CustomPagination from "@/components/common/CustomPagination";
 
-export default function CustomerFAQContainer() {
-  const [selectedTab, setSelectedTab] = useState(allParts[0].label);
-  const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const handleTabClick = (label: string) => {
-    setSelectedTab(label);
-    const partRef = partRefs.current[label];
-    if (partRef) {
-        const yOffset=partRef.getBoundingClientRect().top+window.scrollY-150;
-        window.scrollTo({top:yOffset,behavior:'smooth'});
-    }
-  };
-
-  const setPartRef = useCallback(
-    (label: string) => (el: HTMLDivElement | null) => {
-      partRefs.current[label] = el;
-    },
-    []
+export default function CustomerFAQContainer({ page }: { page: number }) {
+  const [selectedTab, setSelectedTab] = useState<number>(
+    CustomerFAQCategory[0].id
   );
+
+  let totalPages: number = 0;
+  CustomerFAQPart.map((item) => {
+    totalPages += item.content.length;
+  });
 
   return (
     <>
       <div className="flex flex-wrap">
-        <nav className="fixed top-24">
+        <nav className="">
           <ul className="flex flex-row w-[900px]">
-            {CustomerFAQPart.map((item) => (
+            {CustomerFAQCategory.map((item, index) => (
               <li
-                key={item.label}
-                onClick={() => handleTabClick(item.label)}
-                className={`cursor-pointer relative font-semibold bg-white border-slate-100 border-2 py-1 px-5 shadow-md
+                key={index}
+                onClick={() => setSelectedTab(item.id)}
+                className={`cursor-pointer relative font-medium text-[12px] lg:text-[14px] text-center w-[130px] lg:w-[150px] py-2 shadow-md
                        ${
-                         item.label === selectedTab
-                           ? "text-blue-600 after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-blue-600 after:transition-all after:duration-200"
-                           : "text-black"
+                         item.id === selectedTab
+                           ? "bg-black text-white after:h-1  "
+                           : "text-black bg-white"
                        }`}
               >
                 {item.label}
@@ -45,24 +40,52 @@ export default function CustomerFAQContainer() {
             ))}
           </ul>
         </nav>
-        {items.map((item, index) => {
-            console.log('part: '+classifyPart(item.id));
-        return (
-          <>
-            <div
-              role="level practice"
-              key={index}
-              className="flex mt-16"
-              ref={setPartRef(`${classifyQuestion(item.id)}`)}
-            >
-             {item.name}
-            </div>
-          </>
-        );
-      })}
+
+        <div className="bg-zinc-800 w-full h-[0.5px] mt-5" />
+        {selectedTab === 0
+          ? CustomerFAQPart.map((part) => {
+              return (
+                <>
+                  {part.content.filter((item)=>item.id>=(page-1)*7+1 && item.id<=page*7).map((item, index) => {
+
+                    return (
+                      <CustomerFAQCard
+                        key={index}
+                        id={index}
+                        category={part.label}
+                        question={item.question}
+                        answer={item.answer}
+                      />
+                    );
+                  })}
+                </>
+              );
+            })
+          : CustomerFAQPart[selectedTab - 1].content.map((item, index) => (
+            <CustomerFAQCard
+            key={index}
+            id={index}
+            category={CustomerFAQPart[selectedTab - 1].label}
+            question={item.question}
+            answer={item.answer}
+          />
+            ))}
       </div>
 
-     
+      <div className="flex justify-center mt-5">
+        <CustomPagination
+          type="double"
+          totalPages={
+            selectedTab === 0
+              ? totalPages % 7 === 0
+                ? totalPages / 7
+                : totalPages / 7 + 1
+              : CustomerFAQPart[selectedTab - 1].content.length % 7 === 0
+              ? CustomerFAQPart[selectedTab - 1].content.length / 5
+              : CustomerFAQPart[selectedTab - 1].content.length / 7 + 1
+          }
+        />
+      </div>
     </>
   );
 }
