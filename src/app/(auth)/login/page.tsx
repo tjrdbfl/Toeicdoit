@@ -1,4 +1,3 @@
-'use server';
 import GoogleAuthBtn from "@/components/button/GoogleAuthBtn";
 import RegisterBtn from "@/components/auth/RegisterBtn";
 import LoginForm from "@/templates/auth/LoginForm";
@@ -7,7 +6,7 @@ import Link from "next/link";
 import { PG } from "@/constants/enums/PG";
 
 
-export default async function LoginPage() {
+export default function LoginPage() {
 
     
     return (<>

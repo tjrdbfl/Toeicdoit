@@ -48,9 +48,10 @@ const ChatRoom = ({
       
         return Math.abs(scrollTop + clientHeight - scrollHeight) <= tolerance;
       }
+
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['chatMessages'],
-        queryFn: ({ pageParam = 0 }) => findChatByRoomId({ pageParam, roomId, createdAt: messages[0].createdAt }),
+        queryFn: ({ pageParam = 0 }) => findChatByRoomId({ pageParam, roomId, createdAt: messages[0].createdAt.replace('Z', "") }),
         initialPageParam: 0,
         getNextPageParam: (lastPage) => lastPage?.nextPage
     });

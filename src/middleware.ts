@@ -1,9 +1,14 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { isTokenExpired } from "./service/utils/extract";
-import { getAccessToken } from "./service/utils/token";
+import { extractCookie, isTokenExpired } from "./service/utils/extract";
 import { PG } from "./constants/enums/PG";
-import { logout } from "./service/auth/actions";
+import { getAccessToken, logout } from "./service/auth/actions";
+//import { getAccessToken } from "./service/utils/token";
+import { AuthorizeHeader } from "./config/headers";
+import { jwtDecode } from "jwt-decode";
+import { SERVER } from "./constants/enums/API";
+import { ERROR } from "./constants/enums/ERROR";
+import { PayloadData } from "./types/MessengerData";
 
 export function middleware(request: NextRequest) {
 
@@ -18,34 +23,33 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
   
-  // if (accessToken === undefined
-  //   && (pathname.match(/^\/exam\/\d+/)
-  //     || pathname.match(/^\/level\/\d+/)
-  //     || pathname.match(/^\/part\/\d+/)
-  //     || pathname.startsWith('/level-test/test')
-  //     || pathname.startsWith('/my-page'))
-  // ) {
-  //   return NextResponse.redirect(new URL('/login', request.url));
-  // }
+  if (accessToken === undefined
+    && (pathname.match(/^\/exam\/\d+/)
+      || pathname.match(/^\/level\/\d+/)
+      || pathname.match(/^\/part\/\d+/)
+      || pathname.startsWith('/level-test/test')
+      || pathname.startsWith('/my-page'))
+  ) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   if (pathname.startsWith('/admin') && userRole?.value !== 'ROLE_ADMIN') {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  // //2. AccessToken 만료 시
-  // if (accessToken === undefined) {
-  //   if (refreshToken === undefined) {
-  //     //로그아웃 로직 처리
-  //     logout();
-  //     return NextResponse.redirect(new URL(`${PG.LOGIN}`, request.url));
-  //   } else {
-  //     getAccessToken(refreshToken);
-  //   }
-  // }
+  //2. AccessToken 만료 시
+  if (accessToken === undefined && refreshToken!==undefined) {
+    if (refreshToken === undefined) {
+      //로그아웃 로직 처리
+      logout();
+      return NextResponse.redirect(new URL(`${PG.LOGIN}`, request.url));
+    } 
+  }
 
 
   return NextResponse.next();
 }
+
 
 // Middleware Config 추가
 export const config = {

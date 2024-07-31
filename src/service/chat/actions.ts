@@ -414,7 +414,7 @@ export async function findChatByRoomId({
     }
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.CHAT}/find-by?roomId=${roomId}&field=lt,createdAt&value=${createdAt}&size=5&page=${pageParam}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.CHAT}/find-by?roomId=${roomId}&field=lt,createdAt&value=${'2024-07-31T10:03:53.692'}&size=5&page=${pageParam}`, {
             method: 'GET',
             headers: AuthorizeHeader(accessToken),
             cache: 'no-store'

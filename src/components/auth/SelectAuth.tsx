@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import LogoutBtn from './LogoutBtn';
+import LogoutBtn from '../button/LogoutBtn';
 import { useSelectAuthAnimation } from '@/constants/styles/animation';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
