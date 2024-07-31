@@ -9,51 +9,52 @@ import { MessageData, MessageState } from "@/types/MessengerData";
 import { ITEMS_PER_PAGE } from "@/types/ToeicData";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { checkTokenExist } from "../utils/token";
 
 export async function findUserChatRoom({
     pageParam = 0, category
 }: {
     pageParam: number, category: string
 }) {
-    console.log('findUserChatRoom category: '+category);
-    let field:string='all';
+    console.log('findUserChatRoom category: ' + category);
+    let field: string = 'all';
     let chat: ChatRoomData[] = [];
     const cookieStore = cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
 
-    if(category!=='all'){
-        field='roomCategories';
+    if (category !== 'all') {
+        field = 'roomCategories';
     }
 
-    if(accessToken===undefined){
-        return {message:ERROR.INVALID_MEMBER};
+    if (accessToken === undefined && refreshToken === undefined) {
+        return { message: ERROR.INVALID_MEMBER };
     }
     else {
+        checkTokenExist();
+
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/find-by?field=${field}&value=${category}&page=${pageParam}&size=10&sort=updatedAt,desc`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
+                headers: AuthorizeHeader(accessToken),
                 cache: 'no-store'
             });
-       
+
             const result: MessageData = await response.json();
-            console.log('findUserChatRoom: '+result);
-            
-            if(result.count!==0){
+            console.log('findUserChatRoom: ' + result);
+
+            if (result.count !== 0) {
                 chat = result.data as ChatRoomData[];
 
                 const nextPage = chat.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
-                
+
                 return {
                     data: chat,
                     currentPage: pageParam,
                     nextPage: nextPage,
                     error: false,
                 };
-            }else{
+            } else {
                 return {
                     data: chat,
                     currentPage: pageParam,
@@ -77,70 +78,28 @@ export async function findUserChatRoom({
 }
 
 export async function fetchChatRoom({
-    pageParam = 1, category
+    pageParam = 0, category
 }: {
-    pageParam: number, category: 'STUDY' | 'FREE' | 'WORK' | 'UNI' | 'SEEK' | 'ETC'
+    pageParam: number, category: string
 }) {
+
     let chat: ChatRoomData[] = [];
-    const cookieStore = cookies();
-    const accessToken = cookieStore.get('accessToken')?.value;
+    let field: string = 'all';
+    
+    if (category !== 'all') {
+        field = 'roomCategories';
+    }
 
-    if (accessToken !== undefined) {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.CHAT}/${SERVER_API.PUBLIC_ROOM}/find-by?field=${field}&value=${category}&page=${pageParam}&size=10&sort=updatedAt,desc`, {
+            method: 'GET',
+            headers: CommonHeader,
+            cache: 'no-store'
+        });
+        
+        const result: MessageData = await response.json();
 
-        let response: Response;
-        try {
-            if (category === 'ETC') {
-                console.log('find-all chat');
-                response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/find-all?page=${pageParam}&size=10`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
-                    },
-                    cache: 'no-store'
-                });
-            }
-            else {
-                console.log('find-by chat');
-
-                response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/find-by?type=roomCategories&value=${category}&size=10&page=${pageParam}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
-                    },
-                    cache: 'no-store'
-                });
-            }
-            const result: MessageData = await response.json();
-
-            if (!result.state) {
-                return {
-                    data: chat,
-                    currentPage: pageParam,
-                    nextPage: null,
-                    error: true,
-                    message: ERROR.SERVER_ERROR
-                };
-            } else {
-
-                chat = result.data as ChatRoomData[];
-
-                const nextPage = chat.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
-                console.log('nextPage: ' + nextPage);
-                console.log('currentPage: ' + pageParam);
-                console.log('chat: ' + chat.length);
-
-                return {
-                    data: chat,
-                    currentPage: pageParam,
-                    nextPage: nextPage,
-                    error: false,
-                };
-            }
-
-        } catch (err) {
-            console.log('Failed to get chat: ', err);
+        if (!result.state) {
             return {
                 data: chat,
                 currentPage: pageParam,
@@ -148,15 +107,31 @@ export async function fetchChatRoom({
                 error: true,
                 message: ERROR.SERVER_ERROR
             };
+        } else {
+
+            chat = result.data as ChatRoomData[];
+
+            const nextPage = chat.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
+            console.log('nextPage: ' + nextPage);
+            console.log('currentPage: ' + pageParam);
+            console.log('chat: ' + chat.length);
+
+            return {
+                data: chat,
+                currentPage: pageParam,
+                nextPage: nextPage,
+                error: false,
+            };
         }
 
-    } else {
+    } catch (err) {
+        console.log('Failed to get chat: ', err);
         return {
-            data: null,
+            data: chat,
             currentPage: pageParam,
             nextPage: null,
             error: true,
-            message: ERROR.INVALID_MEMBER
+            message: ERROR.SERVER_ERROR
         };
     }
 }
@@ -173,6 +148,7 @@ export async function saveRoom(category: string[], prevState: MessageState, form
     const accessToken = cookies().get('accessToken')?.value;
 
     if (accessToken !== undefined) {
+        checkTokenExist();
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/save`, {
             method: 'POST',
@@ -229,7 +205,7 @@ export async function updateRoomById(category: string[], prevState: MessageState
             console.log(result.state);
             // revalidatePath('/?chat=true');
             // revalidatePath('/?chat=true&setting=true');
-            revalidateTag('chat'); 
+            revalidateTag('chat');
             return { message: 'SUCCESS' };
         } else {
             return { message: ERROR.SERVER_ERROR };
@@ -278,7 +254,7 @@ export async function enterRoom(roomId: string) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/enter`, {
             method: 'POST',
             headers: AuthorizeHeader(accessToken),
-            body:JSON.stringify({roomId,userId:"test enter"}),
+            body: JSON.stringify({ roomId, userId: "test enter" }),
             cache: 'no-store'
         });
 
@@ -307,14 +283,14 @@ export async function exitRoom(roomId: string) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/exit`, {
             method: 'POST',
             headers: AuthorizeHeader(accessToken),
-            body:JSON.stringify({roomId,userId:"test enter"}),
+            body: JSON.stringify({ roomId, userId: "test enter" }),
             cache: 'no-store'
         });
 
         const result: MessageData = await response.json();
 
         if (result.state) {
-            console.log('exitRoom: '+result.state);
+            console.log('exitRoom: ' + result.state);
             revalidatePath(`/?chat=true?roomId=${roomId}`);
             return { data: result.data as ChatRoomData, message: 'SUCCESS' };
         } else {
@@ -341,7 +317,7 @@ export async function deleteRoomById(id: string) {
         });
 
         const result: MessageData = await response.json();
-      
+
         if (result.state) {
             console.log(result.state);
             revalidateTag('chat');
@@ -359,57 +335,57 @@ export async function deleteRoomById(id: string) {
 export async function saveMessage(roomId: string, prevState: MessageState, formData: FormData) {
     if (formData.get('message')?.toString() === '' || roomId === '') {
         console.log('saveMessage: ' + ERROR.INVALID_INPUT);
-        return {message:ERROR.INVALID_INPUT};
+        return { message: ERROR.INVALID_INPUT };
     }
 
-    const accessToken=cookies().get('accessToken')?.value;
-    
-    if(accessToken===undefined){
-        return {message:ERROR.INVALID_MEMBER};
+    const accessToken = cookies().get('accessToken')?.value;
+
+    if (accessToken === undefined) {
+        return { message: ERROR.INVALID_MEMBER };
     }
 
     try {
-        
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.CHAT}/save`, {
             method: 'POST',
             headers: AuthorizeHeader(accessToken),
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 roomId,
-                senderId:"test ID222",
-                senderName:"test sender name",
-                message:formData.get('message')?.toString() 
+                senderId: "test ID222",
+                senderName: "test sender name",
+                message: formData.get('message')?.toString()
             }),
-            cache:'no-store'
+            cache: 'no-store'
         })
 
-        const result:MessageData=await response.json();
-        console.log('result: '+JSON.stringify(result));
+        const result: MessageData = await response.json();
+        console.log('result: ' + JSON.stringify(result));
 
-        if(result.state){
-            return {message:'SUCCESS'}
-        }else{
-            return {message:ERROR.SERVER_ERROR};
+        if (result.state) {
+            return { message: 'SUCCESS' }
+        } else {
+            return { message: ERROR.SERVER_ERROR };
         }
 
     } catch (err) {
-        return {message:ERROR.SERVER_ERROR};
+        return { message: ERROR.SERVER_ERROR };
     }
 }
 export async function findChatByRoomId({
-    pageParam = 0, roomId,createdAt
+    pageParam = 0, roomId, createdAt
 }: {
-    pageParam: number, roomId: string,createdAt:string
+    pageParam: number, roomId: string, createdAt: string
 }) {
     console.log('findChatByRoomId: ', createdAt);
 
     let chats: ChatData[] = [];
 
-    const accessToken=cookies().get('accessToken')?.value;
-    
-    if(accessToken===undefined){
+    const accessToken = cookies().get('accessToken')?.value;
+
+    if (accessToken === undefined) {
         useChatAlertStore.setState({
-            fadeOut:true,
-            message:ERROR.INVALID_MEMBER
+            fadeOut: true,
+            message: ERROR.INVALID_MEMBER
         })
     }
 
@@ -423,16 +399,16 @@ export async function findChatByRoomId({
         const data: MessageData = await response.json();
         console.log(JSON.stringify(data));
 
-        if(data.count!==0){
-            chats=data.data as ChatData[];
-        }else{
+        if (data.count !== 0) {
+            chats = data.data as ChatData[];
+        } else {
             useChatAlertStore.setState({
                 fadeOut: true,
                 message: ERROR.SERVER_ERROR
             });
             return;
         }
-        
+
         const nextPage = chats.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
 
         return {

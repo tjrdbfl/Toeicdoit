@@ -7,8 +7,9 @@ import { AuthorizeHeader, CommonHeader } from "@/config/headers";
 import { SERVER } from "@/constants/enums/API";
 import { NextResponse } from "next/server";
 import { ERROR } from "@/constants/enums/ERROR";
+import { logout } from "../auth/actions";
 
-export async function hashPassword(password:string):Promise<string>{
+export async function hashPassword(password: string): Promise<string> {
     const salt = CryptoJS.lib.WordArray.random(128 / 8); // 128비트 솔트 생성
     const key = CryptoJS.PBKDF2(password, salt, {
         keySize: 256 / 32, // 256비트 키 생성
@@ -19,34 +20,47 @@ export async function hashPassword(password:string):Promise<string>{
     return hash + '.' + salt; // 해시 값과 솔트를 함께 저장
 }
 
-export async function verifyPassword(password:string, hashWithSalt:string): Promise<boolean>{
-    const [hash,salt]=hashWithSalt.split('.');
+export async function verifyPassword(password: string, hashWithSalt: string): Promise<boolean> {
+    const [hash, salt] = hashWithSalt.split('.');
     const key = CryptoJS.PBKDF2(password, CryptoJS.enc.Hex.parse(salt), {
         keySize: 256 / 32,
         iterations: 10000
     });
-    const newHash=CryptoJS.SHA256(key).toString();
+    const newHash = CryptoJS.SHA256(key).toString();
 
-    return hash===newHash;
+    return hash === newHash;
 }
 
+export async function checkTokenExist() {
+    const cookieStore = cookies();
+    const accessToken = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
 
-export async function getAccessToken(token:string){
-  
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/refresh`,{
-            method:'POST',
-            headers:AuthorizeHeader(token),
-            cache:'no-store',
+    if (accessToken === undefined && refreshToken !== undefined) {
+        if (refreshToken === undefined) {
+            logout();
+        }else{
+            getAccessToken(refreshToken);       
+        }
+    }
+}
+
+export async function getAccessToken(token: string) {
+
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/refresh`, {
+            method: 'POST',
+            headers: AuthorizeHeader(token),
+            cache: 'no-store',
         });
 
-        console.log('getAccessToken: '+response.status);
-    
-        if(response.status===200){
+        console.log('getAccessToken: ' + response.status);
+
+        if (response.status === 200) {
             const cookieAccessString = response.headers.getSetCookie()[0];
-            console.log('getAccessToken: '+cookieAccessString);
-    
-            if(cookieAccessString!==undefined){
+            console.log('getAccessToken: ' + cookieAccessString);
+
+            if (cookieAccessString !== undefined) {
                 cookies().set({
                     name: 'accessToken',
                     value: extractCookie(cookieAccessString, 'accessToken'),
@@ -58,9 +72,9 @@ export async function getAccessToken(token:string){
                 });
 
                 const payload = jwtDecode<PayloadData>(cookieAccessString);
-            
+
                 if (payload !== undefined) {
-        
+
                     cookies().set({
                         name: 'email',
                         value: payload.sub,
@@ -69,7 +83,7 @@ export async function getAccessToken(token:string){
                         sameSite: 'lax',
                         httpOnly: true
                     });
-        
+
                     cookies().set({
                         name: 'roles',
                         value: payload.roles[0],
@@ -78,7 +92,7 @@ export async function getAccessToken(token:string){
                         sameSite: 'lax',
                         httpOnly: true
                     });
-    
+
                     cookies().set({
                         name: 'userId',
                         value: payload.id.toString(),
@@ -87,17 +101,21 @@ export async function getAccessToken(token:string){
                         sameSite: 'lax',
                         httpOnly: true
                     });
-               
+
+                    return { message: 'SUCCESS' };
                 } else {
-                    console.log(ERROR.SERVER_ERROR);
-                }  
+                    logout();
+                    return { message: ERROR.INVALID_MEMBER };
+                }
             }
-        }else{
-            console.log('error: '+ERROR.SERVER_ERROR);
+        } else {
+            logout();
+            return { message: ERROR.SERVER_ERROR };
         }
-      
-    }catch(err){
-        console.log('getAccessToken: '+err);
+
+    } catch (err) {
+        logout();
+        return { message: ERROR.SERVER_ERROR };
     }
-   
+
 }

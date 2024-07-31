@@ -1,6 +1,6 @@
 export const enum SERVER{
     USER='user/api',
-    CHAT='chat/api',
+    CHAT='chat',
     TX='tx/api',
     TOEIC='toeic/api',
     AUTH='auth'
@@ -14,6 +14,7 @@ export const enum SERVER_API{
     PAYMENT='api/payment',
     SUBSCRIBE='api/subscribe',
     ROOM='api/room',
+    PUBLIC_ROOM='api/public/room',
     CHAT='api/chat',
 }
 

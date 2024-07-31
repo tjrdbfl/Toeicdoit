@@ -1,14 +1,5 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { extractCookie, isTokenExpired } from "./service/utils/extract";
-import { PG } from "./constants/enums/PG";
-import { getAccessToken, logout } from "./service/auth/actions";
-//import { getAccessToken } from "./service/utils/token";
-import { AuthorizeHeader } from "./config/headers";
-import { jwtDecode } from "jwt-decode";
-import { SERVER } from "./constants/enums/API";
-import { ERROR } from "./constants/enums/ERROR";
-import { PayloadData } from "./types/MessengerData";
 
 export function middleware(request: NextRequest) {
 
@@ -36,16 +27,6 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith('/admin') && userRole?.value !== 'ROLE_ADMIN') {
     return NextResponse.redirect(new URL('/', request.url));
   }
-
-  //2. AccessToken 만료 시
-  if (accessToken === undefined && refreshToken!==undefined) {
-    if (refreshToken === undefined) {
-      //로그아웃 로직 처리
-      logout();
-      return NextResponse.redirect(new URL(`${PG.LOGIN}`, request.url));
-    } 
-  }
-
 
   return NextResponse.next();
 }

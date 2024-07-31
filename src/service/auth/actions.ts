@@ -169,6 +169,7 @@ export async function logout() {
             console.log('response logout: '+JSON.stringify(response.statusText));
 
             if(response.status===200){
+
                 cookies().delete('accessToken');
                 cookies().delete('refreshToken');
                 cookies().delete('email');
@@ -177,7 +178,9 @@ export async function logout() {
                 cookies().delete('name');
 
                 return {message:'SUCCESS'};
+
             }else if(response.status===401){
+
                 //return {message:ERROR.INVALID_MEMBER};
                 cookies().delete('accessToken');
                 cookies().delete('refreshToken');
@@ -187,6 +190,7 @@ export async function logout() {
                 cookies().delete('name');
 
                 return {message:'SUCCESS'};
+
             }else{
                 return {message:ERROR.SERVER_ERROR};
             }
@@ -196,76 +200,6 @@ export async function logout() {
         return {message:ERROR.SERVER_ERROR};
     }
 
-}
-export async function getAccessToken(token:string){
-  
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/refresh`,{
-            method:'POST',
-            headers:AuthorizeHeader(token),
-            cache:'no-store',
-        });
-
-        console.log('getAccessToken: '+response.status);
-    
-        if(response.status===200){
-            const cookieAccessString = response.headers.getSetCookie()[0];
-            console.log('getAccessToken: '+cookieAccessString);
-    
-            if(cookieAccessString!==undefined){
-                cookies().set({
-                    name: 'accessToken',
-                    value: extractCookie(cookieAccessString, 'accessToken'),
-                    path: '/',
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                    sameSite: 'lax',
-                    httpOnly: true,
-                });
-
-                const payload = jwtDecode<PayloadData>(cookieAccessString);
-            
-                if (payload !== undefined) {
-        
-                    cookies().set({
-                        name: 'email',
-                        value: payload.sub,
-                        maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                        sameSite: 'lax',
-                        httpOnly: true
-                    });
-        
-                    cookies().set({
-                        name: 'roles',
-                        value: payload.roles[0],
-                        maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                        sameSite: 'lax',
-                        httpOnly: true
-                    });
-    
-                    cookies().set({
-                        name: 'userId',
-                        value: payload.id.toString(),
-                        maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                        sameSite: 'lax',
-                        httpOnly: true
-                    });
-               
-                } else {
-                    console.log(ERROR.SERVER_ERROR);
-                }  
-            }
-        }else{
-            console.log('error: '+ERROR.SERVER_ERROR);
-        }
-      
-    }catch(err){
-        console.log('getAccessToken: '+err);
-    }
-   
 }
 export async function uploadFiles(prevState: UploadMessage, formData: FormData) {
     const file = formData.get('file') as File;

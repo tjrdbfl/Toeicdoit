@@ -8,7 +8,6 @@ import { PG } from "@/constants/enums/PG";
 
 export default function LoginPage() {
 
-    
     return (<>
         <div className="form w-[500px] p-10">
             <p className="form_title">로그인</p>
