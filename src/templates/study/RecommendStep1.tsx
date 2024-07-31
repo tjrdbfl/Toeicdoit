@@ -124,12 +124,12 @@ export default function RecommendStep1() {
                 height={50}
                 className="w-[50px] h-[50px]"
               />
-              <Image
+             <Image
                 src={"/images/dashboard/main-exam.png"}
                 alt={"main-exam"}
                 width={500}
                 height={500}
-                className="w-[450px] h-[400px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
+                className="w-[450px] h-[300px] p-2 rounded-xl border-slate-100 border-2 shadow-lg"
               />
               <Image
                 src={"/svgs/icons/right-arrow-gradient-icon.svg"}

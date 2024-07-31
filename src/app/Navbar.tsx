@@ -49,7 +49,7 @@ const Navbar = ({userData}:{
         </div>  
       </>
       :
-      <div className='py-[3%]'>
+      <div className='py-[4%] lg:py-[2%]'>
 
         <div className="absolute w-[50%] inset-0 gradient-01" />
         <div
