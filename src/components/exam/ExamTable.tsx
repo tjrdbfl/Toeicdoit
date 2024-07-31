@@ -3,7 +3,6 @@ import { ITEMS_PER_PAGE, ToeicData } from "@/types/ToeicData";
 import TakeBtn from "../button/TakeBtn";
 import CompleteBtn from "../button/CompleteBtn";
 import ExamBody from "./ExamBody";
-import { I_ApiExamSearchRequest, I_ApiExamSearchResponse } from "@/app/api/exam/search/route";
 import { CommonHeader } from "@/config/headers";
 
 export default async function ExamTable({ query, currentPage }: {
@@ -15,22 +14,17 @@ export default async function ExamTable({ query, currentPage }: {
 
     let tests: ToeicData[] = [];
 
-    const payload: I_ApiExamSearchRequest = {
-        query: query,
-        currentPage: currentPage,
-        offset: offset
-    };
-
-    console.log(JSON.stringify(payload));
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam/search`, {
             method: 'POST',
             headers: CommonHeader,
-            body: JSON.stringify(payload),
+            body: JSON.stringify({query: query,
+                currentPage: currentPage,
+                offset: offset}),
         })
 
-        const data: I_ApiExamSearchResponse = await response.json();
+        const data = await response.json();
 
         if (!data.success) {
             console.error('Failed to fetch exam data: ', data.message);

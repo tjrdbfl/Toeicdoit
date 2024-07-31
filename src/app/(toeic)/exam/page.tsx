@@ -1,4 +1,3 @@
-import { I_ApiExamRequest, I_ApiExamResponse } from "@/app/api/exam/route";
 import Search from "@/components/common/Search";
 import ExamLoading from "@/components/exam/ExamLoading";
 import ExamTable from "@/components/exam/ExamTable";
@@ -9,6 +8,7 @@ import LinkIcon from "@/components/common/LinkIcon";
 import Navbar from "@/app/Navbar";
 import Footer from "@/app/Footer";
 import MainHeader from "@/components/common/MainHeader";
+import { MessageData } from "@/types/MessengerData";
 
 export default function ExamPage({ searchParams }: {
     searchParams?: {
@@ -20,23 +20,20 @@ export default function ExamPage({ searchParams }: {
     const currentPage = Number(searchParams?.page) || 1;
     let totalPages: number = 0;
 
-    const payload: I_ApiExamRequest = {
-        query: query
-    }
 
     async function getAllExam(){
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`, {
                 method: 'POST',
                 headers: CommonHeader,
-                body: JSON.stringify(payload),
+                body: JSON.stringify({query: query}),
             });
     
             if (!response) {
                 console.error('Failed to get response');
             }
     
-            const data: I_ApiExamResponse = await response.json();
+            const data = await response.json();
     
             if (!data.success) {
                 console.error('Failed to fetch exam data: ', data.message);

@@ -1,5 +1,4 @@
 "use server";
-import { I_ApiFreeReplyRequest } from "@/app/api/free/reply/route";
 import { CommonHeader } from "@/config/headers";
 import { FreeReplySchema, FreeSaveSchema } from "@/types/schemas";
 import { revalidatePath, revalidateTag } from "next/cache";
@@ -162,7 +161,7 @@ export async function createReply(prevState: { message: string },
     }
 
 
-    const rawFormData: I_ApiFreeReplyRequest = parse.data;
+    const rawFormData = parse.data;
 
     console.log('Received form data: ', rawFormData);
 

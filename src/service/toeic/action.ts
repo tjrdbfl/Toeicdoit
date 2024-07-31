@@ -1,6 +1,5 @@
 'use server';
 
-import { I_ApiLevelSubmitRequest, I_ApiLevelSubmitResponse } from "@/app/api/level/route";
 import { CommonHeader } from "@/config/headers";
 import { ITEMS_PER_PAGE, ToeicDataPublic } from "@/types/ToeicData";
 import { redirect } from "next/navigation";
@@ -73,16 +72,12 @@ export async function submitLevelTest(formData: FormData){
         redirect('/score');
     }
 
-    const payload:I_ApiLevelSubmitRequest={
-        level:Number(level),
-        userAnswer:userAnswer
-    }
-
     try{
         const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/level`,{
             method:'POST',
             headers:CommonHeader,
-            body:JSON.stringify(payload),
+            body:JSON.stringify({level:Number(level),
+                userAnswer:userAnswer}),
             cache:"no-store"
         })
 
