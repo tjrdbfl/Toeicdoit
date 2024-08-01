@@ -7,35 +7,16 @@ import ChatContainer from "@/templates/chat/ChatContainer";
 import ChatContentContainer from "@/templates/chat/ChatContentContainer";
 import { findUserInfoById } from "@/service/auth/actions";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export default async function Home({ searchParams }: {
   searchParams: { roomId: string }
 }) {
 
-  let userData: {
-    name: string,
-    profile: string | null,
-  }|undefined = {
-    name: "",
-    profile: ""
-  };
-
-  const response = await findUserInfoById();
-  if (response?.status === 200) {
-    userData = response.data;
-
-    if(response.data?.toeicLevel===null){
-        redirect('/')
-    }
-  }else if(response?.status===400){
-    userData=undefined;
-  }
-
-  console.log('userData: ' + JSON.stringify(userData));
-
-  return (
+ 
+ return (
     <>
-      <Navbar userData={userData} />
+      <Navbar/>
       <div className="xl:px-[15%] 2xl:px-24">
         <div className="fixed bottom-5 right-5 z-40">
           <MoveToTopBtn />

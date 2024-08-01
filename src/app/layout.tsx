@@ -4,11 +4,7 @@ import "@/styles/globals.css";
 import { cookies } from "next/headers";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import LayoutWrapper from "./LayoutWrapper";
-import Head from "next/head";
 import React from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import { PG } from "@/constants/enums/PG";
 
 const inter = Inter({ subsets: ["latin"] });
 const notoSans = Noto_Sans_KR({
@@ -28,19 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  // const theme = cookieStore.get('UserData');
-  // console.log('theme: '+theme);
-  // const userDataString=cookieStore.get('UserData')?.value||null;
-  // const userData:IUser|null=userDataString? JSON.parse(userDataString):null;
-
-  const token: RequestCookie | undefined = cookieStore.get("token");
-
+ 
   return (
     <html lang="en">
       <body className={`${inter.className} ${notoSans.className}`}>
         <div className="bg-white overflow-hidden">
-          <LayoutWrapper token={token}>
+          <LayoutWrapper>
             {modal}
             {children}
           </LayoutWrapper>

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { initialState } from '../auth/user-init';
 
 interface ExamTimerState {
     timeElapsed: number;

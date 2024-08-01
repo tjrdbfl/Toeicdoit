@@ -7,8 +7,8 @@ import { motion } from 'framer-motion';
 import { PG } from '@/constants/enums/PG';
 import Image from 'next/image';
 
-const SelectAuth = ({name,profile}:{
-    name:string,profile:string|null
+const SelectAuth = ({name,profile,toeicLevel}:{
+    name:string,profile:string|null,toeicLevel:number|null
 }) => {
     const [isOpenSelectAuth, setIsOpenSelectAuth] = useState(false); 
     const scope = useSelectAuthAnimation(isOpenSelectAuth);
@@ -24,21 +24,8 @@ const SelectAuth = ({name,profile}:{
                     onClick={() => setIsOpenSelectAuth(!isOpenSelectAuth)}
                 >
                     <div className="flex flex-row items-center justify-between lg:gap-x-2 mx-[1%]">
-                        {profile===null? <Image 
-                        src={'/svgs/icons/account-icon-blue.svg'} 
-                        alt={'account-icon-blue'}
-                        width={100}
-                        height={100}
-                        className='w-[30px] lg:w-[35px]'
-                        />:
-                        <Image 
-                        src={profile} 
-                        alt={'user-profile'}
-                        width={100}
-                        height={100}
-                        className='w-[30px] lg:w-[35px]'
-                        />}
-                        <p className=" text-black font-semibold w-[50px] lg:w-[60px] navSidebar_p">{name}님</p>
+                        <p className=" text-blue-500 font-semibold w-[50px] lg:w-[60px] navSidebar_p">Lv. {toeicLevel===null? 0:toeicLevel}</p>
+                        <p className=" text-black font-semibold w-[70px] lg:w-[60px] navSidebar_p">{name}님</p>
                         <div className="arrow" style={{ transformOrigin: "50% 55%" }}>
                             <svg width="15" height="15" viewBox="0 0 20 20">
                                 <path d="M0 7 L 20 7 L 10 16" />
@@ -51,7 +38,7 @@ const SelectAuth = ({name,profile}:{
             </div>
 
             <ul
-                className="select-auth-menu bg-white h-auto w-[120px] lg:w-[160px] rounded-b-xl mt-36 lg:mt-40 border-zinc-200 border-2 flex flex-col absolute"
+                className="select-auth-menu bg-white h-auto w-[120px] lg:w-[160px] rounded-b-xl mt-40 md:mt-36 lg:mt-40 border-zinc-200 border-2 flex flex-col absolute"
                 style={{
                     pointerEvents: isOpenSelectAuth ? "auto" : "none",
                     clipPath: "inset(10% 50% 90% 50% round 10px)",

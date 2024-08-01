@@ -2,7 +2,11 @@
 
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
+import { PG } from "@/constants/enums/PG";
+import { findUserInfoById, login } from "@/service/auth/actions";
 import { handleError } from "@/service/utils/error";
+import { UserInfoStore, useUserInfoStore } from "@/store/auth/store";
+import { get } from "lodash";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -22,14 +26,13 @@ const initialState: LoginMessageState = {
     result_message: "",
 }
 
-const LoginForm = ({ login }: {
-    login: (prevState: LoginMessageState, formData: FormData)
-        => Promise<{ message: { email?: string[] | undefined; password?: string[] | undefined; }; result_message: string; }>
-}) => {
+const LoginForm = () => {
 
     const { pending } = useFormStatus();
     const [state,formAction]=useFormState(login,initialState);
     const [message,setMessage]=useState<LoginMessageState>(initialState);
+
+    const {get,name,profile,toeicLevel}=useUserInfoStore();
 
     const router=useRouter();
     const handleEmailChange=(event:ChangeEvent<HTMLInputElement>)=>{
@@ -71,7 +74,33 @@ const LoginForm = ({ login }: {
             }));
         }
     };
-    
+
+    const getUserInfo=async()=>{
+        const response = await findUserInfoById();
+        if (response?.status === 200) {
+            useUserInfoStore.setState({
+                get:true,
+                name:response.data?.name,
+                profile:response.data?.profile,
+                toeicLevel:response.data?.toeicLevel
+            });
+
+            if(get){
+                if(name===null){
+                    router.push(`${PG.USER_INFO}`);
+                }else if(toeicLevel===null){
+                    router.push('/score');
+                }else{
+                    router.push('/');
+                }
+            }
+           
+        }else if(response?.status===400){
+            alert(ERROR.INVALID_MEMBER);
+            router.push(`${PG.LOGIN}`);
+        }
+
+    }
     //Refs
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -80,8 +109,8 @@ const LoginForm = ({ login }: {
         console.log(state.result_message);
         router.refresh();
     
-        if(state.result_message==='SUCCESS'){    
-            router.push('/');
+        if(state.result_message==='SUCCESS'){   
+            getUserInfo();
 
         }else{
             handleError(state.result_message);

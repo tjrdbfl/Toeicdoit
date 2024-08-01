@@ -97,6 +97,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                     sameSite: 'lax',
                     httpOnly: true
                 });
+
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -230,6 +231,7 @@ export async function findUserInfoById() {
     } else {
         try {
             const accessToken = cookies().get('accessToken')?.value;
+         
             const userId = cookies().get('userId')?.value;
 
             if (userId !== undefined && accessToken !== undefined) {

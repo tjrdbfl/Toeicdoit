@@ -8,19 +8,16 @@ import { useSidebarMenuAnimation } from "@/constants/styles/animation";
 import SelectAuth from "../auth/SelectAuth";
 import { PG } from "@/constants/enums/PG";
 import { GettingStartedBtn } from "../button/GettingStartedBtn";
-import { IUser } from "@/store/auth/user-model";
+import { useUserInfoStore } from "@/store/auth/store";
+import { useRouter } from "next/navigation";
 
 
-const NavSidebar = ({ userData, isSticky }: {
-  userData: {
-    name: string,
-    profile: string | null,
-  }|undefined,
+const NavSidebar = ({ isSticky }: {
   isSticky: boolean
 }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const scope = useSidebarMenuAnimation(isOpenSidebar);
-
+  const {get,name,profile,toeicLevel}=useUserInfoStore();
 
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky ? 'mx-10' : ''}`}
@@ -46,9 +43,9 @@ const NavSidebar = ({ userData, isSticky }: {
 
         </motion.button>
 
-        {userData === undefined || (userData.name === '' && userData.profile === '')
-          ? <GettingStartedBtn isSticky={isSticky} /> :
-          <SelectAuth name={userData.name} profile={userData.profile} />
+        {get?
+          <SelectAuth name={name} profile={profile} toeicLevel={toeicLevel} />:
+          <GettingStartedBtn isSticky={isSticky} />
         }
 
       </div>
