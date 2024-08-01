@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import {motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Logo from "./Logo";
 import Link from "next/link";
 import LogoIcon from "./LogoIcon";
@@ -11,17 +11,22 @@ import { GettingStartedBtn } from "../button/GettingStartedBtn";
 import { IUser } from "@/store/auth/user-model";
 
 
-const NavSidebar = ({userData,isSticky}:{
-  userData:IUser|null|undefined,
-  isSticky:boolean}) => {
+const NavSidebar = ({ userData, isSticky }: {
+  userData: {
+    name: string,
+    profile: string | null,
+  }|undefined,
+  isSticky: boolean
+}) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const scope = useSidebarMenuAnimation(isOpenSidebar);
 
+
   return (
-    <nav className={`w-full h-[50px] bg-white ${isSticky? 'mx-10':''}`} 
-    ref={scope}
+    <nav className={`w-full h-[50px] bg-white ${isSticky ? 'mx-10' : ''}`}
+      ref={scope}
     >
-      <div className={`w-full h-full flex justify-between gap-8 ${isSticky? '':''}`}>
+      <div className={`w-full h-full flex justify-between gap-8 ${isSticky ? '' : ''}`}>
 
         <div className="flex flex-row items-center">
           <LogoIcon size={25} />
@@ -41,13 +46,11 @@ const NavSidebar = ({userData,isSticky}:{
 
         </motion.button>
 
-        <SelectAuth name={'유리'} level={9}/>
-    
-        {/* {userData?.isLogined ? 
-        <>
-          <SelectAuth name={userData.name} level={userData.toeicLevel}/>
-        </> : <GettingStartedBtn isSticky={isSticky} />}
-       */}
+        {userData === undefined || (userData.name === '' && userData.profile === '')
+          ? <GettingStartedBtn isSticky={isSticky} /> :
+          <SelectAuth name={userData.name} profile={userData.profile} />
+        }
+
       </div>
       <ul
         className="menu-list bg-white h-auto w-full rounded-b-3xl px-10 py-5 mt-1 border-t-zinc-200 border-t-2 flex flex-col justify-start absolute"

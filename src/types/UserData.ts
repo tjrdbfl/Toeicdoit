@@ -10,7 +10,7 @@ export type UserData={
     registration:string;
     oauthId:number;
     role:string;
-    calendarId:0;
+    calendarId:number;
     createdAt:Date;
     updatedAt:Date;
 }

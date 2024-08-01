@@ -1,11 +1,8 @@
 'use client';
 import RegCheckBox from "@/components/auth/RegCheckBox";
-import SubmitButton from "@/components/button/SubmitBtn";
-import { CommonHeader } from "@/config/headers";
-import { SERVER_API } from "@/constants/enums/API";
-import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
-import { MessageData } from "@/types/MessengerData";
+import { existByEmail, register } from "@/service/auth/actions";
+import { handleError } from "@/service/utils/error";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -29,11 +26,7 @@ const initialState: RegisterMessageState = {
     result_message: "",
 }
 
-const RegisterForm = ({ register }: {
-    register: (prevState: RegisterMessageState, formData: FormData)
-        => Promise<{ message: { email?: string[] | undefined; password?: string[] | undefined; name?: string[] | undefined; phone?: string[] | undefined; }; result_message: string; }>
-
-}) => {
+const RegisterForm = () => {
 
     const { pending } = useFormStatus();
     const [message, setMessage] = useState<RegisterMessageState>(initialState);
@@ -41,7 +34,10 @@ const RegisterForm = ({ register }: {
     const [confirm, setConfirm] = useState<boolean>(false);
     const [confirmMsg, setConfirmMsg] = useState<string>('');
     const router = useRouter();
-    const [state, formAction] = useFormState(register, initialState);
+
+    const registerByConfirmEmail=register.bind(null,confirm);
+
+    const [state, formAction] = useFormState(registerByConfirmEmail, initialState);
     
     //Refs
     const nameRef = useRef<HTMLInputElement>(null);
@@ -70,6 +66,7 @@ const RegisterForm = ({ register }: {
             }));
         }
     };
+
     const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length < 1) {
             setMessage((prevState) => ({
@@ -89,6 +86,7 @@ const RegisterForm = ({ register }: {
             }));
         }
     };
+
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length < 1) {
             setMessage((prevState) => ({
@@ -108,6 +106,7 @@ const RegisterForm = ({ register }: {
             }));
         }
     };
+
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length < 1) {
             setMessage((prevState) => ({
@@ -135,37 +134,42 @@ const RegisterForm = ({ register }: {
         setMessage(state);
 
         if (state.result_message === 'SUCCESS') {
+            alert('회원가입을 성공하셨습니다.');
             router.push(`${PG.LOGIN}`);
-        } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
-            alert(state.result_message);
+        } else if(state.result_message==='confirm error'){
+            alert('이메일 중복을 확인해주세요.');
+        }else {
+            handleError(state.result_message);
         }
+
     }, [state.result_message, state.message.email, state.message.password, state.message.name, state.message.phone]);
 
     const existsEmail = async (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log('emailRef.current?.value: ' + emailRef.current?.value);
         event.preventDefault();
+
         if(emailRef.current?.value===''){
             setConfirmMsg('입력 사항을 확인해주세요.'); 
             setConfirm(false);
             return;
         }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.AUTH}/exists-email?email=${emailRef.current?.value}`, {
-            method: 'GET',
-            headers: CommonHeader,
-            cache: 'no-store'
-        });
 
-        const result: MessageData = await response.json();
+        const response = await existByEmail(emailRef.current?.value);
 
-        if (result.message === 'SUCCESS') {
-            setConfirm(false);
-            setConfirmMsg('사용 불가능한 이메일입니다.');
-        } else {
-            setConfirm(true);
-            setConfirmMsg('사용 가능한 이메일입니다.');
+        if(response.message==='SUCCESS'){
+            if(response.data){
+                setConfirm(false);
+                setConfirmMsg('사용 불가능한 이메일입니다.');   
+            }else{
+                setConfirm(true);
+                setConfirmMsg('사용 가능한 이메일입니다.');
+            }
+        }else{
+            handleError(response.message);
         }
 
     };
+
     return (<>
         <form
             action={formAction}
@@ -218,8 +222,8 @@ const RegisterForm = ({ register }: {
                     className="text-black text-[14px] font-medium bg-white border-slate-100 border-2 shadow-md rounded-3xl h-[56px] p-2 hover:bg-slate-50 text-pretty"
                 >이메일 중복 확인</button>
             </div>
-            {confirm ? <p className="mt-2 ml-1 text-green-500">{confirmMsg}</p> : <p className="form_error_msg">{confirmMsg}</p>}
-            {message.message.email && <p className="form_error_msg">{message.message.email}</p>}
+            {confirm ? <p className="mt-2 ml-1 text-green-500 text-[14px]">{confirmMsg}</p> : <p className="form_error_msg">{confirmMsg}</p>}
+            {message.message.email && <p className="form_error_msg text-[14px]">{message.message.email}</p>}
 
             <div className="mt-[5%]" />
             <p className="form_label">비밀번호</p>
@@ -292,8 +296,7 @@ const RegisterForm = ({ register }: {
             <div className="mt-[7%]" />
             <button type="submit"
             className="form_submit_btn"
-            aria-disabled={pending}
-            disabled={pending||confirm}
+            disabled={pending}
             >
             회원가입
         </button>

@@ -1,13 +1,11 @@
-'use server';
-import { register } from "@/service/auth/actions";
-import RegisterForm, { RegisterMessageState } from "@/templates/auth/RegisterForm";
+import RegisterForm from "@/templates/auth/RegisterForm";
 
-export default async function RegisterPage() {
+export default function RegisterPage() {
     
     return (<>
         <div className="form w-[500px] p-10">
             <p className="form_title">회원가입</p>
-            <RegisterForm register={register} />
+            <RegisterForm/>
         </div>
     </>);
 }

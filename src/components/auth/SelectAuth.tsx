@@ -5,9 +5,10 @@ import { useSelectAuthAnimation } from '@/constants/styles/animation';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PG } from '@/constants/enums/PG';
+import Image from 'next/image';
 
-const SelectAuth = ({name,level}:{
-    name:string,level:number
+const SelectAuth = ({name,profile}:{
+    name:string,profile:string|null
 }) => {
     const [isOpenSelectAuth, setIsOpenSelectAuth] = useState(false); 
     const scope = useSelectAuthAnimation(isOpenSelectAuth);
@@ -23,7 +24,20 @@ const SelectAuth = ({name,level}:{
                     onClick={() => setIsOpenSelectAuth(!isOpenSelectAuth)}
                 >
                     <div className="flex flex-row items-center justify-between lg:gap-x-2 mx-[1%]">
-                        <p className=" text-blue-500 font-semibold w-[40px] lg:w-[50px] navSidebar_p"> Lv. {level}</p>
+                        {profile===null? <Image 
+                        src={'/svgs/icons/account-icon-blue.svg'} 
+                        alt={'account-icon-blue'}
+                        width={100}
+                        height={100}
+                        className='w-[30px] lg:w-[35px]'
+                        />:
+                        <Image 
+                        src={profile} 
+                        alt={'user-profile'}
+                        width={100}
+                        height={100}
+                        className='w-[30px] lg:w-[35px]'
+                        />}
                         <p className=" text-black font-semibold w-[50px] lg:w-[60px] navSidebar_p">{name}님</p>
                         <div className="arrow" style={{ transformOrigin: "50% 55%" }}>
                             <svg width="15" height="15" viewBox="0 0 20 20">

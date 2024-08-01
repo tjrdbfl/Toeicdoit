@@ -10,7 +10,10 @@ import { IUser } from '@/store/auth/user-model';
 
 
 const Navbar = ({userData}:{
-  userData?: IUser | null
+  userData:{
+    name:string,
+    profile:string|null,
+  }|undefined
 }) => {
   const [isSticky, setIsSticky] = useState(false);
   

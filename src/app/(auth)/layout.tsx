@@ -13,7 +13,7 @@ export default function AuthLayout({
   
   return (
     <>
-    <Navbar/>
+    <Navbar userData={undefined}/>
       <div className="w-full min-h-screen flex justify-center items-center total_padding py-32">
         {children}
       </div>

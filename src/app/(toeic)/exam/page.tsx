@@ -9,8 +9,9 @@ import Navbar from "@/app/Navbar";
 import Footer from "@/app/Footer";
 import MainHeader from "@/components/common/MainHeader";
 import { MessageData } from "@/types/MessengerData";
+import { findUserInfoById } from "@/service/auth/actions";
 
-export default function ExamPage({ searchParams }: {
+export default async function ExamPage({ searchParams }: {
     searchParams?: {
         query?: string;
         page?: string;
@@ -20,7 +21,22 @@ export default function ExamPage({ searchParams }: {
     const currentPage = Number(searchParams?.page) || 1;
     let totalPages: number = 0;
 
-
+    let userData: {
+        name: string,
+        profile: string | null,
+      }|undefined = {
+        name: "",
+        profile: ""
+      };
+    
+      const response = await findUserInfoById();
+      if (response?.status === 200) {
+        userData = response.data;
+    
+      }else if(response?.status===400){
+        userData=undefined;
+      }
+    
     async function getAllExam(){
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`, {
@@ -47,7 +63,7 @@ export default function ExamPage({ searchParams }: {
     }
    
     return (<>
-        <Navbar />
+        <Navbar userData={userData} />
         <div className="w-full min-h-screen flex flex-col px-16 lg:px-[17%] py-20 ">
             <div className="">
                 <MainHeader label={"기출 모의고사"}/>

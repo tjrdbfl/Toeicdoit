@@ -4,67 +4,85 @@ import Footer from "./Footer";
 import MoveToTopBtn from "@/components/button/MoveToTopBtn";
 import ChatBtn from "@/components/button/ChatBtn";
 import ChatContainer from "@/templates/chat/ChatContainer";
-import { cookies } from "next/headers";
-import { MessageData } from "@/types/MessengerData";
-import { ChatRoomData, Messenger } from "@/types/ChatData";
 import ChatContentContainer from "@/templates/chat/ChatContentContainer";
+import { findUserInfoById } from "@/service/auth/actions";
+import { revalidatePath } from "next/cache";
 
-export default function Home({searchParams}:{
-  searchParams:{roomId:string}
+export default async function Home({ searchParams }: {
+  searchParams: { roomId: string }
 }) {
-  
-  let chatRoom:ChatRoomData[]=[];
-  console.log('searchParams: '+searchParams.roomId);
+
+  let userData: {
+    name: string,
+    profile: string | null,
+  }|undefined = {
+    name: "",
+    profile: ""
+  };
+
+  const response = await findUserInfoById();
+  if (response?.status === 200) {
+    userData = response.data;
+
+    if(response.data?.toeicLevel===null){
+        redirect('/')
+    }
+  }else if(response?.status===400){
+    userData=undefined;
+  }
+
+  console.log('userData: ' + JSON.stringify(userData));
+
   return (
     <>
-    <Navbar userData={null} />
-    <div className="xl:px-[15%] 2xl:px-24">
-      <div className="fixed bottom-5 right-5 z-40">
-        <MoveToTopBtn />
-      </div>
-      <div className="fixed bottom-24 right-5 z-40">
-        <ChatBtn />
-      </div>
-      <ChatContainer />
-      {searchParams.roomId &&<ChatContentContainer roomId={searchParams.roomId}/>}
-      <div className="total_padding">
-        <Hero />
-        <About />
-
-        <div className="relative">
-
-          <div className="gradient-03 z-0" />
-          <div className="xl:px-20">
-          <Explore />
-          </div>
-          </div>
-        
-        <div className="mt-10 xl:px-32">
-        <WhatsNew />
+      <Navbar userData={userData} />
+      <div className="xl:px-[15%] 2xl:px-24">
+        <div className="fixed bottom-5 right-5 z-40">
+          <MoveToTopBtn />
         </div>
-        
-        <div className="mt-20 px-32" >
-        <World />
+        <div className="fixed bottom-24 right-5 z-40">
+          <ChatBtn />
         </div>
-        
-        <div className="relative">
-          <div className="mt-10 xl:px-32" >
-          <GetStarted />
-          </div>
-          </div>
-        <div className="mt-[7%]" />
+        <ChatContainer />
+        {searchParams.roomId && <ChatContentContainer roomId={searchParams.roomId} />}
+        <div className="total_padding">
+          <Hero />
+          <About />
 
-        <div className="relative">
-          <div className="mt-10">
-          <Review />
-          </div>
+          <div className="relative">
+
+            <div className="gradient-03 z-0" />
+            <div className="xl:px-20">
+              <Explore />
+            </div>
           </div>
 
-        <div className="mt-[7%] z-20" />
-        <FooterStarted />
+          <div className="mt-10 xl:px-32">
+            <WhatsNew />
+          </div>
+
+          <div className="mt-20 px-32" >
+            <World />
+          </div>
+
+          <div className="relative">
+            <div className="mt-10 xl:px-32" >
+              <GetStarted />
+            </div>
+          </div>
+          <div className="mt-[7%]" />
+
+          <div className="relative">
+            <div className="mt-10">
+              <Review />
+            </div>
+          </div>
+
+          <div className="mt-[7%] z-20" />
+          <FooterStarted />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
     </>
   );
 }

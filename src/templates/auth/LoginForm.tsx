@@ -79,13 +79,14 @@ const LoginForm = ({ login }: {
     useEffect(() => {
         console.log(state.result_message);
         router.refresh();
-       
+    
         if(state.result_message==='SUCCESS'){    
             router.push('/');
 
         }else{
             handleError(state.result_message);
         }
+
     }, [state.result_message]);
 
     return (<>

@@ -7,13 +7,14 @@ import { UploadMessage } from "@/templates/auth/ProfileForm";
 import { RegisterMessageState } from "@/templates/auth/RegisterForm";
 import { MessageData, PayloadData } from "@/types/MessengerData";
 import { LoginSchema, RegisterSchema } from "@/types/schemas";
-import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest } from "@/types/UserData";
+import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest, UserDataPublic } from "@/types/UserData";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { extractCookie } from "../utils/extract";
 import { PG } from "@/constants/enums/PG";
 import { jwtDecode } from "jwt-decode";
 import { UserInfoMessage } from "@/templates/auth/UserInfoForm";
+import { checkTokenExist } from "../utils/token";
 
 export async function login(prevState: LoginMessageState, formData: FormData) {
 
@@ -30,22 +31,22 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         email: validatedFields.data.email,
         password: validatedFields.data.password
     }
-    
+
     try {
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/login/local`, {
             method: 'POST',
             headers: CommonHeader,
             body: JSON.stringify(data),
-            cache:'no-store'
+            cache: 'no-store'
         })
 
-        console.log('response: '+JSON.stringify(response.status));
-        if(response.status===200){
+        console.log('response: ' + JSON.stringify(response.status));
+        if (response.status === 200) {
             const cookieAccessString = response.headers.getSetCookie()[0];
             const cookieRefreshString = response.headers.getSetCookie()[1];
-    
-    
+
+
             cookies().set({
                 name: 'accessToken',
                 value: extractCookie(cookieAccessString, 'accessToken'),
@@ -55,7 +56,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 sameSite: 'lax',
                 httpOnly: true,
             });
-    
+
             cookies().set({
                 name: 'refreshToken',
                 value: extractCookie(cookieRefreshString, 'refreshToken'),
@@ -65,11 +66,11 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 sameSite: 'lax',
                 httpOnly: true
             });
-    
+
             const payload = jwtDecode<PayloadData>(cookieAccessString);
-            
+
             if (payload !== undefined) {
-    
+
                 cookies().set({
                     name: 'email',
                     value: payload.sub,
@@ -78,7 +79,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                     sameSite: 'lax',
                     httpOnly: true
                 });
-    
+
                 cookies().set({
                     name: 'roles',
                     value: payload.roles[0],
@@ -100,77 +101,88 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
             }
-            
-           
-        }else if(response.status===401){
-            return {...prevState,result_message:ERROR.INVALID_MEMBER};
-        }else{
+
+
+        } else if (response.status === 401) {
+            return { ...prevState, result_message: ERROR.INVALID_MEMBER };
+        } else {
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
         }
-        
+
     } catch (err) {
         console.log(err);
         return { ...prevState, result_message: ERROR.SERVER_ERROR };
     }
 }
 
-export async function register(prevState: RegisterMessageState, formData: FormData) {
-    const validatedFields = RegisterSchema.safeParse({
-        email: formData.get('email'),
-        password: formData.get('password'),
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-    });
-    if (!validatedFields.success) {
-        console.log('RegisterSchema: ' + JSON.stringify(validatedFields.error.flatten().fieldErrors));
-        return { ...prevState, message: validatedFields.error.flatten().fieldErrors };
+export async function register(confirm: boolean, prevState: RegisterMessageState, formData: FormData) {
+
+    if (!confirm) {
+        return { ...prevState, result_message: 'confirm error' };
     }
-    const data: I_ApiUserRegisterRequest = {
-        email: validatedFields.data.email,
-        password: validatedFields.data.password,
-        phone: validatedFields.data.phone,
-        name: validatedFields.data.name
-    }
-    console.log('Received form data: ', data);
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.AUTH}/join`, {
-            method: 'POST',
-            headers: CommonHeader,
-            body: JSON.stringify(data),
-            cache: 'no-store'
-        })
-        const result: MessageData = await response.json();
-        console.log(JSON.stringify(result));
-        if (result.message === 'SUCCESS') {
-            return { ...prevState, result_message: 'SUCCESS' };
-        } else {
+    else {
+        const validatedFields = RegisterSchema.safeParse({
+            email: formData.get('email'),
+            password: formData.get('password'),
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+        });
+    
+        console.log('register: '+validatedFields.success);
+        if (!validatedFields.success) {
+            console.log('RegisterSchema: ' + JSON.stringify(validatedFields.error.flatten().fieldErrors));
+            return { ...prevState, message: validatedFields.error.flatten().fieldErrors };
+        }
+        const data: I_ApiUserRegisterRequest = {
+            email: validatedFields.data.email,
+            password: validatedFields.data.password,
+            phone: validatedFields.data.phone,
+            name: validatedFields.data.name
+        }
+        console.log('Received form data: ', data);
+    
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.AUTH}/join/local`, {
+                method: 'POST',
+                headers: CommonHeader,
+                body: JSON.stringify(data),
+                cache: 'no-store'
+            })
+            const result: MessageData = await response.json();
+            console.log(JSON.stringify(result));
+    
+            if (result.message === 'SUCCESS') {
+                return { ...prevState, result_message: 'SUCCESS' };
+            } else {
+                return { ...prevState, result_message: ERROR.SERVER_ERROR };
+            }
+        } catch (err) {
+            console.log(err);
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
         }
-    } catch (err) {
-        console.log(err);
-        return { ...prevState, result_message: ERROR.SERVER_ERROR };
     }
+    
 }
 
 export async function logout() {
 
     console.log('logout');
 
-    try{
-        const accessToken=cookies().get('accessToken')?.value;
-        const refreshToken=cookies().get('refreshToken')?.value;
-        
-        if(accessToken!==undefined){
-            const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/logout`,{
-                method:'POST',
-                headers:AuthorizeHeader(accessToken),
-                cache:'no-store'
+    try {
+        const accessToken = cookies().get('accessToken')?.value;
+        const refreshToken = cookies().get('refreshToken')?.value;
+
+        if (accessToken !== undefined) {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/logout`, {
+                method: 'POST',
+                headers: AuthorizeHeader(accessToken),
+                cache: 'no-store'
             });
 
-            console.log('response logout: '+JSON.stringify(response.status));
-            console.log('response logout: '+JSON.stringify(response.statusText));
+            console.log('response logout: ' + JSON.stringify(response.status));
+            console.log('response logout: ' + JSON.stringify(response.statusText));
 
-            if(response.status===200){
+            if (response.status === 200) {
 
                 cookies().delete('accessToken');
                 cookies().delete('refreshToken');
@@ -179,9 +191,9 @@ export async function logout() {
                 cookies().delete('userId');
                 cookies().delete('name');
 
-                return {message:'SUCCESS'};
+                return { message: 'SUCCESS' };
 
-            }else if(response.status===401){
+            } else if (response.status === 401) {
 
                 //return {message:ERROR.INVALID_MEMBER};
                 cookies().delete('accessToken');
@@ -191,18 +203,90 @@ export async function logout() {
                 cookies().delete('userId');
                 cookies().delete('name');
 
-                return {message:'SUCCESS'};
+                return { message: 'SUCCESS' };
 
-            }else{
-                return {message:ERROR.SERVER_ERROR};
+            } else {
+                return { message: ERROR.SERVER_ERROR };
             }
         }
-        
-    }catch(err){
-        return {message:ERROR.SERVER_ERROR};
+
+    } catch (err) {
+        return { message: ERROR.SERVER_ERROR };
     }
 
 }
+
+
+export async function findUserInfoById() {
+
+    console.log('findUserInfoById');
+
+    const checkResposnse = await checkTokenExist();
+
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+        try {
+            const accessToken = cookies().get('accessToken')?.value;
+            const userId = cookies().get('userId')?.value;
+
+            if (userId !== undefined && accessToken !== undefined) {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${userId}`, {
+                    method: 'GET',
+                    headers: AuthorizeHeader(accessToken),
+                    cache: 'no-store'
+                });
+
+                const result = await response.json();
+                console.log('home: ' + JSON.stringify(result));
+
+                if (result.status === 400) {
+                    return { status: 400 };
+                } else {
+                    return {
+                        data: {
+                            name: result.name,
+                            profile: result.profile,
+                            toeicLevel:result.toeicLevel,
+                        }, status: 200
+                    };
+                }
+
+            }
+
+        } catch (err) {
+            return { status: 500 };
+        }
+
+    }
+
+}
+
+export async function existByEmail(email: string | undefined) {
+
+    if (email === undefined) {
+        return { message: ERROR.INVALID_INPUT };
+    } else {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.AUTH}/exist-by-email?email=${email}`, {
+                method: 'GET',
+                headers: CommonHeader,
+                cache: 'no-store'
+            });
+
+            const result: boolean = await response.json();
+
+            return { data: result, message: 'SUCCESS' };
+
+        } catch (err) {
+            return { message: ERROR.SERVER_ERROR };
+        }
+    }
+
+}
+
 export async function uploadFiles(prevState: UploadMessage, formData: FormData) {
     const file = formData.get('file') as File;
     console.log('rawFormData: ' + JSON.stringify(file));
@@ -230,35 +314,35 @@ export async function uploadFiles(prevState: UploadMessage, formData: FormData) 
     }
 }
 
-export async function modifyUserInfo(prevState:UserInfoMessage,formData:FormData){
-    const rawFormData={
-        name:formData.get('name')?.toString(),
-        phone:formData.get('phone')?.toString(),
+export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormData) {
+    const rawFormData = {
+        name: formData.get('name')?.toString(),
+        phone: formData.get('phone')?.toString(),
     }
 
-    if(rawFormData.name==='' || rawFormData.phone===''){
-        if(rawFormData.name===''){
-            return {...prevState,name_message:'필수 항목입니다.'}
+    if (rawFormData.name === '' || rawFormData.phone === '') {
+        if (rawFormData.name === '') {
+            return { ...prevState, name_message: '필수 항목입니다.' }
         }
-        if(rawFormData.phone===''){
-            return {...prevState,phone_message:'필수 항목입니다.'}
+        if (rawFormData.phone === '') {
+            return { ...prevState, phone_message: '필수 항목입니다.' }
         }
     }
 
-    const response=await fetch(``,{
-        method:'PUT',
-        headers:CommonHeader,
-        body:JSON.stringify(rawFormData),
-        cache:'no-store'
+    const response = await fetch(``, {
+        method: 'PUT',
+        headers: CommonHeader,
+        body: JSON.stringify(rawFormData),
+        cache: 'no-store'
     });
 
-    const result:MessageData=await response.json();
+    const result: MessageData = await response.json();
 
-    if(result.message==='SUCCESS'){
+    if (result.message === 'SUCCESS') {
         revalidatePath(`${PG.USER_INFO}?modify=true`);
-        return {...prevState,result_message:'SUCCESS'};
-    }else{
-        return {...prevState,result_message:ERROR.SERVER_ERROR};
+        return { ...prevState, result_message: 'SUCCESS' };
+    } else {
+        return { ...prevState, result_message: ERROR.SERVER_ERROR };
     }
 
 }

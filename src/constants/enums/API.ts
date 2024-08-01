@@ -1,8 +1,8 @@
 export const enum SERVER{
-    USER='user/api',
+    USER='user',
     CHAT='chat',
-    TX='tx/api',
-    TOEIC='toeic/api',
+    TX='tx',
+    TOEIC='toeic',
     AUTH='auth'
 }
 export const enum SERVER_API{

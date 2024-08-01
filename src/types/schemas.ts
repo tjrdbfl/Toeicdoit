@@ -51,7 +51,7 @@ export const RegisterSchema = z.object({
     phone: z
     .string()
     .min(1,{message:'필수 항목입니다.'})
-    .regex(/^010\d{8}$/, { message: "유효한 휴대폰 번호 형식이 아닙니다. (예: 01012345678)" })
+    .regex(/^010\d{7,8}$/, { message: "유효한 휴대폰 번호 형식이 아닙니다. (예: 01012345678)" })
 
 })
 
