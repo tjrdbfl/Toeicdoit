@@ -3,6 +3,7 @@ import SubmitButton from "@/components/button/SubmitBtn";
 import { chatCategory, chatCategoryType } from "@/constants/chat/constant";
 import { ERROR } from "@/constants/enums/ERROR";
 import { saveRoom } from "@/service/chat/actions";
+import { handleError } from "@/service/utils/error";
 import { initialMessageState } from "@/types/MessengerData";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -31,12 +32,11 @@ export default function CreateChatForm({setCreate}:{
 
     useEffect(() => {
         console.log('state.message: '+state.message);
-        if (state?.message === ERROR.INVALID_INPUT) {
-            alert('입력 항목을 확인해주세요.');
-        }else if(state.message==='SUCCESS'){
+
+        if(state.message==='SUCCESS'){
             setCreate(false);
-        }else if(state.message===ERROR.INVALID_INPUT){
-            alert(ERROR.INVALID_INPUT);
+        }else{
+            handleError(state.message);
         }
 
     }, [state?.message]);

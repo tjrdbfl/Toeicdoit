@@ -38,14 +38,28 @@ export async function checkTokenExist() {
 
     if (accessToken === undefined && refreshToken !== undefined) {
         if (refreshToken === undefined) {
+            console.log('checkTokenExist: logout');
             logout();
+
+            return {message:'LOGOUT'};
         }else{
-            getAccessToken(refreshToken);       
+            console.log('checkTokenExist: getAccessToken');
+        
+            const response=await getAccessToken(refreshToken);       
+
+            if(response?.status===200){
+                return {status:200};
+            }else if(response?.status===401){
+                return {status:401};
+            }else{
+                return {message:500};
+            }
         }
     }
 }
 
 export async function getAccessToken(token: string) {
+    'use server';
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/refresh`, {
@@ -53,69 +67,68 @@ export async function getAccessToken(token: string) {
             headers: AuthorizeHeader(token),
             cache: 'no-store',
         });
-
         console.log('getAccessToken: ' + response.status);
 
-        if (response.status === 200) {
+        if(response.status===401){
+            return {status:401};
+        }
+        else if (response.status === 200) {
             const cookieAccessString = response.headers.getSetCookie()[0];
-            console.log('getAccessToken: ' + cookieAccessString);
+           
+            cookies().set({
+                name: 'accessToken',
+                value: extractCookie(cookieAccessString, 'accessToken'),
+                path: '/',
+                maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true,
+            });
 
-            if (cookieAccessString !== undefined) {
+           
+            const payload = jwtDecode<PayloadData>(cookieAccessString);
+
+            if (payload !== undefined) {
+
                 cookies().set({
-                    name: 'accessToken',
-                    value: extractCookie(cookieAccessString, 'accessToken'),
-                    path: '/',
+                    name: 'email',
+                    value: payload.sub,
                     maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
                     expires: new Date(extractCookie(cookieAccessString, 'Expires')),
                     sameSite: 'lax',
-                    httpOnly: true,
+                    httpOnly: true
                 });
 
-                const payload = jwtDecode<PayloadData>(cookieAccessString);
+                cookies().set({
+                    name: 'roles',
+                    value: payload.roles[0],
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true
+                });
 
-                if (payload !== undefined) {
-
-                    cookies().set({
-                        name: 'email',
-                        value: payload.sub,
-                        maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                        sameSite: 'lax',
-                        httpOnly: true
-                    });
-
-                    cookies().set({
-                        name: 'roles',
-                        value: payload.roles[0],
-                        maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                        sameSite: 'lax',
-                        httpOnly: true
-                    });
-
-                    cookies().set({
-                        name: 'userId',
-                        value: payload.id.toString(),
-                        maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                        sameSite: 'lax',
-                        httpOnly: true
-                    });
-
-                    return { message: 'SUCCESS' };
-                } else {
-                    logout();
-                    return { message: ERROR.INVALID_MEMBER };
-                }
+                cookies().set({
+                    name: 'userId',
+                    value: payload.id.toString(),
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true
+                });
+    
             }
-        } else {
-            logout();
-            return { message: ERROR.SERVER_ERROR };
-        }
+
+            console.log('getAccessToken cookie: '+cookies().get('accessToken')?.value);
+            console.log('getAccessToken cookie: '+cookies().get('userId')?.value);
+            console.log('getAccessToken cookie: '+cookies().get('roles')?.value);
+            console.log('getAccessToken cookie: '+cookies().get('email')?.value);
+
+            return { status: 200 };
+        } 
 
     } catch (err) {
-        logout();
-        return { message: ERROR.SERVER_ERROR };
+        return { status: 500 };
     }
 
 }

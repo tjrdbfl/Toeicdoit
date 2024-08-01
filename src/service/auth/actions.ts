@@ -102,6 +102,8 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             }
             
            
+        }else if(response.status===401){
+            return {...prevState,result_message:ERROR.INVALID_MEMBER};
         }else{
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
         }

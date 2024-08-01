@@ -15,7 +15,7 @@ const ChatCard = ({ chat }: {
         <Link
             href={`?chat=true&roomId=${chat.id}`}
             key={chat.id}
-            className="bg-white w-full h-[120px] border-b-slate-200 border-b-2 flex flex-col px-3 justify-center hover:bg-slate-50"
+            className="bg-white w-full h-[100px] border-b-slate-200 border-b-2 flex flex-col px-3 justify-center hover:bg-slate-50"
         >
             <div className="flex flex-row justify-between chats-center gap-x-2">
                 <div className="flex flex-col">
@@ -46,8 +46,8 @@ const ChatCard = ({ chat }: {
                 <Image
                     src={ChatRoomPhoto(chat.roomCategories[0])}
                     alt={"chat-roon-profile"}
-                    width={120}
-                    height={90}
+                    width={100}
+                    height={80}
                     className="flex justify-center chats-center border-slate-100 border-2 rounded-xl p-2"
                 />
             </div>

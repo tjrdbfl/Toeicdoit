@@ -24,7 +24,7 @@ const CreateChatBtn = () => {
         </button>
         {create && <>
             <dialog
-                className="fixed inset-0 z-20 flex justify-end items-end"
+                className="fixed inset-0 z-20 flex justify-end items-end mr-40 mb-40"
             >
                 <div
                     className="bg-blue-100 w-[400px] h-[450px] shadow-lg border-slate-200 border-2 p-5"

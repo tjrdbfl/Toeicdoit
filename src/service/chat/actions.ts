@@ -19,42 +19,61 @@ export async function findUserChatRoom({
     console.log('findUserChatRoom category: ' + category);
     let field: string = 'all';
     let chat: ChatRoomData[] = [];
-    const cookieStore = cookies();
-    const accessToken = cookieStore.get('accessToken')?.value;
-    const refreshToken = cookieStore.get('refreshToken')?.value;
-
+    
     if (category !== 'all') {
         field = 'roomCategories';
     }
 
-    if (accessToken === undefined && refreshToken === undefined) {
-        return { message: ERROR.INVALID_MEMBER };
-    }
-    else {
-        checkTokenExist();
-
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/find-by?field=${field}&value=${category}&page=${pageParam}&size=10&sort=updatedAt,desc`, {
-                method: 'GET',
-                headers: AuthorizeHeader(accessToken),
-                cache: 'no-store'
-            });
-
-            const result: MessageData = await response.json();
-            console.log('findUserChatRoom: ' + result);
-
-            if (result.count !== 0) {
-                chat = result.data as ChatRoomData[];
-
-                const nextPage = chat.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
-
-                return {
-                    data: chat,
-                    currentPage: pageParam,
-                    nextPage: nextPage,
-                    error: false,
-                };
-            } else {
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const cookieStore = cookies();
+        const accessToken = cookieStore.get('accessToken')?.value;
+        const refreshToken = cookieStore.get('refreshToken')?.value;
+        
+        if (accessToken === undefined && refreshToken === undefined) {
+            return { message: ERROR.INVALID_MEMBER };
+        }
+        else {
+            checkTokenExist();
+    
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/find-by?field=${field}&value=${category}&page=${pageParam}&size=10&sort=updatedAt,desc`, {
+                    method: 'GET',
+                    headers: AuthorizeHeader(accessToken),
+                    cache: 'no-store'
+                });
+    
+                const result: MessageData = await response.json();
+                console.log('findUserChatRoom: ' + result);
+    
+                if (result.count !== 0) {
+                    chat = result.data as ChatRoomData[];
+    
+                    const nextPage = chat.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
+    
+                    return {
+                        data: chat,
+                        currentPage: pageParam,
+                        nextPage: nextPage,
+                        error: false,
+                    };
+                } else {
+                    return {
+                        data: chat,
+                        currentPage: pageParam,
+                        nextPage: null,
+                        error: true,
+                        message: ERROR.SERVER_ERROR
+                    };
+                }
+            }
+            catch (err) {
+                console.log('Failed to findUserChatRoom: ', err);
                 return {
                     data: chat,
                     currentPage: pageParam,
@@ -64,17 +83,8 @@ export async function findUserChatRoom({
                 };
             }
         }
-        catch (err) {
-            console.log('Failed to findUserChatRoom: ', err);
-            return {
-                data: chat,
-                currentPage: pageParam,
-                nextPage: null,
-                error: true,
-                message: ERROR.SERVER_ERROR
-            };
-        }
     }
+    
 }
 
 export async function fetchChatRoom({
@@ -85,21 +95,21 @@ export async function fetchChatRoom({
 
     let chat: ChatRoomData[] = [];
     let field: string = 'all';
-    
+   
     if (category !== 'all') {
         field = 'roomCategories';
     }
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.CHAT}/${SERVER_API.PUBLIC_ROOM}/find-by?field=${field}&value=${category}&page=${pageParam}&size=10&sort=updatedAt,desc`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.CHAT}/${SERVER_API.PUBLIC_ROOM}/find-by?field=${category!=='all'?'roomCategories':'all'}&value=${category}&page=${pageParam}&size=10&sort=updatedAt,desc`, {
             method: 'GET',
             headers: CommonHeader,
             cache: 'no-store'
         });
-        
+
         const result: MessageData = await response.json();
 
-        if (!result.state) {
+        if (result.count===0) {
             return {
                 data: chat,
                 currentPage: pageParam,
@@ -108,9 +118,9 @@ export async function fetchChatRoom({
                 message: ERROR.SERVER_ERROR
             };
         } else {
-
+            //console.log('else');
             chat = result.data as ChatRoomData[];
-
+        
             const nextPage = chat.length === ITEMS_PER_PAGE ? pageParam + 1 : null;
             console.log('nextPage: ' + nextPage);
             console.log('currentPage: ' + pageParam);
@@ -145,35 +155,44 @@ export async function saveRoom(category: string[], prevState: MessageState, form
         return { message: ERROR.INVALID_INPUT };
     }
 
-    const accessToken = cookies().get('accessToken')?.value;
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
 
-    if (accessToken !== undefined) {
-        checkTokenExist();
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/save`, {
-            method: 'POST',
-            body: JSON.stringify({
-                title,
-                roomCategories: category,
-                adminIds: ["test admin ID"]
-            }),
-            headers: AuthorizeHeader(accessToken),
-            cache: 'no-store'
-        });
-
-        const result: MessageData = await response.json();
-
-        if (result.state) {
-            revalidatePath('/?chat=true');
-            return { message: 'SUCCESS' };
+    
+        if (accessToken !== undefined) {
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/save`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    title,
+                    roomCategories: category,
+                    adminIds: ["test admin ID"]
+                }),
+                headers: AuthorizeHeader(accessToken),
+                cache: 'no-store'
+            });
+    
+            const result: MessageData = await response.json();
+    
+            if (result.state) {
+                revalidateTag('chat');
+                return { message: 'SUCCESS' };
+            } else {
+                return { message: ERROR.SERVER_ERROR };
+            }
+    
         } else {
-            return { message: ERROR.SERVER_ERROR };
+            return { message: ERROR.INVALID_MEMBER };
         }
-
-    } else {
-        return { message: ERROR.INVALID_MEMBER };
+    
     }
-
+   
 }
 
 export async function updateRoomById(category: string[], prevState: MessageState, formData: FormData) {
@@ -184,6 +203,8 @@ export async function updateRoomById(category: string[], prevState: MessageState
         return { message: ERROR.INVALID_INPUT };
     }
 
+    checkTokenExist();
+        
     const accessToken = cookies().get('accessToken')?.value;
 
     if (accessToken !== undefined) {
