@@ -14,7 +14,7 @@ export async function saveFree(prevState: FreeMessageState, formData: FormData) 
 
     
     const validatedFields = FreeSaveSchema.safeParse({
-        category: formData.get('category'),
+        
         title: formData.get('title'),
         content: formData.get('content')
     })

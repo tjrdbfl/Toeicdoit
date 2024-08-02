@@ -76,12 +76,16 @@ export default function FreeSaveForm() {
             action={formAction}
             className="p-5"
         >
-            <div>
-                <label htmlFor="type"
-                    className="form_label"
-                >카테고리</label>
-                <div className="mt-3" />
-                <select
+             <div className="flex flex-row gap-x-5 mt-5">
+            <div className="flex flex-row gap-x-2 w-[100px]">
+              <label htmlFor="category" className="form_label">
+                카테고리
+              </label>
+              <p className="text-red-500">*</p>
+            </div>
+
+            <div className="mt-3" />
+            <select
                     name="category"
                     id="category"
                     required
@@ -92,32 +96,46 @@ export default function FreeSaveForm() {
                     <option value="문의">문의</option>
                     <option value="시험 후기">시험 후기</option>
                 </select>
-            </div>
+          </div>
             <p aria-live="polite" className="sr-only text-red-500 mt-1">{message.message.category}</p>
 
 
-            <div className="mt-5">
-                <label htmlFor="title"
-                    className="form_label"
-                >제목</label>
-                <div className="mt-3" />
-                <input type="text" name="title" id="title"
+            <div className="flex flex-row gap-x-5 mt-10">
+            <div className="flex flex-row gap-x-2 w-[100px]">
+              <label htmlFor="title" className="form_label">
+                제목
+              </label>
+              <p className="text-red-500">*</p>
+            </div>
+
+            <div className="mt-3" />
+            <div className="flex flex-col w-full">
+            <input type="text" name="title" id="title"
                     required
                     className="form_input"
                     placeholder="필수 항목입니다."
                     disabled={pending}
                     onChange={handleTitleChange}
                 />
+              {message.message.title && (
+                <p aria-live="polite" className="text-red-500 mt-2 text-[13px]">
+                  {message.message.title}
+                </p>
+              )}
             </div>
-            {message.message.title && <p aria-live="polite" className="text-red-500 mt-1">{message.message.title}</p>}
+          </div>
+            
+          <div className="flex flex-row gap-x-5 mt-10">
+          <div className="flex flex-row gap-x-2 w-[100px]">
+          <label htmlFor="content" className="form_label">
+          내용
+            </label>
+            <p className="text-red-500">*</p>
+          </div>
 
-
-            <div className="mt-5">
-                <label htmlFor="content"
-                    className="form_label"
-                >내용</label>
-                <div className="mt-3" />
-                <textarea
+          <div className="mt-3" />
+          <div className="flex flex-col w-full">
+          <textarea
                     name="content"
                     id="content"
                     required
@@ -128,15 +146,18 @@ export default function FreeSaveForm() {
                     onChange={handleContentChange}
                     disabled={pending}
                 />
-                <div className="flex flex-row justify-between mt-1">
-                {message.message.content && ( // error_message가 있으면 오류 메시지 표시
-                    <p aria-live="polite" className="text-red-500 mt-1">{message.message.content}</p>
-                )}
-                <p className="text-slate-500 text-end text-lg font-medium">{charCount}자/1000자</p>
-                
-                </div>
-                
-            </div>
+            <div className="flex flex-row justify-between mt-1">
+            {message.message.content && ( // error_message가 있으면 오류 메시지 표시
+              <p aria-live="polite" className="text-red-500 mt-1 text-[13px]">
+                {message.message.content}
+              </p>
+            )}
+            <p className="text-slate-500 text-end font-medium text-[14px]">
+              {charCount}자/1000자
+            </p>
+          </div>
+          </div>
+        </div>
 
             <div className="mt-10" />
             {/* <SubmitButton label={"등록하기"} /> */}

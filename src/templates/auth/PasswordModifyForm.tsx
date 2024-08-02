@@ -7,7 +7,6 @@ import { findUserInfoById, login } from "@/service/auth/actions";
 import { handleError } from "@/service/utils/error";
 import { UserInfoStore, useUserInfoStore } from "@/store/auth/store";
 import { get } from "lodash";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -27,13 +26,19 @@ const initialState: LoginMessageState = {
     result_message: "",
 }
 
-const LoginForm = () => {
+const PasswordModifyForm = () => {
 
     const { pending } = useFormStatus();
     const [state,formAction]=useFormState(login,initialState);
     const [message,setMessage]=useState<LoginMessageState>(initialState);
     const [click,setClick]=useState<boolean>(false);
-
+   
+     //Refs
+     const emailRef = useRef<HTMLInputElement>(null);
+     const passwordRef = useRef<HTMLInputElement>(null); 
+    const passwordConfirmRef = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState<string>('');
+    
     const {get,name,profile,toeicLevel}=useUserInfoStore();
 
     const router=useRouter();
@@ -104,9 +109,6 @@ const LoginForm = () => {
         }
 
     }
-    //Refs
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
     
     useEffect(() => {
         console.log(state.result_message);
@@ -168,13 +170,38 @@ const LoginForm = () => {
                 }}
             />
             {message.message.password && <p aria-live="polite"  className="form_error_msg">{message.message.password}</p>}
-            <div className="mt-[7%]" />
-            <SubmitButton label={"로그인"} 
+            
+            <div className="mt-[5%]" />
+            <p className="form_label">비밀번호 확인</p>
+            <div className="mt-3"/>
+            
+            <input
+                type='password'
+                className="form_input"
+                placeholder="비밀번호를 다시 입력해주세요."
+                ref={passwordConfirmRef}
+                onChange={() => {
+                    if (passwordConfirmRef.current?.value !== passwordRef.current?.value) {
+                        setError('비밀번호가 일치하지 않습니다.');
+                    } else {
+                        setError('');
+                    }
+                }}
+                disabled={pending}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        e.currentTarget.focus();
+                    }
+                }}
+            />
+            {error && <p className="form_error_msg">{error}</p>}
+
+            <div className="mt-10" />
+            <SubmitButton label={"변경하기"} 
             click={click} 
             setClick={setClick} />
-           
         </form>
 
     </>);
 }
-export default LoginForm;
+export default PasswordModifyForm;

@@ -13,9 +13,9 @@ export default function LoginPage() {
             <LoginForm/>
             <GoogleAuthBtn />
             <Link
-            href={`${PG.LOGIN}/find`}
+            href={`${PG.LOGIN}/modify`}
             className="text-zinc-700 underline"
-            >비밀번호 찾기</Link>
+            >비밀번호 변경</Link>
             <div className="mt-5"/>
             <p className="text-black">아직 계정이 없으신가요?</p>
             <RegisterBtn />
