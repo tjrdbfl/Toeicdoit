@@ -16,6 +16,7 @@ import { SERVER_API } from "@/constants/enums/API";
 import { useRouter } from "next/navigation";
 import { ERROR } from "@/constants/enums/ERROR";
 import LinkIcon from "@/components/common/LinkIcon";
+import { MessageData } from "@/types/MessengerData";
 
 
 export interface I_ApiFreeSaveResponse {
@@ -32,13 +33,13 @@ const CalendarContainer = ({
 
     const [events, setEvents] = useState([
         { title: '출석', id: '1', color: '#CAF4FF' },
-        { title: '토익 시험일', id: '2' , color: '#fee2e2' },
+        { title: '토익 시험일', id: '2', color: '#fee2e2' },
         { title: '성적 발표일', id: '3', color: '#d1fae5' },
     ]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [allEvents, setAllEvents] = useState<IEvent[]>(event);
-    const [newEvents,setNewEvents]=useState<IEvent[]>([]);
+    const [allEvents, setAllEvents] = useState<IEvent[]>(event || []);
+    const [newEvents, setNewEvents] = useState<IEvent[]>([]);
     const [newEvent, setNewEvent] = useState<IEvent>({
         title: '',
         start: '',
@@ -48,8 +49,8 @@ const CalendarContainer = ({
         userId: userId,
     });
     const [idToDelete, setIdToDelete] = useState<number | null>(null);
-    const router=useRouter();
-    
+    const router = useRouter();
+
     function handleDateClick(arg: { date: Date; allDay: boolean }) {
 
         setNewEvent({
@@ -59,13 +60,13 @@ const CalendarContainer = ({
             , allDay: arg.allDay
             , id: new Date().getTime()
         });
-        
+
         setShowModal(true);
     }
 
 
     function addEvent(data: DropArg) {
-       
+
         const event = {
             ...newEvent,
             start: data.date.toISOString(),
@@ -74,7 +75,7 @@ const CalendarContainer = ({
             allDay: true,
             id: new Date().getTime(),
         };
-        setNewEvents((prevEvents)=> [...prevEvents,event]);
+        setNewEvents((prevEvents) => [...prevEvents, event]);
         setAllEvents((prevEvents) => [...prevEvents, event]);
     }
 
@@ -91,42 +92,43 @@ const CalendarContainer = ({
     const handleSave = async () => {
 
         const eventsToSave = newEvents.map(event => ({
-            id:event.id,
-            userId:userId,
-            isAllDay:true,
-            title:event.title,
+            userId: userId,
+            isAllDay: true,
+            title: event.title,
             startTime: event.start,
-            endTime: event.end, 
+            endTime: event.end,
         }));
 
-        if(eventsToSave.length===0){
-            alert('일정을 생성해주세요');
-            return;
-        }
-        console.log('newEvents:', eventsToSave);
-        
-        try{
-            const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/save`,{
-                method:'POST',
-                headers:CommonHeader,
-                body:JSON.stringify(eventsToSave),
-                cache:'no-store'
+        console.log('newEvents:', JSON.stringify(eventsToSave));
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/save`, {
+                method: 'POST',
+                headers: CommonHeader,
+                body: JSON.stringify(eventsToSave),
+                cache: 'no-store'
             });
-        
-            const result:string=await response.json();
-    
-            console.log('result: '+JSON.stringify(result))
-            if(result==='SUCCESS'){
+
+
+            const result: MessageData = await response.json();
+
+            console.log('handleSave: '+JSON.stringify(result));
+
+            if (result.state) {
                 alert('일정 저장에 성공했습니다.');
                 router.refresh();
-            }else{
+            } else {
                 alert('일정 저장에 실패했습니다.');
                 router.refresh();
+
+                return { status: 500 };
             }
-        }catch(err){
+
+        } catch (err) {
+            console.log(err);
             alert(ERROR.SERVER_ERROR);
         }
-       
+
     }
 
 
@@ -159,7 +161,7 @@ const CalendarContainer = ({
         e.preventDefault();
         setAllEvents((prevEvents) => [...prevEvents, newEvent]);
         setNewEvents((prevEvents) => [...prevEvents, newEvent]);
-        
+
         setShowModal(false);
         setNewEvent({
             title: '',
@@ -172,7 +174,7 @@ const CalendarContainer = ({
     }
     return (
         <>
-          <div className="flex flex-row justify-between items-center px-10 my-5">
+            <div className="flex flex-row justify-between items-center px-10 my-5">
                 <div className="w-[100px]">
                     <button
                         type="button"
@@ -217,19 +219,21 @@ const CalendarContainer = ({
                     eventContent={(eventInfo) => {
                         let color = '#f3e8ff'; // 기본 색상
                         if (eventInfo.event.title === '토익 시험일') {
-                          color = '#fee2e2';
+                            color = '#fee2e2';
                         } else if (eventInfo.event.title === '성적 발표일') {
-                          color = '#d1fae5';
-                        } else if(eventInfo.event.title==='출석'){
-                          color='#CAF4FF'
+                            color = '#d1fae5';
+                        } else if (eventInfo.event.title === '출석') {
+                            color = '#CAF4FF'
                         }
                         return (
-                          <div className={`fc-event text-center font-medium flex items-center justify-center`} style={{ backgroundColor: color, height:40, borderRadius:10,opacity: 0.9 }}>
-                            {eventInfo.timeText}
-                            {eventInfo.event.title}
-                          </div>
+                            <div 
+                            className={`fc-event text-center font-medium flex items-center justify-center`} 
+                            style={{ backgroundColor: color, height: 40, borderRadius: 10, opacity: 0.9 }}>
+                                {eventInfo.timeText}
+                                {eventInfo.event.title}
+                            </div>
                         );
-                      }}
+                    }}
                 />
             </div>
 

@@ -10,7 +10,7 @@ export const enum SERVER_API{
     TOEIC='api/toeic',
     AUTH='auth',
     USER='api/user',
-    CALENDAR='api/calendars',
+    CALENDAR='api/calendar',
     PAYMENT='api/payment',
     SUBSCRIBE='api/subscribe',
     ROOM='api/room',

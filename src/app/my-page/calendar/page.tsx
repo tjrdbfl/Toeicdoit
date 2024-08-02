@@ -6,6 +6,7 @@ import { IEvent } from "@/types/TransactionData";
 import { ERROR } from "@/constants/enums/ERROR";
 import { SERVER_API } from "@/constants/enums/API";
 import MyPageHeader from "@/components/my-page/MyPageHeader";
+import { getCalenderInfoById } from "@/service/calendar/actions";
 
 
 
@@ -14,7 +15,7 @@ export interface I_ApiFreeSaveResponse{
     message?:string;
     board:BoardData;
 }
-export default function CalendarPage(){
+export default async function CalendarPage(){
     
     const cookieStore=cookies();
     //const userId=cookieStore.get('userId');
@@ -23,39 +24,18 @@ export default function CalendarPage(){
     console.log(JSON.stringify(userId));
     let event:IEvent[]=[];
     
-    async function getCalenderInfoById(){
-        'use server';
-        try{
-            const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/list?id=${userId}`,{
-                method:'GET',
-                headers:CommonHeader,
-                cache:'no-store'
-            });
-    
-            const result:IEvent[]=await response.json();
-            
-            if(result){
-                console.log(result);
-                event = result.map(event => ({
-                    id:event.id,
-                    userId:userId,
-                    allDay:event.allDay,
-                    title:event.title,
-                    start: event.startTime,
-                    end: event.endTime, 
-                }));
-                console.log('event: '+JSON.stringify(event));
-            }else{
-                console.log(ERROR.SERVER_ERROR);
-            }
-    
-        }catch(err){
-            console.error(err);
+    try{
+        const response=await getCalenderInfoById();
+  
+        if(response.status===200){
+            event=response.data as IEvent[];
+        }else{
             console.log(ERROR.SERVER_ERROR);
         }
-    
+    }catch(err){
+        console.log(ERROR.SERVER_ERROR);
     }
-  
+    
     return (
         <>
         <div className="mt-5 lg:mt-16"/>

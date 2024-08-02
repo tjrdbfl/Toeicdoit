@@ -4,30 +4,43 @@ import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
-import { MessageState } from "@/types/MessengerData";
+import { MessageData, MessageState } from "@/types/MessengerData";
+import { IEvent } from "@/types/TransactionData";
 import { revalidatePath } from "next/cache";
 
-export async function handleSaveCalendar(prevState:MessageState,formData:FormData){
-    
-    const validatedFields=formData.get('title')?.toString();
+export async function getCalenderInfoById(){
+   
+    const userId=1;
 
-    
-    const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/save`,{
-        method:'POST',
-        headers:CommonHeader,
-        body:JSON.stringify(validatedFields),
-        cache:'no-store'
-    });
+    try{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/find-all-by-userId?id=${userId}`,{
+            method:'GET',
+            headers:CommonHeader,
+            cache:'no-store'
+        });
 
-    const result:string=await response.json();
+        const result:MessageData=await response.json();
+        
+        if(result.state){
+            const resultEvent=result.data as IEvent[];
 
-    if(result==='SUCCESS'){
-        revalidatePath(`${PG.CALENDAR}`);
-        return {message:'SUCCESS'}
-    }else if(result==='FAIL'){
-        return {message:"FAIL"};
-    }else{
-        return {message:ERROR.SERVER_ERROR};
+            const event = resultEvent.map(event => ({
+                id:event.id,
+                userId:userId,
+                allDay:event.allDay,
+                title:event.title,
+                start: event.startTime,
+                end: event.endTime, 
+            }));
+            console.log('event: '+JSON.stringify(event));
+
+            return {status:200,data:event};
+        }else{
+            return {status:500};
+        }
+
+    }catch(err){
+        return {status:500};
     }
 
 }

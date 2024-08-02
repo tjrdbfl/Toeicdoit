@@ -4,6 +4,7 @@ import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { findUserInfoById } from "@/service/auth/actions";
+import { getPaymentInfoById } from "@/service/payment/actions";
 import UserInfoContainer from "@/templates/my-page/UserInfoContainer";
 import UserPaymentContainer from "@/templates/my-page/UserPaymentContainer";
 import { PaymentModel } from "@/types/TransactionData";
@@ -37,27 +38,18 @@ export default async function UserInfoPage(){
         userInfoSuccess=false;
     }
   
-    async function getPaymentInfoById(){
-        try{
-            const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/find?id=${1}`,{
-                method:'GET',
-                headers:CommonHeader,
-                cache:'no-store'
-            })
-    
-            const result:PaymentModel[]=await response.json();
-    
-            console.log('payment result: ',JSON.stringify(result));
-            if(result){
-                paymentInfo=result;
-            }else{
-                console.log('payment result: ',ERROR.SERVER_ERROR);
-            }
-        }catch(err){
-            console.log('payment result: ',ERROR.SERVER_ERROR);
-        }
-    }
+    try{
+        const response=await getPaymentInfoById();
 
+        if(response?.status===200){
+            paymentInfo=response.data as PaymentModel[];
+        }else{
+            console.log(ERROR.SERVER_ERROR);
+        }
+    }catch(err){
+        console.log('payment: '+err);
+    }
+ 
 
     return(<>
     <div className="flex flex-col mt-10 lg:mt-20">
