@@ -3,6 +3,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import CloseIcon from '@mui/icons-material/Close';
+import Image from 'next/image';
 
 const ChatBtn = () => {
 
@@ -13,17 +14,25 @@ const ChatBtn = () => {
             ? <Link
                 href={`/`}
                 scroll={false}
-                className='bg-[var(--blue2)] hover:bg-[#00A9FF] hover:ring-2 rounded-full p-4 z-50'>
-                <CloseIcon
-                    className="text-white text-[32px]" />
+                className=''>
+               <Image
+               src={'/svgs/icons/close-white-icon.svg'}
+               alt={'chat-icon'}
+               width={55}
+               height={55}
+               className='bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-full hover:ring-2 p-[12px] flex items-center justify-center'/>
             </Link>
             : <Link
                 href={`?chat=true`}
                 scroll={false}  //scroll방지
                 shallow={true}  //새로고침
-                className='bg-[var(--blue2)] hover:bg-[#00A9FF] hover:ring-2 rounded-full p-4'>
-                <ChatIcon
-                    className="text-white text-[96px]" />
+                className=''>
+               <Image
+               src={'/svgs/icons/chat-icon.svg'}
+               alt={'chat-icon'}
+               width={55}
+               height={55}
+               className='bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-full hover:ring-2 p-[12px] flex items-center justify-center'/>
             </Link>}
     </>);
 }

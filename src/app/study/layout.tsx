@@ -1,9 +1,7 @@
-import { getDecryptedUserData } from "@/store/auth/user-slice";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
-import { store } from "@/redux";
 
-export default async function StudyLayout({
+export default function StudyLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;

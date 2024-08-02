@@ -130,7 +130,7 @@ export default function RequestForm() {
         <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
         <div className="w-full flex justify-center mt-5">
           <div className="w-[400px]">
-            <SubmitButton label={"문의접수"} />
+            {/* <SubmitButton label={"문의접수"} /> */}
           </div>
         </div>
       </form>

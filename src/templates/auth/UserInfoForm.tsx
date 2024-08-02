@@ -1,13 +1,14 @@
 'use client';
 
 import ModalCloseBtn from "@/components/button/ModalCloseBtn";
+import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { modifyUserInfo } from "@/service/auth/actions";
-
-import { UserDataPublic } from "@/types/UserData";
+import { handleError } from "@/service/utils/error";
+import { useUserInfoStore } from "@/store/auth/store";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 export interface UserInfoMessage {
@@ -21,15 +22,19 @@ const initialState: UserInfoMessage = {
     result_message: "",
 }
 
-const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
+const UserInfoForm = ({email,name,phone}:{
+    email:string|undefined;
+    name:string|undefined;
+    phone:string|undefined;
+   
+}) => {
 
     const { pending } = useFormStatus();
     const [message, setMessage] = useState<UserInfoMessage>(initialState);
-    const [confirm, setConfirm] = useState<boolean>(false);
-    const [confirmMsg, setConfirmMsg] = useState<string>('');
     const router = useRouter();
     const [state, formAction] = useFormState(modifyUserInfo, initialState);
-
+    const [click,setClick]=useState<boolean>(false);
+    const [changeName,setChangeName]=useState<string>('');
     //Refs
     const nameRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
@@ -74,17 +79,27 @@ const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
     };
 
     useEffect(() => {
-        setConfirm(false);
-        setConfirmMsg('');
+       
         console.log('state' + JSON.stringify(state));
-        setMessage(state);
+        setMessage((prevState) => ({
+            ...prevState,
+            message: {
+                name_message:state.name_message,
+                phone_message: state.name_message,
+            },
+        }));
 
         if (state.result_message === 'SUCCESS') {
-            router.push(`${PG.LOGIN}`);
-        } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
-            alert(state.result_message);
+            useUserInfoStore.setState({
+                name:name,
+            });
+
+            router.push(`${PG.USER_INFO}`);
+
+        } else{
+            handleError(state.result_message);
         }
-    }, [state.result_message, state.name_message, state.phone_message]);
+    }, [state.name_message,state.phone_message, state.result_message,click]);
 
 
     return (<>
@@ -109,8 +124,8 @@ const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
                                 disabled={true}
                                 className="form_input"
                                 type='email'
-                                placeholder={userInfo.email}
-                                value={userInfo.email}
+                                placeholder={email}
+                                value={email}
                                 aria-disabled={true}
                             />
                         </div>
@@ -125,29 +140,28 @@ const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
                         disabled={pending}
                         className="form_input"
                         type='name'
-                        placeholder={userInfo.name}
-                        defaultValue={userInfo.name}
+                        placeholder={'필수 항목입니다.'}
+                        defaultValue={name}
                         ref={nameRef}
                         onChange={handleNameChange}
                         onKeyDown={e => {
                             if (e.key === 'Enter') {
                                 nameRef.current?.focus();
+                                setChangeName(e.currentTarget.value);
                             }
                         }}
                     />
 
                     {message.name_message && <p className="form_error_msg">{message.name_message}</p>}
 
-                    
-                    
                     <div className="mt-[5%]" />
                     <p className="form_label mb-2">전화번호</p>
                     <input
                         type='text'
                         name='phone'
                         className="form_input"
-                        placeholder={userInfo.phone}
-                        defaultValue={userInfo.phone}
+                        placeholder={'필수 항목입니다.'}
+                        defaultValue={phone}
                         ref={phoneRef}
                         onChange={handlePhoneChange}
                         disabled={pending}
@@ -160,13 +174,7 @@ const UserInfoForm = ({userInfo}:{userInfo:UserDataPublic}) => {
                     {message.phone_message && <p className="form_error_msg">{message.phone_message}</p>}
 
                     <div className="mt-[7%]" />
-                    <button type="submit"
-                        className="form_submit_btn"
-                        aria-disabled={pending}
-                        disabled={pending || confirm}
-                    >
-                        수정하기
-                    </button>
+                    <SubmitButton label={"수정하기"} click={click} setClick={setClick}/>
                 </form>
             </div>
         </dialog>

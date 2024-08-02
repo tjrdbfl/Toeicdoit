@@ -6,6 +6,9 @@ export function extractCookie(input: string, key: string): string {
     const obj = Object.fromEntries(pairs);
     return obj[key] || '';
 }
+export function getNameInCookie(){
+
+}
 export function getTokenExpired(token: string): Date | null {
 
     const payload: PayloadData = jwtDecode(token);

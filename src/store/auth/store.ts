@@ -7,6 +7,8 @@ export type UserInfoStore={
     name:string;
     toeicLevel:number;
     profile:string;
+    email:string;
+    reset:()=>void;
 }
 export const useUserInfoStore = create<UserInfoStore>()(
     persist((set)=>({
@@ -14,6 +16,14 @@ export const useUserInfoStore = create<UserInfoStore>()(
         name:'',
         toeicLevel:0,
         profile:'',
+        email:'',
+        reset:()=>set({
+            get:false,
+            name:'',
+            toeicLevel:0,
+            profile:'',
+            email:'',
+        })
         }),
     {
         name: 'UserInfoStore',

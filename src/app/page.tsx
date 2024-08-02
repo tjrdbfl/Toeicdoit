@@ -21,7 +21,7 @@ export default async function Home({ searchParams }: {
         <div className="fixed bottom-5 right-5 z-40">
           <MoveToTopBtn />
         </div>
-        <div className="fixed bottom-24 right-5 z-40">
+        <div className="fixed bottom-[90px] right-5 z-40">
           <ChatBtn />
         </div>
         <ChatContainer />

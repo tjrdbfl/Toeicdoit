@@ -4,21 +4,28 @@ import { UserDataPublic } from "@/types/UserData";
 import { useSearchParams } from "next/navigation";
 
 
-const ModifyUserInfo=({userInfo}:{
-    userInfo:UserDataPublic
+const ModifyUserInfo=({email,name,phone,toeicLevel}:{
+    email:string|undefined;
+    name:string|undefined;
+    phone:string|undefined;
+    toeicLevel:number|undefined;
+
 })=>{
     
     const modify=useSearchParams().get('modify');
 
     return(<>
     <div className="flex flex-col">
-        <p className="text-black text-lg font-medium">유리님 안녕하세요.</p>
+        <p className="text-black text-lg font-medium">{name}님 안녕하세요.</p>
         <div className="mt-3"/>
-        <p className="text-[var(--blue2)] font-medium text-[14px]">Lv . {userInfo.toeicLevel}</p>
+        <p className="text-[var(--blue2)] font-medium text-[14px]">Lv . {toeicLevel===null? 0: toeicLevel}</p>
         <div className="mt-5"/>
         <MyPageBtn label={'회원정보 수정'} />
     </div>
-    {modify==='true' && <UserInfoForm userInfo={userInfo}/>}
+    {modify==='true' && <UserInfoForm 
+    email={email} 
+    name={name}
+    phone={phone}/>}
     </>);
 }
 export default ModifyUserInfo;

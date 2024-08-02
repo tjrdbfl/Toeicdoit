@@ -1,12 +1,15 @@
 "use client";
 
+import { Dispatch, SetStateAction } from "react";
 import { useFormStatus } from "react-dom";
 
 export default function SubmitButton({ 
-    label,disabled
+    label,disabled,setClick,click
 }: { 
     label: string,
     disabled?:boolean,
+    click:boolean
+    setClick: Dispatch<SetStateAction<boolean>>
  }) { 
     const { pending } = useFormStatus();
     
@@ -15,6 +18,7 @@ export default function SubmitButton({
             className="form_submit_btn"
             aria-disabled={pending}
             disabled={pending || disabled}
+            onClick={()=>setClick(!click)}
         >
             {label}
         </button>

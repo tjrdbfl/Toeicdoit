@@ -104,7 +104,7 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
             </button>
           </div>
           <div className="w-[80px]">
-            <SubmitButton label={"수정"} />
+            {/* <SubmitButton label={"수정"} /> */}
           </div>
         </div>
 

@@ -86,7 +86,7 @@ export default function UpdateChatForm({setCreate,chat}:{
             </div>
 
             <div className="mt-10" />
-            <SubmitButton disabled={pending} label={"변경하기"} />
+            {/* <SubmitButton disabled={pending} label={"변경하기"} /> */}
             <p aria-live="polite" className="sr-only" role="status">
                 {state?.message}
             </p>

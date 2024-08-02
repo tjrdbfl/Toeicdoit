@@ -139,7 +139,7 @@ export default function FreeSaveForm() {
             </div>
 
             <div className="mt-10" />
-            <SubmitButton label={"등록하기"} />
+            {/* <SubmitButton label={"등록하기"} /> */}
 
         </form>
     </>);

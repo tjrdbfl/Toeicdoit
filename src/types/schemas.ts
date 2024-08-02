@@ -54,6 +54,16 @@ export const RegisterSchema = z.object({
     .regex(/^010\d{7,8}$/, { message: "유효한 휴대폰 번호 형식이 아닙니다. (예: 01012345678)" })
 
 })
+export const ModifyUserInfoSchema=z.object({
+    name: z
+    .string()
+    .min(2, { message: "이름은 최소 2자 이상이어야 합니다." })
+    .max(5, { message: "이름은 최대 5자까지 가능합니다." }),
+    phone: z
+    .string()
+    .min(1,{message:'필수 항목입니다.'})
+    .regex(/^010\d{7,8}$/, { message: "유효한 휴대폰 번호 형식이 아닙니다. (예: 01012345678)" })
+});
 
 export const FreeSaveSchema = z.object({
     category: z.string().min(1, { message: "카테고리를 선택해주세요." }),

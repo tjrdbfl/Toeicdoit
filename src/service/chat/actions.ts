@@ -163,7 +163,6 @@ export async function saveRoom(category: string[], prevState: MessageState, form
         return {message:ERROR.INVALID_MEMBER};
     }else{
         const accessToken = cookies().get('accessToken')?.value;
-
     
         if (accessToken !== undefined) {
     

@@ -9,29 +9,28 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 const LogoutBtn = () => {
     const router = useRouter();
-    const clearUserIdStorage = useUserInfoStore.persist.clearStorage;
     
+    const [click,setClick]=useState<boolean>(false);
+
+    const clearUserIdStorage = useUserInfoStore.persist.clearStorage;
+    const { get } = useUserInfoStore();
+
     const handleLogout = async () => {
         const response = await logout();
 
-        const result=await response?.message;
+        const result = await response?.message;
 
-        console.log(result);
         if (result === 'SUCCESS') {
-            
-            useUserInfoStore.setState({
-                get:false,
-                toeicLevel:0,
-                name:"",
-                profile:""
-            });
             clearUserIdStorage();
-    
             router.push('/');
-        }else if (result !== undefined) {
+           
+        } else if (result !== undefined) {
             handleError(result);
-
-        } 
+            
+            router.push('/');     
+        }
+        
+       
     };
 
 

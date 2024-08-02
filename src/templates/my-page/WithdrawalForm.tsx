@@ -1,30 +1,30 @@
 "use client";
 import SubmitButton from "@/components/button/SubmitBtn";
-import { ERROR } from "@/constants/enums/ERROR";
-import { PG } from "@/constants/enums/PG";
-import { saveFree } from "@/service/board/actions";
+import { deleteByUserId } from "@/service/auth/actions";
 import { handleError } from "@/service/utils/error";
+import { useUserInfoStore } from "@/store/auth/store";
 import {
   initialFreeMessageState,
   FreeMessageState,
+  initialMessageState,
 } from "@/types/MessengerData";
-import { UserDataPublic } from "@/types/UserData";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
-export default function WithdrawalForm({
-  userInfo,
-}: {
-  userInfo: UserDataPublic;
-}) {
+export default function WithdrawalForm() {
   const [charCount, setCharCount] = useState(0);
 
-  const [state, formAction] = useFormState(saveFree, initialFreeMessageState);
+  const [click,setClick]=useState<boolean>(false);
+  const [state, formAction] = useFormState(deleteByUserId, initialMessageState);
   const { pending } = useFormStatus();
   const [message, setMessage] = useState<FreeMessageState>(
     initialFreeMessageState
   );
+  const clearUserIdStorage = useUserInfoStore.persist.clearStorage;
+  const { reset } = useUserInfoStore();
+
+  const {email,name}=useUserInfoStore();
   const router = useRouter();
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -50,14 +50,17 @@ export default function WithdrawalForm({
 
   useEffect(() => {
     console.log("state" + JSON.stringify(state));
-    setMessage(state);
+    
+    if (state.message === "SUCCESS") {
+      alert('회원 탈퇴에 성공하셨습니다. 방문해 주셔서 감사합니다.');
 
-    if (state.result_message === "SUCCESS") {
+      reset();
+      clearUserIdStorage();
       router.push(`/`);
     } else{
-      handleError(state.result_message);
+      handleError(state.message);
     }
-  }, [state.result_message]);
+  }, [state.message]);
 
 
   return (
@@ -72,7 +75,7 @@ export default function WithdrawalForm({
 
           <div className="mt-3" />
           <input
-            value={userInfo.name}
+            value={name}
             disabled={true}
             className="form_input"
             name="name"
@@ -90,7 +93,7 @@ export default function WithdrawalForm({
 
           <div className="mt-3" />
           <input
-            value={userInfo.email}
+            value={email}
             disabled={true}
             className="form_input"
             name="email"
@@ -215,7 +218,10 @@ export default function WithdrawalForm({
         <div className="bg-slate-200 h-0.5 w-full" />
         <div className="w-full flex justify-center mt-5">
           <div className="w-[400px]">
-            <SubmitButton label={"회원 탈퇴"} />
+            <SubmitButton 
+            label={"회원 탈퇴"} 
+            click={click} 
+            setClick={setClick} />
           </div>
         </div>
       </form>

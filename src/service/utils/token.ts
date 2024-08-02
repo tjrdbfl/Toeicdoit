@@ -67,6 +67,7 @@ export async function getAccessToken(token: string) {
             headers: AuthorizeHeader(token),
             cache: 'no-store',
         });
+
         console.log('getAccessToken: ' + response.status);
 
         if(response.status===401){
@@ -87,6 +88,8 @@ export async function getAccessToken(token: string) {
 
            
             const payload = jwtDecode<PayloadData>(cookieAccessString);
+
+            console.log('payload.id.toString(): '+JSON.stringify(payload));
 
             if (payload !== undefined) {
 

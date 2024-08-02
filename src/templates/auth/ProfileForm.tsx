@@ -8,38 +8,30 @@ import Image from "next/image";
 import { useFormState, useFormStatus } from "react-dom";
 import { uploadFiles } from "@/service/auth/actions";
 import { ERROR } from "@/constants/enums/ERROR";
+import { handleError } from "@/service/utils/error";
+import { useUserInfoStore } from "@/store/auth/store";
 
-interface DropzoneProps{
-    url:string;
-    onUploadSuccess?:(file:File)=>void;
+interface DropzoneProps {
+    url: string;
+    onUploadSuccess?: (file: File) => void;
 }
-export interface UploadMessage{
-    message:string;
+export interface UploadMessage {
+    message: string;
 }
-const initialState:UploadMessage={
-    message:"",
+const initialState: UploadMessage = {
+    message: "",
 }
 export default function ProfileForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
-    const [files,setFiles]=useState<File[]>([]);
-    
-    const {pending}=useFormStatus();
-    const [state,formAction]=useFormState(uploadFiles,initialState);
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-         setFiles(acceptedFiles.slice(0,1));  
-    }, [files.slice(0,1)]);
 
-    const { getRootProps, getInputProps, isDragActive,acceptedFiles,fileRejections } = useDropzone({
-        onDrop,
-        accept: {
-            'image/jpg': ['.jpg'],
-            'image/png':['.png']
-        },
-        multiple: false,
-        maxFiles:1,
-    });
+    const [click,setClick]=useState<boolean>(false);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    const { pending } = useFormStatus();
+    const [state, formAction] = useFormState(uploadFiles, initialState);
 
     const handleClose = () => {
         const params = new URLSearchParams(searchParams);
@@ -47,86 +39,80 @@ export default function ProfileForm() {
         router.push(`${pathname}/${params.toString()}`);
     }
 
-    useEffect(()=>{
-        if(fileRejections.length>0){
-            alert(fileRejections[0].errors);
-        }
-        else if(state.message==='SUCCESS'){
-            handleClose();
-        }else if(state.message===`${ERROR.SERVER_ERROR}`){
-            alert(ERROR.SERVER_ERROR);
-            router.refresh();
-        }else if(state.message===`${ERROR.INVALID_INPUT}`){
-            alert('파일을 선택해주세요.');
-            router.refresh();
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            setPreviewUrl(URL.createObjectURL(file));
+            console.log('previewUrl: ' + previewUrl);
         }
     }
-    ,[state.message,fileRejections.length]);
+
+    useEffect(() => {
+        if (state.message === 'SUCCESS') {
+            useUserInfoStore.setState({
+                profile:previewUrl||''
+            });
+            handleClose();
+        } else {
+            handleError(state.message);
+        }
+    }, [state.message,click]);
 
     return (
-        <dialog
-            className="flex justify-center items-center z-50 "
-        >
+        <dialog className="fixed inset-0 flex justify-center items-center z-50">
             <div
-                className="bg-white w-[450px] h-auto shadow-lg border-slate-200 border-2 p-3"
+                className="bg-white w-[450px] shadow-lg border-slate-100 border-2 p-3"
             >
-                <div className="w-full flex justify-end">
-                    <button
-                        onClick={handleClose}
-                        className='flex justify-start hover:bg-blue-50 rounded-full p-1'
-                    >
-                        <CloseIcon className='' />
-                    </button>
-                </div>
                 <form
-                    className="mt-5"
                     action={formAction}
                 >
-                    <div
-                        onMouseEnter={focus}
-                        {...getRootProps()}
-                        className='dropzone needsclick flex flex-col justify-center items-center p-5'
-                    >
-                        <Image
-                            src={"/svgs/icons/profile-icon.svg"}
-                            alt={"Profile"}
-                            width={80}
-                            height={80}
-                        />
+                    <div className="w-full flex justify-end mb-2">
+                        <button
+                            onClick={handleClose}>
+                            <Image
+                                src={"/svgs/icons/close-icon.svg"}
+                                alt={"close-icon"}
+                                width={30}
+                                height={30}
+                                className=" rounded-full hover:bg-slate-100 p-1" />
+
+                        </button>
+                    </div>
+                    <label htmlFor="profile"
+                        className="border-slate-200 border-dashed border-2 p-3 flex justify-center items-center flex-col">
+                        {previewUrl ? <Image
+                            src={previewUrl}
+                            alt="Preview"
+                            width={100}
+                            height={100}
+                            className="w-[100px] h-[100px]" /> :
+
+                            <Image
+                                src={'/svgs/icons/cloud-upload-icon.svg'}
+                                alt={'upload-icon'}
+                                width={100}
+                                height={100}
+                                className="w-[100px] h-[100px]"
+                            />
+                        }
 
                         <div
-                            className={`dz-message needsclick`}>
-                            <input 
-                            {...getInputProps()}
-                            disabled={files.length>1}
-                            className={`dropzone ${isDragActive ? 'active' : ''}`}
-                            name='file'
-                            />
-                            {files.length >0 ? (
-                                <div>
-                                {files.map((file) => (
-                                  <div 
-                                  className="bg-blue-50 rounded-full p-3"
-                                  key={file.name}>
-                                    <p
-                                    className="text-blue-500 font-medium"
-                                    >{file.name}</p>
-                                  </div>
-                                ))}
-                              </div>
-                            ) : (
-                                <p className="text-[14px] text-pretty text-center mt-2">Drag & drop some files here, or click to select files</p>
-                            )}
+                            className="flex flex-col items-center justify-center cursor-pointer mx-auto">
+                            Upload file
+                            <input type="file" id='profile' name='profile' accept="image/*" className="hidden" onChange={handleImageChange} />
+                            <p className=" text-slate-300 mt-2 text-[14px]">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
                         </div>
 
-                    </div>
-                    <p className="text-red-500 text-[12px] mt-4">※ .jpg , .png 파일만 가능합니다.</p>
-                    <p className="text-red-500 text-[12px]">※ 파일 업로드는 1개 까지만 가능합니다.</p>
+                    </label>
+
                     <button
+                        className="w-full rounded-lg font-medium bg-white text-[14px] border-slate-100 border-2 shadow-md hover:bg-slate-50 p-2 mt-5 mb-2"
+                        type='submit'
                         disabled={pending}
-                        className="w-full rounded-lg font-medium bg-white text-[14px] border-slate-200 border-2 shadow-md hover:bg-slate-50 p-2 mt-5 mb-2"
-                        type="submit">프로필 수정</button>
+                        onClick={()=>setClick(!click)}>프로필 수정</button>
                 </form>
+
             </div>
 
         </dialog>);

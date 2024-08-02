@@ -10,33 +10,33 @@ import { useDropzone } from 'react-dropzone';
 const ModifyProfileBtn = ({ profile }: {
     profile: string;
 }) => {
-    const searchParams=useSearchParams().get('profile');
+    const searchParams = useSearchParams().get('profile');
 
     return (<>
         <div className='flex flex-col justify-center items-center my-4'>
-            <div className={`object-fill w-[80px] rounded-full mb-2`}>
-                {profile === '' ?
+            {profile === '' ?
+                <Image
+                    src={'/svgs/icons/account-icon.svg'}
+                    alt={'account-icon'}
+                    width={300}
+                    height={300}
+                    className='w-[70px] h-[70px] rounded-full mb-2'
+                /> : <>
                     <Image
-                        src={'/svgs/icons/account-icon.svg'}
-                        alt={'account-icon'}
+                        src={'http://dummyimage.com/243x100.png/ff4444/ffffff'}
+                        alt={'Profile'}
                         width={300}
                         height={300}
-                    /> : <>
-                        <Image
-                            src={profile}
-                            alt={'Profile'}
-                            width={300}
-                            height={300}
-                        />
-                    </>}
-            </div>
+                        className='w-[70px] h-[70px] rounded-full mb-2'
+                    />
+                </>}
             <Link
-            href={'?profile=true'}
-            className='bg-white text-center border-slate-100 border-2 shadow-md rounded-lg py-2 text-[14px] px-4'
+                href={'?profile=true'}
+                className='bg-white text-center border-slate-100 border-2 shadow-md rounded-lg py-2 text-[14px] px-4'
             >
                 프로필 수정
             </Link>
-            {searchParams==='true' && <ProfileForm/>}
+            {searchParams === 'true' && <ProfileForm />}
 
         </div>
     </>);

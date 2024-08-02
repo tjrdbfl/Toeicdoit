@@ -6,7 +6,7 @@ import { LoginMessageState } from "@/templates/auth/LoginForm";
 import { UploadMessage } from "@/templates/auth/ProfileForm";
 import { RegisterMessageState } from "@/templates/auth/RegisterForm";
 import { MessageData, PayloadData } from "@/types/MessengerData";
-import { LoginSchema, RegisterSchema } from "@/types/schemas";
+import { LoginSchema, ModifyUserInfoSchema, RegisterSchema } from "@/types/schemas";
 import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest, UserDataPublic } from "@/types/UserData";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -192,6 +192,7 @@ export async function logout() {
                 cookies().delete('userId');
                 cookies().delete('name');
 
+                revalidatePath('/');
                 return { message: 'SUCCESS' };
 
             } else if (response.status === 401) {
@@ -204,11 +205,15 @@ export async function logout() {
                 cookies().delete('userId');
                 cookies().delete('name');
 
+                revalidatePath('/');
                 return { message: 'SUCCESS' };
 
             } else {
+                revalidatePath('/');
                 return { message: ERROR.SERVER_ERROR };
             }
+
+          
         }
 
     } catch (err) {
@@ -224,6 +229,8 @@ export async function findUserInfoById() {
 
     const checkResposnse = await checkTokenExist();
 
+    console.log('checkResposnse: '+checkResposnse?.message);
+
     if (checkResposnse?.message === 'LOGOUT') {
         return { message: ERROR.INVALID_MEMBER };
     } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
@@ -233,7 +240,7 @@ export async function findUserInfoById() {
             const accessToken = cookies().get('accessToken')?.value;
          
             const userId = cookies().get('userId')?.value;
-
+            
             if (userId !== undefined && accessToken !== undefined) {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${userId}`, {
                     method: 'GET',
@@ -242,13 +249,15 @@ export async function findUserInfoById() {
                 });
 
                 const result = await response.json();
-                console.log('home: ' + JSON.stringify(result));
+                //console.log('home: ' + JSON.stringify(result));
 
                 if (result.status === 400) {
                     return { status: 400 };
                 } else {
                     return {
                         data: {
+                            email:result.email,
+                            phone:result.phone,
                             name: result.name,
                             profile: result.profile,
                             toeicLevel:result.toeicLevel,
@@ -260,6 +269,49 @@ export async function findUserInfoById() {
 
         } catch (err) {
             return { status: 500 };
+        }
+
+    }
+
+}
+
+export async function deleteByUserId() {
+
+    console.log('deleteByUserId');
+
+    const checkResposnse = await checkTokenExist();
+
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+        try {
+            const accessToken = cookies().get('accessToken')?.value;
+         
+            const userId = cookies().get('userId')?.value;
+            
+            if (userId !== undefined && accessToken !== undefined) {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/delete?id=${userId}`, {
+                    method: 'DELETE',
+                    headers: AuthorizeHeader(accessToken),
+                    cache: 'no-store'
+                });
+
+                const result:MessageData = await response.json();
+                
+                if (result.message === 'SUCCESS') {
+                    return { message: 'SUCCESS' };
+                } else {
+                    return {message:ERROR.SERVER_ERROR};
+                }
+
+            }else{
+                return {message:ERROR.INVALID_MEMBER};
+            }
+
+        } catch (err) {
+            return { message: ERROR.SERVER_ERROR };
         }
 
     }
@@ -289,63 +341,115 @@ export async function existByEmail(email: string | undefined) {
 
 }
 
+
 export async function uploadFiles(prevState: UploadMessage, formData: FormData) {
-    const file = formData.get('file') as File;
+    
+    console.log('uploadFiles');
+
+    const file = formData.get('profile') as File;
     console.log('rawFormData: ' + JSON.stringify(file));
+    
     if (!file) {
         return { ...prevState, message: ERROR.INVALID_INPUT };
     }
+
     const buffer = Buffer.from(await file.arrayBuffer());
     console.log('buffer: ' + JSON.stringify(buffer));
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify`, {
-            method: 'POST',
-            body: JSON.stringify(buffer),
-            headers: CommonHeader,
-            cache: 'no-store',
-        });
-        const result: MessageData = await response.json();
-        if (result.message === 'SUCCESS') {
-            revalidatePath('/user-info');
-            return { ...prevState, message: 'SUCCESS' };
-        } else {
-            return { ...prevState, message: ERROR.SERVER_ERROR };
+   
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
+    
+        if (accessToken !== undefined) {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify`, {
+                    method: 'POST',
+                    body: JSON.stringify(buffer),
+                    headers: AuthorizeHeader(accessToken),
+                    cache: 'no-store',
+                });
+    
+                const result: MessageData = await response.json();
+                if (result.message === 'SUCCESS') {
+                    revalidatePath(`${PG.USER_INFO}`);
+                    return { ...prevState, message: 'SUCCESS' };
+                } else {
+                    return { ...prevState, message: ERROR.SERVER_ERROR };
+                }
+            } catch (err) {
+                return { ...prevState, message: ERROR.SERVER_ERROR };
+            } 
+        }else{
+            return {...prevState,message:ERROR.INVALID_MEMBER};
         }
-    } catch (err) {
-        return { ...prevState, message: ERROR.SERVER_ERROR };
+       
     }
+   
 }
 
 export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormData) {
+    
+    console.log('modifyUserInfo');
+
+    const validatedFields=ModifyUserInfoSchema.safeParse({
+        name: formData.get('name'),
+        phone: formData.get('phone'),     
+    })
     const rawFormData = {
         name: formData.get('name')?.toString(),
         phone: formData.get('phone')?.toString(),
     }
 
-    if (rawFormData.name === '' || rawFormData.phone === '') {
-        if (rawFormData.name === '') {
-            return { ...prevState, name_message: '필수 항목입니다.' }
-        }
-        if (rawFormData.phone === '') {
-            return { ...prevState, phone_message: '필수 항목입니다.' }
-        }
+    console.log('modifyUserInfo: '+validatedFields.success);
+
+    if (!validatedFields.success) {
+        console.log('ModifyUserInfoSchema: ' + JSON.stringify(validatedFields.error.flatten().fieldErrors));
+        return { ...prevState, message: validatedFields.error.flatten().fieldErrors,result_message:ERROR.INVALID_INPUT };
     }
 
-    const response = await fetch(``, {
-        method: 'PUT',
-        headers: CommonHeader,
-        body: JSON.stringify(rawFormData),
-        cache: 'no-store'
-    });
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {result_message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {result_message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
+        const userId=cookies().get('userId')?.value;
 
-    const result: MessageData = await response.json();
-
-    if (result.message === 'SUCCESS') {
-        revalidatePath(`${PG.USER_INFO}?modify=true`);
-        return { ...prevState, result_message: 'SUCCESS' };
-    } else {
-        return { ...prevState, result_message: ERROR.SERVER_ERROR };
+        if (accessToken !== undefined && userId!==undefined) {
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify-by-name-phone`, {
+                method: 'PUT',
+                headers: AuthorizeHeader(accessToken),
+                body: JSON.stringify({
+                    id:userId,
+                    name:rawFormData.name,
+                    phone:rawFormData.phone
+                }),
+                cache: 'no-store'
+            });
+        
+            const result: MessageData = await response.json();
+        
+            console.log('modifyUserInfo: '+JSON.stringify(result));
+    
+            if (result.message === 'SUCCESS') {
+                revalidatePath(`${PG.USER_INFO}?modify=true`);
+                return { ...prevState, result_message: 'SUCCESS' };
+            } else {
+                return { ...prevState, result_message: ERROR.SERVER_ERROR };
+            }        
+        }else{
+            return {...prevState,result_message:ERROR.INVALID_MEMBER};
+        }
     }
+    
 
 }
 

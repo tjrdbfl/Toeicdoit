@@ -1,22 +1,11 @@
-import Footer from "@/app/Footer";
-import Navbar from "@/app/Navbar";
-import ExplanationBtn from "@/components/toeic/ExplanationBtn";
 import LinkIcon from "@/components/common/LinkIcon";
-import ToeicGoBackBtn from "@/components/toeic/ToeicGoBackBtn";
 import ScoreBtn from "@/components/toeic/ScoreBtn";
 import { PG } from "@/constants/enums/PG";
 import { SERVER } from "@/constants/enums/API";
-import BarChart from "@/components/chart/BarChart";
-import { p1, p8 } from "@/constants/chart/constant";
-import PieChart from "@/components/chart/PieChart";
-import RadarChart from "@/components/chart/RadarChart";
 import PieContainer from "@/templates/chart/PieContainer";
 import RadarContainer from "@/templates/chart/RadarContainer";
 import BarContainer from "@/templates/chart/BarContainer";
-import DoughnutChart from "@/components/chart/DoughnutChart";
-import { store } from "@/redux";
-import { getDecryptedUserData } from "@/store/auth/user-slice";
-import { lv8 } from "@/constants/chart/constant";
+
 import {
   calculateBarData,
   calculateRadarData,

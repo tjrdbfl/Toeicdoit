@@ -16,7 +16,6 @@ export type UserData={
 }
 
 export type UserDataPublic={
-    id:UserData['id'];
     email:UserData['email'];
     phone:UserData['phone'];
     profile:UserData['profile'];

@@ -130,7 +130,7 @@ const ExamAnswer = () => {
                     </ScrollArea>
                 </ul>
                 <div className="mx-10 mt-5">
-                    <SubmitButton label={"제출하기"} />
+                    {/* <SubmitButton label={"제출하기"} /> */}
                 </div>
             </form>
         </div>
