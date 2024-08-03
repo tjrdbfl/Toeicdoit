@@ -264,7 +264,28 @@ textarea:focus {
   font-size: 12px;
 }
 
+.fc-event.toeic-exam {
+    background-color: #fee2e2 !important;
+    color: #000; /* Adjust text color if needed */
+}
 
+.fc-event.grade-announcement {
+    background-color: #d1fae5 !important;
+    color: #000;
+}
+
+.fc-event.attendance {
+    background-color: #CAF4FF !important;
+    color: #000;
+}
+
+.fc-event.default-event {
+    background-color: #f3e8ff !important;
+    color: #000;
+}
+.fc-event-time {
+  display: none;
+}
 .dropzone {
   width: 98%;
   margin: 1%;

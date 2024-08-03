@@ -46,7 +46,7 @@ export interface IEvent {
     end?: Date | string,
     id?: number,
     userId?: number | string,
-    endTime?: Date,
+    endTime?: Date | string,
     startTime?: Date | string,
 }
 

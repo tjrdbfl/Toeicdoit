@@ -20,7 +20,7 @@ const ChatBtn = () => {
                alt={'chat-icon'}
                width={55}
                height={55}
-               className='bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-full hover:ring-2 p-[12px] flex items-center justify-center'/>
+               className='bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-full hover:ring-2 p-[13px] flex items-center justify-center'/>
             </Link>
             : <Link
                 href={`?chat=true`}
@@ -32,7 +32,7 @@ const ChatBtn = () => {
                alt={'chat-icon'}
                width={55}
                height={55}
-               className='bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-full hover:ring-2 p-[12px] flex items-center justify-center'/>
+               className='bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-full hover:ring-2 p-[13px] flex items-center justify-center'/>
             </Link>}
     </>);
 }

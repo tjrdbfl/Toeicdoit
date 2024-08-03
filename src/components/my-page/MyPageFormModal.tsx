@@ -1,7 +1,6 @@
 'use client';
 
 import { ERROR } from "@/constants/enums/ERROR";
-import { handleSaveCalendar } from "@/service/calendar/actions";
 import { initialMessageState } from "@/types/MessengerData";
 import { IEvent, OptionType } from "@/types/TransactionData";
 import { Dispatch, SetStateAction, useEffect } from "react";

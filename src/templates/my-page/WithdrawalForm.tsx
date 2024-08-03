@@ -21,9 +21,7 @@ export default function WithdrawalForm() {
   const [message, setMessage] = useState<FreeMessageState>(
     initialFreeMessageState
   );
-  const clearUserIdStorage = useUserInfoStore.persist.clearStorage;
-  const { reset } = useUserInfoStore();
-
+  
   const {email,name}=useUserInfoStore();
   const router = useRouter();
 
@@ -49,13 +47,13 @@ export default function WithdrawalForm() {
   };
 
   useEffect(() => {
-    console.log("state" + JSON.stringify(state));
+    console.log("state" + state.message);
     
     if (state.message === "SUCCESS") {
       alert('회원 탈퇴에 성공하셨습니다. 방문해 주셔서 감사합니다.');
 
-      reset();
-      clearUserIdStorage();
+      //reset();
+      //clearUserIdStorage();
       router.push(`/`);
     } else{
       handleError(state.message);

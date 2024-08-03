@@ -42,6 +42,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         })
 
         console.log('response: ' + JSON.stringify(response.status));
+        
         if (response.status === 200) {
             const cookieAccessString = response.headers.getSetCookie()[0];
             const cookieRefreshString = response.headers.getSetCookie()[1];
@@ -70,7 +71,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             const payload = jwtDecode<PayloadData>(cookieAccessString);
 
             if (payload !== undefined) {
-
+                
                 cookies().set({
                     name: 'email',
                     value: payload.sub,
@@ -102,19 +103,59 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                     method: 'POST',
                     headers: CommonHeader,
                     body: JSON.stringify({
-                        "title":"출석",
+                        "title": "출석",
                         "isAllDay": true,
-                        "userId": 1,
-                        "startTime":new Date(),
-                        "endTime":new Date(),                                          
+                        "userId": payload.id.toString(),
+                        "startTime": new Date(),
+                        "endTime": new Date(),
                     }),
                     cache: 'no-store'
                 });
 
-                const attendanceResult:MessageData=await attendanceResponse.json();
+                const attendanceResult: MessageData = await attendanceResponse.json();
 
-                console.log('attendanceResult: '+attendanceResult.state);
+                console.log('attendanceResult: ' + attendanceResult.state);
+                
+                const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${cookies().get('userId')?.value}`, {
+                    method: 'GET',
+                    headers: AuthorizeHeader(cookieAccessString),
+                    cache: 'no-store'
+                });
 
+                const result = await response.json();
+                console.log('findUserInfoById: '+result);
+
+                cookies().set({
+                    name: 'name',
+                    value: result.name,
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true,
+                    path:'/'
+                });
+
+                cookies().set({
+                    name:'toeicLevel',
+                    value:result.toeicLevel,
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true,
+                    path:'/'
+                });
+
+                cookies().set({
+                    name:'profile',
+                    value:result.profile,
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true,
+                    path:'/'
+                });
+
+           
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -208,6 +249,8 @@ export async function logout() {
                 cookies().delete('roles');
                 cookies().delete('userId');
                 cookies().delete('name');
+                cookies().delete('toeicLevel');
+                cookies().delete('profile');
 
                 revalidatePath('/');
                 return { message: 'SUCCESS' };
@@ -221,6 +264,8 @@ export async function logout() {
                 cookies().delete('roles');
                 cookies().delete('userId');
                 cookies().delete('name');
+                cookies().delete('toeicLevel');
+                cookies().delete('profile');
 
                 revalidatePath('/');
                 return { message: 'SUCCESS' };
@@ -266,11 +311,14 @@ export async function findUserInfoById() {
                 });
 
                 const result = await response.json();
-                //console.log('home: ' + JSON.stringify(result));
+                console.log('findUserInfoById: '+result);
 
+            
                 if (result.status === 400) {
                     return { status: 400 };
                 } else {
+                    
+
                     return {
                         data: {
                             email: result.email,
@@ -309,19 +357,34 @@ export async function deleteByUserId() {
             const userId = cookies().get('userId')?.value;
 
             if (userId !== undefined && accessToken !== undefined) {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/delete?id=${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/delete?id=${cookies().get('userId')?.value}`, {
                     method: 'DELETE',
                     headers: AuthorizeHeader(accessToken),
                     cache: 'no-store'
                 });
 
                 const result: MessageData = await response.json();
+                console.log('deleteByUserId: '+result);
 
-                if (result.message === 'SUCCESS') {
-                    return { message: 'SUCCESS' };
-                } else {
-                    return { message: ERROR.SERVER_ERROR };
+                if(result?.message==='SUCCESS'){
+                    const logoutResponse=await logout();
+
+                    if(logoutResponse?.message==='SUCCESS'){
+                        return {message:'SUCCESS'};
+                    }else{
+                        return {message:ERROR.SERVER_ERROR};
+                    }
+                   
+                }else{
+                    return {message:ERROR.SERVER_ERROR};
                 }
+
+                // if (result.message === 'SUCCESS') {
+                //     logout();
+                //     return { message: 'SUCCESS' };
+                // } else {
+                //     return { message: ERROR.SERVER_ERROR };
+                // }
 
             } else {
                 return { message: ERROR.INVALID_MEMBER };

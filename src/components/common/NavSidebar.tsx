@@ -8,8 +8,8 @@ import { useSidebarMenuAnimation } from "@/constants/styles/animation";
 import SelectAuth from "../auth/SelectAuth";
 import { PG } from "@/constants/enums/PG";
 import { GettingStartedBtn } from "../button/GettingStartedBtn";
-import { useUserInfoStore } from "@/store/auth/store";
-import { useRouter } from "next/navigation";
+import { getUserIdInCookie, getUserInfoInCookie } from "@/service/utils/token";
+import { UserInfoType } from "@/types/UserData";
 
 
 const NavSidebar = ({ isSticky }: {
@@ -17,7 +17,32 @@ const NavSidebar = ({ isSticky }: {
 }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const scope = useSidebarMenuAnimation(isOpenSidebar);
-  const {get,name,profile,toeicLevel}=useUserInfoStore();
+  
+  const [userInfo,setUserInfo]=useState<UserInfoType>({
+    name: undefined,
+    toeicLevel:undefined,
+    profile:undefined,
+    userId:undefined,
+  });
+  
+  const handleUserInfo=async()=>{
+    const userIdResponse=await getUserIdInCookie();
+    
+    if(userIdResponse!==undefined){
+      setUserInfo((prevState)=>({...prevState,userId:Number(userIdResponse)}));
+
+      const response=await getUserInfoInCookie();
+      setUserInfo((prevState)=>({...prevState,name:response.name}));
+      setUserInfo((prevState)=>({...prevState,profile:response.profile}));
+      setUserInfo((prevState)=>({...prevState,toeicLevel:response.toeicLevel===undefined? 0:Number(response.toeicLevel)}));
+    }
+
+  }
+  
+  useEffect(()=>{
+    handleUserInfo();
+    console.log('NavSidebar userId: '+userInfo.userId);
+  },[userInfo.userId]);
 
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky ? 'mx-10' : ''}`}
@@ -43,9 +68,10 @@ const NavSidebar = ({ isSticky }: {
 
         </motion.button>
 
-        {get?
-          <SelectAuth name={name} profile={profile} toeicLevel={toeicLevel} />:
-          <GettingStartedBtn isSticky={isSticky} />
+        {userInfo.userId===undefined ?
+        <GettingStartedBtn isSticky={isSticky} />
+        :
+          <SelectAuth name={userInfo.name} profile={userInfo.profile} toeicLevel={userInfo.toeicLevel} />
         }
 
       </div>

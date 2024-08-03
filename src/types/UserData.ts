@@ -1,6 +1,6 @@
 
 export type UserData={
-    id:number;
+    id:number|string|undefined;
     email:string;
     password:string;
     profile:string;
@@ -8,7 +8,7 @@ export type UserData={
     phone:string;
     toeicLevel:number;
     registration:string;
-    oauthId:number;
+    oauthId:string;
     role:string;
     calendarId:number;
     createdAt:Date;
@@ -22,7 +22,12 @@ export type UserDataPublic={
     name:UserData['name'];
     toeicLevel:UserData['toeicLevel'];
 }
-
+export type UserInfoType={
+    userId?:UserData['id'];
+    toeicLevel?:UserData['toeicLevel'];
+    profile?:UserData['profile'];
+    name?:UserData['name'];
+}
 export interface I_ApiUserLoginRequest {
     email: string;
     password: string;

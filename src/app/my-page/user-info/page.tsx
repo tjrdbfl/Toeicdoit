@@ -11,54 +11,188 @@ import { PaymentModel } from "@/types/TransactionData";
 import { UserDataPublic } from "@/types/UserData";
 import { useQuery } from "@tanstack/react-query";
 
-export default async function UserInfoPage(){
+export default async function UserInfoPage() {
 
 
-    let userInfo:UserDataPublic|undefined={
+    let userInfo: UserDataPublic | undefined = {
         email: "",
         phone: "",
         profile: "",
         name: "",
         toeicLevel: 0
     };
-    let userInfoSuccess:boolean=false;
-    let paymentInfo:PaymentModel[]=[];
-    
-    try{
-        const response=await findUserInfoById();
+    let userInfoSuccess: boolean = false;
+    let paymentInfo: PaymentModel[] = [
+        
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            id: 0,
+            amount: 0,
+            status: "OK",
+            paymentUid: "",
+            userId: 0,
+            productId: 0,
+            subscribeId: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+    ];
 
-        if(response?.status===200){
-            userInfo=response.data;
-            userInfoSuccess=true
-        }else{
-            userInfoSuccess=false;
+    try {
+        const response = await findUserInfoById();
+
+        if (response?.status === 200) {
+            userInfo = response.data;
+            userInfoSuccess = true
+        } else {
+            userInfoSuccess = false;
         }
 
-    }catch(err){
-        userInfoSuccess=false;
+    } catch (err) {
+        userInfoSuccess = false;
     }
-  
-    try{
-        const response=await getPaymentInfoById();
 
-        if(response?.status===200){
-            paymentInfo=response.data as PaymentModel[];
-        }else{
+    try {
+        const response = await getPaymentInfoById();
+
+        if (response?.status === 200) {
+            paymentInfo = response.data as PaymentModel[];
+        } else {
             console.log(ERROR.SERVER_ERROR);
         }
-    }catch(err){
-        console.log('payment: '+err);
+    } catch (err) {
+        console.log('payment: ' + err);
     }
- 
 
-    return(<>
-    <div className="flex flex-col mt-10 lg:mt-20">
-    <UserInfoContainer userInfo={userInfo} userInfoSuccess={userInfoSuccess}/>
-    <div className="mt-10 mb-5">
-    <MyPageHeader label={"주문서"}/>
-    </div>
-    <UserPaymentContainer paymentResult={paymentInfo}/>
-    </div>
+
+    return (<>
+        <div className="flex flex-col mt-10 lg:mt-20">
+            <UserInfoContainer userInfo={userInfo} userInfoSuccess={userInfoSuccess} />
+            <div className="mt-10 mb-5">
+                <MyPageHeader label={"주문서"} />
+            </div>
+            <UserPaymentContainer paymentResult={paymentInfo} />
+        </div>
     </>);
 }
 

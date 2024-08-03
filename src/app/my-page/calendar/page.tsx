@@ -1,26 +1,17 @@
-import { BoardData } from "@/types/BoardData";
 import CalendarContainer from "@/templates/my-page/CalendarContainer";
 import { cookies } from "next/headers";
-import { CommonHeader } from "@/config/headers";
 import { IEvent } from "@/types/TransactionData";
 import { ERROR } from "@/constants/enums/ERROR";
 import { SERVER_API } from "@/constants/enums/API";
 import MyPageHeader from "@/components/my-page/MyPageHeader";
 import { getCalenderInfoById } from "@/service/calendar/actions";
 
-
-
-export interface I_ApiFreeSaveResponse{
-    success:boolean;
-    message?:string;
-    board:BoardData;
-}
 export default async function CalendarPage(){
     
     const cookieStore=cookies();
-    //const userId=cookieStore.get('userId');
+    const userId=cookieStore.get('userId')?.value;
 
-    const userId=1;
+    //const userId=1;
     console.log(JSON.stringify(userId));
     let event:IEvent[]=[];
     

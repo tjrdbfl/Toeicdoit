@@ -18,7 +18,6 @@ import { ERROR } from "@/constants/enums/ERROR";
 import LinkIcon from "@/components/common/LinkIcon";
 import { MessageData } from "@/types/MessengerData";
 
-
 export interface I_ApiFreeSaveResponse {
     success: boolean;
     message?: string;
@@ -27,15 +26,16 @@ export interface I_ApiFreeSaveResponse {
 const CalendarContainer = ({
     userId, event
 }: {
-    userId: number | string,
+    userId: number | string |undefined,
     event: IEvent[]
 }) => {
 
-    const [events, setEvents] = useState([
+    const events=[ 
         { title: '출석', id: '1', color: '#CAF4FF' },
         { title: '토익 시험일', id: '2', color: '#fee2e2' },
         { title: '성적 발표일', id: '3', color: '#d1fae5' },
-    ]);
+    ];
+   
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [allEvents, setAllEvents] = useState<IEvent[]>(event || []);
@@ -43,7 +43,7 @@ const CalendarContainer = ({
     const [newEvent, setNewEvent] = useState<IEvent>({
         title: '',
         start: '',
-        end: '', // Initialize end field
+        end: '', 
         allDay: false,
         id: 0,
         userId: userId,
@@ -51,8 +51,9 @@ const CalendarContainer = ({
     const [idToDelete, setIdToDelete] = useState<number | null>(null);
     const router = useRouter();
 
+    
     function handleDateClick(arg: { date: Date; allDay: boolean }) {
-
+        console.log('handleDateClick')
         setNewEvent({
             ...newEvent
             , start: arg.date.toISOString()
@@ -80,12 +81,14 @@ const CalendarContainer = ({
     }
 
     function handleDeleteModal(data: { event: { id: string } }) {
+        console.log('handleDeleteModal: '+showDeleteModal);
         setShowDeleteModal(true);
         setIdToDelete(Number(data.event.id));
     }
 
     function deleteEvent() {
-        setAllEvents(newEvents.filter((e) => e.id !== idToDelete));
+        setAllEvents((prevEvents) => prevEvents.filter((e) => e.id !== idToDelete));
+        setNewEvents((prevEvents) => prevEvents.filter((e) => e.id !== idToDelete));
         setIdToDelete(null);
     }
 
@@ -216,23 +219,23 @@ const CalendarContainer = ({
                     eventClick={handleDeleteModal}
                     locale={'ko'}
                     height={500}
-                    eventContent={(eventInfo) => {
-                        let color = '#f3e8ff'; // 기본 색상
-                        if (eventInfo.event.title === '토익 시험일') {
-                            color = '#fee2e2';
-                        } else if (eventInfo.event.title === '성적 발표일') {
-                            color = '#d1fae5';
-                        } else if (eventInfo.event.title === '출석') {
-                            color = '#CAF4FF'
+                    eventClassNames={(eventInfo)=>{
+                        let className = '';
+                        switch (eventInfo.event.title) {
+                            case '토익 시험일':
+                                className = 'toeic-exam';
+                                break;
+                            case '성적 발표일':
+                                className = 'grade-announcement';
+                                break;
+                            case '출석':
+                                className = 'attendance';
+                                break;
+                            default:
+                                className = 'default-event';
+                                break;
                         }
-                        return (
-                            <div 
-                            className={`fc-event text-center font-medium flex items-center justify-center`} 
-                            style={{ backgroundColor: color, height: 40, borderRadius: 10, opacity: 0.9 }}>
-                                {eventInfo.timeText}
-                                {eventInfo.event.title}
-                            </div>
-                        );
+                        return [className];
                     }}
                 />
             </div>

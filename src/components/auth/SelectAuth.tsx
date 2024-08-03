@@ -8,7 +8,9 @@ import { PG } from '@/constants/enums/PG';
 import Image from 'next/image';
 
 const SelectAuth = ({name,profile,toeicLevel}:{
-    name:string,profile:string|null,toeicLevel:number|null
+    name:string|null|undefined,
+    profile:string|null|undefined
+    ,toeicLevel:number|null|undefined
 }) => {
     const [isOpenSelectAuth, setIsOpenSelectAuth] = useState(false); 
     const scope = useSelectAuthAnimation(isOpenSelectAuth);

@@ -1,6 +1,6 @@
 'use server';
 
-import { CommonHeader } from "@/config/headers";
+import { AuthorizeHeader, CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
@@ -10,138 +10,189 @@ import { I_ApiPaymentRequest, PaymentModel } from "@/types/TransactionData";
 import { duration } from "@mui/material";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { checkTokenExist } from "../utils/token";
 
-export async function getPaymentInfoById(){
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/find-all-by-userId?id=${1}`,{
-            method:'GET',
-            headers:CommonHeader,
-            cache:'no-store'
-        })
+export async function getPaymentInfoById() {
+    console.log('getPaymentInfoById');
 
-        const result:MessageData=await response.json();
+    const checkResposnse = await checkTokenExist();
 
-        //console.log('payment result: ',JSON.stringify(result));
-        
-        if(result.state){
-            return {status:200,data:result.data};
-        }else{
-            return {status:500};    
+    console.log('checkResposnse: ' + checkResposnse?.message);
+
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+        const accessToken = cookies().get('accessToken')?.value;
+
+        const userId = cookies().get('userId')?.value;
+
+        if (userId !== undefined && accessToken !== undefined) {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/find-all-by-userId?id=${1}`, {
+                    method: 'GET',
+                    headers: AuthorizeHeader(accessToken),
+                    cache: 'no-store'
+                })
+
+                const result: MessageData = await response.json();
+
+                //console.log('payment result: ',JSON.stringify(result));
+
+                if (result.state) {
+                    return { status: 200, data: result.data };
+                } else {
+                    return { status: 500 };
+                }
+            } catch (err) {
+                return { status: 500 };
+            }
+
+        } else {
+            return { status: 401, message: ERROR.INVALID_MEMBER };
         }
-    }catch(err){
-        return {status:500};
+
     }
+
 }
 
 export async function handlePayment(imp_uid: string, paid_amount: number, product: productsType) {
 
-    console.log(imp_uid);
+    console.log('handlePayment');
 
-    const cookieStore = cookies();
-    const token = cookieStore.get('accessToken')?.value;
-    //const userId = cookieStore.get('userId')?.value;
-    const userId=1;
-    
-    if (userId === undefined) {
+    const checkResposnse = await checkTokenExist();
+
+    console.log('checkResposnse: ' + checkResposnse?.message);
+
+    if (checkResposnse?.message === 'LOGOUT') {
         return { message: ERROR.INVALID_MEMBER };
-    }
-    else {
-        // const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/verifyIamport`,
-        //     {
-        //         method: 'POST',
-        //         headers: CommonHeader,
-        //         cache: 'no-store'
-        //     });
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+        const accessToken = cookies().get('accessToken')?.value;
 
-        // const result = await response.json();
+        const userId = cookies().get('userId')?.value;
 
-        // console.log('handlePayment: ' + JSON.stringify(result));
-        // console.log('handlePayment: ' + paid_amount);
-        // console.log('handlePayment: ' +  result.amount);
+        if (userId !== undefined && accessToken !== undefined) {
+            // const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/verifyIamport`,
+            //     {
+            //         method: 'POST',
+            //         headers: CommonHeader,
+            //         cache: 'no-store'
+            //     });
 
-        //if (paid_amount === result.amount) {
-        if(true){
-            //console.log(result.response);
+            // const result = await response.json();
 
-            const subscribeDate: I_ApiPaymentRequest = {
-                userId: Number(userId),
-                productId: product.id,
-                createdAt: new Date(),
-                endDate: new Date(new Date().getTime() + product.duration * 24 * 60 * 60 * 1000)
-            }
+            // console.log('handlePayment: ' + JSON.stringify(result));
+            // console.log('handlePayment: ' + paid_amount);
+            // console.log('handlePayment: ' +  result.amount);
 
-            const subscribeResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.SUBSCRIBE}/save`, {
-                method: 'POST',
-                headers: CommonHeader,
-                body: JSON.stringify(subscribeDate),
-                cache: 'no-store'
-            });
-            
-            const subscribeResult:MessageData = await subscribeResponse.json();
+            //if (paid_amount === result.amount) {
+            if (true) {
+                //console.log(result.response);
 
-            //console.log('subscribeResult: ' + JSON.stringify(subscribeResult));
-
-            if (subscribeResult.state) {
-                console.log('구독 변경 완료');
-
-                const productData = {
-                    userId: userId,
-                    subscribeId: subscribeResult.data,
+                const subscribeDate: I_ApiPaymentRequest = {
+                    userId: Number(userId),
                     productId: product.id,
-                    amount: product.price,
-                    paymentUid: imp_uid,
                     createdAt: new Date(),
-                    updatedAt: new Date(),
-                    duration:product.duration,
-                    status: 'OK'
+                    endDate: new Date(new Date().getTime() + product.duration * 24 * 60 * 60 * 1000)
                 }
 
-                const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/save`, {
+                const subscribeResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.SUBSCRIBE}/save`, {
                     method: 'POST',
                     headers: CommonHeader,
-                    body: JSON.stringify(productData),
+                    body: JSON.stringify(subscribeDate),
                     cache: 'no-store'
                 });
 
-                const paymentResult:MessageData = await paymentResponse.json();
-                //console.log('상품 결제 전송 완료: '+JSON.stringify(paymentResult));
+                const subscribeResult: MessageData = await subscribeResponse.json();
 
-                if (paymentResult.state) {
-                    return { message: 'SUCCESS' };
-                } else {
+                //console.log('subscribeResult: ' + JSON.stringify(subscribeResult));
+
+                if (subscribeResult.state) {
+                    console.log('구독 변경 완료');
+
+                    const productData = {
+                        userId: userId,
+                        subscribeId: subscribeResult.data,
+                        productId: product.id,
+                        amount: product.price,
+                        paymentUid: imp_uid,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        duration: product.duration,
+                        status: 'OK'
+                    }
+
+                    const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/save`, {
+                        method: 'POST',
+                        headers: CommonHeader,
+                        body: JSON.stringify(productData),
+                        cache: 'no-store'
+                    });
+
+                    const paymentResult: MessageData = await paymentResponse.json();
+                    //console.log('상품 결제 전송 완료: '+JSON.stringify(paymentResult));
+
+                    if (paymentResult.state) {
+                        return { message: 'SUCCESS' };
+                    } else {
+                        return { message: ERROR.SERVER_ERROR };
+                    }
+
+                } else if (subscribeResult.message === 'FAILURE') {
                     return { message: ERROR.SERVER_ERROR };
                 }
-
-            } else if (subscribeResult.message === 'FAILURE') {
-                return { message: ERROR.SERVER_ERROR };
             }
+        } else {
+            return { status: 401, message: ERROR.INVALID_MEMBER };
         }
     }
+
 }
 
-export async function paymentRefund( paymentResult: PaymentModel){
-    const userId=1;
-    console.log('paymentRefund: '+JSON.stringify(paymentResult));
-    try{
+export async function paymentRefund(paymentResult: PaymentModel) {
+    console.log('handlePayment');
 
-        const response=await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/refund`,{
-            method:'POST',
-            headers:CommonHeader,
-            body:JSON.stringify(paymentResult)
-            ,cache:'no-store'
-        });
+    const checkResposnse = await checkTokenExist();
 
-        const result:MessageData=await response.json();
-        console.log('paymentRefund: '+JSON.stringify(result));
-    
-        if (result.state) {
-            revalidatePath(`${PG.USER_INFO}`);
+    console.log('checkResposnse: ' + checkResposnse?.message);
 
-            return {status:200};
-        } else {
-            return {status:500};
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+        const accessToken = cookies().get('accessToken')?.value;
+
+        const userId = cookies().get('userId')?.value;
+
+        if (userId !== undefined && accessToken !== undefined) {
+            try {
+
+                const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/refund`, {
+                    method: 'POST',
+                    headers: CommonHeader,
+                    body: JSON.stringify(paymentResult)
+                    , cache: 'no-store'
+                });
+
+                const result: MessageData = await response.json();
+                console.log('paymentRefund: ' + JSON.stringify(result));
+
+                if (result.state) {
+                    revalidatePath(`${PG.USER_INFO}`);
+
+                    return { status: 200 };
+                } else {
+                    return { status: 500 };
+                }
+            } catch (err) {
+                return { status: 500 };
+            }
+        }else{
+            return {status:401,message:ERROR.INVALID_MEMBER};
         }
-    }catch(err){
-        return {status:500};
     }
 }

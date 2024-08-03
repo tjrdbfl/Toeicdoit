@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { extractCookie } from "./extract";
 import { AuthorizeHeader, CommonHeader } from "@/config/headers";
-import { SERVER } from "@/constants/enums/API";
+import { SERVER, SERVER_API } from "@/constants/enums/API";
 import { NextResponse } from "next/server";
 import { ERROR } from "@/constants/enums/ERROR";
 import { logout } from "../auth/actions";
@@ -59,7 +59,6 @@ export async function checkTokenExist() {
 }
 
 export async function getAccessToken(token: string) {
-    'use server';
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${SERVER.AUTH}/refresh`, {
@@ -120,6 +119,45 @@ export async function getAccessToken(token: string) {
                     httpOnly: true
                 });
     
+                const userInfoResponse = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${cookies().get('userId')?.value}`, {
+                    method: 'GET',
+                    headers: AuthorizeHeader(cookieAccessString),
+                    cache: 'no-store'
+                });
+
+                const result = await userInfoResponse.json();
+                console.log('findUserInfoById: '+userInfoResponse);
+
+                cookies().set({
+                    name: 'name',
+                    value: result.name,
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true,
+                    path:'/'
+                });
+
+                cookies().set({
+                    name:'toeicLevel',
+                    value:result.toeicLevel,
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true,
+                    path:'/'
+                });
+
+                cookies().set({
+                    name:'profile',
+                    value:result.profile,
+                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    sameSite: 'lax',
+                    httpOnly: true,
+                    path:'/'
+                });
+
             }
 
             console.log('getAccessToken cookie: '+cookies().get('accessToken')?.value);
@@ -134,4 +172,18 @@ export async function getAccessToken(token: string) {
         return { status: 500 };
     }
 
+}
+export async function getUserIdInCookie(){
+    return cookies().get('userId')?.value;
+}
+export async function getUserInfoInCookie(){
+    
+    console.log('getUserInfoInCookie: '+cookies().get('toeicLevel')?.value);
+
+    return {
+        name:cookies().get('name')?.value,
+        toeicLevel:cookies().get('toeicLevel')?.value,
+        profile:cookies().get('profile')?.value,
+        email:cookies().get('email')?.value
+    }
 }
