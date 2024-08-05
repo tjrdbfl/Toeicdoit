@@ -119,45 +119,6 @@ export async function getAccessToken(token: string) {
                     httpOnly: true
                 });
     
-                const userInfoResponse = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${cookies().get('userId')?.value}`, {
-                    method: 'GET',
-                    headers: AuthorizeHeader(cookieAccessString),
-                    cache: 'no-store'
-                });
-
-                const result = await userInfoResponse.json();
-                console.log('findUserInfoById: '+userInfoResponse);
-
-                cookies().set({
-                    name: 'name',
-                    value: result.name,
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                    sameSite: 'lax',
-                    httpOnly: true,
-                    path:'/'
-                });
-
-                cookies().set({
-                    name:'toeicLevel',
-                    value:result.toeicLevel,
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                    sameSite: 'lax',
-                    httpOnly: true,
-                    path:'/'
-                });
-
-                cookies().set({
-                    name:'profile',
-                    value:result.profile,
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
-                    sameSite: 'lax',
-                    httpOnly: true,
-                    path:'/'
-                });
-
             }
 
             console.log('getAccessToken cookie: '+cookies().get('accessToken')?.value);
@@ -186,4 +147,110 @@ export async function getUserInfoInCookie(){
         profile:cookies().get('profile')?.value,
         email:cookies().get('email')?.value
     }
+}
+
+export async function setCookie(){
+    console.log('setCookie');
+
+    const accessToken=cookies().get('accessToken')?.value;
+    const refreshToken=cookies().get('refreshToken')?.value;
+
+    if(accessToken!==undefined && refreshToken!==undefined){
+        const payload = jwtDecode<PayloadData>(accessToken);
+
+        if (payload !== undefined) {
+        
+            cookies().set({
+                name: 'email',
+                value: payload.sub,
+                maxAge: Number(extractCookie(accessToken, 'Max-Age')),
+                expires: new Date(extractCookie(accessToken, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true
+            });
+    
+            cookies().set({
+                name: 'roles',
+                value: payload.roles[0],
+                maxAge: Number(extractCookie(accessToken, 'Max-Age')),
+                expires: new Date(extractCookie(accessToken, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true
+            });
+    
+            cookies().set({
+                name: 'userId',
+                value: payload.id.toString(),
+                maxAge: Number(extractCookie(accessToken, 'Max-Age')),
+                expires: new Date(extractCookie(accessToken, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true
+            });
+    
+            const attendanceResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/add`, {
+                method: 'POST',
+                headers: CommonHeader,
+                body: JSON.stringify({
+                    "title": "출석",
+                    "isAllDay": true,
+                    "userId": payload.id.toString(),
+                    "startTime": new Date(),
+                    "endTime": new Date(),
+                }),
+                cache: 'no-store'
+            });
+    
+            const attendanceResult = await attendanceResponse.json();
+    
+            console.log('attendanceResult: ' + attendanceResult.state);
+            
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${cookies().get('userId')?.value}`, {
+                method: 'GET',
+                headers: AuthorizeHeader(accessToken),
+                cache: 'no-store'
+            });
+    
+            const result = await response.json();
+            console.log('findUserInfoById: '+result);
+    
+            cookies().set({
+                name: 'name',
+                value: result.name,
+                maxAge: Number(extractCookie(refreshToken, 'Max-Age')),
+                expires: new Date(extractCookie(refreshToken, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true,
+                path:'/'
+            });
+    
+            cookies().set({
+                name:'toeicLevel',
+                value:result.toeicLevel,
+                maxAge: Number(extractCookie(refreshToken, 'Max-Age')),
+                expires: new Date(extractCookie(refreshToken, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true,
+                path:'/'
+            });
+    
+            cookies().set({
+                name:'profile',
+                value:result.profile,
+                maxAge: Number(extractCookie(refreshToken, 'Max-Age')),
+                expires: new Date(extractCookie(refreshToken, 'Expires')),
+                sameSite: 'lax',
+                httpOnly: true,
+                path:'/'
+            });
+    
+       
+            return {status:200};
+        } else {
+            return {status:500};
+        }
+    
+    } else {
+        return {status:401};
+    }
+
 }

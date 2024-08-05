@@ -8,7 +8,6 @@ import WriteBtn from "@/components/button/WriteBtn";
 import { CommonHeader } from "@/config/headers";
 import { ERROR } from "@/constants/enums/ERROR";
 import { SERVER_API } from "@/constants/enums/API";
-import LinkIcon from "@/components/common/LinkIcon";
 import MainHeader from "@/components/common/MainHeader";
 
 
@@ -28,24 +27,43 @@ export default async function FreePage({searchParams}:{
     let totalPages:number=0;
     let posts:BoardData[]=[];
 
-    
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-types?page=${currentPage-1}&type=자유&size=10`,{
-            method:'GET',
-            headers:CommonHeader,
-            cache:'no-cache'
-        })
+    try {
+        if (search === '') {
+            console.log('find-all-by-types');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-all-by-types?page=${currentPage - 1}&type=자유&size=10`, {
+                method: 'GET',
+                headers: CommonHeader,
+                next: { revalidate: 60 * 60 }
+            });
+            const data: I_ApiBoardResponse = await response.json();
 
-        const data:I_ApiBoardResponse=await response.json();
+            if (data) {
+                posts = data.content;
+                totalPages = data.totalPages;
+            } else {
+                console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
+            }
 
-        if(data){
-            posts=data.content;
-            totalPages=data.totalPages;
-        }else{
-            console.error('Failed to get response data'+ERROR.SERVER_ERROR);
+        } else {
+            console.log('find-by-titles');
+            
+            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-all-by-type-title?page=${currentPage - 1}&type=자유&size=10&title=${search}`, {
+                method: 'GET',
+                headers: CommonHeader,
+                next: { revalidate: 60 * 60 }
+            });
+            const data: I_ApiBoardResponse = await response.json();
+
+            if (data) {
+                posts = data.content;
+                totalPages = data.totalPages;
+            } else {
+                console.error('Failed to get response data' + ERROR.SERVER_ERROR);
+            }
         }
-    }catch(err){
-        console.log('Failed to get notice: ',ERROR.SERVER_ERROR);
+
+    } catch (err) {
+        console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
     }
 
     return(<>
@@ -59,7 +77,7 @@ export default async function FreePage({searchParams}:{
                 <WriteBtn/>
             </div>
             <Suspense key={search + currentPage} fallback={<><BoardLoading/></>}>
-                <BoardTable boards={posts} type={'post'} />
+                <BoardTable boards={posts} type={'자유'} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
                <CustomPagination type='double' totalPages={totalPages}/> 

@@ -6,8 +6,6 @@ import { PG } from "@/constants/enums/PG";
 import { findUserInfoById, login } from "@/service/auth/actions";
 import { handleError } from "@/service/utils/error";
 import { UserInfoStore, useUserInfoStore } from "@/store/auth/store";
-import { get } from "lodash";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -32,7 +30,7 @@ const LoginForm = () => {
     const { pending } = useFormStatus();
     const [state,formAction]=useFormState(login,initialState);
     const [message,setMessage]=useState<LoginMessageState>(initialState);
-    const [click,setClick]=useState<boolean>(false);
+    //const [click,setClick]=useState<boolean>(false);
 
     const {get,name,profile,toeicLevel}=useUserInfoStore();
 
@@ -118,7 +116,7 @@ const LoginForm = () => {
             handleError(state.result_message);
         }
 
-    }, [state.result_message,click]);
+    }, [state.result_message]);
 
     return (<>
         <form
@@ -170,8 +168,9 @@ const LoginForm = () => {
             {message.message.password && <p aria-live="polite"  className="form_error_msg">{message.message.password}</p>}
             <div className="mt-[7%]" />
             <SubmitButton label={"로그인"} 
-            click={click} 
-            setClick={setClick} />
+            //click={click} 
+            //setClick={setClick} 
+            />
            
         </form>
 

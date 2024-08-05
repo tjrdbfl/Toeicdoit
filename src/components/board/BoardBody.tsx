@@ -2,7 +2,7 @@
 import { PG } from "@/constants/enums/PG";
 import { useRouter } from "next/navigation";
 
-const BoardBody = ({ children, id,type,modify }: {
+const BoardBody = ({ children,id,type,modify}: {
     children: React.ReactNode,
     id: number,
     type:string,
@@ -10,12 +10,12 @@ const BoardBody = ({ children, id,type,modify }: {
 }) => {
 
     const router=useRouter();
-
     return (<>
         <tr
             key={id}
             className="w-full flex flex-row justify-between border-b py-2 text-[14px] rounded-2xl hover:bg-slate-50"
-            onClick={()=>router.push(`${modify ? 'inquiry-details/modify':type==='notice'? PG.NOTICE: PG.FREE}/${id}`)}
+            onClick={()=>{
+                router.push(`${modify ? `${PG.INQUIRY_DETAILS}/modify`:type==='자유'? PG.FREE : PG.NOTICE}/${id}`)}}
         >
             {children}
         </tr>

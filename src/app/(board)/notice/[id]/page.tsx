@@ -22,7 +22,7 @@ export default async function NoticeDetailPage({ params }: {
         type: '공지',
         title: "",
         userId:0,
-        writer:'',
+        writerName:'',
         content: "",
         createdAt: new Date(),
         updatedAt: new Date()
@@ -31,7 +31,7 @@ export default async function NoticeDetailPage({ params }: {
     let totalIndex: number = 0;
     
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/detail?id=${params.id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-by-id?id=${params.id}`, {
             method: 'GET',
             headers:CommonHeader,
             next: { revalidate: 60 * 60 }
@@ -53,7 +53,7 @@ export default async function NoticeDetailPage({ params }: {
         <div className="px-28 py-20">
             <div className="w-full flex flex-col lg:px-20 2xl:px-[25%]">
                 <NoticeLink />
-                <div className="mt-5" />
+                <div className="mt-8" />
                 <BoardDetailTitle
                     type={"notice"}
                     title={Board?.title}
@@ -61,13 +61,13 @@ export default async function NoticeDetailPage({ params }: {
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
-                    writer={Board?.writer}
+                    writer={Board?.writerName}
                     createdAt={Board?.createdAt}
                     updatedAt={Board?.updatedAt} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] mt-3" />
                 <BoardDetailContent content={Board?.content} />
-                <BoardDetailControl id={params.id} totalIndex={totalIndex}/>
+                <BoardDetailControl id={params.id}/>
             </div>
         </div>
     </>);

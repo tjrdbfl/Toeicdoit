@@ -5,9 +5,6 @@ import MoveToTopBtn from "@/components/button/MoveToTopBtn";
 import ChatBtn from "@/components/button/ChatBtn";
 import ChatContainer from "@/templates/chat/ChatContainer";
 import ChatContentContainer from "@/templates/chat/ChatContentContainer";
-import { findUserInfoById } from "@/service/auth/actions";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export default async function Home({ searchParams }: {
   searchParams: { roomId: string }
@@ -17,7 +14,7 @@ export default async function Home({ searchParams }: {
  return (
     <>
       <Navbar/>
-      <div className="xl:px-[15%] 2xl:px-24">
+      <div className="xl:px-[15%] 2xl:px-24 py-10">
         <div className="fixed bottom-5 right-5 z-40">
           <MoveToTopBtn />
         </div>

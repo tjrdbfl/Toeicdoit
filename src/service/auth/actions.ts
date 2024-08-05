@@ -5,8 +5,8 @@ import { ERROR } from "@/constants/enums/ERROR";
 import { LoginMessageState } from "@/templates/auth/LoginForm";
 import { UploadMessage } from "@/templates/auth/ProfileForm";
 import { RegisterMessageState } from "@/templates/auth/RegisterForm";
-import { MessageData, PayloadData } from "@/types/MessengerData";
-import { LoginSchema, ModifyUserInfoSchema, RegisterSchema } from "@/types/schemas";
+import { MessageData, MessageState, PayloadData } from "@/types/MessengerData";
+import { LoginSchema, ModifyPasswordSchema, ModifyUserInfoSchema, RegisterSchema } from "@/types/schemas";
 import { I_ApiUserLoginRequest, I_ApiUserRegisterRequest, UserDataPublic } from "@/types/UserData";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -15,6 +15,7 @@ import { PG } from "@/constants/enums/PG";
 import { jwtDecode } from "jwt-decode";
 import { UserInfoMessage } from "@/templates/auth/UserInfoForm";
 import { checkTokenExist } from "../utils/token";
+import { ModifyPasswordMessageState } from "@/templates/auth/PasswordModifyForm";
 
 export async function login(prevState: LoginMessageState, formData: FormData) {
 
@@ -42,7 +43,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
         })
 
         console.log('response: ' + JSON.stringify(response.status));
-        
+
         if (response.status === 200) {
             const cookieAccessString = response.headers.getSetCookie()[0];
             const cookieRefreshString = response.headers.getSetCookie()[1];
@@ -71,7 +72,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             const payload = jwtDecode<PayloadData>(cookieAccessString);
 
             if (payload !== undefined) {
-                
+
                 cookies().set({
                     name: 'email',
                     value: payload.sub,
@@ -115,7 +116,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 const attendanceResult: MessageData = await attendanceResponse.json();
 
                 console.log('attendanceResult: ' + attendanceResult.state);
-                
+
                 const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${cookies().get('userId')?.value}`, {
                     method: 'GET',
                     headers: AuthorizeHeader(cookieAccessString),
@@ -123,39 +124,39 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 });
 
                 const result = await response.json();
-                console.log('findUserInfoById: '+result);
+                console.log('findUserInfoById: ' + result);
 
                 cookies().set({
                     name: 'name',
                     value: result.name,
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    maxAge: Number(extractCookie(cookieRefreshString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieRefreshString, 'Expires')),
                     sameSite: 'lax',
                     httpOnly: true,
-                    path:'/'
+                    path: '/'
                 });
 
                 cookies().set({
-                    name:'toeicLevel',
-                    value:result.toeicLevel,
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    name: 'toeicLevel',
+                    value: result.toeicLevel,
+                    maxAge: Number(extractCookie(cookieRefreshString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieRefreshString, 'Expires')),
                     sameSite: 'lax',
                     httpOnly: true,
-                    path:'/'
+                    path: '/'
                 });
 
                 cookies().set({
-                    name:'profile',
-                    value:result.profile,
-                    maxAge: Number(extractCookie(cookieAccessString, 'Max-Age')),
-                    expires: new Date(extractCookie(cookieAccessString, 'Expires')),
+                    name: 'profile',
+                    value: result.profile,
+                    maxAge: Number(extractCookie(cookieRefreshString, 'Max-Age')),
+                    expires: new Date(extractCookie(cookieRefreshString, 'Expires')),
                     sameSite: 'lax',
                     httpOnly: true,
-                    path:'/'
+                    path: '/'
                 });
 
-           
+
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -311,13 +312,13 @@ export async function findUserInfoById() {
                 });
 
                 const result = await response.json();
-                console.log('findUserInfoById: '+result);
+                console.log('findUserInfoById: ' + result);
 
-            
+
                 if (result.status === 400) {
                     return { status: 400 };
                 } else {
-                    
+
 
                     return {
                         data: {
@@ -364,19 +365,19 @@ export async function deleteByUserId() {
                 });
 
                 const result: MessageData = await response.json();
-                console.log('deleteByUserId: '+result);
+                console.log('deleteByUserId: ' + result);
 
-                if(result?.message==='SUCCESS'){
-                    const logoutResponse=await logout();
+                if (result?.message === 'SUCCESS') {
+                    const logoutResponse = await logout();
 
-                    if(logoutResponse?.message==='SUCCESS'){
-                        return {message:'SUCCESS'};
-                    }else{
-                        return {message:ERROR.SERVER_ERROR};
+                    if (logoutResponse?.message === 'SUCCESS') {
+                        return { message: 'SUCCESS' };
+                    } else {
+                        return { message: ERROR.SERVER_ERROR };
                     }
-                   
-                }else{
-                    return {message:ERROR.SERVER_ERROR};
+
+                } else {
+                    return { message: ERROR.SERVER_ERROR };
                 }
 
                 // if (result.message === 'SUCCESS') {
@@ -521,6 +522,21 @@ export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormD
 
             if (result.message === 'SUCCESS') {
                 revalidatePath(`${PG.USER_INFO}?modify=true`);
+
+                const cookieRefreshString = cookies().get('refreshToken')?.value;
+                if (cookieRefreshString !== undefined) {
+                    cookies().set({
+                        name: 'name',
+                        value: formData.get('name')?.toString() || '',
+                        maxAge: Number(extractCookie(cookieRefreshString, 'Max-Age')),
+                        expires: new Date(extractCookie(cookieRefreshString, 'Expires')),
+                        sameSite: 'lax',
+                        httpOnly: true,
+                        path: '/'
+                    });
+
+                }
+
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -531,5 +547,46 @@ export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormD
     }
 
 
+}
+
+export async function modifyByPassword(prevState: ModifyPasswordMessageState, formData: FormData) {
+
+    const validatedFields = ModifyPasswordSchema.safeParse({
+        email: formData.get('email'),
+        password: formData.get('password'),
+        newPassword: formData.get('newPassword'),
+    });
+
+    console.log('modifyByPassword: ' + validatedFields.success);
+
+    if (!validatedFields.success) {
+        console.log('modifyByPasswordSchema: ' + JSON.stringify(validatedFields.error.flatten().fieldErrors));
+        return { ...prevState, message: validatedFields.error.flatten().fieldErrors, result_message: ERROR.INVALID_INPUT };
+    }
+
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify-by-password`, {
+            method: 'PUT',
+            headers: CommonHeader,
+            body: JSON.stringify({
+                email: formData.get('email')?.toString(),
+                password: formData.get('password')?.toString(),
+                newPassword: formData.get('newPassword')?.toString()
+            }),
+            cache: 'no-store'
+        });
+    
+        const result: MessageState = await response.json();
+        console.log('modifyByPassword result:' + JSON.stringify(result));
+    
+        if (result.message === 'SUCCESS') {
+            return { ...prevState, result_message: 'SUCCESS' };
+        } else {
+            return { ...prevState, result_message: ERROR.SERVER_ERROR };
+        }
+    }catch(err){
+        return { ...prevState, result_message: ERROR.SERVER_ERROR };
+    }
+   
 }
 

@@ -14,10 +14,10 @@ const Search = ({ placeholder }: {
     const params = new URLSearchParams(searchParams);
 
     if (term) {
-      params.set('query', term);
+      params.set('search', term);
     }
     else {
-      params.delete('query');
+      params.delete('search');
     }
 
     replace(`${pathname}?${params.toString()}`);
@@ -33,7 +33,7 @@ const Search = ({ placeholder }: {
         hover:border-[var(--blue2)] focus:border-[var(--blue2)] "
         placeholder={placeholder}
         onChange={(e) => { handleSearch(e.target.value); }}
-        defaultValue={searchParams.get('query')?.toString()}
+        defaultValue={searchParams.get('search')?.toString()}
       />
       <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
         <Image

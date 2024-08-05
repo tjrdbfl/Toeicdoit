@@ -7,6 +7,8 @@ import SettingChatContainer from "@/templates/chat/SettingChatContainer";
 import { ScrollArea } from "../utils/ScrollArea";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { getUserIdInCookie } from "@/service/utils/token";
+import { ERROR } from "@/constants/enums/ERROR";
 
 
 const SettingRoomToolBtn = ({ chat }: { chat: ChatRoomData }) => {
@@ -20,12 +22,22 @@ const SettingRoomToolBtn = ({ chat }: { chat: ChatRoomData }) => {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete("setting");
         router.push("?" + newSearchParams.toString(), { scroll: false });
-      };
+    };
+
+    const handleUserId=async()=>{
+        const response=await getUserIdInCookie();
+
+        if(response===undefined){
+            alert(ERROR.INVALID_MEMBER);
+        }else{
+            router.push(`?${queryParams.toString()}`);
+        }
+    }
 
     return (<>
-        <Link
-            href={`?${queryParams.toString()}`}
-            className="bg-white mb-5 text-black font-semibold py-2 px-3 rounded-lg shadow-lg flex flex-row justify-center items-center gap-x-2 hover:bg-slate-50">
+        <button
+        onClick={handleUserId}   
+        className="bg-white mb-5 text-black font-semibold py-2 px-3 rounded-lg shadow-lg flex flex-row justify-center items-center gap-x-2 hover:bg-slate-50">
             <Image
                 src={"/svgs/icons/setting-icon.svg"}
                 alt={"setting-icon"}
@@ -34,7 +46,7 @@ const SettingRoomToolBtn = ({ chat }: { chat: ChatRoomData }) => {
                 className="w-[20px] h-[20px]"
             />
             <p className="text-[14px]">설정</p>
-        </Link>
+        </button>
         {searchParams.get('setting')==='true' && <>
             <dialog
                 className="fixed inset-0 z-20 flex justify-end items-end mr-40 mb-20"

@@ -7,15 +7,15 @@ import { getRandomCategory } from "@/service/board/utils";
 const BoardTable = async ({
     boards, type
 }: {
-    boards: BoardData[]
-    , type: string,
+    boards: BoardData[],
+    type: string,
 }) => {
 
     return (<>
         <div className="mt-10 flow-root">
             <div className="inline-block min-w-full align-middle shadow-md">
                 <div className="rounded-2xl border-slate-100 border-2 bg-white p-2 md:pt-0">
-                
+
                     <table className="min-w-full text-gray-900">
                         <thead className="rounded-2xl bg-white text-left text-lg font-normal border-b-slate-200 border-b-2 min-w-full">
                             <tr className="flex w-full flex-row justify-between">
@@ -35,14 +35,14 @@ const BoardTable = async ({
                         </thead>
 
                         <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between">
-                            {boards?.map((notice) => (
+                            {boards?.map((notice, index, arr) => (
                                 <BoardBody
                                     key={notice.id}
                                     id={notice.id}
                                     type={type}
                                 >
                                     <td className=" whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
-                                        {notice.id}
+                                        {boards.length - index}
                                     </td>
                                     <td className="whitespace-nowrap  sm:w-[36%]  text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
@@ -52,12 +52,12 @@ const BoardTable = async ({
                                                         "text-black-500"}`}>{getRandomCategory()}</p>
                                             <p className="hidden text-ellipsis md:table">{notice.title}</p>
                                             <div className="md:hidden">
-                                            <p className="text-ellipsis">{notice.title.slice(0,9)+'...'}</p>
+                                                <p className="text-ellipsis">{notice.title.slice(0, 9) + '...'}</p>
                                             </div>
-                                    </div>
+                                        </div>
                                     </td>
                                     <td className="whitespace-nowrap w-[10%] text-center ">
-                                        {notice.writer}
+                                        {notice.writerName}
                                     </td>
                                     <td className=" whitespace-nowrap w-[20%] text-center">
                                         {new Date(notice.updatedAt).toISOString().slice(0, 10)}

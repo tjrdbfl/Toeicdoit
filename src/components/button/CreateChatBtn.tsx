@@ -1,17 +1,29 @@
 'use client';
 import Image from "next/image";
 import CreateChatForm from '@/templates/chat/CreateChatForm';
-import AddIcon from '@mui/icons-material/Add';
 import { SetStateAction, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { ERROR } from "@/constants/enums/ERROR";
+import { getUserIdInCookie } from "@/service/utils/token";
+import { useRouter } from "next/router";
+
 
 const CreateChatBtn = () => {
 
     const [create, setCreate] = useState<boolean>(false);
+    
+    const handleUserId=async()=>{
+        const response=await getUserIdInCookie();
 
+        if(response===undefined){
+            alert(ERROR.INVALID_MEMBER);
+        }else{
+            setCreate(true);
+        }
+    }
     return (<>
         <button
-            onClick={() => setCreate(true)}
+            onClick={handleUserId}
             className="bg-white mb-5 text-black font-semibold p-2 rounded-lg shadow-lg flex flex-row justify-center items-center gap-x-2 hover:bg-slate-50">
              <Image
                 src={"/svgs/icons/add-icon.svg"}

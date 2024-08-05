@@ -31,13 +31,13 @@ export default async function FreeDetailPage({ params }: {
         createdAt: new Date(),
         updatedAt: new Date(),
         type: "자유",
-        writer: ""
+        writerName: ""
     };
 
     let totalIndex: number = 0;
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/detail?id=${params.id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-by-id?id=${params.id}`, {
             method: 'GET',
             headers:CommonHeader,
             next: { revalidate: 60 * 60 }
@@ -56,7 +56,7 @@ export default async function FreeDetailPage({ params }: {
     }
 
     return (<>
-        <div className="px-20 lg:px-40 py-12">
+        <div className="px-20 lg:px-40 py-20">
             <div className="w-full flex flex-col z-10 px-10 lg:px-20 2xl:px-[25%]">
                 <FreeLink label={""} />
                 <div className="mt-5" />
@@ -73,7 +73,7 @@ export default async function FreeDetailPage({ params }: {
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailContent content={Board.content} />
-                <BoardDetailControl id={params.id} totalIndex={totalIndex} />
+                <BoardDetailControl id={params.id}/>
 
                 <div className="mt-16" />
                 <div className='flex flex-row items-center gap-x-3'>

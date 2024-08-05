@@ -3,19 +3,32 @@ import { ChatRoomPhoto, ChatUserPhoto, getChatCategoryTitle } from "@/service/ch
 import Image from "next/image";
 import Link from "next/link";
 import { ChatRoomData } from "@/types/ChatData";
+import { getUserIdInCookie } from "@/service/utils/token";
+import { ERROR } from "@/constants/enums/ERROR";
+import { useRouter } from "next/navigation";
 
 
 const ChatCard = ({ chat }: {
     chat: ChatRoomData
 }
 ) => {
-   
+    const router = useRouter();
+
+    const handleUserId = async () => {
+        const response = await getUserIdInCookie();
+
+        if (response === undefined) {
+            alert(ERROR.INVALID_MEMBER);
+        } else {
+            router.push(`?chat=true&roomId=${chat.id}`);
+        }
+    }
 
     return (<>
-        <Link
-            href={`?chat=true&roomId=${chat.id}`}
+        <button
+            onClick={handleUserId}
             key={chat.id}
-            className="bg-white w-full h-[100px] border-b-slate-200 border-b-2 flex flex-col px-3 justify-center hover:bg-slate-50"
+            className="bg-white w-full h-[100px] border-b-slate-200 border-b-2 flex flex-row px-3 justify-between items-center hover:bg-slate-50"
         >
             <div className="flex flex-row justify-between chats-center gap-x-2">
                 <div className="flex flex-col">
@@ -43,15 +56,16 @@ const ChatCard = ({ chat }: {
                     </div>
 
                 </div>
-                <Image
+            
+            </div>
+            <Image
                     src={ChatRoomPhoto(chat.roomCategories[0])}
                     alt={"chat-roon-profile"}
                     width={100}
                     height={80}
                     className="flex justify-center chats-center border-slate-100 border-2 rounded-xl p-2"
                 />
-            </div>
-        </Link>
+        </button>
     </>);
 }
 export default ChatCard;

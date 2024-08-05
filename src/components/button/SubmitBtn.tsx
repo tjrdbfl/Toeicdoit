@@ -8,8 +8,8 @@ export default function SubmitButton({
 }: { 
     label: string,
     disabled?:boolean,
-    click:boolean
-    setClick: Dispatch<SetStateAction<boolean>>
+    click?:boolean
+    setClick?: Dispatch<SetStateAction<boolean>>
  }) { 
     const { pending } = useFormStatus();
     
@@ -18,7 +18,12 @@ export default function SubmitButton({
             className="form_submit_btn"
             aria-disabled={pending}
             disabled={pending || disabled}
-            onClick={()=>setClick(!click)}
+            onClick={()=>{
+                if(setClick!==undefined){
+                    setClick(!click)}
+                }
+             
+            }
         >
             {label}
         </button>
