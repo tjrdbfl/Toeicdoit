@@ -14,15 +14,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
   
-  // if ((accessToken === undefined && refreshToken===undefined)
-  //   && (pathname.match(/^\/exam\/\d+/)
-  //     || pathname.match(/^\/level\/\d+/)
-  //     || pathname.match(/^\/part\/\d+/)
-  //     || pathname.startsWith('/level-test/test')
-  //     || pathname.startsWith('/my-page'))
-  // ) {
-  //   return NextResponse.redirect(new URL('/login', request.url));
-  // }
+  if ((accessToken === undefined && refreshToken===undefined)
+    && (pathname.match(/^\/exam\/\d+/)
+      || pathname.match(/^\/level\/\d+/)
+      || pathname.match(/^\/part\/\d+/)
+      || pathname.startsWith('/level-test/test')
+      || pathname.startsWith('/my-page'))
+  ) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   if (pathname.startsWith('/admin') && userRole?.value !== 'ROLE_ADMIN') {
     return NextResponse.redirect(new URL('/', request.url));

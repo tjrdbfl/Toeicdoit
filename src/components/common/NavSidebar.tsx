@@ -25,23 +25,27 @@ const NavSidebar = ({ isSticky }: {
     userId:undefined,
   });
   
-  // const handleUserInfo=async()=>{
-  //   const userIdResponse=await getUserIdInCookie();
+  const handleUserInfo=async()=>{
+    const userIdResponse=await getUserIdInCookie();
     
-  //   if(userIdResponse!==undefined){
+    if(userIdResponse!==undefined){
+      setUserInfo((prevState)=>({...prevState,userId:Number(userIdResponse)}));
       
-  //     const response=await getUserInfoInCookie();
-  //     setUserInfo((prevState)=>({...prevState,userId:Number(userIdResponse)}));
-  //     setUserInfo((prevState)=>({...prevState,name:response.name}));
-  //     setUserInfo((prevState)=>({...prevState,profile:response.profile}));
-  //     setUserInfo((prevState)=>({...prevState,toeicLevel:response.toeicLevel===undefined? 0:Number(response.toeicLevel)}));
-  //   }
+      console.log('setUserInfo: '+userInfo.userId===undefined);
+      
+      const response=await getUserInfoInCookie();
+      
+      setUserInfo((prevState)=>({...prevState,name:response.name}));
+      setUserInfo((prevState)=>({...prevState,profile:response.profile}));
+      setUserInfo((prevState)=>({...prevState,toeicLevel:response.toeicLevel===undefined? 0:Number(response.toeicLevel)}));
+    }
 
-  // }
+  }
   
-  // useEffect(()=>{
-  //   handleUserInfo();
-  // },[userInfo.userId]);
+  useEffect(()=>{
+    handleUserInfo();
+    console.log('NavSidebar: '+userInfo.userId);
+  },[]);
 
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky ? 'mx-10' : ''}`}

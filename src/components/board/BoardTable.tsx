@@ -2,15 +2,17 @@
 
 import BoardBody from "./BoardBody";
 import { BoardData } from "@/types/BoardData";
-import { getRandomCategory } from "@/service/board/utils";
+
 
 const BoardTable = async ({
-    boards, type
+    boards, type,totalElements,page
 }: {
     boards: BoardData[],
     type: string,
+    totalElements:number,
+    page:number
 }) => {
-
+   
     return (<>
         <div className="mt-10 flow-root">
             <div className="inline-block min-w-full align-middle shadow-md">
@@ -38,18 +40,22 @@ const BoardTable = async ({
                             {boards?.map((notice, index, arr) => (
                                 <BoardBody
                                     key={notice.id}
-                                    id={notice.id}
+                                    id={(10*page)+index}
                                     type={type}
                                 >
                                     <td className=" whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
-                                        {boards.length - index}
+                                        {totalElements-(10*(page-1))-index}
                                     </td>
                                     <td className="whitespace-nowrap  sm:w-[36%]  text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
-                                            <p className={`${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
-                                                getRandomCategory() == '알림' ? "text-purple-500 font-medium" :
-                                                    getRandomCategory() === '업데이트' ? "text-green-500 font-medium" :
-                                                        "text-black-500"}`}>{getRandomCategory()}</p>
+                                            {type==='free' ? <p className={`${notice.category === '시험 후기' ? "text-blue-500 font-medium" :
+                                                notice.category == '자료 공유' ? "text-purple-500 font-medium" :
+                                                    "text-green-500 font-medium"}`}>{notice.category}</p>
+                                            :<>
+                                            <p className={`${notice.category === '이벤트' ? "text-blue-500 font-medium" :
+                                                notice.category == '공지' ? "text-purple-500 font-medium" :
+                                                    "text-green-500 font-medium"}`}>{notice.category}</p>
+                                            </>}
                                             <p className="hidden text-ellipsis md:table">{notice.title}</p>
                                             <div className="md:hidden">
                                                 <p className="text-ellipsis">{notice.title.slice(0, 9) + '...'}</p>

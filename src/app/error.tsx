@@ -10,6 +10,7 @@ export default function Error({ error, reset }: {
 }) {
 
     const router=useRouter();
+    
     return (<>
         <div className="bg-white min-h-screen flex items-center ">
             <div className="flex flex-row w-full total_padding justify-between">
@@ -26,7 +27,7 @@ export default function Error({ error, reset }: {
                     <div className="flex flex-wrap gap-x-5 gap-y-5 mt-5">
                     <div className="lg:w-[300px] w-[150px]">
                             <button 
-                            onClick={()=>{router.refresh();}}
+                            onClick={()=>router.refresh()}
                             className="form_submit_btn p-5 text-balance"
                             >
                                 새로 고침 시도하기

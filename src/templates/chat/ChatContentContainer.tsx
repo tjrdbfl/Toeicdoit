@@ -52,7 +52,7 @@ const ChatContentContainer = async({
                     />
                 <div className='flex flex-col justify-between'>
                    <ChatCloseBtn/>
-                   <ChatDrawer/>
+                   <ChatDrawer room={room}/>
                 </div>
 
 

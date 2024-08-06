@@ -12,7 +12,7 @@ import { SERVER, SERVER_API } from "@/constants/enums/API";
 import { useChatAlertStore, useChatNewMessageStore } from "@/store/chat/store";
 import { ERROR } from "@/constants/enums/ERROR";
 import NewMessage from "@/components/chat/NewMessage";
-    import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
 import { ScrollArea } from "@/components/utils/ScrollArea";
 import Loading from "@/app/loading";
 import PaginationLoading from "@/components/utils/PaginationLoading";
@@ -42,12 +42,12 @@ const ChatRoom = ({
 
     function isScrollAtBottom(scrollRef: React.RefObject<HTMLElement>): boolean {
         if (!scrollRef.current) return false;
-      
+
         const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
         const tolerance = 10; // 허용 오차 (픽셀)
-      
+
         return Math.abs(scrollTop + clientHeight - scrollHeight) <= tolerance;
-      }
+    }
 
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['chatMessages'],
@@ -109,12 +109,13 @@ const ChatRoom = ({
             return;
         }
 
-        const eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_API_URL}/chat/${SERVER_API.CHAT}/recieve/${roomId}`,
+        let eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_API_URL}/chat/${SERVER_API.CHAT}/recieve/${roomId}`,
             {
                 headers:
                 {
                     Authorization: "Bearer " + token
-                }, withCredentials: true
+                }
+                , withCredentials: true
             }
         );
 
@@ -138,16 +139,25 @@ const ChatRoom = ({
         };
 
         eventSource.onerror = (e) => {
-            useChatAlertStore.setState({
-                fadeOut: true,
-                message: ERROR.SERVER_ERROR
-            });
-            console.error("SSE error", e);
-            eventSource.close();
+            // useChatAlertStore.setState({
+            //     fadeOut: true,
+            //     message: ERROR.SERVER_ERROR
+            // });
+            // console.error("SSE error", e);
+            // eventSource.close();
+            eventSource = new EventSourcePolyfill(
+                `${process.env.NEXT_PUBLIC_API_URL}/chat/${SERVER_API.CHAT}/recieve/${roomId}`,
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    },
+                    withCredentials: true,
+                }
+            );
         }
 
         return () => {
-            eventSource.close();
+            //eventSource.close();
         }
     }, []);
 
@@ -174,23 +184,23 @@ const ChatRoom = ({
 
     useEffect(() => {
         if (scrollRef.current) {
-            
+
             if (isScrollAtBottom(scrollRef)) {
-              messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-            }else{
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            } else {
                 useChatNewMessageStore.setState({
-                    fadeOut:true,
-                    message:'새 메세지'
-                });                
+                    fadeOut: true,
+                    message: '새 메세지'
+                });
             }
-          }
+        }
     }, [messages]);
 
     return (<>
         <ScrollArea
             ref={scrollRef}
             className="h-[450px] w-[400px] overflow-y-auto mt-5 mb-3">
-                {isFetchingNextPage && <PaginationLoading/>}
+            {isFetchingNextPage && <PaginationLoading />}
             <div
                 ref={ref}
                 className="flex flex-col gap-y-7">
@@ -206,22 +216,10 @@ const ChatRoom = ({
                                     <div
                                         key={index}
                                     >
-                                        {/* <ChatMessage
-                                            key={item.id}
-                                            token={token}
-                                            chat={item} /> */}
                                         <ChatMessage
                                             key={item.id}
-                                            token={''}
-                                            chat={{
-                                                id: item.id.toString(),
-                                                roomId: "",
-                                                senderId: "admin",
-                                                senderName: item.id.toString(),
-                                                message: "안녕하세요. 처음 오신 걸 환영합니다! 안녕하세요. 처음 오신 걸 환영합니다!",
-                                                createdAt: new Date().toISOString(),
-                                            }} />
-
+                                            token={token}
+                                            chat={item} />
 
                                     </div>);
                             })}

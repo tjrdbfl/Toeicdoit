@@ -1,3 +1,4 @@
+import { ERROR } from "@/constants/enums/ERROR";
 import { saveMessage } from "@/service/chat/actions";
 import { handleError } from "@/service/utils/error";
 import { ChatData } from "@/types/ChatData";
@@ -27,7 +28,9 @@ const ChatMessageContainer=({roomId}:{roomId:string})=>{
     }
 
     useEffect(()=>{
-        handleError(status.message);
+        if(status.message!==ERROR.INVALID_INPUT){
+            handleError(status.message);
+        }
     },[status.message]);
 
     return(<>

@@ -1,5 +1,3 @@
-import { getRandomCategory } from "@/service/board/utils";
-
 
 const BoardDetailTitle = ({
     type, title, category
@@ -9,16 +7,19 @@ const BoardDetailTitle = ({
     category: string;
 }) => (
     <>
-        <div className="flex flex-row gap-x-5">
+        <div className="flex flex-row gap-x-5 ">
 
             {type === 'notice' ? <p className={`text-[var(--blue2)] font-medium text-lg md:text-xl`}>[공지]</p>
                 : <p className={`text-[var(--blue2)] font-medium text-lg md:text-xl`}>[자유]</p>}
             <div className="flex flex-row gap-x-2">
-                <p className={`text-lg md:text-xl ${getRandomCategory() === '이벤트' ? "text-blue-500 font-medium" :
-                    getRandomCategory() == '알림' ? "text-purple-500 font-medium" :
-                        getRandomCategory() === '업데이트' ? "text-green-500 font-medium" :
-                            "text-black-500"}`}
-                >{category}</p>
+                {type === 'free' ? <p className={` text-lg md:text-xl ${category === '시험 후기' ? "text-blue-500 font-medium" :
+                    category == '자료 공유' ? "text-purple-500 font-medium" :
+                        "text-green-500 font-medium"}`}>{category}</p>
+                    : <>
+                        <p className={` text-lg md:text-xl ${category === '이벤트' ? "text-blue-500 font-medium" :
+                            category == '공지' ? "text-purple-500 font-medium" :
+                                "text-green-500 font-medium"}`}>{category}</p>
+                    </>}
                 <h1 className="text-black font-medium text-lg md:text-xl">
                     {title}
                 </h1>

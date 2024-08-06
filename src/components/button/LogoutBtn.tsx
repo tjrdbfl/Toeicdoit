@@ -11,17 +11,13 @@ const LogoutBtn = () => {
     const router = useRouter();
     
     const [click,setClick]=useState<boolean>(false);
-
-    const clearUserIdStorage = useUserInfoStore.persist.clearStorage;
-    const { get } = useUserInfoStore();
-
+    
     const handleLogout = async () => {
         const response = await logout();
 
         const result = await response?.message;
 
         if (result === 'SUCCESS') {
-            clearUserIdStorage();
             router.push('/');
            
         } else if (result !== undefined) {

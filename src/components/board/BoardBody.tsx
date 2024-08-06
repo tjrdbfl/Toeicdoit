@@ -15,7 +15,7 @@ const BoardBody = ({ children,id,type,modify}: {
             key={id}
             className="w-full flex flex-row justify-between border-b py-2 text-[14px] rounded-2xl hover:bg-slate-50"
             onClick={()=>{
-                router.push(`${modify ? `${PG.INQUIRY_DETAILS}/modify`:type==='자유'? PG.FREE : PG.NOTICE}/${id}`)}}
+                router.push(`${modify ? `${PG.INQUIRY_DETAILS}/modify`:type==='free'? PG.FREE : PG.NOTICE}/${id}`)}}
         >
             {children}
         </tr>

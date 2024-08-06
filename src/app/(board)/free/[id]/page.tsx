@@ -9,8 +9,9 @@ import FreeLink from "@/components/board/FreeLink";
 import { CommonHeader } from "@/config/headers";
 import { SERVER, SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
-import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
+import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse, I_ApiBoardResponse } from "@/types/BoardData";
 import ChatIcon from '@mui/icons-material/Chat';
+import { cookies } from "next/headers";
 
 
 export const metadata = {
@@ -23,37 +24,42 @@ export default async function FreeDetailPage({ params }: {
     }
 }) {
 
-    let Board: BoardData = {
+    let totalPages: number = 0;
+    let notices: BoardData = {
         id: 0,
         title: "",
         content: "",
         userId: 0,
+        writerName: "",
+        type: "notice",
         createdAt: new Date(),
-        updatedAt: new Date(),
-        type: "자유",
-        writerName: ""
+        updatedAt: new Date()
     };
 
-    let totalIndex: number = 0;
-
+    let totalElements:number=0;
+    const name=cookies().get('name')?.value;
+    
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-by-id?id=${params.id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/findBy?type=free&page=${params.id}&size=1`, {
             method: 'GET',
-            headers:CommonHeader,
+            headers: CommonHeader,
             next: { revalidate: 60 * 60 }
-        })
+        });
+        const data: I_ApiBoardResponse = await response.json();
 
-        const data = await response.json();
-        
         if (data) {
-            Board = data;
-            totalIndex = data.totalIndex;
+            notices = data.content[0];
+            totalPages = data.totalPages;
+            totalElements=data.totalElements;
         } else {
-            console.error('Failed to get response data: '+ERROR.SERVER_ERROR);
+            console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
         }
+
+
     } catch (err) {
-        console.log('Failed to get notice: ', ERROR.SERVER_ERROR)
+        console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
     }
+
 
     return (<>
         <div className="px-20 lg:px-40 py-20">
@@ -61,19 +67,19 @@ export default async function FreeDetailPage({ params }: {
                 <FreeLink label={""} />
                 <div className="mt-5" />
                 <BoardDetailTitle
-                    type={"post"}
-                    title={Board?.title}
-                    category={Board.category||''} />
+                    type={"free"}
+                    title={notices.title}
+                    category={notices.category||''} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
-                    writer={''}
-                    createdAt={Board.createdAt}
-                    updatedAt={Board.updatedAt} />
+                    writer={notices.writerName}
+                    createdAt={notices.createdAt}
+                    updatedAt={notices.updatedAt} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
-                <BoardDetailContent content={Board.content} />
-                <BoardDetailControl id={params.id}/>
+                <BoardDetailContent content={notices.content} />
+                <BoardDetailControl id={Number(params.id)} type={"free"}/>
 
                 <div className="mt-16" />
                 <div className='flex flex-row items-center gap-x-3'>
@@ -81,15 +87,18 @@ export default async function FreeDetailPage({ params }: {
                     <p className="text-black text-[18px] font-medium">댓글</p>
                 </div>
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
-                <BoardWriteReply/>
+                <BoardWriteReply name={name||''}/>
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
 
-                {Board.reply?.map((reply)=>(
-                    <>
-                    <BoardDetailReply writer={reply.writer || ''} content={Board.content} create={Board.createdAt} id={reply.id} />
-                    </>            
+                {notices.replyIds?.map((reply,index)=>(
+                    <BoardDetailReply 
+                    key={index}
+                    writer={reply.writerName || ''} 
+                    content={reply.content} 
+                    create={new Date().toISOString().slice(0,10)} 
+                    id={reply.id} 
+                    index={index} />          
                 ))}
-                <BoardDetailReply writer={"작성자"} content={Board.content} create={Board.createdAt} id={1} />
             </div>
         </div>
     </>);

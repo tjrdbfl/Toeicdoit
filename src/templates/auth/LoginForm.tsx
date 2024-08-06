@@ -30,7 +30,7 @@ const LoginForm = () => {
     const { pending } = useFormStatus();
     const [state,formAction]=useFormState(login,initialState);
     const [message,setMessage]=useState<LoginMessageState>(initialState);
-    //const [click,setClick]=useState<boolean>(false);
+    const [click,setClick]=useState<boolean>(false);
 
     const {get,name,profile,toeicLevel}=useUserInfoStore();
 
@@ -78,27 +78,32 @@ const LoginForm = () => {
     const getUserInfo=async()=>{
         const response = await findUserInfoById();
         if (response?.status === 200) {
-            useUserInfoStore.setState({
-                get:true,
-                name:response.data?.name,
-                profile:response.data?.profile,
-                toeicLevel:response.data?.toeicLevel,
-                email:response.data?.email,
-            });
+            console.log('response status: '+response.status);
+            router.push('/');
+           
+            // useUserInfoStore.setState({
+            //     get:true,
+            //     name:response.data?.name,
+            //     profile:response.data?.profile,
+            //     toeicLevel:response.data?.toeicLevel,
+            //     email:response.data?.email,
+            // });
 
-            if(get){
-                if(name===null){
-                    router.push(`${PG.USER_INFO}`);
-                }else if(toeicLevel===null){
-                    router.push('/score');
-                }else{
-                    router.push('/');
-                }
-            }
+            // if(get){
+            //     if(name===null){
+            //         router.push(`${PG.USER_INFO}`);
+            //     }else if(toeicLevel===null){
+            //         router.push('/score');
+            //     }else{
+            //         router.push('/');
+            //     }
+            // }
            
         }else if(response?.status===400){
             alert(ERROR.INVALID_MEMBER);
             router.push(`${PG.LOGIN}`);
+        }else{
+            alert(response?.message);
         }
 
     }
@@ -108,15 +113,14 @@ const LoginForm = () => {
     
     useEffect(() => {
         console.log(state.result_message);
-        router.refresh();
-    
+
         if(state.result_message==='SUCCESS'){   
             getUserInfo();
         }else{
             handleError(state.result_message);
         }
-
-    }, [state.result_message]);
+     
+    }, [click]);
 
     return (<>
         <form
@@ -142,7 +146,7 @@ const LoginForm = () => {
                     }
                 }}
             />
-            {message.message.email && <p aria-live="polite"  className="form_error_msg">{message.message.email}</p>}
+            {state.message.email && <p aria-live="polite"  className="form_error_msg">{state.message.email}</p>}
 
             <div className="mt-[5%]" />
             <p className="form_label">비밀번호</p>
@@ -165,11 +169,11 @@ const LoginForm = () => {
                     }
                 }}
             />
-            {message.message.password && <p aria-live="polite"  className="form_error_msg">{message.message.password}</p>}
+            {state.message.password && <p aria-live="polite"  className="form_error_msg">{state.message.password}</p>}
             <div className="mt-[7%]" />
             <SubmitButton label={"로그인"} 
-            //click={click} 
-            //setClick={setClick} 
+            click={click} 
+            setClick={setClick} 
             />
            
         </form>

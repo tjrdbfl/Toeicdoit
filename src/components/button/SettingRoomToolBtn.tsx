@@ -7,7 +7,7 @@ import SettingChatContainer from "@/templates/chat/SettingChatContainer";
 import { ScrollArea } from "../utils/ScrollArea";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { getUserIdInCookie } from "@/service/utils/token";
+import { getUserIdInCookie, getUserInfoInCookie } from "@/service/utils/token";
 import { ERROR } from "@/constants/enums/ERROR";
 
 

@@ -2,7 +2,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { chatCategory, chatCategoryType } from "@/constants/chat/constant";
 import { ERROR } from "@/constants/enums/ERROR";
-import { saveRoom } from "@/service/chat/actions";
+import { saveRoom, updateRoomById } from "@/service/chat/actions";
 import { handleError } from "@/service/utils/error";
 import { ChatRoomData } from "@/types/ChatData";
 import { initialMessageState } from "@/types/MessengerData";
@@ -18,8 +18,8 @@ export default function UpdateChatForm({setCreate,chat}:{
     const [selected, setSelected] = useState<string[]>(chat.roomCategories.map(item=>item.toLocaleUpperCase()));
 
     const { pending } = useFormStatus();
-    const saveRoomWithCategory=saveRoom.bind(null,selected);
-    const [state, formAction] = useFormState(saveRoomWithCategory, initialMessageState);
+    const updateRoomByIdWithCategory=updateRoomById.bind(null,selected);
+    const [state, formAction] = useFormState(updateRoomByIdWithCategory, initialMessageState);
     
 
     const handleClick = (category: string) => {
@@ -86,7 +86,7 @@ export default function UpdateChatForm({setCreate,chat}:{
             </div>
 
             <div className="mt-10" />
-            {/* <SubmitButton disabled={pending} label={"변경하기"} /> */}
+            <SubmitButton disabled={pending} label={"변경하기"} />
             <p aria-live="polite" className="sr-only" role="status">
                 {state?.message}
             </p>

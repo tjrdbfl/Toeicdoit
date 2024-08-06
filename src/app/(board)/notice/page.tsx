@@ -22,61 +22,39 @@ export default async function NoticePage({ searchParams }: {
     let notices: BoardData[] = [];
     let totalElements:number=0;
 
-    console.log('searchParams: '+search);
-    
     try {
-        if (search === '') {
-            console.log('find-all-by-types');
-            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-all-by-types?page=${currentPage - 1}&type=공지&size=10`, {
-                method: 'GET',
-                headers: CommonHeader,
-                next: { revalidate: 60 * 60 }
-            });
-            const data: I_ApiBoardResponse = await response.json();
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/findBy?title=${search}&type=notice&page=${currentPage - 1}&size=10`, {
+            method: 'GET',
+            headers: CommonHeader,
+            next: { revalidate: 60 * 60 }
+        });
+        const data: I_ApiBoardResponse = await response.json();
 
-            if (data) {
-                notices = data.content;
-                totalPages = data.totalPages;
-                totalElements=data.totalElements;
-            } else {
-                console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
-            }
-
+        if (data) {
+            notices = data.content;
+            totalPages = data.totalPages;
+            totalElements=data.totalElements;
         } else {
-            console.log('find-by-titles');
-            
-            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-all-by-type-title?page=${currentPage - 1}&type=공지&size=10&title=${search}`, {
-                method: 'GET',
-                headers: CommonHeader,
-                next: { revalidate: 60 * 60 }
-            });
-            const data: I_ApiBoardResponse = await response.json();
-
-            if (data) {
-                notices = data.content;
-                totalPages = data.totalPages;
-                totalElements=data.totalElements;
-            } else {
-                console.error('Failed to get response data' + ERROR.SERVER_ERROR);
-            }
+            console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
         }
+
 
     } catch (err) {
         console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
     }
 
     return (<>
-        <div className="w-full flex flex-col px-[10px] py-[5%] md:py-[17%] lg:py-[10%] xl:py-[10%] 2xl:py-[5%] total_padding">
+        <div className="w-full flex flex-col py-28 lg:py-[10%] xl:py-[10%] 2xl:py-[5%] px-20 xl:px-[10%]">
             <div className="xl:px-40">
                 <MainHeader label={"공지사항"} />
                 <div className="mt-4 flex items-center md:mt-8">
                     <Search placeholder={"검색어를 입력해주세요."} />
                 </div>
                 <Suspense key={search + currentPage} fallback={<><BoardLoading /></>}>
-                    <BoardTable boards={notices} type={"notice"} />
+                    <BoardTable boards={notices} type={"notice"} totalElements={totalElements} page={Number(searchParams?.page)||0}/>
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
-                    <CustomPagination type='double' totalPages={totalPages} />
+                    <CustomPagination type='double' totalPages={totalPages} page={Number(searchParams?.page)||0}/>
                 </div>
             </div>
         </div>

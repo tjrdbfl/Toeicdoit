@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export type UserInfoStore={
+    userId:number;
     get:boolean;
     name:string;
     toeicLevel:number;
@@ -11,7 +12,8 @@ export type UserInfoStore={
     reset:()=>void;
 }
 export const useUserInfoStore = create<UserInfoStore>()(
-    persist((set)=>({
+    (set)=>({
+        userId:0,
         get:false,
         name:'',
         toeicLevel:0,
@@ -25,8 +27,5 @@ export const useUserInfoStore = create<UserInfoStore>()(
             email:'',
         })
         }),
-    {
-        name: 'UserInfoStore',
-        storage: createJSONStorage(() => localStorage),
-    }
-));
+   
+);

@@ -1,4 +1,3 @@
-'use server';
 import BoardDetailContent from "@/components/board/BoardDetailContent";
 import BoardDetailControl from "@/components/board/BoardDetailControl";
 import BoardDetailProfile from "@/components/board/BoardDetailProfile";
@@ -7,7 +6,8 @@ import NoticeLink from "@/components/board/NoticeLink";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
-import { BoardData, I_ApiBoardDetailResponse } from "@/types/BoardData";
+import { useBoardCurrentPageStore } from "@/store/board/store";
+import { BoardData, I_ApiBoardDetailResponse, I_ApiBoardResponse } from "@/types/BoardData";
 
 
 export default async function NoticeDetailPage({ params }: {
@@ -15,38 +15,30 @@ export default async function NoticeDetailPage({ params }: {
         id: number;
     }
 }) {
-    
-    
-    let Board: BoardData = {
-        id: 0,
-        type: '공지',
-        title: "",
-        userId:0,
-        writerName:'',
-        content: "",
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
 
-    let totalIndex: number = 0;
+    let totalPages: number = 0;
+    let notices: BoardData[] = [];
+    let totalElements:number=0;
     
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-by-id?id=${params.id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/findBy?type=notice&page=${params.id}&size=1`, {
             method: 'GET',
-            headers:CommonHeader,
+            headers: CommonHeader,
             next: { revalidate: 60 * 60 }
-        })
+        });
+        const data: I_ApiBoardResponse = await response.json();
 
-        const data = await response.json();
-        
         if (data) {
-            Board = data;
-            totalIndex = data.totalIndex;
+            notices = data.content;
+            totalPages = data.totalPages;
+            totalElements=data.totalElements;
         } else {
-            console.error('Failed to get response data: '+ERROR.SERVER_ERROR);
+            console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
         }
+
+
     } catch (err) {
-        console.log('Failed to get notice: ', ERROR.SERVER_ERROR)
+        console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
     }
 
     return (<>
@@ -56,18 +48,18 @@ export default async function NoticeDetailPage({ params }: {
                 <div className="mt-8" />
                 <BoardDetailTitle
                     type={"notice"}
-                    title={Board?.title}
-                    category={Board?.category || ''} />
+                    title={notices[0]?.title}
+                    category={notices[0]?.category || ''} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
-                    writer={Board?.writerName}
-                    createdAt={Board?.createdAt}
-                    updatedAt={Board?.updatedAt} />
+                    writer={notices[0]?.writerName}
+                    createdAt={notices[0]?.createdAt}
+                    updatedAt={notices[0]?.updatedAt} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] mt-3" />
-                <BoardDetailContent content={Board?.content} />
-                <BoardDetailControl id={params.id}/>
+                <BoardDetailContent content={notices[0]?.content} />
+                <BoardDetailControl id={Number(params.id)} type={"notice"}/>
             </div>
         </div>
     </>);

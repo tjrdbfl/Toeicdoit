@@ -30,7 +30,7 @@ export async function getPaymentInfoById() {
 
         if (userId !== undefined && accessToken !== undefined) {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/find-all-by-userId?id=${1}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/find-all-by-userId?id=${userId}`, {
                     method: 'GET',
                     headers: AuthorizeHeader(accessToken),
                     cache: 'no-store'
@@ -78,7 +78,10 @@ export async function handlePayment(imp_uid: string, paid_amount: number, produc
             // const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/verifyIamport`,
             //     {
             //         method: 'POST',
-            //         headers: CommonHeader,
+            //         headers: AuthorizeHeader(accessToken),
+            //         body:JSON.stringify({
+            //             imp_uid:imp_uid
+            //         }),
             //         cache: 'no-store'
             //     });
 
@@ -92,30 +95,31 @@ export async function handlePayment(imp_uid: string, paid_amount: number, produc
             if (true) {
                 //console.log(result.response);
 
-                const subscribeDate: I_ApiPaymentRequest = {
+                const subscribeDate = {
                     userId: Number(userId),
                     productId: product.id,
                     createdAt: new Date(),
+                    status:"OK",
                     endDate: new Date(new Date().getTime() + product.duration * 24 * 60 * 60 * 1000)
                 }
 
                 const subscribeResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.SUBSCRIBE}/save`, {
                     method: 'POST',
-                    headers: CommonHeader,
+                    headers: AuthorizeHeader(accessToken),
                     body: JSON.stringify(subscribeDate),
                     cache: 'no-store'
                 });
 
                 const subscribeResult: MessageData = await subscribeResponse.json();
 
-                //console.log('subscribeResult: ' + JSON.stringify(subscribeResult));
+                console.log('subscribeResult: ' + JSON.stringify(subscribeResult));
 
                 if (subscribeResult.state) {
                     console.log('구독 변경 완료');
 
                     const productData = {
-                        userId: userId,
                         subscribeId: subscribeResult.data,
+                        userId: userId,
                         productId: product.id,
                         amount: product.price,
                         paymentUid: imp_uid,
@@ -127,13 +131,13 @@ export async function handlePayment(imp_uid: string, paid_amount: number, produc
 
                     const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/save`, {
                         method: 'POST',
-                        headers: CommonHeader,
+                        headers: AuthorizeHeader(accessToken),
                         body: JSON.stringify(productData),
                         cache: 'no-store'
                     });
 
                     const paymentResult: MessageData = await paymentResponse.json();
-                    //console.log('상품 결제 전송 완료: '+JSON.stringify(paymentResult));
+                    console.log('상품 결제 전송 완료: '+JSON.stringify(paymentResult));
 
                     if (paymentResult.state) {
                         return { message: 'SUCCESS' };
@@ -173,7 +177,7 @@ export async function paymentRefund(paymentResult: PaymentModel) {
 
                 const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/refund`, {
                     method: 'POST',
-                    headers: CommonHeader,
+                    headers: AuthorizeHeader(accessToken),
                     body: JSON.stringify(paymentResult)
                     , cache: 'no-store'
                 });

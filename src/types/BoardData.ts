@@ -6,22 +6,22 @@ export type BoardData={
     content:string;
     userId:number;
     writerName:string;
-    type:'공지'|'자유'|'문의';
+    type:'notice'|'free'|'request';
     category?:string;
     createdAt:Date;
     updatedAt:Date;
-    reply?:ReplyData[];
+    replyIds?:ReplyData[];
 }
 export type ReplyData={
     id:number;
     content:string;
-    writer:string;
+    writerName:string;
     createdAt:Date;
     updatedAt:Date;
 }
 
 export interface I_ApiBoardRequest{
-    type?:'공지'|'자유'|'문의';
+    type?:'notice'|'free'|'request';
     search?:string;
     currentPage:number;
 }

@@ -43,7 +43,7 @@ function PopOverOption({
             {open && (
                  <div
                  ref={popoverRef}
-                 className="absolute bg-white border border-gray-200 rounded shadow-md"
+                 className="absolute bg-white border border-gray-200 rounded shadow-md z-20"
                  style={{
                      top: anchorEl!.offsetTop + anchorEl!.offsetHeight,
                      right: anchorEl!.offsetLeft,

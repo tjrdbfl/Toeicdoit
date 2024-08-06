@@ -135,18 +135,38 @@ export async function getAccessToken(token: string) {
 
 }
 export async function getUserIdInCookie(){
-    return cookies().get('userId')?.value;
+
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        return {message:'SUCCESS',data:cookies().get('userId')?.value}; 
+    }
+   
 }
 export async function getUserInfoInCookie(){
     
-    console.log('getUserInfoInCookie: '+cookies().get('toeicLevel')?.value);
+    console.log('getUserInfoInCookie: '+cookies().get('email')?.value);
+    console.log('getUserInfoInCookie: '+cookies().get('name')?.value);
 
-    return {
-        name:cookies().get('name')?.value,
-        toeicLevel:cookies().get('toeicLevel')?.value,
-        profile:cookies().get('profile')?.value,
-        email:cookies().get('email')?.value
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        return {
+            name:cookies().get('name')?.value,
+            toeicLevel:cookies().get('toeicLevel')?.value,
+            profile:cookies().get('profile')?.value,
+            email:cookies().get('email')?.value
+        } 
     }
+   
 }
 
 export async function setCookie(){

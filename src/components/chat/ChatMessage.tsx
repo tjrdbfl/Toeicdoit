@@ -2,11 +2,14 @@
 import { ChatData } from "@/types/ChatData";
 import Image from "next/image";
 import StarPurple500Icon from '@mui/icons-material/StarPurple500';
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import PopOverOption from "./PopOverOption";
 import ChatCautionModal from "./ChatCautionModal";
 import { block } from "@/constants/chat/constant";
 import { classifyAMPM } from "@/service/chat/util";
+import { extractCookie } from "@/service/utils/extract";
+import { getUserIdInCookie } from "@/service/utils/token";
+import { useUserInfoStore } from "@/store/auth/store";
 
 const ChatMessage = ({ chat,token }: {
      chat: ChatData,
@@ -16,17 +19,34 @@ const ChatMessage = ({ chat,token }: {
     
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number>(4);
+    const {userId}=useUserInfoStore();
 
+
+    const handleUserId=async()=>{
+        const response=await getUserIdInCookie();
+
+        if(response.message==='SUCCESS' && response.data!==undefined){
+            useUserInfoStore.setState({
+                userId:Number(response.data)
+            });
+        }
+    }
+
+    useEffect(()=>{
+        handleUserId();
+        console.log('userId: '+userId);
+    },[]);
+    
     return (<>
-        <div className="w-full">
-            <div className={`flex ${chat.senderId === token ? 'justify-end' : 'justify-start'}`}>
-                {chat.senderId === 'user' ?
+        <div className="w-full pr-5">
+            <div className={`flex ${chat.senderId === userId.toString() ? 'justify-end' : 'justify-start'}`}>
+                {chat.senderId === userId.toString() ?
                     <div className="flex flex-row gap-x-2">
                         <div className="flex flex-col items-start justify-end">
-                            <p className="text-black text-[14px]">{chat.createdAt.slice(0,10)}</p>
-                            <p className=" text-black text-[14px]">{classifyAMPM(chat.createdAt.slice(11,13)) +' '+chat.createdAt.slice(11,16)}</p>
+                            <p className="text-black text-[12px]">{chat.createdAt.slice(0,10)}</p>
+                            <p className=" text-black text-[12px]">{classifyAMPM(chat.createdAt.slice(11,13)) +' '+chat.createdAt.slice(11,16)}</p>
                         </div>
-                        <div className="bg-[#FFF9D0] text-black p-2 rounded-lg max-w-[300px] text-pretty">{chat.message}</div>
+                        <div className="bg-yellow-100 text-black p-2 rounded-lg max-w-[300px] text-pretty">{chat.message}</div>
                     </div>
                     :
                     <div className="flex flex-row gap-x-2">

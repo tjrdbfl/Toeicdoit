@@ -202,39 +202,48 @@ export async function updateRoomById(category: string[], prevState: MessageState
         return { message: ERROR.INVALID_INPUT };
     }
 
-    checkTokenExist();
-        
-    const accessToken = cookies().get('accessToken')?.value;
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
 
-    if (accessToken !== undefined) {
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/update`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                title,
-                roomCategories: category,
-                adminIds: ["test admin ID"]
-            }),
-            headers: AuthorizeHeader(accessToken),
-            cache: 'no-store'
-        });
-
-        const result: MessageData = await response.json();
-
-        if (result.state) {
-            console.log(result.state);
-            // revalidatePath('/?chat=true');
-            // revalidatePath('/?chat=true&setting=true');
-            revalidateTag('chat');
-            return { message: 'SUCCESS' };
+        if (accessToken !== undefined) {
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/update`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    id:formData.get('roomId')?.toString(),
+                    title,
+                    roomCategories: category,
+                    adminIds: ["test admin ID"],
+                }),
+                headers: AuthorizeHeader(accessToken),
+                cache: 'no-store'
+            });
+    
+            console.log('updateRoomById: '+JSON.stringify(response));
+            const result: MessageData = await response.json();
+    
+            if (result.state) {
+                console.log(result.state);
+                // revalidatePath('/?chat=true');
+                // revalidatePath('/?chat=true&setting=true');
+                revalidateTag('chat');
+                return { message: 'SUCCESS' };
+            } else {
+                return { message: ERROR.SERVER_ERROR };
+            }
+    
         } else {
-            return { message: ERROR.SERVER_ERROR };
+            return { message: ERROR.INVALID_MEMBER };
         }
-
-    } else {
-        return { message: ERROR.INVALID_MEMBER };
-    }
-
+    
+    }    
+    
 }
 
 export async function findRoomById(roomId: string) {
@@ -267,130 +276,167 @@ export async function findRoomById(roomId: string) {
 
 export async function enterRoom(roomId: string) {
 
-    const accessToken = cookies().get('accessToken')?.value;
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
 
-    if (accessToken !== undefined) {
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/enter`, {
-            method: 'POST',
-            headers: AuthorizeHeader(accessToken),
-            body: JSON.stringify({ roomId, userId: "test enter" }),
-            cache: 'no-store'
-        });
-
-        const result: MessageData = await response.json();
-
-        if (result.state) {
-            console.log(result.state);
-            revalidatePath(`/?chat=true?roomId=${roomId}`);
-            return { data: result.data as ChatRoomData, message: 'SUCCESS' };
+        if (accessToken !== undefined) {
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/enter`, {
+                method: 'POST',
+                headers: AuthorizeHeader(accessToken),
+                body: JSON.stringify({ roomId, userId: "test enter" }),
+                cache: 'no-store'
+            });
+    
+            const result: MessageData = await response.json();
+    
+            if (result.state) {
+                console.log(result.state);
+                //revalidatePath(`/?chat=true?roomId=${roomId}`);
+                return { data: result.data as ChatRoomData, message: 'SUCCESS' };
+            } else {
+                return { message: ERROR.SERVER_ERROR };
+            }
+    
         } else {
-            return { message: ERROR.SERVER_ERROR };
+            return { message: ERROR.INVALID_MEMBER };
         }
-
-    } else {
-        return { message: ERROR.INVALID_MEMBER };
+    
     }
-
+    
 }
 
 export async function exitRoom(roomId: string) {
 
-    const accessToken = cookies().get('accessToken')?.value;
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
 
-    if (accessToken !== undefined) {
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/exit`, {
-            method: 'POST',
-            headers: AuthorizeHeader(accessToken),
-            body: JSON.stringify({ roomId, userId: "test enter" }),
-            cache: 'no-store'
-        });
-
-        const result: MessageData = await response.json();
-
-        if (result.state) {
-            console.log('exitRoom: ' + result.state);
-            revalidatePath(`/?chat=true?roomId=${roomId}`);
-            return { data: result.data as ChatRoomData, message: 'SUCCESS' };
+        if (accessToken !== undefined) {
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/exit`, {
+                method: 'POST',
+                headers: AuthorizeHeader(accessToken),
+                body: JSON.stringify({ roomId, userId: "test enter" }),
+                cache: 'no-store'
+            });
+    
+            const result: MessageData = await response.json();
+    
+            if (result.state) {
+                console.log('exitRoom: ' + result.state);
+                //revalidatePath(`/?chat=true?roomId=${roomId}`);
+                return { data: result.data as ChatRoomData, message: 'SUCCESS' };
+            } else {
+                return { message: ERROR.SERVER_ERROR };
+            }
+    
         } else {
-            return { message: ERROR.SERVER_ERROR };
+            return { message: ERROR.INVALID_MEMBER };
         }
-
-    } else {
-        return { message: ERROR.INVALID_MEMBER };
+    
     }
-
+    
 }
 
 export async function deleteRoomById(id: string) {
 
-    const accessToken = cookies().get('accessToken')?.value;
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        const accessToken = cookies().get('accessToken')?.value;
 
-    if (accessToken !== undefined) {
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/delete`, {
-            method: 'DELETE',
-            body: JSON.stringify({ id }),
-            headers: AuthorizeHeader(accessToken),
-            cache: 'no-store'
-        });
-
-        const result: MessageData = await response.json();
-
-        if (result.state) {
-            console.log(result.state);
-            revalidateTag('chat');
-            return { message: 'SUCCESS' };
+        if (accessToken !== undefined) {
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/delete`, {
+                method: 'DELETE',
+                body: JSON.stringify({ id }),
+                headers: AuthorizeHeader(accessToken),
+                cache: 'no-store'
+            });
+    
+            const result: MessageData = await response.json();
+    
+            if (result.state) {
+                console.log(result.state);
+                revalidateTag('chat');
+                return { message: 'SUCCESS' };
+            } else {
+                return { message: ERROR.SERVER_ERROR };
+            }
+    
         } else {
-            return { message: ERROR.SERVER_ERROR };
+            return { message: ERROR.INVALID_MEMBER };
         }
-
-    } else {
-        return { message: ERROR.INVALID_MEMBER };
+    
     }
-
+    
 }
 
 export async function saveMessage(roomId: string, prevState: MessageState, formData: FormData) {
-    if (formData.get('message')?.toString() === '' || roomId === '') {
-        console.log('saveMessage: ' + ERROR.INVALID_INPUT);
-        return { message: ERROR.INVALID_INPUT };
-    }
-
-    const accessToken = cookies().get('accessToken')?.value;
-
-    if (accessToken === undefined) {
-        return { message: ERROR.INVALID_MEMBER };
-    }
-
-    try {
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.CHAT}/save`, {
-            method: 'POST',
-            headers: AuthorizeHeader(accessToken),
-            body: JSON.stringify({
-                roomId,
-                senderId: "test ID222",
-                senderName: "test sender name",
-                message: formData.get('message')?.toString()
-            }),
-            cache: 'no-store'
-        })
-
-        const result: MessageData = await response.json();
-        console.log('result: ' + JSON.stringify(result));
-
-        if (result.state) {
-            return { message: 'SUCCESS' }
-        } else {
+    const checkResposnse =await checkTokenExist();
+   
+    if(checkResposnse?.message==='LOGOUT'){
+        return {message:ERROR.INVALID_MEMBER};
+    }else if(checkResposnse?.status===500 || checkResposnse?.status===401){
+        return {message:ERROR.INVALID_MEMBER};
+    }else{
+        if (formData.get('message')?.toString() === '' || roomId === '') {
+            console.log('saveMessage: ' + ERROR.INVALID_INPUT);
+            return { message: ERROR.INVALID_INPUT };
+        }
+    
+        const accessToken = cookies().get('accessToken')?.value;
+    
+        if (accessToken === undefined) {
+            return { message: ERROR.INVALID_MEMBER };
+        }
+    
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.CHAT}/save`, {
+                method: 'POST',
+                headers: AuthorizeHeader(accessToken),
+                body: JSON.stringify({
+                    roomId,
+                    senderId: cookies().get('userId')?.value,
+                    senderName: cookies().get('name')?.value,
+                    message: formData.get('message')?.toString()
+                }),
+                cache: 'no-store'
+            })
+            console.log('saveMessage: '+JSON.stringify(response));
+            
+            const result: MessageData = await response.json();
+            console.log('saveMessage result: ' + JSON.stringify(result));
+    
+            if (result.state) {
+                return { message: 'SUCCESS' }
+            } else {
+                return { message: ERROR.SERVER_ERROR };
+            }
+    
+        } catch (err) {
             return { message: ERROR.SERVER_ERROR };
         }
-
-    } catch (err) {
-        return { message: ERROR.SERVER_ERROR };
     }
+    
 }
+
 export async function findChatByRoomId({
     pageParam = 0, roomId, createdAt
 }: {

@@ -6,6 +6,7 @@ import { ChatRoomData } from "@/types/ChatData";
 import { getUserIdInCookie } from "@/service/utils/token";
 import { ERROR } from "@/constants/enums/ERROR";
 import { useRouter } from "next/navigation";
+import { enterRoom } from "@/service/chat/actions";
 
 
 const ChatCard = ({ chat }: {
@@ -21,6 +22,7 @@ const ChatCard = ({ chat }: {
             alert(ERROR.INVALID_MEMBER);
         } else {
             router.push(`?chat=true&roomId=${chat.id}`);
+            const repsonse=await enterRoom(chat.id);
         }
     }
 
@@ -32,7 +34,7 @@ const ChatCard = ({ chat }: {
         >
             <div className="flex flex-row justify-between chats-center gap-x-2">
                 <div className="flex flex-col">
-                    <h4 className="text-black text-pretty font-medium leading-6">{chat.title.length > 24 ? chat.title.slice(0, 24) + '...' : chat.title}</h4>
+                    <h4 className="text-black text-pretty text-start font-medium leading-6">{chat.title.length > 24 ? chat.title.slice(0, 24) + '...' : chat.title}</h4>
                     <div className="flex flex-wrap gap-x-3 ">
                         {chat.roomCategories.map((category, index) => (
                             <h5

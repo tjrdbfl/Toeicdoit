@@ -5,12 +5,18 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { PaginationArrow } from "../utils/PaginationArrow";
 import PaginationNumber from "../utils/PaginationNumber";
 import { useEffect, useState } from "react";
+import { useBoardCurrentPageStore } from "@/store/board/store";
 
-export default function CustomPagination({ type,totalPages }: {
+export default function CustomPagination({ type,totalPages,page }: {
     totalPages: number | 0,type:'double'|'single'
+    ,page:number
 }) {
     const [isClient, setIsClient] = useState(false);
 
+    useBoardCurrentPageStore.setState({
+        currentPage:page
+    });
+            
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get('page')) || 1;

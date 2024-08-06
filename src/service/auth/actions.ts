@@ -156,21 +156,24 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                     path: '/'
                 });
 
-
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
+
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
             }
 
 
         } else if (response.status === 401) {
+        
             return { ...prevState, result_message: ERROR.INVALID_MEMBER };
         } else {
+        
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
         }
 
     } catch (err) {
         console.log(err);
+        
         return { ...prevState, result_message: ERROR.SERVER_ERROR };
     }
 }
@@ -318,8 +321,6 @@ export async function findUserInfoById() {
                 if (result.status === 400) {
                     return { status: 400 };
                 } else {
-
-
                     return {
                         data: {
                             email: result.email,

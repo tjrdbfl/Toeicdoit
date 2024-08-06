@@ -65,11 +65,6 @@ export const drawer: ChatOptionType[] = [
     },
     {
         id: 2,
-        title: "차단리스트 관리",
-        message: ""
-    },
-    {
-        id: 2,
         title: "대화상대 보기",
         message: ""
     },
