@@ -34,6 +34,7 @@ const UserReplyContainer = async({ replyResult }: {
               </tr>
             : replyResult.map((item, index) => (
               <InquiryBody
+              key={index}
               id={item.id}
               boardId={item.boardId} 
               >

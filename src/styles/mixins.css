@@ -312,7 +312,7 @@
   }
 
   .navSidebar_p{
-    @apply text-balance md:text-[12px] lg:text-[14px] xl:text-[14px]
+    @apply text-balance text-[14px] md:text-[15px] lg:text-[16px] xl:text-[16px]
   }
 
   .video-overlay {
@@ -342,4 +342,38 @@
     }
   }
 
-  
+  .bg-gradient-faq1 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(202, 224, 247, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq2 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(144, 146, 148, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(112, 116, 119, 0.2)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq3 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(51, 142, 238, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(129, 179, 228, 0.2)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq4 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(203, 205, 207, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq5 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(194, 219, 245, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0.01)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
