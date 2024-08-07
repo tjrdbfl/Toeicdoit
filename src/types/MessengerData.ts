@@ -30,6 +30,7 @@ export const initialFreeMessageState: FreeMessageState = {
         category: "" || undefined,
         title: "" || undefined,
         content: "" || undefined,
+        
     },
     result_message: ""
 };

@@ -43,8 +43,8 @@ const ChatMessage = ({ chat,token }: {
                 {chat.senderId === userId.toString() ?
                     <div className="flex flex-row gap-x-2">
                         <div className="flex flex-col items-start justify-end">
-                            <p className="text-black text-[12px]">{chat.createdAt.slice(0,10)}</p>
-                            <p className=" text-black text-[12px]">{classifyAMPM(chat.createdAt.slice(11,13)) +' '+chat.createdAt.slice(11,16)}</p>
+                            <p className="text-black text-[12px]">{chat.createdAt?.slice(0,10)}</p>
+                            <p className=" text-black text-[12px]">{classifyAMPM(chat.createdAt?.slice(11,13)) +' '+chat.createdAt?.slice(11,16)}</p>
                         </div>
                         <div className="bg-yellow-100 text-black p-2 rounded-lg max-w-[300px] text-pretty">{chat.message}</div>
                     </div>
@@ -92,8 +92,8 @@ const ChatMessage = ({ chat,token }: {
                             <div className="bg-white text-[15px] text-black p-2 rounded-lg max-w-[270px] text-pretty">{chat.message}</div>
                         </div>
                         <div className="flex flex-col items-start justify-end">
-                            <p className="text-black text-[12px]">{chat.createdAt.slice(0,10)}</p>
-                            <p className=" text-black text-[12px]">{classifyAMPM(chat.createdAt.slice(11,13)) +' '+chat.createdAt.slice(11,16)}</p>
+                            <p className="text-black text-[12px]">{chat.createdAt?.slice(0,10)}</p>
+                            <p className=" text-black text-[12px]">{classifyAMPM(chat.createdAt?.slice(11,13)) +' '+chat.createdAt?.slice(11,16)}</p>
                         </div>
                     </div>
 

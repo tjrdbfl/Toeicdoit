@@ -2,27 +2,44 @@
 import { BoardData } from "@/types/BoardData";
 import { ChangeEvent, useEffect, useState } from "react";
 import BoardBody from "../board/BoardBody";
+import { findByBoard } from "@/service/board/actions";
+import CustomPagination from "../common/CustomPagination";
 
 
 const InquiryTable = ({
-    boards
+    page
 }: {
-    boards: BoardData[]
+    page:number,
 }) => {
 
-    
-    const [category, setCategory] = useState<string>('');
-    
-    const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const [type, setType] = useState('all');
+    const [boardArray,setBoardArray]=useState<BoardData[]>([]);
+    const [totalElements,setTotalElements]=useState<number>(0);
+    const [totalPages,setTotalPages]=useState<number>(0);
+
+    const handleTypeChange = async(event: ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();
-        setCategory(event.target.value === '공지사항' ? '공지' : event.target.value === '자유게시판' ? '자유' : '문의');
+        setType(event.target.value);
     };
 
-    
-    let tempCategory: string = '이벤트';
+    const handleGetBoard=async()=>{
+        const response=await findByBoard(page,type);
+        console.log('handleTypeChange: '+JSON.stringify(response));       
+
+        if(response.status===200){
+            setBoardArray(response.data?.boards||[]);
+            setTotalElements(response.data?.totalElements||0);
+            setTotalPages(response.data?.totalPages||0);
+        }
+    }
+
+    useEffect(()=>{
+        handleGetBoard();
+        console.log('useEffect: '+boardArray);
+    },[type]);
 
     return (<>
-    <div className="flow-root mt-4">
+    <div className="flow-root">
                 <div className="inline-block min-w-full align-middle shadow-md">
                     <div className="rounded-2xl border-slate-100 border-2 bg-white p-2 md:pt-0">
                         <table className="md:hidden">
@@ -33,14 +50,14 @@ const InquiryTable = ({
                                     </th>
                                     <th scope="col" className="md:ml-10 xl:ml-8 2xl:ml-0 lg:w-[14%] xl:w-[12%] 2xl:w-[10%] flex items-center text-[14px]">
                                         <select
-                                            name="category"
-                                            id="category"
+                                            name="type"
+                                            id="type"
                                             className="block font-semibold"
-                                            onChange={handleCategoryChange}
+                                            onChange={handleTypeChange}
                                         >
-                                            <option value="">문의 유형</option>
-                                            <option value="자유게시판">자유게시판</option>
-                                            <option value="1대1 문의">1대1 문의</option>
+                                            <option value="all">문의 유형</option>
+                                            <option value="free">자유게시판</option>
+                                            <option value="request">1대1 문의</option>
                                         </select>
                                     </th>
 
@@ -62,14 +79,14 @@ const InquiryTable = ({
                                     </th>
                                     <th scope="col" className="md:ml-10 xl:ml-8 2xl:ml-0 lg:w-[14%] xl:w-[12%] 2xl:w-[10%] flex items-center text-[14px]">
                                         <select
-                                            name="category"
-                                            id="category"
+                                            name="type"
+                                            id="type"
                                             className="block font-semibold"
-                                            onChange={handleCategoryChange}
+                                            onChange={handleTypeChange}
                                         >
-                                            <option value="">문의 유형</option>
-                                            <option value="자유게시판">자유게시판</option>
-                                            <option value="1대1 문의">1대1 문의</option>
+                                            <option value="all">문의 유형</option>
+                                            <option value="free">자유게시판</option>
+                                            <option value="request">1대1 문의</option>
                                         </select>
                                     </th>
 
@@ -84,7 +101,7 @@ const InquiryTable = ({
 
 
                             <tbody className="bg-white rounded-2xl w-full flex flex-col justify-between items-center">
-                                {boards?.map((board) => (
+                                {boardArray?.map((board,index) => (
                                     <BoardBody
                                         key={board.id} 
                                         id={board.id} 
@@ -93,20 +110,27 @@ const InquiryTable = ({
                                     >
                                         <td
                                             className="whitespace-nowrap 2xl:w-[9%] lg:w-[10%] md:w-[19%] text-center 2xl:ml-10">
-                                            {board.id}
+                                             {totalElements-(10*(page))-index}
                                         </td>
-                                        <td className="mr-5 whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[12%] text-center">
-                                            <p className={`${board.type === '문의' ? "text-red-500 font-medium" :
-                                                board.type == '자유' ? "text-yellow-500 font-medium" :
-                                                    "text-zinc-500 font-medium"}`}>{board.type}</p>
+                                        <td className="mr-5 whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[20%] text-center">
+                                            <p className={`${board.type === 'request' ? "text-red-500 font-medium" :
+                                                board.type == 'free' ? "text-yellow-500 font-medium" :
+                                                    "text-zinc-500 font-medium"}`}>{board.type==='request' ? '1대1 문의':'자유게시판'}</p>
                                         </td>
-                                        <td className="whitespace-nowrap w-[42%] text-center">
+                                        <td className="whitespace-nowrap w-[45%] text-center">
                                             <div className="flex flex-row gap-x-5 items-center justify-start">
-                                                <p className={`${tempCategory === '이벤트' ? "text-blue-500 font-medium" :
-                                                    tempCategory === '알림' ? "text-purple-500 font-medium" :
-                                                        tempCategory === '업데이트' ? "text-green-500 font-medium" :
-                                                            "text-black-500"}`}>{tempCategory}</p>
-                                                <p>{board.title}</p>
+                                                {board.type === 'free'? 
+                                                <p className={`${board.category === '이벤트' ? "text-blue-500 font-medium" :
+                                                    board.category == '공지' ? "text-purple-500 font-medium" :
+                                                        "text-green-500 font-medium"}`}>{board.category}</p>
+                                                            :
+                                                            <p className={`${board.category === '결제 문의' ? "text-blue-500 font-medium" :
+                                                                board.category === '시스템 에러' ? "text-purple-500 font-medium" :
+                                                                    board.category === '학습 콘텐츠' ? "text-green-500 font-medium" :
+                                                                        "text-black-500"}`}>{board.category}</p>
+                                                            
+                                                            }
+                                                <p>{board.title.slice(0,16)+'...'}</p>
                                             </div>
                                         </td>
 
@@ -123,6 +147,10 @@ const InquiryTable = ({
 
                     </div>
                 </div>
+            </div>
+            <div className="mt-5"/>
+            <div className="flex w-full justify-center">
+                <CustomPagination type='double' totalPages={totalPages} page={Number(page)||0} />
             </div>
     </>);
 }

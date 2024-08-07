@@ -1,56 +1,42 @@
 import BoardLoading from "@/components/board/BoardLoading";
-import CustomPagination from "@/components/common/CustomPagination";
 import InquiryTable from "@/components/my-page/InquiryTable";
 import MyPageHeader from "@/components/my-page/MyPageHeader";
-import { CommonHeader } from "@/config/headers";
+import { AuthorizeHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
-import { ERROR } from "@/constants/enums/ERROR";
-import { BoardData, I_ApiBoardResponse } from "@/types/BoardData";
+import { findAllReplyByUserId } from "@/service/board/actions";
+import UserReplyContainer from "@/templates/my-page/UserReplyContainer";
+import { ReplyData } from "@/types/BoardData";
 import { Suspense } from "react";
 
-export const metadata = {
-    title: "Toeicdoit - Inquiry Details Page",
-    description: "",
-};
-export default async function conInquiryDetailsPage({ params }: {
+
+export default async function InquiryDetailsPage({ params }: {
     params: {
         page: string;
     }
 }){
 
-    const currentPage = Number(params.page) || 1;
-    let totalPages: number = 0;
-    let boards: BoardData[] = [];
-    
-    try{
-        const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-userId?id=10`,{
-            method:'GET',
-            headers:CommonHeader,
-            cache:'no-store'
-        })
+    let reply:ReplyData[]=[];
 
-        const data=await response.json();
+    const currentPage = Number(params?.page) || 1;
 
-        if(data){
-            boards=data;
-            totalPages=data.totalPages;
-        }else{
-            console.error('Failed to get response data'+ERROR.SERVER_ERROR);
-        }
-    }catch(err){
-        console.log('Failed to get notice: ',ERROR.SERVER_ERROR);
+    const response=await findAllReplyByUserId();
+
+    if(response.status===200){
+        reply=response.data||[];
     }
 
-     
     return (<>
-        <div className="flex flex-col gap-y-10 mt-10 lg:mt-20">
-            <MyPageHeader label={"문의내역"}/>
+        <div className="flex flex-col mt-10 lg:mt-20">
+            <MyPageHeader label={"게시글 및 문의내역"}/>
+            <div className="mt-5"/>
             <Suspense key={currentPage} fallback={<><BoardLoading /></>}>
-                <InquiryTable boards={boards} />
+                <InquiryTable page={Number(params.page)||0} />
             </Suspense>
-            <div className="mt-5 flex w-full justify-center">
-                <CustomPagination type='double' totalPages={totalPages} />
-            </div>
+            <div className="mt-10"/>
+            <MyPageHeader label={"댓글 관리"}/>
+            <div className="mt-5"/>
+            <UserReplyContainer replyResult={reply} />
+        
         </div>
     </>);
 }

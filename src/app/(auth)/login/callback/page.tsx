@@ -1,3 +1,4 @@
+'use client';
 import { ERROR } from "@/constants/enums/ERROR";
 import { setCookie } from "@/service/utils/token";
 import { useRouter } from "next/navigation";

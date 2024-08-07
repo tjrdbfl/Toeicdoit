@@ -16,6 +16,7 @@ export const enum SERVER_API{
     ROOM='api/room',
     PUBLIC_ROOM='api/public/room',
     CHAT='api/chat',
+    REPLY='api/reply',
 }
 
 export const enum PUBLIC{

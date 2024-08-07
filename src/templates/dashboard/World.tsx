@@ -33,11 +33,11 @@ const World = () => (
       >
           <div className='w-full flex justify-center'>
           <Image
-                width={500}
-                height={500}
+                width={800}
+                height={800}
                 src={'/images/dashboard/result.png'}
                 alt="icon"
-                className="rounded-xl w-[500px] shadow-lg" />
+                className="rounded-xl w-[500px] h-[600px] shadow-lg" />
             
           </div>
         

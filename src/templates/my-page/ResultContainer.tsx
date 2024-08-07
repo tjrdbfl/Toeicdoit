@@ -30,7 +30,7 @@ const ResultContainer = () => {
                         <li
                             key={item.id}
                             onClick={() => { setSelectedTab(item.id) }}
-                            className={`${selectedTab === item.id ? 'bg-black text-white' : 'bg-white text-black'} shadow-md border-slate-100 border-2 font-medium  rounded-full w-auto h-[20px] text-[14px] p-3 hover:bg-slate-50 hover:text-black`}
+                            className={`${selectedTab === item.id ? 'bg-black text-white' : 'bg-white text-black'} shadow-md border-slate-100 border-2 font-medium  rounded-full w-auto h-[25px] text-[14px] p-3 hover:bg-slate-50 hover:text-black`}
                         >
                             {item.title}
                         </li>);

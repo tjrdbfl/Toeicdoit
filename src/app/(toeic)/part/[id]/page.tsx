@@ -77,7 +77,7 @@ export default function PartPracticePage({ params }: {
                             id={Number(params.page)}
                             toeic={toeic} />
                         <div className="mt-10 flex w-full justify-start">
-                            <CustomPagination totalPages={10} type={"single"} />
+                            <CustomPagination totalPages={10} type={"single"} page={currentPage} />
                         </div>
                         <Link 
                         href={PG.PART}

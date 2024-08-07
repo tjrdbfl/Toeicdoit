@@ -39,7 +39,6 @@ const CalendarContainer = ({
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [allEvents, setAllEvents] = useState<IEvent[]>(event || []);
-    const [newEvents, setNewEvents] = useState<IEvent[]>([]);
     const [newEvent, setNewEvent] = useState<IEvent>({
         title: '',
         start: '',
@@ -53,7 +52,8 @@ const CalendarContainer = ({
 
     
     function handleDateClick(arg: { date: Date; allDay: boolean }) {
-        console.log('handleDateClick')
+        console.log('handleDateClick');
+    
         setNewEvent({
             ...newEvent
             , start: arg.date.toISOString()
@@ -67,16 +67,15 @@ const CalendarContainer = ({
 
 
     function addEvent(data: DropArg) {
-
+        
         const event = {
             ...newEvent,
             start: data.date.toISOString(),
-            end: data.date.toISOString(), // Set end time
+            end: data.date.toISOString(), 
             title: data.draggedEl.innerText,
             allDay: true,
             id: new Date().getTime(),
         };
-        setNewEvents((prevEvents) => [...prevEvents, event]);
         setAllEvents((prevEvents) => [...prevEvents, event]);
     }
 
@@ -88,19 +87,18 @@ const CalendarContainer = ({
 
     function deleteEvent() {
         setAllEvents((prevEvents) => prevEvents.filter((e) => e.id !== idToDelete));
-        setNewEvents((prevEvents) => prevEvents.filter((e) => e.id !== idToDelete));
         setIdToDelete(null);
     }
 
     const handleSave = async () => {
 
-        const eventsToSave = newEvents.map(event => ({
-            userId: userId,
-            isAllDay: true,
-            title: event.title,
-            startTime: event.start,
-            endTime: event.end,
-        }));
+        const eventsToSave = allEvents.map(event => ({
+            ...event,
+            startTime: event.start ? new Date(event.start) : undefined,
+            endTime: event.end ? new Date(event.end) : undefined, // Handle end time
+            start: undefined,
+            end: undefined, // Remove start and end fields
+          }));
 
         console.log('newEvents:', JSON.stringify(eventsToSave));
 
@@ -134,8 +132,6 @@ const CalendarContainer = ({
 
     }
 
-
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNewEvent({
             ...newEvent,
@@ -163,8 +159,7 @@ const CalendarContainer = ({
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setAllEvents((prevEvents) => [...prevEvents, newEvent]);
-        setNewEvents((prevEvents) => [...prevEvents, newEvent]);
-
+        
         setShowModal(false);
         setNewEvent({
             title: '',
@@ -175,6 +170,7 @@ const CalendarContainer = ({
             userId: userId,
         });
     }
+
     return (
         <>
             <div className="flex flex-row justify-between items-center px-10 my-5">
@@ -219,6 +215,7 @@ const CalendarContainer = ({
                     eventClick={handleDeleteModal}
                     locale={'ko'}
                     height={500}
+                    timeZone='Asia/Seoul' 
                     eventClassNames={(eventInfo)=>{
                         let className = '';
                         switch (eventInfo.event.title) {

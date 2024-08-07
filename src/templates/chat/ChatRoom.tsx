@@ -126,6 +126,7 @@ const ChatRoom = ({
         eventSource.onmessage = (event) => {
             try {
                 const newMessage: ChatData = JSON.parse(event.data);
+                if(newMessage.id === "0") return;
                 setNewMsg(newMessage.message);
                 console.log("newMessage: " + newMessage);
                 setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -139,25 +140,16 @@ const ChatRoom = ({
         };
 
         eventSource.onerror = (e) => {
-            // useChatAlertStore.setState({
-            //     fadeOut: true,
-            //     message: ERROR.SERVER_ERROR
-            // });
-            // console.error("SSE error", e);
-            // eventSource.close();
-            eventSource = new EventSourcePolyfill(
-                `${process.env.NEXT_PUBLIC_API_URL}/chat/${SERVER_API.CHAT}/recieve/${roomId}`,
-                {
-                    headers: {
-                        Authorization: "Bearer " + token,
-                    },
-                    withCredentials: true,
-                }
-            );
+            useChatAlertStore.setState({
+                fadeOut: true,
+                message: ERROR.SERVER_ERROR
+            });
+            console.error("SSE error", e);
+            eventSource.close();
         }
 
         return () => {
-            //eventSource.close();
+            eventSource.close();
         }
     }, []);
 

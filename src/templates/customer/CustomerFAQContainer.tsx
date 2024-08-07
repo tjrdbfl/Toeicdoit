@@ -81,16 +81,14 @@ export default function CustomerFAQContainer({ page }: { page: number }) {
       <div className="flex justify-center mt-5">
         <CustomPagination
           type="double"
-          totalPages={
-            selectedTab === 0
-              ? totalPages % 7 === 0
-                ? totalPages / 7
-                : totalPages / 7 + 1
-              : CustomerFAQPart[selectedTab - 1].content.length % 7 === 0
+          totalPages={selectedTab === 0
+            ? totalPages % 7 === 0
+              ? totalPages / 7
+              : totalPages / 7 + 1
+            : CustomerFAQPart[selectedTab - 1].content.length % 7 === 0
               ? CustomerFAQPart[selectedTab - 1].content.length / 5
-              : CustomerFAQPart[selectedTab - 1].content.length / 7 + 1
-          }
-        />
+              : CustomerFAQPart[selectedTab - 1].content.length / 7 + 1} 
+              page={page}        />
       </div>
     </>
   );

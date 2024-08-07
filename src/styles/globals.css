@@ -203,15 +203,15 @@ textarea:focus {
 }
 
 .scroll-area-chat::-webkit-scrollbar {
-  width: 8px; /* Adjust the width as needed */
+  width: 8px; 
 }
 
 .scroll-area-chat::-webkit-scrollbar-track {
-  background-color: var(--gray); /* Adjust track color */
+  background-color: var(--white); /* Adjust track color */
 }
 
 .scroll-area-chat::-webkit-scrollbar-thumb {
-  background-color: var(--white); /* Adjust thumb color */
+  background-color: var(--gray); /* Adjust thumb color */
   border-radius: 4px;
 }
 
@@ -226,6 +226,32 @@ textarea:focus {
 .scroll-area::-webkit-scrollbar-thumb {
   background-color: var(--gray); /* Adjust thumb color */
   border-radius: 4px;
+}
+
+/* FullCalendar의 스크롤 컨테이너에 스타일 적용 */
+.fc-scroller {
+  /* 스크롤바 전체 스타일 */
+  &::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    height: 8px; /* 스크롤바 높이 (가로 스크롤바일 경우) */
+  }
+
+  /* 스크롤바 트랙 스타일 */
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 트랙 배경색 */
+    border-radius: 4px; /* 트랙 모서리 둥글게 */
+  }
+
+  /* 스크롤바 썸 스타일 */
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; /* 썸 배경색 */
+    border-radius: 4px; /* 썸 모서리 둥글게 */
+
+    /* 썸 호버 상태 스타일 */
+    &:hover {
+      background-color: #555; /* 썸 호버 시 배경색 */
+    }
+  }
 }
 
 .fc-header-toolbar * {  

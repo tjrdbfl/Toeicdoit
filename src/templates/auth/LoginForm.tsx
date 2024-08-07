@@ -76,28 +76,15 @@ const LoginForm = () => {
     };
 
     const getUserInfo=async()=>{
+        console.log('getUserInfo');
+        
         const response = await findUserInfoById();
+
+        console.log('getUserInfo: '+JSON.stringify(response));
+
         if (response?.status === 200) {
             console.log('response status: '+response.status);
             router.push('/');
-           
-            // useUserInfoStore.setState({
-            //     get:true,
-            //     name:response.data?.name,
-            //     profile:response.data?.profile,
-            //     toeicLevel:response.data?.toeicLevel,
-            //     email:response.data?.email,
-            // });
-
-            // if(get){
-            //     if(name===null){
-            //         router.push(`${PG.USER_INFO}`);
-            //     }else if(toeicLevel===null){
-            //         router.push('/score');
-            //     }else{
-            //         router.push('/');
-            //     }
-            // }
            
         }else if(response?.status===400){
             alert(ERROR.INVALID_MEMBER);
@@ -112,19 +99,20 @@ const LoginForm = () => {
     const passwordRef = useRef<HTMLInputElement>(null);
     
     useEffect(() => {
-        console.log(state.result_message);
-
+       
         if(state.result_message==='SUCCESS'){   
             getUserInfo();
         }else{
             handleError(state.result_message);
         }
      
-    }, [click]);
+    }, [state.result_message]);
 
     return (<>
         <form
-            action={formAction}
+            action={async (formData) => {
+                await formAction(formData); 
+            }}
         >
             <p className="form_label">이메일</p>
             <div className="mt-3"/>

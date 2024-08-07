@@ -9,7 +9,6 @@ export default function RequestPage(){
                     <MyPageHeader label={"1:1 문의 하기"}/>
                     <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                         <RequestForm/>
-                    
                     </div>
             </div>
             );

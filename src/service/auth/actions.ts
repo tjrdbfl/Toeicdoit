@@ -164,7 +164,6 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
 
 
         } else if (response.status === 401) {
-        
             return { ...prevState, result_message: ERROR.INVALID_MEMBER };
         } else {
         
@@ -566,14 +565,9 @@ export async function modifyByPassword(prevState: ModifyPasswordMessageState, fo
     }
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify-by-password`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify-by-password?email=${formData.get('email')?.toString()}&oldPassword=${formData.get('password')?.toString()}&newPassword=${formData.get('newPassword')?.toString()}`, {
             method: 'PUT',
             headers: CommonHeader,
-            body: JSON.stringify({
-                email: formData.get('email')?.toString(),
-                password: formData.get('password')?.toString(),
-                newPassword: formData.get('newPassword')?.toString()
-            }),
             cache: 'no-store'
         });
     

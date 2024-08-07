@@ -34,8 +34,9 @@ export default async function FreePage({searchParams}:{
         const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/findBy?title=${search}&type=free&page=${currentPage - 1}&size=10`, {
             method: 'GET',
             headers: CommonHeader,
-            next: { revalidate: 60 * 60 }
+            cache:'no-store'
         });
+        
         const data: I_ApiBoardResponse = await response.json();
 
         if (data) {

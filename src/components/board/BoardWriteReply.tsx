@@ -1,23 +1,36 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import SubmitButton from "../button/SubmitBtn";
 import { usePathname } from "next/navigation";
-import { createReply } from "@/service/board/actions";
+import { saveReply } from "@/service/board/actions";
+import { handleError } from "@/service/utils/error";
 
 const initialState = {
     message: "",
 };
-const BoardWriteReply = ({name}:{
-    name:string
+const BoardWriteReply = ({name,boardId,page}:{
+    name:string,
+    boardId:number,
+    page:number
 }) => {
-    const pathname = usePathname();
-    const [state, formAction] = useFormState((prevState:{message:string}, formData:FormData) => createReply(prevState, formData, pathname), initialState);
+
+    console.log('BoardWriteReply: '+boardId);
+    
+    const saveReplyByBoardId=saveReply.bind(null,boardId,page);
+    const [state, formAction] = useFormState(saveReplyByBoardId, initialState);
     const [charCount, setCharCount] = useState(0);
     const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setCharCount(event.target.value.length);
     }
+    const [click,setClick]=useState<boolean>(false);
+
+    useEffect(()=>{
+        if(state.message!=='SUCCESS'){
+            handleError(state.message);
+        }
+    },[click]);
     
     return (<>
         <p className="text-black">작성자 : {name}</p>
@@ -27,11 +40,11 @@ const BoardWriteReply = ({name}:{
             className=""
         >
             <input
-            name="writer"
-            id="writer"
+            name="writerName"
+            id="writerName"
             required
             hidden
-            defaultValue={"작성자"}
+            value={name}
             />
             <textarea
                 name="content"
@@ -43,10 +56,14 @@ const BoardWriteReply = ({name}:{
                 maxLength={100}
                 onChange={handleContentChange}
             />
-            <div className="flex flex-row justify-between mt-2">
+            <div className="flex flex-row justify-between mt-4">
                 <p className="text-slate-500 text-end text-[14px] font-medium">{charCount}자/100자</p>
                 <div className="w-28"> 
-                    {/* <SubmitButton label={"등록하기"} /> */}
+                    <SubmitButton 
+                    label={"등록하기"} 
+                    click={click}
+                    setClick={setClick}
+                    />
                     </div>
             </div>
         </form>

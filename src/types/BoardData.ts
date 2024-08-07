@@ -18,6 +18,8 @@ export type ReplyData={
     writerName:string;
     createdAt:Date;
     updatedAt:Date;
+    boardId:number;
+    userId:number;
 }
 
 export interface I_ApiBoardRequest{

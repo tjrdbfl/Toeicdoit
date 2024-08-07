@@ -36,9 +36,9 @@ export default async function FreeDetailPage({ params }: {
         updatedAt: new Date()
     };
 
-    let totalElements:number=0;
-    const name=cookies().get('name')?.value;
-    
+    let totalElements: number = 0;
+    const name = cookies().get('name')?.value;
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/findBy?type=free&page=${params.id}&size=1`, {
             method: 'GET',
@@ -50,7 +50,7 @@ export default async function FreeDetailPage({ params }: {
         if (data) {
             notices = data.content[0];
             totalPages = data.totalPages;
-            totalElements=data.totalElements;
+            totalElements = data.totalElements;
         } else {
             console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
         }
@@ -63,13 +63,15 @@ export default async function FreeDetailPage({ params }: {
 
     return (<>
         <div className="px-20 lg:px-40 py-20">
+            <div className="px-80 mb-5">
+            <FreeLink label={""} />
+            </div>
             <div className="w-full flex flex-col z-10 px-10 lg:px-20 2xl:px-[25%]">
-                <FreeLink label={""} />
                 <div className="mt-5" />
                 <BoardDetailTitle
                     type={"free"}
                     title={notices.title}
-                    category={notices.category||''} />
+                    category={notices.category || ''} />
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailProfile
@@ -79,7 +81,7 @@ export default async function FreeDetailPage({ params }: {
 
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
                 <BoardDetailContent content={notices.content} />
-                <BoardDetailControl id={Number(params.id)} type={"free"}/>
+                <BoardDetailControl id={Number(params.id)} type={"free"} />
 
                 <div className="mt-16" />
                 <div className='flex flex-row items-center gap-x-3'>
@@ -87,17 +89,18 @@ export default async function FreeDetailPage({ params }: {
                     <p className="text-black text-[18px] font-medium">댓글</p>
                 </div>
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
-                <BoardWriteReply name={name||''}/>
+                <BoardWriteReply name={name || ''} boardId={notices.id} page={Number(params.id) || 0} />
                 <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
 
-                {notices.replyIds?.map((reply,index)=>(
-                    <BoardDetailReply 
-                    key={index}
-                    writer={reply.writerName || ''} 
-                    content={reply.content} 
-                    create={new Date().toISOString().slice(0,10)} 
-                    id={reply.id} 
-                    index={index} />          
+                {notices.replyIds?.reverse().map((reply, index) => (
+                    <BoardDetailReply
+                        key={index}
+                        writer={reply.writerName || ''}
+                        content={reply.content}
+                        create={new Date().toISOString().slice(0, 10)}
+                        id={reply.id}
+                        index={index}
+                        update={false} />
                 ))}
             </div>
         </div>

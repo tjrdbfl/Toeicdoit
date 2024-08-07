@@ -1,7 +1,3 @@
-'use server';
-import FreeLink from "@/components/board/FreeLink";
-import SubmitButton from "@/components/button/SubmitBtn";
-import LinkIcon from "@/components/common/LinkIcon";
 import MyPageHeader from "@/components/my-page/MyPageHeader";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
@@ -20,8 +16,8 @@ export default async function BoardModifyPage({ params }: {
         content: "",
         createdAt: new Date(),
         updatedAt: new Date(),
-        type: "자유",
-        writer: ""
+        type: "free",
+        writerName: ""
     };
 
     let totalIndex: number = 0;
@@ -50,7 +46,7 @@ export default async function BoardModifyPage({ params }: {
     <div className="px-20 lg:px-52">
       <div className="mt-5 lg:mt-20" />
       <nav className="flex justify-between mb-3 border-b-2 border-violet-100 p-4">
-        <MyPageHeader label={`${board.type === '자유' ? '자유게시판' : '1대1 문의'} 수정하기`} />
+        <MyPageHeader label={`${board.type === 'free' ? '자유게시판' : '1대1 문의'} 수정하기`} />
       </nav>
       <FreeModifyForm post={board} />
     </div>

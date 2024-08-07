@@ -46,7 +46,7 @@ const Sidebar = () => {
                 <FindInPageOutlinedIcon className="sidebar_icons" />
                 <p
                     className={`sidebar_texts ${currentUrl === `${PG.INQUIRY_DETAILS}` ? 'font-semibold' : ''}`}
-                >문의내역</p>
+                >게시글 및 문의</p>
             </Link>
             <Link href={`${PG.WITHDRAWAL}`}
                 className="sidebar_fill"
@@ -59,7 +59,7 @@ const Sidebar = () => {
                 className="mr-5"
                 />
                 <p
-                    className={`sidebar_texts ${currentUrl === `${PG.INQUIRY_DETAILS}` ? 'font-semibold' : ''}`}
+                    className={`sidebar_texts ${currentUrl === `${PG.WITHDRAWAL}` ? 'font-semibold' : ''}`}
                 >회원탈퇴</p>
             </Link>
         </div>

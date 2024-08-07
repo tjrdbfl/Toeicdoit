@@ -2,7 +2,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
-import { saveFree } from "@/service/board/actions";
+import { saveBoard } from "@/service/board/actions";
 import { handleError } from "@/service/utils/error";
 import {
   initialFreeMessageState,
@@ -15,12 +15,32 @@ import { useFormState, useFormStatus } from "react-dom";
 export default function RequestForm() {
   const [charCount, setCharCount] = useState(0);
 
-  const [state, formAction] = useFormState(saveFree, initialFreeMessageState);
+  const [state, formAction] = useFormState(saveBoard, initialFreeMessageState);
   const { pending } = useFormStatus();
   const [message, setMessage] = useState<FreeMessageState>(
     initialFreeMessageState
   );
   const router = useRouter();
+  
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value.length < 8) {
+      setMessage((prevState) => ({
+        ...prevState,
+        message: {
+          ...prevState.message,
+          title: ["최소 8자리 이상 입력해주세요."]
+        },
+      }));
+    } else {
+      setMessage((prevState) => ({
+        ...prevState,
+        message: {
+          ...prevState.message,
+          title: [""]
+        },
+      }));
+    }
+  }
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCharCount(event.target.value.length);
@@ -44,11 +64,9 @@ export default function RequestForm() {
   };
 
   useEffect(() => {
-    console.log("state" + JSON.stringify(state));
-    setMessage(state);
-
+    
     if (state.result_message === "SUCCESS") {
-      router.push(`${PG.FREE}`);
+      router.push(`${PG.INQUIRY_DETAILS}`);
     } else {
       handleError(state.result_message);
     }
@@ -64,7 +82,11 @@ export default function RequestForm() {
             </label>
             <p className="text-red-500">*</p>
           </div>
-
+          <input
+        className="hidden"
+        value={'request'}
+        name='type'
+        />
           <div className="mt-3" />
           <select
             name="category"
@@ -79,6 +101,34 @@ export default function RequestForm() {
             <option value="기타">기타</option>
           </select>
         </div>
+
+        <div className="flex flex-row gap-x-5 ">
+        <div className="flex flex-row gap-x-2 w-[100px]">
+          <label htmlFor="title" className="form_label">
+            제목
+          </label>
+          <p className="text-red-500">*</p>
+        </div>
+
+        <div className="mt-3" />
+        <div className="flex flex-col w-full">
+          <input
+            type="text"
+            name="title"
+            id="title"
+            required
+            className="form_input"
+            placeholder="필수 항목입니다."
+            disabled={pending}
+            onChange={handleTitleChange}
+          />
+          {message.message.title && (
+            <p aria-live="polite" className="text-red-500 mt-2 text-[13px]">
+              {message.message.title}
+            </p>
+          )}
+        </div>
+      </div>
 
         <div className="flex flex-row gap-x-5">
           <div className="flex flex-row gap-x-2 w-[100px]">
@@ -130,7 +180,7 @@ export default function RequestForm() {
         <div className="bg-zinc-300 w-full h-[0.5px] my-3" />
         <div className="w-full flex justify-center mt-5">
           <div className="w-[400px]">
-            {/* <SubmitButton label={"문의접수"} /> */}
+            <SubmitButton label={"문의접수"} />
           </div>
         </div>
       </form>

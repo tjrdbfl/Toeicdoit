@@ -1,5 +1,6 @@
 'use server';
 
+import CustomPagination from "../common/CustomPagination";
 import BoardBody from "./BoardBody";
 import { BoardData } from "@/types/BoardData";
 
@@ -44,7 +45,7 @@ const BoardTable = async ({
                                     type={type}
                                 >
                                     <td className=" whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
-                                        {totalElements-(10*(page-1))-index}
+                                        {totalElements-(10*(page))-index}
                                     </td>
                                     <td className="whitespace-nowrap  sm:w-[36%]  text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">
@@ -58,7 +59,7 @@ const BoardTable = async ({
                                             </>}
                                             <p className="hidden text-ellipsis md:table">{notice.title}</p>
                                             <div className="md:hidden">
-                                                <p className="text-ellipsis">{notice.title.slice(0, 9) + '...'}</p>
+                                                <p className="text-ellipsis">{notice.title.slice(0, 6) + '...'}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -75,7 +76,6 @@ const BoardTable = async ({
                 </div>
             </div>
         </div>
-
     </>);
 }
 export default BoardTable;

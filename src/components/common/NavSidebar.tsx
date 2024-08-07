@@ -17,7 +17,8 @@ const NavSidebar = ({ isSticky }: {
 }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const scope = useSidebarMenuAnimation(isOpenSidebar);
-  
+  const [show,setShow]=useState<boolean>(false);
+
   const [userInfo,setUserInfo]=useState<UserInfoType>({
     name: undefined,
     toeicLevel:undefined,
@@ -27,24 +28,27 @@ const NavSidebar = ({ isSticky }: {
   
   const handleUserInfo=async()=>{
     const userIdResponse=await getUserIdInCookie();
-    
-    if(userIdResponse!==undefined){
+    setShow(true);
+
+    if(userIdResponse.data!==undefined){
       setUserInfo((prevState)=>({...prevState,userId:Number(userIdResponse)}));
       
-      console.log('setUserInfo: '+userInfo.userId===undefined);
+      console.log('setUserInfo: '+(userInfo.userId===undefined));
       
       const response=await getUserInfoInCookie();
       
       setUserInfo((prevState)=>({...prevState,name:response.name}));
       setUserInfo((prevState)=>({...prevState,profile:response.profile}));
       setUserInfo((prevState)=>({...prevState,toeicLevel:response.toeicLevel===undefined? 0:Number(response.toeicLevel)}));
+    }else{
+      setShow(false);
     }
 
   }
   
   useEffect(()=>{
     handleUserInfo();
-    console.log('NavSidebar: '+userInfo.userId);
+    console.log('NavSidebar: '+userInfo.userId===undefined);
   },[]);
 
   return (
@@ -71,10 +75,10 @@ const NavSidebar = ({ isSticky }: {
 
         </motion.button>
 
-        {userInfo.userId===undefined ?
-        <GettingStartedBtn isSticky={isSticky} />
-        :
+        {show ?
           <SelectAuth name={userInfo.name} profile={userInfo.profile} toeicLevel={userInfo.toeicLevel} />
+        :
+        <GettingStartedBtn isSticky={isSticky} />
         }
 
       </div>

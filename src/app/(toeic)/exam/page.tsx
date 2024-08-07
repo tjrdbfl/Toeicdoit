@@ -59,7 +59,7 @@ export default function ExamPage({ searchParams }: {
                     <ExamTable query={query} currentPage={currentPage} />
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
-                    <CustomPagination totalPages={10} type={"double"} />
+                    <CustomPagination totalPages={10} type={"double"} page={currentPage} />
                 </div>
             </div>
         </div>

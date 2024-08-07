@@ -148,9 +148,6 @@ export async function getUserIdInCookie(){
    
 }
 export async function getUserInfoInCookie(){
-    
-    console.log('getUserInfoInCookie: '+cookies().get('email')?.value);
-    console.log('getUserInfoInCookie: '+cookies().get('name')?.value);
 
     const checkResposnse =await checkTokenExist();
    

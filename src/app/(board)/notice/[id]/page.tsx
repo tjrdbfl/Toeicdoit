@@ -18,8 +18,8 @@ export default async function NoticeDetailPage({ params }: {
 
     let totalPages: number = 0;
     let notices: BoardData[] = [];
-    let totalElements:number=0;
-    
+    let totalElements: number = 0;
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/findBy?type=notice&page=${params.id}&size=1`, {
             method: 'GET',
@@ -31,7 +31,7 @@ export default async function NoticeDetailPage({ params }: {
         if (data) {
             notices = data.content;
             totalPages = data.totalPages;
-            totalElements=data.totalElements;
+            totalElements = data.totalElements;
         } else {
             console.error('Failed to get response data by find-by-types' + ERROR.SERVER_ERROR);
         }
@@ -43,8 +43,11 @@ export default async function NoticeDetailPage({ params }: {
 
     return (<>
         <div className="px-28 py-20">
-            <div className="w-full flex flex-col lg:px-20 2xl:px-[25%]">
+            <div className="px-80 mb-5">
                 <NoticeLink />
+            </div>
+
+            <div className="w-full flex flex-col lg:px-20 2xl:px-[25%]">
                 <div className="mt-8" />
                 <BoardDetailTitle
                     type={"notice"}
@@ -59,7 +62,7 @@ export default async function NoticeDetailPage({ params }: {
 
                 <div className="bg-zinc-300 w-full h-[0.5px] mt-3" />
                 <BoardDetailContent content={notices[0]?.content} />
-                <BoardDetailControl id={Number(params.id)} type={"notice"}/>
+                <BoardDetailControl id={Number(params.id)} type={"notice"} />
             </div>
         </div>
     </>);

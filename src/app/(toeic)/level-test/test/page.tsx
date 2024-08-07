@@ -94,7 +94,7 @@ export default async function LevelTestPage({ searchParams }: {
 
                     </div>
                     <div className="mt-10 flex w-full justify-end">
-                        <CustomPagination totalPages={5} type={"single"} />
+                        <CustomPagination totalPages={5} type={"single"} page={currentPage} />
                     </div>
                 </div>
 
