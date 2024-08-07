@@ -18,7 +18,7 @@ const ModifyUserInfo=({email,name,phone,toeicLevel}:{
     <div className="flex flex-col">
         <p className="text-black text-lg font-medium">{name}님 안녕하세요.</p>
         <div className="mt-3"/>
-        <p className="text-[var(--blue2)] font-medium text-[14px]">Lv . {toeicLevel===null? 0: toeicLevel}</p>
+        <p className="text-[var(--blue2)] font-medium text-[14px]">Lv . {toeicLevel===undefined || toeicLevel===null ? 0: toeicLevel}</p>
         <div className="mt-5"/>
         <MyPageBtn label={'회원정보 수정'} />
     </div>

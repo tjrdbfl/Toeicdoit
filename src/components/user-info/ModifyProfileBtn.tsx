@@ -8,13 +8,13 @@ import { useFormStatus } from 'react-dom';
 import { useDropzone } from 'react-dropzone';
 
 const ModifyProfileBtn = ({ profile }: {
-    profile: string;
+    profile: string|undefined;
 }) => {
     const searchParams = useSearchParams().get('profile');
 
     return (<>
         <div className='flex flex-col justify-center items-center my-4'>
-            {profile === '' ?
+            {profile === undefined ?
                 <Image
                     src={'/svgs/icons/account-icon.svg'}
                     alt={'account-icon'}
@@ -23,7 +23,7 @@ const ModifyProfileBtn = ({ profile }: {
                     className='w-[70px] h-[70px] rounded-full mb-2'
                 /> : <>
                     <Image
-                        src={'http://dummyimage.com/243x100.png/ff4444/ffffff'}
+                        src={profile}
                         alt={'Profile'}
                         width={300}
                         height={300}

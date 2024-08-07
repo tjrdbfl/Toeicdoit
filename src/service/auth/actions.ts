@@ -48,7 +48,6 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
             const cookieAccessString = response.headers.getSetCookie()[0];
             const cookieRefreshString = response.headers.getSetCookie()[1];
 
-
             cookies().set({
                 name: 'accessToken',
                 value: extractCookie(cookieAccessString, 'accessToken'),
@@ -68,6 +67,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 sameSite: 'lax',
                 httpOnly: true
             });
+            console.log('LOCAL accessToken: '+JSON.stringify(cookies().get('accessToken')));
 
             const payload = jwtDecode<PayloadData>(cookieAccessString);
 
@@ -254,6 +254,7 @@ export async function logout() {
                 cookies().delete('name');
                 cookies().delete('toeicLevel');
                 cookies().delete('profile');
+                cookies().delete('SESSION');
 
                 revalidatePath('/');
                 return { message: 'SUCCESS' };
@@ -269,6 +270,7 @@ export async function logout() {
                 cookies().delete('name');
                 cookies().delete('toeicLevel');
                 cookies().delete('profile');
+                cookies().delete('SESSION');
 
                 revalidatePath('/');
                 return { message: 'SUCCESS' };
@@ -583,5 +585,52 @@ export async function modifyByPassword(prevState: ModifyPasswordMessageState, fo
         return { ...prevState, result_message: ERROR.SERVER_ERROR };
     }
    
+}
+
+export async function findByNameProfile(userList:number[]){
+   
+    //console.log('findByNameProfile');
+
+    const checkResposnse = await checkTokenExist();
+
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { result_message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { result_message: ERROR.INVALID_MEMBER };
+    } else {
+        const accessToken=cookies().get('accessToken')?.value;
+
+        if(userList.length===0){
+            return {message:ERROR.INVALID_INPUT};
+        }
+        
+        try{
+        
+            const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-name-profile`,{
+                method:'GET',
+                headers:AuthorizeHeader(accessToken),
+                body:JSON.stringify({
+                    "id":userList
+                }),
+                cache:'no-store',
+            })
+
+            console.log('findByNameProfile: '+response.status);
+
+            if(response.status===200){
+                const result=await response.json()
+    
+                return {message:'SUCCESS',data:result};
+            }else{
+                return {message:ERROR.SERVER_ERROR};
+            }
+        }catch(err){
+            console.log('findByNameProfile: '+err);
+
+            return {message:ERROR.SERVER_ERROR};
+        }
+      
+        
+    }
 }
 

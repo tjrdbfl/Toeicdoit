@@ -50,34 +50,14 @@ const ChatMessage = ({ chat,token }: {
                     </div>
                     :
                     <div className="flex flex-row gap-x-2">
-                        <PopOverOption
-                            buttonChildren={
-                            <Image
+                        <Image
                                 src={"/images/dashboard/people-01.png"}
                                 alt={"user_profile"}
                                 width={50}
                                 height={50}
                                 style={{ borderRadius: 'full' }}
-                                className=""
-                            />}
-                            optionChildren={
-                                <div className="flex flex-col">
-                                    {block.map((item) => {
-                                        return (
-                                            <button
-                                            key={item.id}
-                                                onClick={() => {
-                                                    setOpenModal(true)
-                                                    setSelectedId(item.id)
-                                                }}
-                                                className="bg-white w-[100px] text-black text-center font-medium p-2 border-black border-y-1 hover:bg-slate-50">
-                                                {item.title}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            }
-                            buttonStyle={"object-fill w-[30px] h-[30px] rounded-full flex items-start hover:ring-4 hover:ring-blue-300 ml-2"} />
+                                className="w-[25px] h-[25px]"
+                            />
                         {openModal && <ChatCautionModal
                             type='block'
                             chat={chat}

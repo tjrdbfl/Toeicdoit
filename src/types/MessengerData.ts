@@ -3,10 +3,6 @@ export type MessageData={
     state?:boolean;
     count?:number;
     data:Object;
-    accessToken:string;
-    refreshToken:string;
-    accessTokenExpired:number;
-    refreshTokenExpired:number;
 }
 export type PayloadData={
     sub:string;

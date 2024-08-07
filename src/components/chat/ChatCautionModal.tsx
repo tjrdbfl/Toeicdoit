@@ -102,8 +102,8 @@ const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
                             message:chat?.senderName+`님이 채팅방을 나가셨습니다`,
                         });
                     }else if(type==='drawer' && option.id===1){
-                        //api 통신
-
+                        
+                            
                     }
                    
                 }}

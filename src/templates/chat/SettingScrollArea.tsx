@@ -15,6 +15,7 @@ const SettingScrollArea = () => {
     const [category, setCategory] = useState<string>('all');
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
+        
     };
 
     const { data, error, status, fetchNextPage, isFetchingNextPage, refetch } =
