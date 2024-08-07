@@ -1,6 +1,4 @@
 'use server';
-
-import CustomPagination from "../common/CustomPagination";
 import BoardBody from "./BoardBody";
 import { BoardData } from "@/types/BoardData";
 
@@ -41,11 +39,11 @@ const BoardTable = async ({
                             {boards?.map((notice, index, arr) => (
                                 <BoardBody
                                     key={notice.id}
-                                    id={(10*page)+index}
+                                    id={(10*(page-1))+index}
                                     type={type}
                                 >
                                     <td className=" whitespace-nowrap w-[17%] 2xl:w-[8%] md:w-[16%] lg:w-[14%] text-center">
-                                        {totalElements-(10*(page))-index}
+                                        {totalElements-(10*(page-1))-index}
                                     </td>
                                     <td className="whitespace-nowrap  sm:w-[36%]  text-center">
                                         <div className="flex flex-row gap-x-5 items-center justify-start">

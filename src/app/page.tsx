@@ -23,7 +23,7 @@ export default async function Home({ searchParams }: {
         </div>
         <ChatContainer />
         {searchParams.roomId && <ChatContentContainer roomId={searchParams.roomId} />}
-        <div className="total_padding">
+        <div className="total_padding mt-10">
           <Hero />
           <About />
 

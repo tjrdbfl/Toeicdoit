@@ -32,8 +32,6 @@ const LoginForm = () => {
     const [message,setMessage]=useState<LoginMessageState>(initialState);
     const [click,setClick]=useState<boolean>(false);
 
-    const {get,name,profile,toeicLevel}=useUserInfoStore();
-
     const router=useRouter();
     const handleEmailChange=(event:ChangeEvent<HTMLInputElement>)=>{
         if(event.target.value.length<1){
@@ -75,33 +73,13 @@ const LoginForm = () => {
         }
     };
 
-    const getUserInfo=async()=>{
-        console.log('getUserInfo');
-        
-        const response = await findUserInfoById();
-
-        console.log('getUserInfo: '+JSON.stringify(response));
-
-        if (response?.status === 200) {
-            console.log('response status: '+response.status);
-            router.push('/');
-           
-        }else if(response?.status===400){
-            alert(ERROR.INVALID_MEMBER);
-            router.push(`${PG.LOGIN}`);
-        }else{
-            alert(response?.message);
-        }
-
-    }
     //Refs
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     
-    useEffect(() => {
-       
+    useEffect(() => {     
         if(state.result_message==='SUCCESS'){   
-            getUserInfo();
+            router.push('/');
         }else{
             handleError(state.result_message);
         }

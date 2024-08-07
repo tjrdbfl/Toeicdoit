@@ -9,9 +9,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 const LogoutBtn = () => {
     const router = useRouter();
-    
-    const [click,setClick]=useState<boolean>(false);
-    
+
     const handleLogout = async () => {
         const response = await logout();
 
@@ -24,8 +22,7 @@ const LogoutBtn = () => {
             handleError(result);
             
             router.push('/');     
-        }
-        
+        }  
        
     };
 

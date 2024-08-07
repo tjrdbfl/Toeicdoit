@@ -101,7 +101,7 @@ export default function FreeSaveForm() {
           <option value="시험 후기">시험 후기</option>
         </select>
       </div>
-      <p aria-live="polite" className="sr-only text-red-500 mt-1">{message.message.category}</p>
+      <p aria-live="polite" className="sr-only text-red-500 mt-1">{state.message.category}</p>
 
 
       <div className="flex flex-row gap-x-5 mt-10">
@@ -124,9 +124,9 @@ export default function FreeSaveForm() {
             disabled={pending}
             onChange={handleTitleChange}
           />
-          {message.message.title && (
+          {state.message.title && (
             <p aria-live="polite" className="text-red-500 mt-2 text-[13px]">
-              {message.message.title}
+              {state.message.title}
             </p>
           )}
         </div>
@@ -154,9 +154,9 @@ export default function FreeSaveForm() {
             disabled={pending}
           />
           <div className="flex flex-row justify-between mt-1">
-            {message.message.content && ( // error_message가 있으면 오류 메시지 표시
+            {state.message.content && ( // error_message가 있으면 오류 메시지 표시
               <p aria-live="polite" className="text-red-500 mt-1 text-[13px]">
-                {message.message.content}
+                {state.message.content}
               </p>
             )}
             <p className="text-slate-500 text-end font-medium text-[14px]">

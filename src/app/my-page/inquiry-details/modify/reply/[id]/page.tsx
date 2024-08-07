@@ -98,7 +98,8 @@ export default async function ModifyReplyPage({ params }: {
                     content={reply.content} 
                     create={new Date().toISOString().slice(0,10)} 
                     id={reply.id} 
-                    index={index} 
+                    index={index}
+                    boardId={reply.boardId} 
                     update={true}/>          
                 ))}
             </div>

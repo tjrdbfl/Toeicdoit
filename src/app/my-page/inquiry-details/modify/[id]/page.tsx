@@ -1,9 +1,11 @@
+import ReturnToBtn from "@/components/button/ReturnToBtn";
 import MyPageHeader from "@/components/my-page/MyPageHeader";
-import { CommonHeader } from "@/config/headers";
+import { AuthorizeHeader, CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import FreeModifyForm from "@/templates/board/FreeModifyForm";
 import { BoardData, I_ApiBoardDetailRequest, I_ApiBoardDetailResponse } from "@/types/BoardData";
+import { cookies } from "next/headers";
 
 export default async function BoardModifyPage({ params }: {
     params: { id: number }
@@ -23,9 +25,11 @@ export default async function BoardModifyPage({ params }: {
     let totalIndex: number = 0;
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/detail?id=${params.id}`, {
+        const accessToken = cookies().get('accessToken')?.value;
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.BOARD}/find-by-id?id=${params.id}`, {
             method: 'GET',
-            headers: CommonHeader,
+            headers: AuthorizeHeader(accessToken),
             next: { revalidate: 60 * 60 }
         })
 
@@ -43,13 +47,18 @@ export default async function BoardModifyPage({ params }: {
 
 
     return (<>
-    <div className="px-20 lg:px-52">
-      <div className="mt-5 lg:mt-20" />
-      <nav className="flex justify-between mb-3 border-b-2 border-violet-100 p-4">
-        <MyPageHeader label={`${board.type === 'free' ? '자유게시판' : '1대1 문의'} 수정하기`} />
-      </nav>
-      <FreeModifyForm post={board} />
-    </div>
-        
+        <div className="px-20 lg:px-52">
+            <div className="mt-5 lg:mt-20" />
+            <div className="flex flex-row mb-3 border-b-2 border-zinc-100">
+            <nav className="flex justify-between  w-full p-4">
+                <MyPageHeader label={`${board.type === 'free' ? '자유게시판' : '1대1 문의'} 수정하기`} />
+            </nav>
+                <div className="w-full flex justify-end mt-2">
+                    <ReturnToBtn />
+                </div>
+            </div>
+            <FreeModifyForm post={board} />
+        </div>
+
     </>);
 }

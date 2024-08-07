@@ -9,15 +9,15 @@ import { ReplyData } from "@/types/BoardData";
 import { Suspense } from "react";
 
 
-export default async function InquiryDetailsPage({ params }: {
-    params: {
+export default async function InquiryDetailsPage({ searchParams }: {
+    searchParams: {
         page: string;
     }
 }){
 
     let reply:ReplyData[]=[];
 
-    const currentPage = Number(params?.page) || 1;
+    const currentPage = Number(searchParams?.page) || 1;
 
     const response=await findAllReplyByUserId();
 
@@ -25,17 +25,19 @@ export default async function InquiryDetailsPage({ params }: {
         reply=response.data||[];
     }
 
+    console.log('current: '+currentPage);
     return (<>
         <div className="flex flex-col mt-10 lg:mt-20">
             <MyPageHeader label={"게시글 및 문의내역"}/>
             <div className="mt-5"/>
             <Suspense key={currentPage} fallback={<><BoardLoading /></>}>
-                <InquiryTable page={Number(params.page)||0} />
+                <InquiryTable page={currentPage} />
             </Suspense>
+            
             <div className="mt-10"/>
             <MyPageHeader label={"댓글 관리"}/>
             <div className="mt-5"/>
-            <UserReplyContainer replyResult={reply} />
+            <UserReplyContainer replyResult={reply}  />
         
         </div>
     </>);

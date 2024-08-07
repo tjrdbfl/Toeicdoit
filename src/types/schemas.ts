@@ -108,7 +108,7 @@ export const FreeSaveSchema = z.object({
     category: z.string().min(1, { message: "카테고리를 선택해주세요." }),
     title: z.string().min(8, { message: "최소 8자리 이상 입력해주세요." }),
     content: z.string().min(50, { message: "최소 50자리 이상 입력해주세요." }).max(1000, { message: "최대 1000자까지 입력 가능합니다." }),
-    type: z.string().min(1),
+    type: z.string().min(1).optional(),
 })
 
 export const FreeReplySchema = z.object({

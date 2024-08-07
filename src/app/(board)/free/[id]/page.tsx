@@ -99,6 +99,7 @@ export default async function FreeDetailPage({ params }: {
                         content={reply.content}
                         create={new Date().toISOString().slice(0, 10)}
                         id={reply.id}
+                        boardId={reply.boardId}
                         index={index}
                         update={false} />
                 ))}

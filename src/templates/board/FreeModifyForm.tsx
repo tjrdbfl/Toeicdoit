@@ -3,6 +3,7 @@ import SubmitButton from "@/components/button/SubmitBtn";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { modifyBoard, deleteBoard } from "@/service/board/actions";
+import { handleError } from "@/service/utils/error";
 import { BoardData } from "@/types/BoardData";
 import {
   initialFreeMessageState,
@@ -13,7 +14,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 export default function FreeModifyForm({ post }: { post: BoardData }) {
-  const { pending } = useFormStatus();
+  
   const [state, formAction] = useFormState(
     modifyBoard,
     initialFreeMessageState
@@ -22,8 +23,7 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
   const [message, setMessage] = useState<FreeMessageState>(
     initialFreeMessageState
   );
-  const [deleteResult, setDeleteResult] = useState<string>("");
-
+  
   const router = useRouter();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -69,30 +69,23 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
 
   const handleDelete = async () => {
     const deleteResult = await deleteBoard(post.id);
-    setDeleteResult(deleteResult.message);
+    if(deleteResult.message==='SUCCESS'){
+      alert('삭제에 성공하셨습니다.');
+      router.push(`${PG.INQUIRY_DETAILS}`);
+    }else{
+      handleError(deleteResult.message);
+    }
   };
 
   useEffect(() => {
-    console.log("state" + JSON.stringify(state));
-    setMessage(state);
+   
     if (state.result_message === "SUCCESS") {
-      router.push(PG.INQUIRY_DETAILS);
-      router.refresh();
+      alert('수정을 성공하셨습니다.');
+      router.push(`${PG.INQUIRY_DETAILS}`);
     } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
       alert(state.result_message);
     }
   }, [state.result_message]);
-
-  useEffect(() => {
-    if (deleteResult === "SUCCESS") {
-      alert("삭제에 성공하셨습니다.");
-      router.push(PG.INQUIRY_DETAILS);
-    } else if (deleteResult === ERROR.SERVER_ERROR) {
-      alert(ERROR.SERVER_ERROR);
-    } else if (deleteResult === ERROR.INVALID_INPUT) {
-      alert("삭제할 항목을 선택해주세요");
-    }
-  }, [deleteResult]);
 
   return (
     <>
@@ -104,7 +97,7 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
             </button>
           </div>
           <div className="w-[80px]">
-            {/* <SubmitButton label={"수정"} /> */}
+            <SubmitButton label={"수정"} />
           </div>
         </div>
 
@@ -168,9 +161,9 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
                 placeholder={post.title}
                 defaultValue={post.title}
               />
-              {message.message.title && (
+              {state.message.title && (
                 <p aria-live="polite" className="text-red-500 mt-2 text-[13px]">
-                  {message.message.title}
+                  {state.message.title}
                 </p>
               )}
             </div>
@@ -198,9 +191,9 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
             onChange={handleContentChange}
           />
             <div className="flex flex-row justify-between mt-1">
-            {message.message.content && ( // error_message가 있으면 오류 메시지 표시
+            {state.message.content && ( // error_message가 있으면 오류 메시지 표시
               <p aria-live="polite" className="text-red-500 mt-1 text-[13px]">
-                {message.message.content}
+                {state.message.content}
               </p>
             )}
             <p className="text-slate-500 text-end font-medium text-[14px]">

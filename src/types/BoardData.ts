@@ -16,6 +16,7 @@ export type ReplyData={
     id:number;
     content:string;
     writerName:string;
+    boardTitle:string;
     createdAt:Date;
     updatedAt:Date;
     boardId:number;

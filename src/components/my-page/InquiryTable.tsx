@@ -12,6 +12,7 @@ const InquiryTable = ({
     page:number,
 }) => {
 
+    console.log('page: '+page);
     const [type, setType] = useState('all');
     const [boardArray,setBoardArray]=useState<BoardData[]>([]);
     const [totalElements,setTotalElements]=useState<number>(0);
@@ -35,7 +36,7 @@ const InquiryTable = ({
 
     useEffect(()=>{
         handleGetBoard();
-        console.log('useEffect: '+boardArray);
+        console.log('useEffect: '+totalElements);
     },[type]);
 
     return (<>
@@ -110,7 +111,7 @@ const InquiryTable = ({
                                     >
                                         <td
                                             className="whitespace-nowrap 2xl:w-[9%] lg:w-[10%] md:w-[19%] text-center 2xl:ml-10">
-                                             {totalElements-(10*(page))-index}
+                                             {totalElements-(10*(page-1))-index}
                                         </td>
                                         <td className="mr-5 whitespace-nowrap 2xl:w-[5%] lg:w-[10%] md:w-[20%] text-center">
                                             <p className={`${board.type === 'request' ? "text-red-500 font-medium" :
@@ -150,7 +151,7 @@ const InquiryTable = ({
             </div>
             <div className="mt-5"/>
             <div className="flex w-full justify-center">
-                <CustomPagination type='double' totalPages={totalPages} page={Number(page)||0} />
+                <CustomPagination type='double' totalPages={totalPages} page={page} />
             </div>
     </>);
 }

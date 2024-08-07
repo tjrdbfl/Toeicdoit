@@ -51,10 +51,10 @@ export default async function NoticePage({ searchParams }: {
                     <Search placeholder={"검색어를 입력해주세요."} />
                 </div>
                 <Suspense key={search + currentPage} fallback={<><BoardLoading /></>}>
-                    <BoardTable boards={notices} type={"notice"} totalElements={totalElements} page={Number(searchParams?.page)||0}/>
+                    <BoardTable boards={notices} type={"notice"} totalElements={totalElements} page={currentPage}/>
                 </Suspense>
                 <div className="mt-5 flex w-full justify-center">
-                    <CustomPagination type='double' totalPages={totalPages} page={Number(searchParams?.page)||0}/>
+                    <CustomPagination type='double' totalPages={totalPages} page={currentPage}/>
                 </div>
             </div>
         </div>
