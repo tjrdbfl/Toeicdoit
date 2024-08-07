@@ -89,3 +89,70 @@ export const StudyRecipe1:StudyRecipe1Type[]=[
     },
   
 ]
+export type StudyRecipe2Type={
+    id:number,
+    part:string,
+    col1:number,
+    col2:number,
+    col3:number,
+    col4:number,
+}
+export const StudyRecipe2:StudyRecipe2Type[]=[
+    {
+        id: 0,
+        part: "PART1",
+        col1: 20,
+        col2: 29,
+        col3: 40,
+        col4: 0
+    },
+    {
+        id: 1,
+        part: "PART2",
+        col1: 27,
+        col2: 49,
+        col3: 71,
+        col4: 0
+    },
+    {
+        id: 2,
+        part: "PART3",
+        col1: 16,
+        col2: 26,
+        col3: 37,
+        col4: 0
+    },
+    {
+        id: 3,
+        part: "PART4",
+        col1: 11,
+        col2: 18,
+        col3: 25,
+        col4: 0
+    },
+    {
+        id: 4,
+        part: "PART5",
+        col1: 55,
+        col2: 132,
+        col3: 226,
+        col4: 0
+    },
+    {
+        id: 5,
+        part: "PART6",
+        col1: 12,
+        col2: 24,
+        col3: 39,
+        col4: 0
+    },
+    {
+        id: 6,
+        part: "PART7",
+        col1: 6,
+        col2: 10,
+        col3: 18,
+        col4: 0
+    },
+  
+]
