@@ -142,8 +142,10 @@ export async function getUserIdInCookie() {
         return { message: ERROR.INVALID_MEMBER };
     } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
         return { message: ERROR.INVALID_MEMBER };
-    } else {
+    } else if (checkResposnse?.status === 200) {
         return { message: 'SUCCESS', data: cookies().get('userId')?.value };
+    } else {
+        return { message: ERROR.SERVER_ERROR };
     }
 
 }

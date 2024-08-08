@@ -18,11 +18,17 @@ const ChatCard = ({ chat }: {
     const handleUserId = async () => {
         const response = await getUserIdInCookie();
 
-        if (response === undefined) {
+        console.log('response: ' + JSON.stringify(response));
+        if (response.message === ERROR.INVALID_MEMBER
+            || response.message === ERROR.SERVER_ERROR || response.data === undefined
+        ) {
             alert(ERROR.INVALID_MEMBER);
         } else {
-            router.push(`?chat=true&roomId=${chat.id}`);
-            const repsonse=await enterRoom(chat.id);
+            const repsonse = await enterRoom(chat.id);
+            if (response.message === 'SUCCESS') {
+                router.push(`?chat=true&roomId=${chat.id}`);
+            }
+
         }
     }
 
@@ -58,15 +64,15 @@ const ChatCard = ({ chat }: {
                     </div>
 
                 </div>
-            
+
             </div>
             <Image
-                    src={ChatRoomPhoto(chat.roomCategories[0])}
-                    alt={"chat-roon-profile"}
-                    width={100}
-                    height={80}
-                    className="flex justify-center chats-center border-slate-100 border-2 rounded-xl p-2"
-                />
+                src={ChatRoomPhoto(chat.roomCategories[0])}
+                alt={"chat-roon-profile"}
+                width={100}
+                height={80}
+                className="flex justify-center chats-center border-slate-100 border-2 rounded-xl p-2"
+            />
         </button>
     </>);
 }

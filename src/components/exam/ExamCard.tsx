@@ -96,16 +96,11 @@ const ExamCard: FC<ExamCardProps> = ({toeic}) => {
         </div>
 
         {toeic.take && (
-          <>
-            <div className="flex flex-row gap-x-5 mt-5">
-              <ToeicModalBtn
-                id={1}
-                label={"해설 보기"}
-                description={"toeic.description"}
-              />
-              <ToeicModalBtn id={2} label={"ai 해설 강의 듣기"} />
-            </div>
-          </>
+           <ToeicModalBtn
+           id={1}
+           label={"해설 보기"}
+           toeic={toeic}
+         />
         )}
       </div>
     </>

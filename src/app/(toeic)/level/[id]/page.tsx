@@ -7,7 +7,7 @@ import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
-import { I_ApiLevelTestResponse, ToeicDataPublic } from "@/types/ToeicData";
+import { I_ApiLevelTestResponse, ToeicDataPublic, ToeicProblemData } from "@/types/ToeicData";
 import Link from "next/link";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -38,11 +38,12 @@ export default async function LevelPracticePage({ params }: {
         answer: "",
         description: "",
         script: "",
-        numberOfQuestions: 20
+        numberOfQuestions: 0
     };
 
+    
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.TOEIC}/find-types?page=${currentPage - 1}&size=1`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_TOEIC_API_URL}/${SERVER_API.TOEIC}/level?page=${currentPage - 1}&size=1`, {
             method: 'GET',
             headers: CommonHeader,
             cache: 'no-store'

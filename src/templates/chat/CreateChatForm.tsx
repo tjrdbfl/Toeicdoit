@@ -39,7 +39,7 @@ export default function CreateChatForm({setCreate}:{
             handleError(state.message);
         }
 
-    }, [state?.message]);
+    }, [state.message]);
 
     return (<>
         <form
@@ -81,7 +81,7 @@ export default function CreateChatForm({setCreate}:{
             </div>
 
             <div className="mt-10" />
-            {/* <SubmitButton disabled={pending} label={"등록하기"} /> */}
+            <SubmitButton disabled={pending} label={"등록하기"} />
             <p aria-live="polite" className="sr-only" role="status">
                 {state?.message}
             </p>

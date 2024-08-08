@@ -7,6 +7,7 @@ import { PG } from "@/constants/enums/PG";
 import { ExamPart, allParts } from "@/constants/toeic/exam";
 import { submitAnswer, submitExamAnswer } from "@/service/toeic/actions";
 import { useNumberOfQuestionStore, useResultStore } from "@/store/toeic/store";
+import { useExamTimerStore } from "@/store/toeic/timer";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -25,7 +26,8 @@ const ExamAnswer = ({toeicId}:{toeicId:number}) => {
 
     const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const router=useRouter();
-
+    const {timeElapsed}=useExamTimerStore();
+        
     useEffect(() => {
         const numbers: { [key: string]: number[] } = {};
         let questionNumber = 1;
@@ -52,7 +54,7 @@ const ExamAnswer = ({toeicId}:{toeicId:number}) => {
         const formData = new FormData(event.currentTarget);
         formData.append('selections', JSON.stringify(selections));
         
-        const response=await submitExamAnswer(toeicId,200,formData);
+        const response=await submitExamAnswer(toeicId,timeElapsed,formData);
         
         if(response.message==='SUCCESS' && response.data!==undefined){
             useResultStore.setState({

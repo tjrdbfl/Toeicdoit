@@ -63,7 +63,7 @@ export default function ScorePage() {
     ["독해", `${LevelRadarData[4]}/90`],
   ];
 
-  const DoughnutUserData = [timeElapsed, 120 - timeElapsed];
+  const DoughnutUserData = [timeElapsed/60000, 120 - timeElapsed/60000];
   const DoughnutOtherData = [
     calculateTimeData(score),
     120 - calculateTimeData(score),

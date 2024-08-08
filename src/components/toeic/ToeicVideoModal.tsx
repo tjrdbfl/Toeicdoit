@@ -4,11 +4,10 @@ import { Dispatch, SetStateAction } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { ScrollArea, ScrollBar } from "../utils/ScrollArea";
 
-const ToeicVideoModal = ({ id, label, setOpen, script }: {
+const ToeicVideoModal = ({ id, label, setOpen }: {
     id: number,
     label: string,
     setOpen: Dispatch<SetStateAction<boolean>>,
-    script: string,
 }) => {
     return (<>
     <div className="bg-white p-5">

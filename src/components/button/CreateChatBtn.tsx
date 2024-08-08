@@ -12,15 +12,19 @@ const CreateChatBtn = () => {
 
     const [create, setCreate] = useState<boolean>(false);
     
-    const handleUserId=async()=>{
-        const response=await getUserIdInCookie();
+    const handleUserId = async () => {
+        const response = await getUserIdInCookie();
 
-        if(response===undefined){
+        console.log('response: ' + JSON.stringify(response));
+        if (response.message === ERROR.INVALID_MEMBER
+            || response.message === ERROR.SERVER_ERROR || response.data === undefined
+        ) {
             alert(ERROR.INVALID_MEMBER);
-        }else{
+        } else {
             setCreate(true);
         }
     }
+    
     return (<>
         <button
             onClick={handleUserId}

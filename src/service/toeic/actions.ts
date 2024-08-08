@@ -105,7 +105,7 @@ export async function submitAnswer(type:string,formData: FormData){
 
 export async function submitExamAnswer(toeicId:number,time:number,formData: FormData){
     
-    console.log('submitExamAnswer');
+    console.log('submitExamAnswer: '+time);
 
     const checkResposnse = await checkTokenExist();
 
