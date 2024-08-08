@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { ERROR } from "@/constants/enums/ERROR";
 import LinkIcon from "@/components/common/LinkIcon";
 import { MessageData } from "@/types/MessengerData";
+import { deleteEventById, saveEventById } from "@/service/calendar/actions";
 
 export interface I_ApiFreeSaveResponse {
     success: boolean;
@@ -73,10 +74,13 @@ const CalendarContainer = ({
             start: data.date.toISOString(),
             end: data.date.toISOString(), 
             title: data.draggedEl.innerText,
-            allDay: true,
+            allDay: data.allDay,
             id: new Date().getTime(),
         };
+
         setAllEvents((prevEvents) => [...prevEvents, event]);
+
+        handleSave(event);
     }
 
     function handleDeleteModal(data: { event: { id: string } }) {
@@ -85,51 +89,47 @@ const CalendarContainer = ({
         setIdToDelete(Number(data.event.id));
     }
 
+    const handleDelete=async(idToDelete:number|null)=>{
+        if(idToDelete===null){
+            alert('삭제할 일정을 선택해주세요.');
+        }else{
+            const response=await deleteEventById(idToDelete);
+
+            if(response?.message==='SUCCESS'){
+                alert('일정 삭제에 성공하셨습니다.');
+            }else{
+                alert('일정 삭제에 실패하셨습니다.');
+            }
+        }
+
+    }
+
     function deleteEvent() {
+        handleDelete(idToDelete);
         setAllEvents((prevEvents) => prevEvents.filter((e) => e.id !== idToDelete));
         setIdToDelete(null);
     }
 
-    const handleSave = async () => {
+    const handleSave = async (event: IEvent) => {
 
-        const eventsToSave = allEvents.map(event => ({
+        const eventToSave = {
             ...event,
             startTime: event.start ? new Date(event.start) : undefined,
-            endTime: event.end ? new Date(event.end) : undefined, // Handle end time
-            start: undefined,
-            end: undefined, // Remove start and end fields
-          }));
+            endTime: event.end ? new Date(event.end) : undefined,
+        };
 
-        console.log('newEvents:', JSON.stringify(eventsToSave));
+        console.log('newEvents:', JSON.stringify(eventToSave));
 
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.CALENDAR}/save`, {
-                method: 'POST',
-                headers: CommonHeader,
-                body: JSON.stringify(eventsToSave),
-                cache: 'no-store'
-            });
-
-
-            const result: MessageData = await response.json();
-
-            console.log('handleSave: '+JSON.stringify(result));
-
-            if (result.state) {
-                alert('일정 저장에 성공했습니다.');
-                router.refresh();
-            } else {
-                alert('일정 저장에 실패했습니다.');
-                router.refresh();
-
-                return { status: 500 };
-            }
-
-        } catch (err) {
-            console.log(err);
-            alert(ERROR.SERVER_ERROR);
+        const response=await saveEventById(eventToSave);
+        
+        if(response.message!=='SUCCESS'){
+            alert('일정 저장에 실패했습니다.');
+            router.refresh();
+        }else if(response.message==='SUCCESS'){
+            alert('일정 저장에 성공하셨습니다.');
+            router.refresh();
         }
-
+       
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -158,8 +158,17 @@ const CalendarContainer = ({
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        const event = {
+            ...newEvent,
+            startTime: newEvent.start,
+            endTime: newEvent.end,
+            allDay: false,
+        };   
+
         setAllEvents((prevEvents) => [...prevEvents, newEvent]);
-        
+        handleSave(event);
+
         setShowModal(false);
         setNewEvent({
             title: '',
@@ -174,15 +183,7 @@ const CalendarContainer = ({
     return (
         <>
             <div className="flex flex-row justify-between items-center px-10 my-5">
-                <div className="w-[100px]">
-                    <button
-                        type="button"
-                        className="form_submit_btn"
-                        onClick={handleSave}
-                    >
-                        저장하기
-                    </button>
-                </div>
+                
                 <div id="draggable-el" className="rounded-xl flex flex-row mb-2 justify-end">
                     {events.map((event) => (
                         <div

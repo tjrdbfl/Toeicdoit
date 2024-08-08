@@ -27,7 +27,7 @@ const SelectAuth = ({name,profile,toeicLevel}:{
                 >
                     <div className="flex flex-row items-center justify-between lg:gap-x-2 mx-[1%]">
                         <p className=" text-blue-500 font-semibold w-[50px] lg:w-[60px] navSidebar_p">Lv. {toeicLevel===null? 0:toeicLevel}</p>
-                        <p className=" text-black font-semibold w-[70px] lg:w-[60px] navSidebar_p">{name}님</p>
+                        <p className=" text-black font-semibold w-[70px] navSidebar_p">{name}님</p>
                         <div className="arrow" style={{ transformOrigin: "50% 55%" }}>
                             <svg width="15" height="15" viewBox="0 0 20 20">
                                 <path d="M0 7 L 20 7 L 10 16" />
