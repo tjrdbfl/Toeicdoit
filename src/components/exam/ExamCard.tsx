@@ -2,112 +2,100 @@ import {
   OptionData,
   OptionDataPublic,
   ToeicDataPublic,
+  ToeicProblemType,
 } from "@/types/ToeicData";
 import Image from "next/image";
 import { FC } from "react";
-import ToeicModalBtn from "../toeic/ToeicModalBtn";
+import dynamic from 'next/dynamic';
+
+const ToeicModalBtn = dynamic(() => import('../toeic/ToeicModalBtn'), { ssr: false });
 
 interface ExamCardProps {
-  id: number;
-  take: boolean;
-  question: string;
-  image: string;
-  option: OptionDataPublic;
-  answer: string;
-  part:number;
-  //toeic: ToeicDataPublic;
+  toeic: ToeicProblemType;
 }
-const ExamCard: FC<ExamCardProps> = ({
-  //toeic
-  id,
-  take,
-  question,
-  image,
-  option,
-  answer,
-  part
-}) => {
+const ExamCard: FC<ExamCardProps> = ({toeic}) => {
+  
   return (
     <>
-      <div key={id} className="flex flex-col justify-center mx-3">
+      <div key={toeic.id} className={`flex flex-col justify-center mx-3 ${toeic.part==="3" || toeic.part==="4" ?'mr-20':''}`}>
         <div className="flex flex-row gap-x-2 mb-5 md:mx-6 lg:mx-12 xl:mx-0">
           <h1
             key="level practice number"
             className="text-black text-nowrap font-medium"
           >
-            {id} .{" "}
+            {toeic.id} .{" "}
           </h1>
-          {question !== "" && (
+          {toeic.question !== "" && (
             <h2
               key="level practice question"
               className="text-black items-start font-medium"
             >
-              {question}
+              {toeic.question}
             </h2>
           )}
         </div>
         <div key="level practice ">
-          {image !== "" && (
+          {toeic.image !== "" && (
             <Image
-              src={`${image}`}
+              src={`${toeic.image}`}
               alt={"level practice image"}
               width={300}
               height={300}
               priority={true}
-              className={`justify-center ${part!==6 && part!==7 ? 'w-[300px] h-[200px]':'w-[500px] h-[700px]'} `}
+              className={`justify-center ${(toeic.part==="1" || toeic.part==="3" || toeic.part==="4") ? 'w-[300px] h-[200px]' : toeic.part==="6" ? 'w-[550px] h-[300px]':'w-[550px] h-[600px]'} `}
             />
           )}
         </div>
 
         <div className="md:mx-6 lg:mx-12 xl:mx-0 mt-4">
           <div className="flex items-start mb-3">
-            <p
+            <div
               className={`text-[15px] font-medium flex flex-row justify-start limited-width-text ${
-                take && answer === "a" ? "text-red-500" : "text-gray-900 "
+                toeic.take && toeic.answer === "A" ? "text-red-500" : "text-gray-900 "
               }`}
             >
               <p className="text-nowrap mr-2">(a)</p>
-              {option.choice1}
-            </p>
+              {toeic.optionId.choice1}
+            </div>
           </div>
 
           <div className="flex items-start mb-3">
-            <p
+            <div
               className={`text-[15px] font-medium flex flex-row justify-start limited-width-text ${
-                take && answer === "b" ? "text-red-500" : "text-gray-900 "
+                toeic.take && toeic.answer === "B" ? "text-red-500" : "text-gray-900 "
               }`}
             >
               <p className="text-nowrap mr-2">(b)</p>
-              {option.choice2}
-            </p>
+              {toeic.optionId.choice2}
+            </div>
           </div>
 
           <div className="flex items-start mb-3">
-            <p
+            <div
               className={`text-[15px] font-medium flex flex-row justify-start limited-width-text ${
-                take && answer === "c" ? "text-red-500" : "text-gray-900 "
+                toeic.take && toeic.answer === "C" ? "text-red-500" : "text-gray-900 "
               }`}
             >
               <p className="text-nowrap mr-2">(c)</p>
-              {option.choice3}
-            </p>
+              {toeic.optionId.choice3}
+            </div>
           </div>
 
-          {option.choice4 !== "" && (
-            <div className="flex items-start mb-3">
-              <p
+          {toeic.optionId.choice4 !== "" && (
+            <div className="flex items-start">
+              <div
                 className={`text-[15px] font-medium flex flex-row justify-start limited-width-text ${
-                  take && answer === "d" ? "text-red-500" : "text-gray-900 "
+                  toeic.take && toeic.answer === "D" ? "text-red-500" : "text-gray-900 "
                 }`}
               >
                 <p className="text-nowrap mr-2">(d)</p>
-                {option.choice4}
-              </p>
+                {toeic.optionId.choice4}
+              </div>
             </div>
           )}
         </div>
 
-        {take && (
+        {toeic.take && (
           <>
             <div className="flex flex-row gap-x-5 mt-5">
               <ToeicModalBtn

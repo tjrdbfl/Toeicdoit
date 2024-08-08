@@ -12,11 +12,12 @@ const UserPaymentCard=({ paymentResult }: {
             const response=await paymentRefund(paymentResult);
             
             if(response.status===200){
-                alert('환불 성공');
+                alert('환불 성공하셨습니다.');
             }else{
                 alert(ERROR.SERVER_ERROR);
             }
         }
+
 
         return(<>
         <div className="bg-white p-3 flex flex-row gap-x-5 items-center justify-between w-full">
@@ -29,7 +30,7 @@ const UserPaymentCard=({ paymentResult }: {
                 className="border-slate-200 border-2 object-fill w-[40px] h-[40px] lg:w-[60px] lg:h-[60px]"/>
         <div className="flex flex-col gap-y-1 lg:gap-y-2">
             <p className="text-[14px] lg:text-[16px]">{paymentResult.id}</p>
-            <p className=" text-[12px] lg:text-[12px]">{paymentResult.createdAt.toISOString()}</p>    
+            <p className=" text-[12px] lg:text-[12px]">{paymentResult.createdAt.toString().slice(0,10)+' '+paymentResult.createdAt.toString().slice(11,19)}</p>    
         </div>  
                 </div>
                

@@ -2,11 +2,15 @@
 
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ScrollArea, ScrollBar } from "@/components/utils/ScrollArea";
+import { ERROR } from "@/constants/enums/ERROR";
+import { PG } from "@/constants/enums/PG";
 import { ExamPart, allParts } from "@/constants/toeic/exam";
-import { useNumberOfQuestionStore } from "@/store/toeic/store";
+import { submitAnswer, submitExamAnswer } from "@/service/toeic/actions";
+import { useNumberOfQuestionStore, useResultStore } from "@/store/toeic/store";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const ExamAnswer = () => {     
+const ExamAnswer = ({toeicId}:{toeicId:number}) => {     
     const [selectedTab, setSelectedTab] = useState(allParts[0].label);
     const option1: string[] = ['a', 'b', 'c', 'd'];
     const option2: string[] = ['a', 'b', 'c'];
@@ -20,6 +24,7 @@ const ExamAnswer = () => {
     const [select,setSelect]=useState<{[key:number]:boolean}>({});
 
     const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+    const router=useRouter();
 
     useEffect(() => {
         const numbers: { [key: string]: number[] } = {};
@@ -46,7 +51,28 @@ const ExamAnswer = () => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         formData.append('selections', JSON.stringify(selections));
-        //await submitLevelTest(formData);
+        
+        const response=await submitExamAnswer(toeicId,200,formData);
+        
+        if(response.message==='SUCCESS' && response.data!==undefined){
+            useResultStore.setState({
+                BarData:response.data.BarData,
+                score:response.data.score,
+                lc_score:response.data.lc_score,
+                rc_score:response.data.rc_score,
+                timeElapsed:response.data.timeElapsed,
+                name:response.name,
+                type:'exam'
+            });
+
+            const {name}=useResultStore();
+            if(name!==''){
+                router.push(`${PG.SCORE}`);
+            }
+        }else {
+            alert(response.message);
+        }
+
     };
 
     const handleTabClick = (label: string) => {
@@ -130,7 +156,7 @@ const ExamAnswer = () => {
                     </ScrollArea>
                 </ul>
                 <div className="mx-10 mt-5">
-                    {/* <SubmitButton label={"제출하기"} /> */}
+                    <SubmitButton label={"제출하기"} />
                 </div>
             </form>
         </div>

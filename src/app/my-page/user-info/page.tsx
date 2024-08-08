@@ -3,6 +3,7 @@ import MyPageHeader from "@/components/my-page/MyPageHeader";
 import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
+import { PG } from "@/constants/enums/PG";
 import { findUserInfoById } from "@/service/auth/actions";
 import { getPaymentInfoById } from "@/service/payment/actions";
 import { getUserInfoInCookie } from "@/service/utils/token";
@@ -11,6 +12,7 @@ import UserPaymentContainer from "@/templates/my-page/UserPaymentContainer";
 import { PaymentModel } from "@/types/TransactionData";
 import { UserDataPublic } from "@/types/UserData";
 import { useQuery } from "@tanstack/react-query";
+import { revalidatePath } from "next/cache";
 
 export default async function UserInfoPage() {
 
@@ -56,6 +58,7 @@ export default async function UserInfoPage() {
 
         if (response?.status === 200) {
             paymentInfo = response.data as PaymentModel[];
+            revalidatePath(`${PG.USER_INFO}`);
         } else {
             console.log(ERROR.SERVER_ERROR);
         }

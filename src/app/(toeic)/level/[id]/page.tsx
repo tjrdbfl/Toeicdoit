@@ -12,7 +12,7 @@ import Link from "next/link";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-export default function LevelPracticePage({ params }: {
+export default async function LevelPracticePage({ params }: {
     params: {
         id: number;
         page?: string;
@@ -41,24 +41,22 @@ export default function LevelPracticePage({ params }: {
         numberOfQuestions: 20
     };
 
-    async function getLevelQuestion(){
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.TOEIC}/find-types?page=${currentPage - 1}&size=1`, {
-                method: 'GET',
-                headers: CommonHeader,
-                cache: 'no-store'
-            })
-            const data: I_ApiLevelTestResponse = await response.json();
-    
-            if (data) {
-                totalPages = data.totalPages || 0;
-                toeic = data.questions;
-            } else {
-                console.error('Failed to get response data' + ERROR.SERVER_ERROR);
-            }
-        } catch (err) {
-            console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.TOEIC}/find-types?page=${currentPage - 1}&size=1`, {
+            method: 'GET',
+            headers: CommonHeader,
+            cache: 'no-store'
+        })
+        const data: I_ApiLevelTestResponse = await response.json();
+
+        if (data) {
+            totalPages = data.totalPages || 0;
+            toeic = data.questions;
+        } else {
+            console.error('Failed to get response data' + ERROR.SERVER_ERROR);
         }
+    } catch (err) {
+        console.log('Failed to get notice: ', ERROR.SERVER_ERROR);
     }
     
 

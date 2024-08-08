@@ -1,14 +1,15 @@
 "use client";
-import { useExamTimerStore, usePracticeTimerStore } from "@/store/toeic/timer";
-
 import { useNumberOfQuestionStore } from "@/store/toeic/store";
-import ExamPlayer from "../exam/ExamPlayer";
 import ToeicTimer from "./ToeicTimer";
 import ExamTimer from "../exam/ExamTimer";
-import PracticeResumeButton from "./PracticeResumeButton";
-import ExamResumeButton from "./ExamResumeButton";
 import PracticePauseButton from "./PracticePauseButton";
 import ExamPauseButton from "./ExamPauseButton";
+import dynamic from "next/dynamic";
+
+
+const ExamResumeButton = dynamic(() => import('./ExamResumeButton'), { ssr: false });
+const PracticeResumeButton = dynamic(() => import('./PracticeResumeButton'), { ssr: false });
+const ExamPlayer = dynamic(() => import('../exam/ExamPlayer'), { ssr: false });
 
 const ToeicControl = ({
   type,

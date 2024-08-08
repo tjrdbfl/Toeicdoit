@@ -103,7 +103,7 @@ const  ExamPlayer = ({ sound }: { sound: string }) => {
         <div className='w-[290px] p-2 flex flex-row items-center justify-between'>
             <audio
                 ref={audioRef}
-                src={`${sound}`}
+                src={sound}
                 preload='none'
                 onLoadedMetadata={onLoadedMetadata}
                 onTimeUpdate={onTimeUpdate}

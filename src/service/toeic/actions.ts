@@ -1,8 +1,11 @@
 'use server';
 
-import { CommonHeader } from "@/config/headers";
-import { ITEMS_PER_PAGE, ToeicDataPublic } from "@/types/ToeicData";
+import { AuthorizeHeader, CommonHeader } from "@/config/headers";
+import { ITEMS_PER_PAGE, resultChartData, ToeicDataPublic } from "@/types/ToeicData";
 import { redirect } from "next/navigation";
+import { checkTokenExist } from "../utils/token";
+import { ERROR } from "@/constants/enums/ERROR";
+import { cookies } from "next/headers";
 
 export async function fetchQuestions({ 
     pageParam = 1, level
@@ -52,10 +55,9 @@ export async function fetchQuestions({
     }
 }
 
-export async function submitLevelTest(formData: FormData){
-    'use server';
-
-    console.log('submitLevelTest');
+export async function submitAnswer(type:string,formData: FormData){
+    
+    console.log('submitAnswer');
     const selections=JSON.parse(formData.get('selections') as string);
     const level=formData.get('level');
     const take=JSON.parse(formData.get('take') as string);
@@ -76,8 +78,11 @@ export async function submitLevelTest(formData: FormData){
         const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/level`,{
             method:'POST',
             headers:CommonHeader,
-            body:JSON.stringify({level:Number(level),
-                userAnswer:userAnswer}),
+            body:JSON.stringify({
+                level:Number(level),
+                userAnswer:userAnswer,
+                type:type
+            }),
             cache:"no-store"
         })
 
@@ -96,4 +101,63 @@ export async function submitLevelTest(formData: FormData){
     }catch(err){
         console.error('Error submitting selections:', err);
     }
+}
+
+export async function submitExamAnswer(toeicId:number,time:number,formData: FormData){
+    
+    console.log('submitExamAnswer');
+
+    const checkResposnse = await checkTokenExist();
+
+    console.log('checkResposnse: ' + checkResposnse?.message);
+
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+        const selections=JSON.parse(formData.get('selections') as string);
+        const userAnswer=Object.keys(selections).map(key=>({
+            id:parseInt(key),
+            answer:selections[key]
+        }))
+        console.log("selections: " + JSON.stringify(userAnswer));
+        
+        if(userAnswer.length===0){
+            return {message:'답안을 선택해주세요.'};
+        }else{
+            try{
+                const userId=cookies().get('userId')?.value;
+                const accessToken=cookies().get('accessToken')?.value;
+                const name=cookies().get('name')?.value;
+    
+                const response=await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/level`,{
+                    method:'POST',
+                    headers:AuthorizeHeader(accessToken),
+                    body:JSON.stringify({
+                        time:time,
+                        selections:userAnswer,
+                        userId:userId,
+                        id:toeicId
+                    }),
+                    cache:"no-store"
+                })
+        
+                if (response.status === 200) {
+                    const data:resultChartData=await response.json();
+                    return {message:'SUCCESS',data:data,name:name};
+                }else{
+                    return {message:ERROR.SERVER_ERROR};
+                }
+            
+            }catch(err){
+                return {message:ERROR.SERVER_ERROR};
+            }   
+        }
+       
+    }
+    
+    
+
+    
 }

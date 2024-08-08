@@ -56,6 +56,6 @@ const nextConfig = {
   module.exports = withNextVideo(nextConfig);
   module.exports = {
     images:{
-      domains:['dummyimage.com','lh3.googleusercontent.com']
+      domains:['dummyimage.com','lh3.googleusercontent.com','kr.object.ncloudstorage.com']
     }
   }

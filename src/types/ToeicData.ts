@@ -37,6 +37,30 @@ export type AnswerData={
     id:number;
     answer:string;
 }
+export type ToeicProblemType={
+    id:number,
+    question:string,
+    description:string,
+    image:string,
+    take:boolean,
+    optionId:OptionData,
+    answer:string,
+    part:string
+}
+export type ToeicProblemData=[{
+    id:number,
+    sound:string,
+    toeicIds:ToeicProblemType[],
+    numberOfQuestions:number,
+}];
+
+export type resultChartData={
+    BarData:number[],
+    score:number,
+    lc_score:number,
+    rc_score:number,
+    timeElapsed:number,
+}
 export type ToeicDataPublic={
     id:ToeicData['id'],
     question:ToeicData['quesiton'];

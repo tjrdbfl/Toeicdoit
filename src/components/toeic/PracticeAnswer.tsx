@@ -3,6 +3,7 @@
 import SubmitButton from "@/components/button/SubmitBtn";
 import { ScrollArea, ScrollBar } from "@/components/utils/ScrollArea";
 import { ExamPart, allParts } from "@/constants/toeic/exam";
+import { submitAnswer } from "@/service/toeic/actions";
 import { useNumberOfQuestionStore } from "@/store/toeic/store";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -41,7 +42,7 @@ const PracticeAnswer = ({
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         formData.append('selections', JSON.stringify(selections));
-        //await submitLevelTest(formData);
+        await submitAnswer('level',formData);
     };
 
     return (

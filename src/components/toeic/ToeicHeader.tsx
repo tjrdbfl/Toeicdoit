@@ -1,6 +1,4 @@
 import LinkIcon from "@/components/common/LinkIcon";
-import CloseBtn from "../button/CloseBtn";
-import { PG } from "@/constants/enums/PG";
 
 const ToeicHeader = ({label}:{label:string}) => {
     return (<>
