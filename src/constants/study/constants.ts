@@ -88,7 +88,8 @@ export const StudyRecipe1:StudyRecipe1Type[]=[
         col3: 18
     },
   
-]
+];
+
 export type StudyRecipe2Type={
     id:number,
     part:string,
@@ -101,58 +102,58 @@ export const StudyRecipe2:StudyRecipe2Type[]=[
     {
         id: 0,
         part: "PART1",
-        col1: 20,
-        col2: 29,
+        col1: 33,
+        col2: 42,
         col3: 40,
-        col4: 0
+        col4: 43
     },
     {
         id: 1,
         part: "PART2",
-        col1: 27,
-        col2: 49,
-        col3: 71,
-        col4: 0
+        col1: 43,
+        col2: 63,
+        col3: 76,
+        col4: 87
     },
     {
         id: 2,
         part: "PART3",
-        col1: 16,
-        col2: 26,
-        col3: 37,
-        col4: 0
+        col1: 23,
+        col2: 35,
+        col3: 38,
+        col4: 48
     },
     {
         id: 3,
         part: "PART4",
-        col1: 11,
-        col2: 18,
-        col3: 25,
-        col4: 0
+        col1: 14,
+        col2: 22,
+        col3: 26,
+        col4: 35
     },
     {
         id: 4,
         part: "PART5",
-        col1: 55,
-        col2: 132,
-        col3: 226,
-        col4: 0
+        col1: 107,
+        col2: 165,
+        col3: 236,
+        col4: 342
     },
     {
         id: 5,
         part: "PART6",
-        col1: 12,
-        col2: 24,
-        col3: 39,
-        col4: 0
+        col1: 17,
+        col2: 32,
+        col3: 40,
+        col4: 59
     },
     {
         id: 6,
         part: "PART7",
-        col1: 6,
-        col2: 10,
+        col1: 7,
+        col2: 16,
         col3: 18,
-        col4: 0
+        col4: 27
     },
   
 ]

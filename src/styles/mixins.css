@@ -350,6 +350,7 @@
     );
   }
   .bg-gradient-faq2 {
+    @apply rounded-t-lg;
     background-image: linear-gradient(
       to bottom, /* 방향 설정 (위에서 아래로) */
       rgba(144, 146, 148, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
@@ -357,6 +358,7 @@
     );
   }
   .bg-gradient-faq3 {
+    @apply rounded-t-lg;
     background-image: linear-gradient(
       to bottom, /* 방향 설정 (위에서 아래로) */
       rgba(51, 142, 238, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
@@ -375,5 +377,12 @@
       to bottom, /* 방향 설정 (위에서 아래로) */
       rgba(194, 219, 245, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
       rgba(25, 118, 210, 0.01)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq6 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(202, 224, 247, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0.1)   /* 끝 색상 (파랑, 0% 투명도) */
     );
   }

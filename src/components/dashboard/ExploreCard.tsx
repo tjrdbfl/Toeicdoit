@@ -44,7 +44,6 @@ const ExploreCard = ({ id, imgUrl, title, content, index, active, handleClick }:
             className="w-1/2 h-1/2 object-cover"
             width={2000}
             height={500}
-
           />
         </div>
         <p className="font-normal text-[16px] leading-[20.16px] text-[var(--blue2)] uppercase">

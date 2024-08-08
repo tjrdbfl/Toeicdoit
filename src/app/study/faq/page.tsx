@@ -1,9 +1,10 @@
 import LinkIcon from "@/components/common/LinkIcon";
 import MainHeader from "@/components/common/MainHeader";
 import StudyCard from "@/components/study/StudyCard";
-import { FrequentlyAsk } from "@/constants/study/faq";
+import { FrequentlyAsk } from "@/constants/study/constants";
 import StudyFAQRecipe1 from "@/templates/study/StudyFAQRecipe1";
 import StudyFAQRecipe2 from "@/templates/study/StudyFAQRecipe2";
+import StudyFAQRecipe3 from "@/templates/study/StudyFAQRecipe3";
 
 const metadata = {
   title: "Toeicdoit - Study FAQ Page",
@@ -59,6 +60,7 @@ export default function StudyFAQPage() {
       </div>
       <StudyFAQRecipe1/>
       <StudyFAQRecipe2/>
+      <StudyFAQRecipe3/>
     </div>
   );
 }
