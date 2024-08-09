@@ -61,14 +61,12 @@ export default function FreeSaveForm() {
   }
 
  
-  useEffect(() => {
-    if (state.result_message === 'SUCCESS') {
-      router.push(PG.FREE);
-    } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
-      alert(state.result_message);
-    }
-  }, [state.result_message]); 
-
+  if (state.result_message === 'SUCCESS') {
+    router.push(PG.FREE);
+  } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
+    alert(state.result_message);
+  }
+  
   return (<>
     <form
       action={async (formData) => {

@@ -77,15 +77,12 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
     }
   };
 
-  useEffect(() => {
-   
-    if (state.result_message === "SUCCESS") {
-      alert('수정을 성공하셨습니다.');
-      router.push(`${PG.INQUIRY_DETAILS}`);
-    } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
-      alert(state.result_message);
-    }
-  }, [state.result_message]);
+  if (state.result_message === "SUCCESS") {
+    alert('수정을 성공하셨습니다.');
+    router.push(`${PG.INQUIRY_DETAILS}`);
+  } else if (state.result_message === `${ERROR.SERVER_ERROR}`) {
+    alert(state.result_message);
+  }
 
   return (
     <>
@@ -117,26 +114,29 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
               required
               className="form_input block w-full"
             >
-              {post.category === "공부법" ? (
-                <option selected value="공부법">
+              {post.type === "free" ? (
+                <option selected={post.category==='공부법'} value="공부법">
                   공부법
                 </option>
               ) : (
-                <option value="공부법">공부법</option>
+                <option selected={post.category==='결제 문의'} value="결제문의">결제문의</option>
               )}
-              {post.category === "문의" ? (
-                <option selected value="공부법">
-                  문의
+              {post.type === "free" ? (
+                <option selected={post.category==='자료 공유'} value="자료 공유">
+                 자료 공유
                 </option>
               ) : (
-                <option value="문의">문의</option>
+                <option selected={post.category==='시스템 에러'} value="시스템 에러">시스템 에러</option>
               )}
-              {post.category === "시험 후기" ? (
-                <option selected value="시험 후기">
+              {post.type === "free" ? (
+                <option selected={post.category==='시험 후기'} value="시험 후기">
                   시험 후기
                 </option>
               ) : (
-                <option value="시험 후기">시험 후기</option>
+                <option selected={post.category==='학습 콘텐츠'} value="학습 콘텐츠">학습 콘텐츠</option>
+              )}
+              {post.type === "request" && (
+                <option selected={post.category==='기타'} value="기타">기타</option>
               )}
             </select>
           </div>
@@ -191,7 +191,12 @@ export default function FreeModifyForm({ post }: { post: BoardData }) {
             onChange={handleContentChange}
           />
             <div className="flex flex-row justify-between mt-1">
-            {state.message.content && ( // error_message가 있으면 오류 메시지 표시
+            {state.message.content && ( 
+              <p aria-live="polite" className="text-red-500 mt-1 text-[13px]">
+                {state.message.content}
+              </p>
+            )}
+            {message.message.content && ( 
               <p aria-live="polite" className="text-red-500 mt-1 text-[13px]">
                 {state.message.content}
               </p>

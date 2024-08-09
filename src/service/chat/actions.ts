@@ -166,12 +166,14 @@ export async function saveRoom(category: string[], prevState: MessageState, form
     
         if (accessToken !== undefined) {
     
+            const userId=cookies().get('userId')?.value;
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/save`, {
                 method: 'POST',
                 body: JSON.stringify({
                     title,
                     roomCategories: category,
-                    adminIds: ["test admin ID"]
+                    adminIds: [userId]
                 }),
                 headers: AuthorizeHeader(accessToken),
                 cache: 'no-store'
@@ -230,8 +232,9 @@ export async function updateRoomById(category: string[], prevState: MessageState
     
             if (result.state) {
                 console.log(result.state);
-                // revalidatePath('/?chat=true');
-                // revalidatePath('/?chat=true&setting=true');
+                
+                revalidatePath(`/?chat=true&setting=true`);
+                
                 revalidateTag('chat');
                 return { message: 'SUCCESS' };
             } else {
@@ -285,12 +288,14 @@ export async function enterRoom(roomId: string) {
     }else{
         const accessToken = cookies().get('accessToken')?.value;
 
+        const userId=cookies().get('userId')?.value;
+
         if (accessToken !== undefined) {
     
             const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/enter`, {
                 method: 'POST',
                 headers: AuthorizeHeader(accessToken),
-                body: JSON.stringify({ roomId, userId: "test enter" }),
+                body: JSON.stringify({ roomId, userId: userId }),
                 cache: 'no-store'
             });
     
@@ -322,13 +327,14 @@ export async function exitRoom(roomId: string) {
         return {message:ERROR.INVALID_MEMBER};
     }else{
         const accessToken = cookies().get('accessToken')?.value;
+        const userId=cookies().get('userId')?.value;
 
         if (accessToken !== undefined) {
     
             const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/${SERVER_API.ROOM}/exit`, {
                 method: 'POST',
                 headers: AuthorizeHeader(accessToken),
-                body: JSON.stringify({ roomId, userId: "test enter" }),
+                body: JSON.stringify({ roomId, userId: userId }),
                 cache: 'no-store'
             });
     
@@ -374,7 +380,9 @@ export async function deleteRoomById(id: string) {
     
             if (result.state) {
                 console.log(result.state);
+                revalidatePath(`/?chat=true&setting=true`);
                 revalidateTag('chat');
+
                 return { message: 'SUCCESS' };
             } else {
                 return { message: ERROR.SERVER_ERROR };

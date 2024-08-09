@@ -124,7 +124,7 @@ export async function login(prevState: LoginMessageState, formData: FormData) {
                 });
 
                 const result = await response.json();
-                console.log('findUserInfoById: ' + result);
+                console.log('findUserInfoById: ' + JSON.stringify(result));
 
                 cookies().set({
                     name: 'name',
@@ -219,7 +219,7 @@ export async function register(confirm: boolean, prevState: RegisterMessageState
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
             }
         } catch (err) {
-            console.log(err);
+
             return { ...prevState, result_message: ERROR.SERVER_ERROR };
         }
     }
@@ -309,29 +309,27 @@ export async function findUserInfoById() {
             const userId = cookies().get('userId')?.value;
 
             if (userId !== undefined && accessToken !== undefined) {
+                
                 const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-id?id=${userId}`, {
                     method: 'GET',
                     headers: AuthorizeHeader(accessToken),
                     cache: 'no-store'
                 });
 
-                const result:MessageData = await response.json();
-                console.log('findUserInfoById: ' + result);
-
-
-                if (!result.state) {
-                    return { status: 400 };
-                } else {
-                    const data=result.data as UserDataPublic;
+                if(response.status===200){
+                    const result=await response.json();
                     return {
                         data: {
-                            email: data.email,
-                            phone: data.phone,
-                            name: data.name,
-                            profile: data.profile,
-                            toeicLevel: data.toeicLevel,
+                            email: result.email,
+                            phone: result.phone,
+                            name: result.name,
+                            profile: result.profile,
+                            toeicLevel: result.toeicLevel,
                         }, status: 200
                     };
+                }
+                else{
+                    return {message:ERROR.SERVER_ERROR};
                 }
 
             }
@@ -368,11 +366,12 @@ export async function deleteByUserId() {
                 });
 
                 const result: MessageData = await response.json();
-                console.log('deleteByUserId: ' + result);
+                console.log('deleteByUserId: ' + JSON.stringify(result));
 
                 if (result?.message === 'SUCCESS') {
                     const logoutResponse = await logout();
-
+                    console.log('logoutResponse: '+JSON.stringify(logoutResponse));
+                   
                     if (logoutResponse?.message === 'SUCCESS') {
                         return { message: 'SUCCESS' };
                     } else {
@@ -383,12 +382,6 @@ export async function deleteByUserId() {
                     return { message: ERROR.SERVER_ERROR };
                 }
 
-                // if (result.message === 'SUCCESS') {
-                //     logout();
-                //     return { message: 'SUCCESS' };
-                // } else {
-                //     return { message: ERROR.SERVER_ERROR };
-                // }
 
             } else {
                 return { message: ERROR.INVALID_MEMBER };
@@ -507,12 +500,14 @@ export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormD
         const userId = cookies().get('userId')?.value;
 
         if (accessToken !== undefined && userId !== undefined) {
+            const email=cookies().get('email')?.value;
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/modify-by-name-phone`, {
                 method: 'PUT',
                 headers: AuthorizeHeader(accessToken),
                 body: JSON.stringify({
                     id: userId,
+                    email:email,
                     name: rawFormData.name,
                     phone: rawFormData.phone
                 }),
@@ -524,15 +519,18 @@ export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormD
             console.log('modifyUserInfo: ' + JSON.stringify(result));
 
             if (result.message === 'SUCCESS') {
-                revalidatePath(`${PG.USER_INFO}?modify=true`);
+                //revalidatePath(`${PG.USER_INFO}?modify=true`);
 
                 const cookieRefreshString = cookies().get('refreshToken')?.value;
+                
                 if (cookieRefreshString !== undefined) {
+                    cookies().delete('name');
+
                     cookies().set({
                         name: 'name',
                         value: formData.get('name')?.toString() || '',
-                        maxAge: Number(extractCookie(cookieRefreshString, 'Max-Age')),
-                        expires: new Date(extractCookie(cookieRefreshString, 'Expires')),
+                        maxAge: 3600, // 1 hour
+                        expires: new Date(Date.now() + 3600 * 1000), // 1 hour from now
                         sameSite: 'lax',
                         httpOnly: true,
                         path: '/'
@@ -540,6 +538,7 @@ export async function modifyUserInfo(prevState: UserInfoMessage, formData: FormD
 
                 }
 
+                console.log('name: '+cookies().get('name')?.value);
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -590,7 +589,7 @@ export async function modifyByPassword(prevState: ModifyPasswordMessageState, fo
 
 export async function findByNameProfile(userList:number[]){
    
-    //console.log('findByNameProfile');
+    console.log('findByNameProfile');
 
     const checkResposnse = await checkTokenExist();
 
@@ -607,8 +606,9 @@ export async function findByNameProfile(userList:number[]){
         
         try{
         
+            console.log(JSON.stringify(userList));
             const response=await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.USER}/find-by-name-profile`,{
-                method:'GET',
+                method:'POST',
                 headers:AuthorizeHeader(accessToken),
                 body:JSON.stringify({
                     "id":userList

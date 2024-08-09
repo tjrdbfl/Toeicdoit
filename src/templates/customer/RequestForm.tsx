@@ -63,14 +63,11 @@ export default function RequestForm() {
     }
   };
 
-  useEffect(() => {
-    
-    if (state.result_message === "SUCCESS") {
-      router.push(`${PG.INQUIRY_DETAILS}`);
-    } else {
-      handleError(state.result_message);
-    }
-  }, [state.result_message]);
+  if (state.result_message === "SUCCESS") {
+    router.push(`${PG.INQUIRY_DETAILS}`);
+  } else {
+    handleError(state.result_message);
+  }
 
   return (
     <>

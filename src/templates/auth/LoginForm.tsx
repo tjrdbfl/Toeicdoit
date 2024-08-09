@@ -30,8 +30,7 @@ const LoginForm = () => {
     const { pending } = useFormStatus();
     const [state,formAction]=useFormState(login,initialState);
     const [message,setMessage]=useState<LoginMessageState>(initialState);
-    const [click,setClick]=useState<boolean>(false);
-
+  
     const router=useRouter();
     const handleEmailChange=(event:ChangeEvent<HTMLInputElement>)=>{
         if(event.target.value.length<1){
@@ -77,14 +76,14 @@ const LoginForm = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     
-    useEffect(() => {     
+    useEffect(()=>{
         if(state.result_message==='SUCCESS'){   
-            router.push('/');
+            router.push('/');     
         }else{
             handleError(state.result_message);
         }
-     
-    }, [state.result_message]);
+    
+    },[state.result_message]);
 
     return (<>
         <form
@@ -138,8 +137,6 @@ const LoginForm = () => {
             {state.message.password && <p aria-live="polite"  className="form_error_msg">{state.message.password}</p>}
             <div className="mt-[7%]" />
             <SubmitButton label={"로그인"} 
-            click={click} 
-            setClick={setClick} 
             />
            
         </form>

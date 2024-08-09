@@ -55,14 +55,12 @@ const BoardDetailReply = ({
         }
     };
 
-    useEffect(()=>{
-        if(state.message!=='SUCCESS'){
-            handleError(state.message);
-        }else if(state.message==='SUCCESS'){
-            setModify(false);
-        }
-    },[state.message]);
-
+    if(state.message!=='SUCCESS'){
+        handleError(state.message);
+    }else if(state.message==='SUCCESS'){
+        setModify(false);
+    }
+    
     return (<div className={`w-full flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
         <div className={`${index % 2 == 0 ? "justify-start" : "flex-row-reverse"} flex w-full`}>
             <div
@@ -124,7 +122,7 @@ const BoardDetailReply = ({
                     className={`${index % 2 == 0 ? "text-start" : "text-end"} text-slate-400 text-[12px]`}
                 >{create}</p>
             </div>
-            <div className="flex flex-row gap-x-1 items-end mb-7">
+         {update && <div className="flex flex-row gap-x-1 items-end mb-7">
                 <button
                     onClick={() => setModify(!modify)}
                     className="flex flex-row items-center">
@@ -149,7 +147,7 @@ const BoardDetailReply = ({
                         className="hover:bg-blue-50 rounded-md p-1 shadow-md border-slate-50 border-2"
                     />
                 </button>
-            </div>
+            </div>}
         </div>
 
         {open &&

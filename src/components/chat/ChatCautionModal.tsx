@@ -7,7 +7,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { ScrollArea } from "../utils/ScrollArea";
 import Image from "next/image";
 
-const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
+const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin,userData}:{
     type:'block'|'drawer',
     chat?:ChatData,
     option:ChatOptionType,
@@ -15,11 +15,12 @@ const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
     sender?:string[],
     admin?:string[],
     name?:string,
-    profile?:string
+    profile?:string,
+    userData:{userId:string,name:string,profile:string}[]
 })=>{
     
     const message=option.message.split('||');
-
+    console.log('userData: '+userData);
     return(<>
     <dialog
     className="fixed inset-0 z-40 flex mt-84 lg:mr-64"
@@ -27,7 +28,7 @@ const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
         <div className={`${option.id===2? 'bg-blue-100 border-slate-200 border-2 shadow-lg w-[250px]':'w-[400px] bg-white shadow-lg'} h-auto p-3`}>
             {option.id===2 && <ScrollArea
             className="w-full flex flex-col h-[300px] border-slate-100 border-2 rounded-lg py-2">
-                <div 
+                {/* <div 
                 className="w-full flex flex-row gap-x-5 m-2 items-center">
                     <div className="flex flex-row gap-x-2 items-center">
                     <Image 
@@ -40,8 +41,8 @@ const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
                     <div className="bg-zinc-700 text-white p-1 rounded-lg text-[10px] h-[23px] w-[23px] text-center">나</div> 
                     </div>
                     <p>{name}</p>
-                </div>
-            {admin?.map((adm,index)=>(
+                </div> */}
+            {/* {admin?.map((adm,index)=>(
                 <div 
                 key={index}
                 className="w-full flex flex-row gap-x-5 gap-y-3 m-2 items-center">
@@ -64,8 +65,8 @@ const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
                   
                     <p>{adm}</p>
                 </div>
-            ))}
-            {sender?.filter(sen=>!admin?.includes(sen)).map((sen,index)=>(
+            ))} */}
+            {/* {sender?.filter(sen=>!admin?.includes(sen)).map((sen,index)=>(
                 <div 
                 key={index}
                 className="w-full flex flex-row gap-x-12 gap-y-3 m-2 items-center">
@@ -78,8 +79,23 @@ const ChatCautionModal=({type,chat,option,setOpen,sender,name,profile,admin}:{
                     />
                     <p>{sen}</p>
                 </div>
-            ))}
-
+            ))} */}
+            {userData.map((item, index)=>{
+                
+                return(
+                <div 
+                key={index}
+                className="w-full flex flex-row gap-x-12 gap-y-3 m-2 items-center">
+                    <Image 
+                    src={item.profile !== "" ? item.profile : "/images/dashboard/people-03.png"} 
+                    alt={"chat-main"}
+                    className="rounded-lg h-[40px] w-[40px]"
+                    width={40}
+                    height={40}
+                    />
+                    <p>{item.name}</p>
+                </div>
+            )})}
             </ScrollArea>}
             {message.map((msg)=>(
                 <p 

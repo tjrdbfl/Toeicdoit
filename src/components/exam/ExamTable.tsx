@@ -12,7 +12,318 @@ export default async function ExamTable({ query, currentPage }: {
 
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-    let tests: ToeicData[] = [];
+    let tests: ToeicData[] = [
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: "2024년 상반기 TOEIC 1차 기출 모의고사",
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+        {
+        id: 0,
+        part: 0,
+        level: 0,
+        quesiton: "",
+        answer: "",
+        numberOfQuestions: 0,
+        description: "",
+        image: "",
+        sound: "",
+        script: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title: `2024년 상반기 TOEIC 차 기출 모의고사`,
+        take: true,
+        option: {
+            id: 0,
+            choice1: "",
+            choice2: "",
+            choice3: "",
+            choice4: ""
+        },
+        result: {
+            id: 0,
+            result: false,
+            userAnswer: [],
+            isCorrect: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    },
+];
 
 
     try {
@@ -57,30 +368,17 @@ export default async function ExamTable({ query, currentPage }: {
                             </tr>
                         </thead>
                         <tbody className="bg-white rounded-2xl">
-                        <ExamBody
-                                    key={1}
-                                    id={1}
-                                >
-                                    <td className="whitespace-nowrap py-1.5 pl-8 pr-3 text-[14px]">
-                                        1
-                                    </td>
-                                    <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
-                                        아이이이ㅣㅣㅣ
-                                    </td>
-                                    <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
-                                    <TakeBtn id={1} />
-                                    </td>
-                                </ExamBody>
-                            {tests?.map((content) => (
+                     
+                            {tests?.map((content,index) => (
                                 <ExamBody
                                     key={content.id}
                                     id={content.id}
                                 >
                                     <td className="whitespace-nowrap py-1.5 pl-8 pr-2 text-[14px]">
-                                        {content.id}
+                                        {index+1}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
-                                        {content.title}
+                                        {`2024년 상반기 TOEIC ${index+1}차 기출 모의고사`}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-1.5 text-[14px]">
                                         {content.take ?

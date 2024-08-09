@@ -125,7 +125,8 @@ const PasswordModifyForm = () => {
         console.log(state.result_message);
         router.refresh();
     
-        if(state.result_message==='SUCCESS'){   
+        if(state.result_message==='SUCCESS'){ 
+            alert('비밀번호 변경을 성공하셨습니다.')  
             router.push(`${PG.LOGIN}`);
             router.refresh();
         }else{

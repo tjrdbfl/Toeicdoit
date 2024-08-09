@@ -55,6 +55,7 @@ export async function checkTokenExist() {
                 return { message: 500 };
             }
         }
+        
     }else if(accessToken!==undefined && refreshToken!==undefined){
         return {status:200};
     }

@@ -128,13 +128,14 @@ export async function handlePayment(imp_uid: string, paid_amount: number, produc
                         status: 'OK'
                     }
 
-                    const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tx/${SERVER_API.PAYMENT}/save`, {
+                    const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/save`, {
                         method: 'POST',
                         headers: AuthorizeHeader(accessToken),
                         body: JSON.stringify(productData),
                         cache: 'no-store'
                     });
 
+                
                     const paymentResult = await paymentResponse.json();
                     console.log('상품 결제 전송 완료: '+JSON.stringify(paymentResult));
 

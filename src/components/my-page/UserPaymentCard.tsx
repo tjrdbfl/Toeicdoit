@@ -29,7 +29,7 @@ const UserPaymentCard=({ paymentResult }: {
                 height={70}
                 className="border-slate-200 border-2 object-fill w-[40px] h-[40px] lg:w-[60px] lg:h-[60px]"/>
         <div className="flex flex-col gap-y-1 lg:gap-y-2">
-            <p className="text-[14px] lg:text-[16px]">{paymentResult.id}</p>
+            <p className="text-[14px] lg:text-[16px]">{paymentResult.subscribeId===1?'1. 구독 10일 (100 포인트)':paymentResult.id===2?'2. 구독 30일 (200 포인트)':'3. 구독 60일 (500 포인트)'}</p>
             <p className=" text-[12px] lg:text-[12px]">{paymentResult.createdAt.toString().slice(0,10)+' '+paymentResult.createdAt.toString().slice(11,19)}</p>    
         </div>  
                 </div>

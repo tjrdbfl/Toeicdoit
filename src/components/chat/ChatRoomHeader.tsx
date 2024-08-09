@@ -23,7 +23,7 @@ const ChatRoomHeader = ({ room }: { room: ChatRoomData }) => {
             >{room.title}</h1>
             <div className="flex flex-row gap-x-2">
                 <PersonIcon className="text-zinc-400" />
-                <h2 className="text-zinc-400 text-[16px]">{room.memberIds.length+room.adminIds.length}</h2>
+                <h2 className="text-zinc-400 text-[16px]">{room.adminIds.map((adm)=>parseInt(adm)).concat(room.memberIds.filter((mem)=>!room.adminIds.includes(mem) && mem!==null).map((mem)=>parseInt(mem))).length}</h2>
             </div>
         </div>
 

@@ -1,17 +1,15 @@
 
 import MyPageHeader from "@/components/my-page/MyPageHeader";
-import { CommonHeader } from "@/config/headers";
 import { SERVER_API } from "@/constants/enums/API";
 import { ERROR } from "@/constants/enums/ERROR";
 import { PG } from "@/constants/enums/PG";
 import { findUserInfoById } from "@/service/auth/actions";
+import { getSubscribeInfo } from "@/service/calendar/actions";
 import { getPaymentInfoById } from "@/service/payment/actions";
-import { getUserInfoInCookie } from "@/service/utils/token";
 import UserInfoContainer from "@/templates/my-page/UserInfoContainer";
 import UserPaymentContainer from "@/templates/my-page/UserPaymentContainer";
 import { PaymentModel } from "@/types/TransactionData";
 import { UserDataPublic } from "@/types/UserData";
-import { useQuery } from "@tanstack/react-query";
 import { revalidatePath } from "next/cache";
 
 export default async function UserInfoPage() {
@@ -41,9 +39,12 @@ export default async function UserInfoPage() {
         },
     ];
 
+    let subscribe:boolean=false;
+
     try {
         const response = await findUserInfoById();
 
+        console.log('findUserInfoById: '+JSON.stringify(response));
         if (response?.status === 200) {
             userInfo = response.data;
             userInfoSuccess = true
@@ -53,6 +54,22 @@ export default async function UserInfoPage() {
 
     } catch (err) {
         userInfoSuccess = false;
+    }
+
+    try{
+        const response = await getSubscribeInfo();
+
+        console.log('getSubscribeInfo: '+JSON.stringify(response));
+        if (response?.message==='SUCCESS') {
+            subscribe=response.data===undefined? false:response.data;
+            revalidatePath(`${PG.USER_INFO}`);
+     
+        } else {
+            console.log(ERROR.SERVER_ERROR);
+        }
+
+    }catch(err){
+        console.log('subscribe: ' + err);
     }
 
     try {
@@ -69,7 +86,7 @@ export default async function UserInfoPage() {
 
     return (<>
         <div className="flex flex-col mt-10 lg:mt-20">
-            <UserInfoContainer userInfo={userInfo} userInfoSuccess={userInfoSuccess} />
+            <UserInfoContainer userInfo={userInfo} subscribe={subscribe}/>
             <div className="mt-10 mb-5">
                 <MyPageHeader label={"주문서"} />
             </div>

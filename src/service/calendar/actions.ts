@@ -156,3 +156,48 @@ export async function saveEventById(event:IEvent){
     }
 
 }
+
+export async function getSubscribeInfo(){
+    console.log('getSubscribeInfo');
+
+    const checkResposnse = await checkTokenExist();
+
+    console.log('checkResposnse: ' + checkResposnse?.message);
+
+    if (checkResposnse?.message === 'LOGOUT') {
+        return { message: ERROR.INVALID_MEMBER };
+    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
+        return { message: ERROR.INVALID_MEMBER };
+    } else {
+
+        const accessToken = cookies().get('accessToken')?.value;
+
+        const userId=cookies().get('userId')?.value;
+
+        if(accessToken===undefined){
+            return {message:ERROR.INVALID_MEMBER};
+        }else{
+            try{
+                const response = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.SUBSCRIBE}/exist-by-userId?userId=${userId}`, {
+                    method: 'GET',
+                    headers: AuthorizeHeader(accessToken),
+                    cache: 'no-store'
+                });
+
+                if(response.status===200){
+                    const result:MessageData=await response.json();
+                    return {message:'SUCCESS',data:result.state};               
+                }else{
+                    return {message:ERROR.SERVER_ERROR};      
+                }
+            
+            }catch(err){
+                return {message:ERROR.SERVER_ERROR};
+            }
+           
+        }
+        
+    }
+
+}
+

@@ -12,7 +12,10 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
-export default function WithdrawalForm() {
+export default function WithdrawalForm({name,email}:{
+  name:string,
+  email:string
+}) {
   const [charCount, setCharCount] = useState(0);
 
   const [click,setClick]=useState<boolean>(false);
@@ -22,7 +25,6 @@ export default function WithdrawalForm() {
     initialFreeMessageState
   );
   
-  const {email,name}=useUserInfoStore();
   const router = useRouter();
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,20 +47,13 @@ export default function WithdrawalForm() {
       }));
     }
   };
-
-  useEffect(() => {
-    console.log("state" + state.message);
-    
-    if (state.message === "SUCCESS") {
-      alert('회원 탈퇴에 성공하셨습니다. 방문해 주셔서 감사합니다.');
-
-      //reset();
-      //clearUserIdStorage();
-      router.push(`/`);
-    } else{
-      handleError(state.message);
-    }
-  }, [state.message]);
+  
+  if (state.message === "SUCCESS") {
+    alert('회원 탈퇴에 성공하셨습니다. 방문해 주셔서 감사합니다.');
+    router.push(`/`);
+  } else{
+    handleError(state.message);
+  }
 
 
   return (

@@ -25,6 +25,7 @@ export async function saveBoard(prevState: FreeMessageState, formData: FormData)
     } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
         return { ...prevState, result_message: ERROR.INVALID_MEMBER };
     } else {
+
         const validatedFields = FreeSaveSchema.safeParse({
             title: formData.get('title'),
             content: formData.get('content'),
@@ -32,6 +33,8 @@ export async function saveBoard(prevState: FreeMessageState, formData: FormData)
             type: formData.get('type')
         })
 
+        console.log('validatedFields: '+validatedFields.data?.type);
+        
         if (!validatedFields.success) {
             console.log('saveBoard' + JSON.stringify(validatedFields.error.flatten().fieldErrors))
             return { ...prevState, message: validatedFields.error.flatten().fieldErrors };

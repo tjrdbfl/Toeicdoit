@@ -7,7 +7,7 @@ import { PG } from "@/constants/enums/PG";
 import { modifyUserInfo } from "@/service/auth/actions";
 import { handleError } from "@/service/utils/error";
 import { useUserInfoStore } from "@/store/auth/store";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
@@ -38,6 +38,8 @@ const UserInfoForm = ({email,name,phone}:{
     //Refs
     const nameRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
+    const searchParams=useSearchParams();
+    const pathname=usePathname();
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length < 1) {
@@ -58,6 +60,7 @@ const UserInfoForm = ({email,name,phone}:{
             }));
         }
     };
+
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length < 1) {
             setMessage((prevState) => ({
@@ -78,29 +81,28 @@ const UserInfoForm = ({email,name,phone}:{
         }
     };
 
-    useEffect(() => {
-       
-        console.log('state' + JSON.stringify(state));
-        setMessage((prevState) => ({
-            ...prevState,
-            message: {
-                name_message:state.name_message,
-                phone_message: state.name_message,
-            },
-        }));
+    const handleClose = () => {
+        const params = new URLSearchParams(searchParams);
+        params.delete('modify');
+        router.push(`${pathname}/${params.toString()}`);
+    }
+
+    useEffect(()=>{
+        console.log('state.result_message:' +state.result_message);
 
         if (state.result_message === 'SUCCESS') {
+            console.log('state.result: '+state.result_message);
             useUserInfoStore.setState({
                 name:name,
             });
-
-            router.push(`${PG.USER_INFO}`);
-
+    
+            handleClose();
+            
         } else{
             handleError(state.result_message);
         }
-    }, [state.name_message,state.phone_message, state.result_message,click]);
-
+    },[state.result_message]);
+   
 
     return (<>
         <dialog
@@ -152,7 +154,7 @@ const UserInfoForm = ({email,name,phone}:{
                         }}
                     />
 
-                    {message.name_message && <p className="form_error_msg">{message.name_message}</p>}
+                    {state.name_message && <p className="form_error_msg">{state.name_message}</p>}
 
                     <div className="mt-[5%]" />
                     <p className="form_label mb-2">전화번호</p>
@@ -171,7 +173,7 @@ const UserInfoForm = ({email,name,phone}:{
                             }
                         }}
                     />
-                    {message.phone_message && <p className="form_error_msg">{message.phone_message}</p>}
+                    {state.phone_message && <p className="form_error_msg">{state.phone_message}</p>}
 
                     <div className="mt-[7%]" />
                     <SubmitButton label={"수정하기"} click={click} setClick={setClick}/>

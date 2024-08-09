@@ -15,6 +15,9 @@ const ChatDrawer = ({ room }: {
 }) => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const { name, profile } = useUserInfoStore();
+    const [send,setSend]=useState(false);
+    const [userData,setUserData]=useState<{userId:string,name:string,profile:string}[]>([]);
+    
 
     const handlebutton = async () => {
         setOpenModal(true)
@@ -25,11 +28,16 @@ const ChatDrawer = ({ room }: {
             profile: userInfo.data?.name
         });
 
-        //const userList=room.adminIds.map((adm)=>parseInt(adm)).concat(room.memberIds.filter((mem)=>!room.adminIds.includes(mem)).map((mem)=>parseInt(mem)));
-        const userList = [11, 22, 28];
+        const userList=room.adminIds.map((adm)=>parseInt(adm)).concat(room.memberIds.filter((mem)=>!room.adminIds.includes(mem) && mem!==null).map((mem)=>parseInt(mem)));
+        
         const findNameProfile = await findByNameProfile(userList);
+        const result=await findNameProfile.data;
+        setUserData(Object.entries(result).map(([name, value]) => {
+            return {userId: (name as string), name: (value as string[])[0], profile: (value as string)[1]}
+        }));
+        setSend(true);
 
-        console.log('findByNameProfile: ' + JSON.stringify(findNameProfile));
+        console.log('userData: '+JSON.stringify(userData));
     }
 
     return (<>
@@ -56,7 +64,7 @@ const ChatDrawer = ({ room }: {
                     key={1}
                     onClick={() => handlebutton()}
                     className="bg-white text-[14px] w-[120px] text-black text-center font-medium p-2 border-black border-y-1 hover:bg-slate-50">
-                    대화상대 보기
+                    현 대화상대 보기
                 </button>
             </div>}
             buttonStyle='flex justify-start hover:bg-blue-50 rounded-full p-2'
@@ -69,6 +77,7 @@ const ChatDrawer = ({ room }: {
             admin={room.adminIds}
             name={name}
             profile={profile}
+            userData={userData}
         />}
     </>);
 }

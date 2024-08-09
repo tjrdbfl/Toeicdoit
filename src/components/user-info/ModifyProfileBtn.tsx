@@ -14,7 +14,7 @@ const ModifyProfileBtn = ({ profile }: {
 
     return (<>
         <div className='flex flex-col justify-center items-center my-4'>
-            {profile === undefined ?
+            {profile === undefined|| profile===''?
                 <Image
                     src={'/svgs/icons/account-icon.svg'}
                     alt={'account-icon'}
