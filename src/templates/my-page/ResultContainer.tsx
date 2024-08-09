@@ -30,7 +30,7 @@ const ResultContainer = () => {
                         <li
                             key={item.id}
                             onClick={() => { setSelectedTab(item.id) }}
-                            className={`${selectedTab === item.id ? 'bg-black text-white' : 'bg-white text-black'} shadow-md border-slate-100 border-2 font-medium  rounded-full w-auto h-[25px] text-[14px] p-3 hover:bg-slate-50 hover:text-black`}
+                            className={`${selectedTab === item.id ? 'bg-black text-white' : 'bg-white text-black'} shadow-md border-slate-100 border-2 font-medium  rounded-full w-auto h-[50px] text-[14px] p-3 hover:bg-slate-50 hover:text-black`}
                         >
                             {item.title}
                         </li>);
@@ -40,7 +40,7 @@ const ResultContainer = () => {
         </nav>
         <div className="mt-5" />
         <div
-            className="w-[500px] rounded-lg py-2 text-black flex flex-row border-slate-100 border-2 pr-10 shadow-md"
+            className="w-[500px] justify-between rounded-lg py-2 text-black flex flex-row border-slate-100 border-2 pr-10 shadow-md"
         >
             <p className="w-[10%] text-center font-medium text-[14px]">번호</p>
             <p className="w-[80%] text-center font-medium text-[14px]">풀이 날짜</p>

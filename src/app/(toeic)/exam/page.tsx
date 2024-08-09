@@ -10,8 +10,9 @@ import Footer from "@/app/Footer";
 import MainHeader from "@/components/common/MainHeader";
 import { MessageData } from "@/types/MessengerData";
 import { findUserInfoById } from "@/service/auth/actions";
+import { SERVER_API } from "@/constants/enums/API";
 
-export default function ExamPage({ searchParams }: {
+export default async function ExamPage({ searchParams }: {
     searchParams?: {
         query?: string;
         page?: string;
@@ -21,31 +22,28 @@ export default function ExamPage({ searchParams }: {
     const currentPage = Number(searchParams?.page) || 1;
     let totalPages: number = 0;
 
-    async function getAllExam(){
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_URL}/api/exam`, {
-                method: 'POST',
-                headers: CommonHeader,
-                body: JSON.stringify({query: query}),
-            });
-    
-            if (!response) {
-                console.error('Failed to get response');
-            }
-    
-            const data = await response.json();
-    
-            if (!data.success) {
-                console.error('Failed to fetch exam data: ', data.message);
-            }
-    
-            totalPages = data.totalPages || 0;
-        } catch (error) {
-            console.log('Error fetching exam data: ', error);
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_USER_API_URL}/${SERVER_API.TOEIC}/exam`, {
+            method: 'POST',
+            headers: CommonHeader,
+            body: JSON.stringify({query: query}),
+        });
+
+        if (!response) {
+            console.error('Failed to get response');
         }
-    
+
+        const data = await response.json();
+
+        if (!data.success) {
+            console.error('Failed to fetch exam data: ', data.message);
+        }
+
+        totalPages = data.totalPages || 0;
+    } catch (error) {
+        console.log('Error fetching exam data: ', error);
     }
-   
+
     return (<>
         <Navbar/>
         <div className="w-full min-h-screen flex flex-col px-16 lg:px-[17%] py-20 ">

@@ -1,22 +1,22 @@
 export const enum SERVER{
-    USER='user',
-    CHAT='chat',
-    TX='tx',
+    USER='user/api',
+    CHAT='chat/api',
+    TX='tx/api',
     TOEIC='toeic',
     AUTH='auth'
 }
 export const enum SERVER_API{
-    BOARD='api/board',
-    TOEIC='api/toeic',
+    BOARD='board',
+    TOEIC='toeic',
     AUTH='auth',
-    USER='api/user',
-    CALENDAR='api/calendar',
-    PAYMENT='api/payment',
-    SUBSCRIBE='api/subscribe',
-    ROOM='api/room',
-    PUBLIC_ROOM='api/public/room',
-    CHAT='api/chat',
-    REPLY='api/reply',
+    USER='user',
+    CALENDAR='calendar',
+    PAYMENT='payment',
+    SUBSCRIBE='subscribe',
+    ROOM='room',
+    PUBLIC_ROOM='public/room',
+    CHAT='chat',
+    REPLY='reply',
 }
 
 export const enum PUBLIC{

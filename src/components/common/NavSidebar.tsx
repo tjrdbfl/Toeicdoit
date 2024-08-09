@@ -19,7 +19,10 @@ const NavSidebar = ({ isSticky }: {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const scope = useSidebarMenuAnimation(isOpenSidebar);
 
-  const {name,toeicLevel}=useUserInfoStore();
+  const [name,setName]=useState<string|undefined>('');
+  const [toeicLevel,setToeicLevel]=useState<number|undefined>(0);
+
+  // const {name,toeicLevel}=useUserInfoStore();
 
   const handleUserInfo = async () => {
     const userIdResponse = await getUserIdInCookie();
@@ -30,10 +33,13 @@ const NavSidebar = ({ isSticky }: {
 
       if (userInfoResponse.message === 'SUCCESS') {
         
-        useUserInfoStore.setState({
-          name:userInfoResponse.data.name,
-          toeicLevel:Number(userInfoResponse.data.toeicLevel)
-        })
+        setName(userInfoResponse.data?.name);
+        setToeicLevel(Number(userInfoResponse.data.toeicLevel));
+
+        // useUserInfoStore.setState({
+        //   name:userInfoResponse.data.name,
+        //   toeicLevel:Number(userInfoResponse.data.toeicLevel)
+        // })
       
         console.log('useUserInfoStore: '+name);
       }

@@ -154,23 +154,21 @@ export async function getUserIdInCookie() {
 
 export async function getUserInfoInCookie() {
 
-    const checkResposnse = await checkTokenExist();
+    const userId=cookies().get('userId')?.value;
 
-    if (checkResposnse?.message === 'LOGOUT') {
-        return { message: ERROR.INVALID_MEMBER };
-    } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
-        return { message: ERROR.INVALID_MEMBER };
-    } else if (checkResposnse?.status === 200) {
+    if(userId===undefined){
+        return { message: ERROR.INVALID_MEMBER };     
+    }else{
+        console.log('getUserInfoInCookie: '+cookies().get('name')?.value);
         return { message: 'SUCCESS', data:  {
             name: cookies().get('name')?.value,
             toeicLevel: cookies().get('toeicLevel')?.value,
             profile: cookies().get('profile')?.value,
             email: cookies().get('email')?.value
         }};
-    }else {
-        return { message: ERROR.INVALID_MEMBER };
+   
     }
-
+    
 }
 
 export async function setCookie() {
