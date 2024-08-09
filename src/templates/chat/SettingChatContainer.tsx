@@ -12,14 +12,14 @@ export default function SettingChatContainer() {
     const handleUserInfo=async()=>{
  
         const response=await getUserInfoInCookie();
-        if(response.email!==undefined){
+        if(response.data?.email!==undefined){
             useUserInfoStore.setState({
-                email:response.email
+                email:response.data?.email
             })
         }
-        if(response.name!==undefined){
+        if(response.data?.name!==undefined){
             useUserInfoStore.setState({
-                name:response.name
+                name:response.data?.name
             })
         }
     }

@@ -7,7 +7,6 @@ import { PG } from "@/constants/enums/PG";
 import { productsType } from "@/constants/payment/constant";
 import { MessageData } from "@/types/MessengerData";
 import { I_ApiPaymentRequest, PaymentModel } from "@/types/TransactionData";
-import { duration } from "@mui/material";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { checkTokenExist } from "../utils/token";
@@ -103,7 +102,7 @@ export async function handlePayment(imp_uid: string, paid_amount: number, produc
                     endDate: new Date(new Date().getTime() + product.duration * 24 * 60 * 60 * 1000)
                 }
 
-                const subscribeResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.SUBSCRIBE}/save`, {
+                const subscribeResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tx/${SERVER_API.SUBSCRIBE}/save`, {
                     method: 'POST',
                     headers: AuthorizeHeader(accessToken),
                     body: JSON.stringify(subscribeDate),
@@ -129,17 +128,18 @@ export async function handlePayment(imp_uid: string, paid_amount: number, produc
                         status: 'OK'
                     }
 
-                    const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_TX_API_URL}/${SERVER_API.PAYMENT}/save`, {
+                    const paymentResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tx/${SERVER_API.PAYMENT}/save`, {
                         method: 'POST',
                         headers: AuthorizeHeader(accessToken),
                         body: JSON.stringify(productData),
                         cache: 'no-store'
                     });
 
-                    const paymentResult: MessageData = await paymentResponse.json();
+                    const paymentResult = await paymentResponse.json();
                     console.log('상품 결제 전송 완료: '+JSON.stringify(paymentResult));
 
                     if (paymentResult.state) {
+                        console.log('payment success');
                         return { message: 'SUCCESS' };
                     } else {
                         return { message: ERROR.SERVER_ERROR };

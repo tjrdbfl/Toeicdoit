@@ -10,7 +10,7 @@ const UserInfoContainer = ({userInfo,userInfoSuccess}:{
 }) => {
 
     return (<>
-        <div className="container_color w-[600px] px-4 flex flex-row gap-x-10">
+        <div className="container_color w-full px-4 flex flex-row gap-x-10">
             <ModifyProfileBtn profile={userInfo?.profile}/>
             <div className='flex flex-row gap-x-10 p-4'>
             <ModifyUserInfo 

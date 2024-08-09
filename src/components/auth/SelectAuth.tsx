@@ -7,9 +7,8 @@ import { motion } from 'framer-motion';
 import { PG } from '@/constants/enums/PG';
 import Image from 'next/image';
 
-const SelectAuth = ({name,profile,toeicLevel}:{
-    name:string|null|undefined,
-    profile:string|null|undefined
+const SelectAuth = ({name,toeicLevel}:{
+    name:string|null|undefined
     ,toeicLevel:number|null|undefined
 }) => {
     const [isOpenSelectAuth, setIsOpenSelectAuth] = useState(false); 

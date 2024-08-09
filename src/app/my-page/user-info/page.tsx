@@ -16,7 +16,8 @@ import { revalidatePath } from "next/cache";
 
 export default async function UserInfoPage() {
 
-
+    revalidatePath(`${PG.USER_INFO}`);
+        
     let userInfo: UserDataPublic | undefined = {
         email: "",
         phone: "",
@@ -24,6 +25,7 @@ export default async function UserInfoPage() {
         name: "",
         toeicLevel: 0
     };
+    
     let userInfoSuccess: boolean = false;
     let paymentInfo: PaymentModel[] = [     
         {
@@ -58,7 +60,6 @@ export default async function UserInfoPage() {
 
         if (response?.status === 200) {
             paymentInfo = response.data as PaymentModel[];
-            revalidatePath(`${PG.USER_INFO}`);
         } else {
             console.log(ERROR.SERVER_ERROR);
         }

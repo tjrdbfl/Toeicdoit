@@ -27,7 +27,8 @@ const ExamAnswer = ({toeicId}:{toeicId:number}) => {
     const partRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const router=useRouter();
     const {timeElapsed}=useExamTimerStore();
-        
+    const {name}=useResultStore();
+    
     useEffect(() => {
         const numbers: { [key: string]: number[] } = {};
         let questionNumber = 1;
@@ -67,7 +68,6 @@ const ExamAnswer = ({toeicId}:{toeicId:number}) => {
                 type:'exam'
             });
 
-            const {name}=useResultStore();
             if(name!==''){
                 router.push(`${PG.SCORE}`);
             }

@@ -58,6 +58,7 @@ const PaymentContainer = () => {
                         }
                         else{
                             alert('결제에 실패하셨습니다. 다시 시도해주세요.');
+                            router.refresh();
                         }
                     } else {
                         alert('결제에 실패하셨습니다. 다시 시도해주세요.');

@@ -26,7 +26,7 @@ export default function ProfileForm() {
     const router = useRouter();
     const pathname = usePathname();
 
-    const [click,setClick]=useState<boolean>(false);
+    const [click, setClick] = useState<boolean>(false);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -51,22 +51,24 @@ export default function ProfileForm() {
     useEffect(() => {
         if (state.message === 'SUCCESS') {
             useUserInfoStore.setState({
-                profile:previewUrl||''
+                profile: previewUrl || ''
             });
             handleClose();
         } else {
             handleError(state.message);
         }
-    }, [state.message,click]);
+    }, [state.message, click]);
 
     return (
-        <dialog className="fixed inset-0 flex justify-center items-center z-50">
+
+        <dialog className="fixed inset-0 flex items-center justify-center"
+        style={{ backdropFilter: 'blur(5px)', zIndex: 50 }}>
             <div
-                className="bg-white w-[450px] shadow-lg border-slate-100 border-2 p-3"
+                className="z-20 bg-white w-[400px] h-auto shadow-md border-slate-100 border-2 p-4 rounded-xl"
             >
                 <form
                     action={formAction}
-                >
+                    >
                     <div className="w-full flex justify-end mb-2">
                         <button
                             onClick={handleClose}>
@@ -76,7 +78,6 @@ export default function ProfileForm() {
                                 width={30}
                                 height={30}
                                 className=" rounded-full hover:bg-slate-100 p-1" />
-
                         </button>
                     </div>
                     <label htmlFor="profile"
@@ -110,10 +111,11 @@ export default function ProfileForm() {
                         className="w-full rounded-lg font-medium bg-white text-[14px] border-slate-100 border-2 shadow-md hover:bg-slate-50 p-2 mt-5 mb-2"
                         type='submit'
                         disabled={pending}
-                        onClick={()=>setClick(!click)}>프로필 수정</button>
+                        onClick={() => setClick(!click)}>프로필 수정</button>
                 </form>
 
             </div>
 
-        </dialog>);
+        </dialog>
+    );
 }

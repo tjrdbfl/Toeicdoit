@@ -12,7 +12,7 @@ export type UserInfoStore={
     reset:()=>void;
 }
 export const useUserInfoStore = create<UserInfoStore>()(
-    (set)=>({
+    persist((set)=>({
         userId:0,
         get:false,
         name:'',
@@ -26,6 +26,9 @@ export const useUserInfoStore = create<UserInfoStore>()(
             profile:'',
             email:'',
         })
-        }),
+        }),{
+            name:'UserInfoStore',
+            storage: createJSONStorage(() => sessionStorage),
+        })
    
 );

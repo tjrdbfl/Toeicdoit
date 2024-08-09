@@ -21,8 +21,8 @@ const ChatDrawer = ({ room }: {
 
         const userInfo = await getUserInfoInCookie();
         useUserInfoStore.setState({
-            name: userInfo.name,
-            profile: userInfo.profile
+            name: userInfo.data?.name,
+            profile: userInfo.data?.name
         });
 
         //const userList=room.adminIds.map((adm)=>parseInt(adm)).concat(room.memberIds.filter((mem)=>!room.adminIds.includes(mem)).map((mem)=>parseInt(mem)));

@@ -213,7 +213,7 @@ export async function register(confirm: boolean, prevState: RegisterMessageState
             const result: MessageData = await response.json();
             console.log(JSON.stringify(result));
 
-            if (result.message === 'SUCCESS') {
+            if (result.state) {
                 return { ...prevState, result_message: 'SUCCESS' };
             } else {
                 return { ...prevState, result_message: ERROR.SERVER_ERROR };
@@ -315,20 +315,21 @@ export async function findUserInfoById() {
                     cache: 'no-store'
                 });
 
-                const result = await response.json();
+                const result:MessageData = await response.json();
                 console.log('findUserInfoById: ' + result);
 
 
-                if (result.status === 400) {
+                if (!result.state) {
                     return { status: 400 };
                 } else {
+                    const data=result.data as UserDataPublic;
                     return {
                         data: {
-                            email: result.email,
-                            phone: result.phone,
-                            name: result.name,
-                            profile: result.profile,
-                            toeicLevel: result.toeicLevel,
+                            email: data.email,
+                            phone: data.phone,
+                            name: data.name,
+                            profile: data.profile,
+                            toeicLevel: data.toeicLevel,
                         }, status: 200
                     };
                 }

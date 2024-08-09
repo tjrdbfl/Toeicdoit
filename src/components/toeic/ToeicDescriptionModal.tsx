@@ -42,7 +42,9 @@ const ToeicDescriptionModal = ({ id, setOpen,toeic }: {
                 className="max-h-[300px] w-[500px]">
                     <div className="mr-5 flex flex-col gap-y-2">
                     {splitStringToList(toeic.description).map((term,index) => (
-                       <div className={`${index===0? 'font-semibold text-[17px]':''}`}>
+                       <div 
+                       key={index}
+                       className={`${index===0? 'font-semibold text-[17px]':''}`}>
                         {term}
                        </div>
                     ))}

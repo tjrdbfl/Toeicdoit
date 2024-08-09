@@ -55,6 +55,8 @@ export async function checkTokenExist() {
                 return { message: 500 };
             }
         }
+    }else if(accessToken!==undefined && refreshToken!==undefined){
+        return {status:200};
     }
 }
 
@@ -158,14 +160,15 @@ export async function getUserInfoInCookie() {
         return { message: ERROR.INVALID_MEMBER };
     } else if (checkResposnse?.status === 500 || checkResposnse?.status === 401) {
         return { message: ERROR.INVALID_MEMBER };
-    } else {
-
-        return {
+    } else if (checkResposnse?.status === 200) {
+        return { message: 'SUCCESS', data:  {
             name: cookies().get('name')?.value,
             toeicLevel: cookies().get('toeicLevel')?.value,
             profile: cookies().get('profile')?.value,
             email: cookies().get('email')?.value
-        }
+        }};
+    }else {
+        return { message: ERROR.INVALID_MEMBER };
     }
 
 }

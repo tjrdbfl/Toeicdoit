@@ -10,6 +10,7 @@ import { PG } from "@/constants/enums/PG";
 import { GettingStartedBtn } from "../button/GettingStartedBtn";
 import { getUserIdInCookie, getUserInfoInCookie } from "@/service/utils/token";
 import { UserInfoType } from "@/types/UserData";
+import { useUserInfoStore } from "@/store/auth/store";
 
 
 const NavSidebar = ({ isSticky }: {
@@ -17,39 +18,34 @@ const NavSidebar = ({ isSticky }: {
 }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const scope = useSidebarMenuAnimation(isOpenSidebar);
-  const [show,setShow]=useState<boolean>(false);
 
-  const [userInfo,setUserInfo]=useState<UserInfoType>({
-    name: undefined,
-    toeicLevel:undefined,
-    profile:undefined,
-    userId:undefined,
-  });
-  
-  const handleUserInfo=async()=>{
-    const userIdResponse=await getUserIdInCookie();
-    setShow(true);
+  const {name,toeicLevel}=useUserInfoStore();
 
-    if(userIdResponse.data!==undefined){
-      setUserInfo((prevState)=>({...prevState,userId:Number(userIdResponse)}));
+  const handleUserInfo = async () => {
+    const userIdResponse = await getUserIdInCookie();
+
+    if (userIdResponse.message === 'SUCCESS') {
       
-      console.log('setUserInfo: '+(userInfo.userId===undefined));
+      const userInfoResponse = await getUserInfoInCookie();
+
+      if (userInfoResponse.message === 'SUCCESS') {
+        
+        useUserInfoStore.setState({
+          name:userInfoResponse.data.name,
+          toeicLevel:Number(userInfoResponse.data.toeicLevel)
+        })
       
-      const response=await getUserInfoInCookie();
-      
-      setUserInfo((prevState)=>({...prevState,name:response.name}));
-      setUserInfo((prevState)=>({...prevState,profile:response.profile}));
-      setUserInfo((prevState)=>({...prevState,toeicLevel:response.toeicLevel===undefined? 0:Number(response.toeicLevel)}));
-    }else{
-      setShow(false);
+        console.log('useUserInfoStore: '+name);
+      }
     }
-
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     handleUserInfo();
-    console.log('NavSidebar: '+userInfo.userId===undefined);
-  },[]);
+
+    console.log('handleUserInfo'+name);
+
+  }, []);
 
   return (
     <nav className={`w-full h-[50px] bg-white ${isSticky ? 'mx-10' : ''}`}
@@ -75,10 +71,10 @@ const NavSidebar = ({ isSticky }: {
 
         </motion.button>
 
-        {show ?
-          <SelectAuth name={userInfo.name} profile={userInfo.profile} toeicLevel={userInfo.toeicLevel} />
-        :
-        <GettingStartedBtn isSticky={isSticky} />
+        { name!=='' ?
+          <SelectAuth name={name} toeicLevel={toeicLevel} />
+          :
+          <GettingStartedBtn isSticky={isSticky} />
         }
 
       </div>
