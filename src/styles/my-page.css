@@ -1,0 +1,41 @@
+.container_color{
+    @apply border-2 shadow-xl bg-white border-slate-100 rounded-2xl
+}
+.sidebar_container{
+    @apply w-full xl:w-[190px] py-3 flex flex-row xl:flex-col justify-center;
+}
+.sidebar_texts{
+    @apply text-black lg:text-[16px] md:text-[14px] text-[12px]
+}
+.sidebar_texts:hover{
+    color: var(--blue2);
+    text-decoration: underline;
+}
+.sidebar_icons{
+    @apply text-black lg:text-[20px] md:text-lg text-[16opx] mr-5
+}
+.sidebar_fill{
+    @apply flex flex-row py-3 px-5
+}
+
+.datagrid_container{
+    @apply relative overflow-x-auto rounded-xl border-2 border-slate-200
+}
+.datagrid_table{
+    @apply w-full text-left rtl:text-right text-black
+}
+.datagrid_header{
+    @apply text-base bg-white border-b-2
+}
+.datagrid_header_th{
+    @apply px-6 py-4
+}
+.datagrid_body_tr{
+    @apply bg-white border-b hover:bg-slate-50
+}
+.datagrid_body_content{
+    @apply px-6 py-4 font-medium text-black whitespace-nowrap
+}
+.user_info_btn{
+    @apply bg-white text-black text-[14px] border-slate-100 border-2 ring-offset-4 ring-slate-100 shadow-lg ring-2 rounded-xl p-2 hover:bg-slate-50 text-center
+}

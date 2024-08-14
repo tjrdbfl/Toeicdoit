@@ -1,0 +1,7 @@
+.started-btn{
+    @apply text-black bg-blue-500
+    color: var(--blue2);
+}
+.started-btn:hover{
+    background-color: var(--blue1);
+}

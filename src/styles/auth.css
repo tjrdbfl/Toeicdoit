@@ -1,0 +1,60 @@
+@import "fonts.css";
+
+  .auth_btn_color_black{
+    @apply h-auto flex text-center items-center text-white shadow-xl rounded-lg bg-black justify-center hover:bg-zinc-800;
+  }
+
+  .bootstrap-input {
+    margin-right: 5%;
+    border-radius: 8px;
+    position: relative;
+    background-color: #fff; /* Assuming theme.palette.background.paper translates to #fff */
+    border: none;
+    font-size: 20px;
+    font-weight: 200;
+    padding: 0px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+    outline:none;
+
+    & .MuiInputBase-input{
+      border:none;
+      outline:none;
+      width: 50px;
+      padding:10px;
+    }
+    & .MuiInputBase-input:hover{
+      border:none;
+      outline:none;
+    }
+    & .MuiInputBase-input:focus{
+      border:none;
+      outline:none;
+    }
+  }
+
+  .bootstrap-input:hover {
+    border:none;
+    outline:none;
+    box-shadow: 0 0 0 0.2rem var(--blue4);
+  }
+  .bootstrap-input:focus {
+    border:none;
+    outline:none;
+    border: 1px solid var(--blue4);
+    box-shadow: 0 0 0 0.2rem var(--blue4);
+  }
+
+  .tel_form_input1{
+    @apply w-full px-4 mx-5 text-xl text-black border-slate-200 border-2 rounded-lg;
+  }
+  .tel_form_input1:focus{
+    outline: none; 
+    box-shadow: 0 0 0 4px var(--blue4);
+  }
+  .tel_form_input2{
+    @apply w-full px-4 ml-5 text-xl text-black border-slate-200 border-2 rounded-lg;
+  }
+  .tel_form_input2:focus{
+    outline: none; 
+    box-shadow: 0 0 0 4px var(--blue4);
+  }

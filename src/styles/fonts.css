@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap');
+
+.jua-regular {
+    font-family: "Jua", sans-serif;
+    font-style: normal;
+    letter-spacing:0.05em;
+}
+
+.font-poetsen-navbar {
+    font-family:  "Poetsen One", sans-serif;
+    font-size:40px;
+    letter-spacing:0.05em;
+}
+
+  .font-poetsen-footer {
+    font-family:  "Poetsen One", sans-serif;
+    font-size:30px;
+    letter-spacing:0.05em;
+  }
+  

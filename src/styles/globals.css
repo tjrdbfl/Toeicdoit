@@ -1,0 +1,394 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "mixins.css";
+@import "auth.css";
+@import "toeic.css";
+@import "form.css";
+@import "animations.css";
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --blue1:#00A9FF;
+  --blue2:#5AB2FF;
+  --blue3:#00A9FF;
+  --blue4:#CAF4FF;
+  --blue5:#89CFF3;
+  --yellow1:#FFF9D0;
+  --yellow2:#F9F07A;
+  --red:#dc2626;
+  --gray:#e2e8f0;
+  --gray2:#cbd5e1;
+  --white:#ffffff;
+  --duration: 1.5s;
+	--container-size: 250px;
+	--box-size: 33px;
+	--box-border-radius: 15%;
+  
+  --fc-small-font-size: .85em;
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: rgba(208, 208, 208, 0.3);
+  --fc-neutral-text-color: #808080;
+  --fc-border-color: #ddd;
+  
+  --fc-event-bg-color: transparent;
+  --fc-event-border-color: transparent;
+  --fc-event-text-color: black;
+  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
+  
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    color: black;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }  
+  .box::before{
+    @apply content-[''] absolute bg-[conic-gradient(#3b82f6_20deg,transparent_120deg)] w-[900px] h-[900px]
+    top-[-25%] left-[-25%] fullSpin
+  }
+  .box::after{
+    @apply  w-[94%] h-[94%] 
+    absolute top-[3%] left-[3%] flex justify-center items-center tracking-[2px] font-medium text-4xl font-serif 
+  }
+
+  .fullSpin {
+    transform: rotate(-360deg);
+    animation: fullSpin 3s linear infinite;
+  }
+ 
+
+  .box_loading {
+    @apply w-[var(--box-size)] h-[var(--box-size)] relative block;
+    transform-origin: -50% center;
+    border-radius: var(--box-border-radius);
+  }
+
+  .box_loading::after {
+    @apply content-[''] w-full h-full absolute top-0 right-0 bg-blue-500 rounded-[var(--box-border-radius)] shadow-[0_0_10px_0_rgba(28,159,255,0.4)];
+  }
+
+  .box_loading:nth-child(1) {
+    animation: slide var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(1)::after {
+    animation: color-change var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(2) {
+    animation: flip-2 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(2)::after {
+    background-color: #1C9FFF;
+    animation: squidge-2 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(3) {
+    animation: flip-3 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(3)::after {
+    background-color: #1FB1FD;
+    animation: squidge-3 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(4) {
+    animation: flip-4 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(4)::after {
+    background-color: #22C7FB;
+    animation: squidge-4 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(5) {
+    animation: flip-5 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .box_loading:nth-child(5)::after {
+    background-color: #23D3FB;
+    animation: squidge-5 var(--duration) ease-in-out infinite alternate;
+  }
+
+  .animate-bounce{
+    animation: bounce 1s infinite;
+  }
+
+  .fade-in-scale {
+    animation: fadeInScale 3s ease-out forwards; 
+  }
+
+  .fade-out-scale {
+    animation: fadeOutScale 2s ease-out forwards; 
+  }
+
+}
+
+
+.common_btn{
+  @apply shadow-lg border-gray-100 border-[1px];
+  background-color: var(--blue2);
+}
+.common_btn:hover{
+  @apply hover:transition-all hover:border-2 hover:duration-75; 
+  background-color: var(--blue1);
+}
+
+.user-icon{
+  color: var(--blue2);
+}
+.user-icon:hover{
+  color: var(--blue5);
+}
+
+input{
+  width: auto;
+}
+input:focus {
+  border: none; /* 테두리 없음 */
+  outline: none; /* 포커스 시 테두리 없음 */
+}
+
+textarea{
+  width: auto;
+  display: grid;
+  height: min-content;
+}
+textarea:focus {
+  border: none; /* 테두리 없음 */
+  outline: none; /* 포커스 시 테두리 없음 */
+}
+
+dialog::backdrop {
+  z-index: 100; /* backdrop의 z-index를 dialog보다 낮게 설정 */
+}
+
+.total_padding{
+  @apply px-[3%] sm:px-[5%] md:px-[5%] lg:px-[8%]
+}
+
+.input_volume{
+  writing-mode: vertical-lr;
+  direction: rtl;
+}
+
+.go_btn{
+  @apply bg-white shadow-md rounded-xl border-slate-100 border-2 z-10;
+}
+.go_btn:hover{
+  @apply bg-slate-100;
+}
+
+.scroll-area-chat::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.scroll-area-chat::-webkit-scrollbar-track {
+  background-color: var(--white); /* Adjust track color */
+}
+
+.scroll-area-chat::-webkit-scrollbar-thumb {
+  background-color: var(--gray); /* Adjust thumb color */
+  border-radius: 4px;
+}
+
+.scroll-area::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+.scroll-area::-webkit-scrollbar-track {
+  background-color: var(--white); /* Adjust track color */
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  background-color: var(--gray); /* Adjust thumb color */
+  border-radius: 4px;
+}
+
+/* FullCalendar의 스크롤 컨테이너에 스타일 적용 */
+.fc-scroller {
+  /* 스크롤바 전체 스타일 */
+  &::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    height: 8px; /* 스크롤바 높이 (가로 스크롤바일 경우) */
+  }
+
+  /* 스크롤바 트랙 스타일 */
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 트랙 배경색 */
+    border-radius: 4px; /* 트랙 모서리 둥글게 */
+  }
+
+  /* 스크롤바 썸 스타일 */
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; /* 썸 배경색 */
+    border-radius: 4px; /* 썸 모서리 둥글게 */
+
+    /* 썸 호버 상태 스타일 */
+    &:hover {
+      background-color: #555; /* 썸 호버 시 배경색 */
+    }
+  }
+}
+
+.fc-header-toolbar * {  
+  font-size: 12px;
+}
+
+.fc-header-toolbar .fc-button {
+  font-size: 10px;
+}
+.fc-header-toolbar .fc-button:hover {
+  font-size: 10px;
+}
+.fc-header-toolbar .fc-button:focus {
+  font-size: 10px;
+}
+
+.fc-header-toolbar .fc-toolbar-title {
+  font-size: 20px; /* Slightly larger for the title, if desired */
+  color: black;
+  font-weight: 500;
+}
+
+.fc-toolbar-title {
+  font-size: 18px;
+}
+
+.fc-daygrid-day-number {
+  font-size: 14px; 
+}
+
+.fc-col-header-cell-cushion {
+  font-size: 14px; 
+}
+
+.fc-timegrid-slot-label-cushion {
+  font-size: 12px;
+}
+
+.fc-event.toeic-exam {
+    background-color: #fee2e2 !important;
+    color: #000; /* Adjust text color if needed */
+}
+
+.fc-event.grade-announcement {
+    background-color: #d1fae5 !important;
+    color: #000;
+}
+
+.fc-event.attendance {
+    background-color: #CAF4FF !important;
+    color: #000;
+}
+
+.fc-event.default-event {
+    background-color: #f3e8ff !important;
+    color: #000;
+}
+.fc-event-time {
+  display: none;
+}
+.dropzone {
+  width: 98%;
+  margin: 1%;
+  border: 2px dashed #3498db !important;
+  border-radius: 5px;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.dropzone.dz-drag-hover {
+  border: 2px solid #3498db !important;
+}
+
+.dz-message.needsclick img {
+  width: 50px;
+  display: block;
+  margin: auto;
+  opacity: .6;
+  margin-bottom: 15px;
+}
+
+span.plus {
+  display: none;
+}
+
+.dropzone.dz-started .dz-message {
+  display: inline-block !important;
+  width: 120px;
+  border: 1px solid rgba(238, 238, 238, 0.36);
+  border-radius: 30px;
+  height: 120px;
+  margin: 16px;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.dropzone.dz-started .dz-message span.text {
+  display: none;
+}
+
+.dropzone.dz-started .dz-message span.plus {
+  display: block;
+  font-size: 70px;
+  color: #AAA;
+  line-height: 110px;
+}
+
+
+/* The total progress gets shown by event listeners */
+#total-progress {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+/* Hide the progress bar when finished */
+#previews .file-row.dz-success .progress {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+/* Hide the delete button initially */
+#previews .file-row .delete {
+  display: none;
+}
+
+/* Hide the start and cancel buttons and show the delete button */
+
+#previews .file-row.dz-success .start,
+#previews .file-row.dz-success .cancel {
+  display: none;
+}
+#previews .file-row.dz-success .delete {
+  display: block;
+}
+
+
+  

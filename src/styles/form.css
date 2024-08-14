@@ -1,0 +1,27 @@
+.form{
+    @apply bg-white shadow-xl rounded-2xl border-slate-100 border-2;
+  }
+  
+  .form_title{
+    @apply text-2xl text-center font-semibold text-black mb-[5%];
+  }
+  
+  .form_label{
+    @apply text-black font-semibold text-[16px];
+  }
+  
+  .form_input{
+    @apply w-full text-sm px-4 py-2 text-black border-slate-200 border-2 rounded-lg;
+  }
+  .form_input:focus{
+    outline: none; 
+    box-shadow: 0 0 0 4px var(--blue4);
+  }
+  .form_error_msg{
+    @apply  mt-[2%] ml-[1%] text-sm;
+    color: var(--red);
+  }
+  .form_submit_btn{
+    @apply w-full h-auto py-[2.5%] text-[15px] flex text-center items-center text-white shadow-xl rounded-lg bg-black justify-center font-semibold hover:bg-zinc-800;
+  }
+

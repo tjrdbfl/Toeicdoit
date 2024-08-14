@@ -1,0 +1,388 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .jua-regular {
+    font-family: "Jua", sans-serif;
+    font-style: normal;
+    letter-spacing:0.05em;
+  }
+
+  .font-poetsen-navbar {
+    font-family:  "Poetsen One", sans-serif;
+    font-size:40px;
+    letter-spacing:0.05em;
+  }
+
+  .font-poetsen-footer {
+    font-family:  "Poetsen One", sans-serif;
+    font-size:30px;
+    letter-spacing:0.05em;
+  }
+  
+ 
+}
+
+.loader {
+  position: relative;
+  margin: 0 auto;
+  width: 100px;
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+.circular {
+  animation: rotate 2s linear infinite;
+  height: 50%;
+  transform-origin: center center;
+  width: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+.showbox {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5%;
+}
+
+.gradient-01 {
+    background-image: linear-gradient(
+      270deg,
+      var(--yellow2) 10%,
+      var(--yellow1)  26%,
+      var(--yellow1) 39%,
+      var(--blue4) 50%,
+      var(--blue3) 61%,
+      var(--blue2) 74%,
+      var(--blue1) 100%
+    );
+    filter: blur(125px);
+    height: 5vh;
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(
+      270deg,
+      #3b82f6 50%,
+      var(--blue4) 20%,
+      var(--blue4) 50%
+    );
+    filter: blur(125px);
+    height: 5vh;
+  }
+  
+  .gradient-02 {
+    position: absolute;
+    width: 200px;
+    height: 438px;
+    top: 0px;
+    right: 0px;
+  
+    background: #FFF9D0;
+    filter: blur(190px);
+  }
+  
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  
+  .gradient-03 {
+    position: absolute;
+    width: 404px;
+    height: 800px;
+    left: 20%;
+    top: 5%;
+  
+    background: rgba(90, 178, 255, 0.35); 
+    filter: blur(175px);
+    transform: rotate(-114.2deg);
+  }
+  
+  .gradient-04 {
+    position: absolute;
+    width: 304px;
+    height: 100vh;
+    left: 30%;
+    top: 10%;
+  
+    background: var(--blue4);
+    filter: blur(200px);
+    transform: rotate(-53.13deg);
+  }
+  
+  .gradient-05 {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+  
+  .feedback-gradient {
+    position: absolute;
+    width: 200px;
+    height: 30px;
+   
+  
+    background: var(--blue2);
+    filter: blur(150px);
+  }
+  
+  .footer-gradient {
+    position: absolute;
+    width: 500px;
+    height: 50px;
+    left: 37%;
+    bottom: 0;
+  
+    background: #65c4fa;
+    filter: blur(150px);
+  }
+  
+ 
+  .menu-list{
+    @apply flex z-10
+  }
+ 
+  /* Media query for md screens (adjust breakpoints as needed) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .menu-list {
+      transform: translateX(-2.245%); /* Adjust transform for md screens */
+    }
+  }
+  
+  /* Media query for lg screens (adjust breakpoints as needed) */
+  @media (min-width: 1024px) {
+    .menu-list {
+      transform: translateX(-1.18%); /* Remove transform for lg screens */
+    }
+  }
+  
+  @media (min-width: 1800px) {
+    .navSidebar_div {
+      gap: 190px;
+    }
+    .gettingStarted_btn{
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (min-width: 1600px) and (max-width: 1799px) {
+    .navSidebar_div {
+      gap: 90px;
+    }
+    .gettingStarted_btn{
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (min-width: 1520px) and (max-width:1599px) {
+    .navSidebar_div {
+      gap: 90px;
+    }
+    .gettingStarted_btn{
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (min-width: 1450px) and (max-width: 1519px) {
+    .navSidebar_div {
+      gap: 90px;
+    }
+    .gettingStarted_btn{
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[17px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[16px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (min-width: 1166px) and (max-width:1450px) {
+    .navSidebar_div {
+      gap: 50px;
+    }
+    .gettingStarted_btn{
+      @apply h-[50px] flex justify-center items-center text-white font-semibold text-[18px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[15px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1166px) {
+    .navSidebar_div {
+      gap: 40px;
+    }
+    .gettingStarted_btn{
+      @apply h-[40px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[14px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (min-width:859px) and (max-width: 1024px) {
+    .navSidebar_div {
+      gap: 40px;
+    }
+    .gettingStarted_btn{
+      @apply h-[40px] w-[160px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 text-[16px] md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black text-[14px] font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+  @media (max-width:859px){
+    .navSidebar_div {
+      gap: 40px;
+    }
+    .gettingStarted_btn{
+      @apply h-[40px] w-[190px] flex justify-center items-center text-white font-semibold text-[15px] bg-[var(--blue2)] hover:bg-[#00A9FF] rounded-lg px-5 py-[5px] mt-[3px] text-center
+    }
+    .navSidebar_ul_p{
+      @apply text-zinc-400 md:w-[14%] lg:w-[11%] text-balance z-10
+    }
+    .navSidebar_ul_link{
+      @apply text-black font-semibold hover:text-zinc-700 z-10
+    }
+  }
+
+    .navSidebar_ul_list{
+    @apply flex flex-row py-4 justify-start gap-6 lg:gap-20 md:gap-10 z-10
+  }
+
+  .navSidebar_p{
+    @apply text-balance text-[14px] md:text-[15px] lg:text-[16px] xl:text-[16px]
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .started-btn {
+    background-color:var(--blue2);
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 0.75rem;
+    font-weight: bold;
+  
+    &:hover {
+      background-color: var(--blue3);
+    }
+  }
+
+  .bg-gradient-faq1 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(202, 224, 247, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq2 {
+    @apply rounded-t-lg;
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(144, 146, 148, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(112, 116, 119, 0.2)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq3 {
+    @apply rounded-t-lg;
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(51, 142, 238, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(129, 179, 228, 0.2)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq4 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(203, 205, 207, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq5 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(194, 219, 245, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0.01)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
+  .bg-gradient-faq6 {
+    background-image: linear-gradient(
+      to bottom, /* 방향 설정 (위에서 아래로) */
+      rgba(202, 224, 247, 0.35), /* 시작 색상 (파랑, 35% 투명도) */
+      rgba(25, 118, 210, 0.1)   /* 끝 색상 (파랑, 0% 투명도) */
+    );
+  }
